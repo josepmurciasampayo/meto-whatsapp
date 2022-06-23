@@ -1,20 +1,19 @@
 models:
-  Question:
-    text: longtext
-    capture_id: nullable unsigned bigint # the response to the question is stored according to the capture
-    branch_id: unsigned bigint # the branch determines the next question to be asked
-    capture_filter: mediumtext # set of allowable values if relevant
-  Capture:
-    table: mediumtext # table name to store input value
-    field: mediumtext # table field to store input value
+  Message:
+    text: longtext # text of the question, may contain {{ }} for fields to lookup
+    capture_filter: mediumtext nullable # comma-separated set of allowable values if relevant
+    capture_display: mediumtext nullable # text of capturable values to display
+    answer_table: mediumtext nullable # table name to store input value
+    answer_field: mediumtext nullable # table field to store input value
+    branch_id: unsigned bigint nullable # the branch determines the next question to be asked
   Branch:
-    from_question_id: unsigned bigint # which question is this a branch for
-    to_question_id: unsigned bigint nullable # which question does this particular branch go to
+    from_message_id: unsigned bigint # which question is this a branch for
     response: mediumtext # text to match from the question response in order to go down this branch
-  QuestionState:
+    to_message_id: unsigned bigint nullable # which question does this particular branch go to
+  MessageState:
     user_id: unsigned bigint
-    question_id: unsigned bigint
-    state: unsigned tinyint # triggered, sent, responded, closed
-    response: mediumtext
+    message_id: unsigned bigint
+    state: unsigned tinyint # triggered, sent, responded, unintelligible, closed
+    response: mediumtext nullable
     last_changed: datetime
 

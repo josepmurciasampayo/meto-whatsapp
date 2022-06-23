@@ -1,18 +1,16 @@
 created:
-    - database/factories/QuestionFactory.php
-    - database/factories/CaptureFactory.php
+    - database/factories/MessageFactory.php
     - database/factories/BranchFactory.php
     - database/factories/QuestionStateFactory.php
-    - database/migrations/2022_05_08_193940_create_questions_table.php
-    - database/migrations/2022_05_08_193941_create_captures_table.php
-    - database/migrations/2022_05_08_193942_create_branches_table.php
-    - database/migrations/2022_05_08_193943_create_question_states_table.php
-    - app/Models/Question.php
-    - app/Models/Capture.php
+    - database/migrations/2022_05_31_135444_create_messages_table.php
+    - database/migrations/2022_05_31_135445_create_branches_table.php
+    - database/migrations/2022_05_31_135446_create_question_states_table.php
+    - app/Models/Message.php
     - app/Models/Branch.php
     - app/Models/QuestionState.php
 models:
-    Question: { text: longtext, capture_id: 'nullable unsigned bigint', branch_id: 'unsigned bigint', capture_filter: mediumtext }
+    Question: { text: longtext, capture_filter: mediumtext, capture_display: mediumtext, answer_table: mediumtext, answer_field: mediumtext, branch_id: 'unsigned bigint' }
     Capture: { table: mediumtext, field: mediumtext }
-    Branch: { from_question_id: 'unsigned bigint', to_question_id: 'unsigned bigint nullable', response: mediumtext }
-    QuestionState: { user_id: 'unsigned bigint', question_id: 'unsigned bigint', state: 'unsigned tinyint', response: mediumtext, last_changed: datetime }
+    Branch: { from_message_id: 'unsigned bigint', response: mediumtext, to_message_id: 'unsigned bigint nullable' }
+    QuestionState: { user_id: 'unsigned bigint', message_id: 'unsigned bigint', state: 'unsigned tinyint', response: 'mediumtext nullable', last_changed: datetime }
+    Message: { text: longtext, capture_filter: 'mediumtext nullable', capture_display: 'mediumtext nullable', answer_table: 'mediumtext nullable', answer_field: 'mediumtext nullable', branch_id: 'unsigned bigint nullable' }

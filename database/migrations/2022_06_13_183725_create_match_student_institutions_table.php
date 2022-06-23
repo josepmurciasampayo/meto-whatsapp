@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBranchesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateBranchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('match_student_institutions', function (Blueprint $table) {
             $table->id();
-            $table->string('from_question_id')->unsigned();
-            $table->string('to_question_id')->unsigned()->nullable();
-            $table->mediumText('response');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateBranchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('match_student_institutions');
     }
-}
+};

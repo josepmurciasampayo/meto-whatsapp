@@ -23,9 +23,9 @@ class BranchFactory extends Factory
     public function definition()
     {
         return [
-            'from_question_id' => $this->faker->word,
-            'to_question_id' => $this->faker->word,
+            'from_message_id' => $this->faker->word,
             'response' => $this->faker->text,
+            'to_message_id' => $this->faker->word,
         ];
     }
 }

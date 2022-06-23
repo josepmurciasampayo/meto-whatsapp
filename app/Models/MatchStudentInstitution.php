@@ -5,27 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch extends Model
+class MatchStudentInstitution extends Model
 {
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'from_question_id',
-        'to_question_id',
-        'response',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $casts = [
-        'id' => 'integer',
+    protected $hidden = [
+        'student_id',
+        'institution_id',
+        'change_date',
+        'status'
     ];
 }

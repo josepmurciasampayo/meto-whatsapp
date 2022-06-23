@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Question;
+use App\Models\QuestionState;
 
-class QuestionFactory extends Factory
+class MessageStateFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Question::class;
+    protected $model = QuestionState::class;
 
     /**
      * Define the model's default state.
@@ -23,10 +23,11 @@ class QuestionFactory extends Factory
     public function definition()
     {
         return [
-            'text' => $this->faker->text,
-            'capture_id' => $this->faker->word,
-            'branch_id' => $this->faker->word,
-            'capture_filter' => $this->faker->text,
+            'user_id' => $this->faker->word,
+            'message_id' => $this->faker->word,
+            'state' => $this->faker->word,
+            'response' => $this->faker->text,
+            'last_changed' => $this->faker->dateTime(),
         ];
     }
 }

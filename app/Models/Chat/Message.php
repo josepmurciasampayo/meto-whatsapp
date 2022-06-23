@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Chat;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Message extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,11 @@ class Question extends Model
      */
     protected $fillable = [
         'text',
-        'capture_id',
-        'branch_id',
         'capture_filter',
+        'capture_display',
+        'answer_table',
+        'answer_field',
+        'branch_id',
     ];
 
     /**
@@ -29,4 +31,17 @@ class Question extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public static function collapseResponses($string) :string
+    {
+        switch ($string) {
+            case 'Ye':
+            case 'Yes':
+                return 'Y';
+            case 'No':
+                return 'N';
+            default:
+                return $string;
+        }
+    }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Chat;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Capture extends Model
+class Branch extends Model
 {
     use HasFactory;
 
@@ -15,8 +15,9 @@ class Capture extends Model
      * @var array
      */
     protected $fillable = [
-        'table',
-        'field',
+        'from_message_id',
+        'response',
+        'to_message_id',
     ];
 
     /**
