@@ -9,19 +9,22 @@ enum StudentInstitutionMatch :int
     use InvokableCases, Options, Values, Names, Strings;
 
     case INITIATED = 1;
-    case MATCHED = 3;
-    case APPLIED = 5;
-    case DENIED = 5;
-    case ACCEPTED = 7;
-    case ENROLLED = 8;
+    case MATCHED = 2;
+    case APPLIED = 3;
+    case DENIED = 4;
+    case ACCEPTED = 5;
+    case ENROLLED = 6;
 
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::CONFIRMIDENTITY => 'Confirm Identity',
-            self::CONFIRMPERMISSION => 'Confirm Permission to Collect Info',
-            self::ENDOFCYCLE => 'End of Application Cycle Survey',
+            self::INITIATED => 'Initiated',
+            self::MATCHED => 'Matched',
+            self::APPLIED => 'Applied',
+            self::DENIED => 'Denied',
+            self::ACCEPTED => 'Accepted',
+            self::ENROLLED => 'Enrolled',
         };
     }
 }
