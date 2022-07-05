@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('match_student_institutions', function (Blueprint $table) {
+        Schema::create('log_comms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('institution_id');
-            $table->unsignedTinyInteger('status')->default()->comment(\App\Enums\General\StudentInstitutionMatch::toString());
+            $table->unsignedSmallInteger('channel')->comment(\App\Enums\General\Channel::toString());
+            $table->string('from')->comment('Email or number or "Meto"');
+            $table->string('to')->comment('Email or number or "Meto"');
+            $table->string('body')->comment('Content of communication');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('match_student_institutions');
+        Schema::dropIfExists('log_comms');
     }
 };

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Message;
-use App\Models\MessageState;
+use App\Enums\General\Channel;
+use App\Enums\General\Chat;
+use App\Models\Chat\Message;
+use App\Models\Chat\MessageState;
+use App\Models\LogComms;
+use App\Models\User;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +30,7 @@ class ChatbotController extends Controller
      */
     public static function runTriggers() :void
     {
-        endOfApplicationCycle();
+        self::endOfApplicationCycle();
         // more questions with different triggers follow
     }
 
@@ -37,7 +41,7 @@ class ChatbotController extends Controller
     {
         $ids = DB::select('');
         foreach ($ids as $id) {
-            MessageState::startQuestion($id, 2);
+            MessageState::startQuestion($id, Chat::ENDOFCYCLE);
         }
     }
 
@@ -80,47 +84,45 @@ class ChatbotController extends Controller
     /**
      * Identifies users and associated data to begin conversations
      */
-    public function listenToReply(Request $request)
+    public function listenToReply(Request $request) :void
     {
         $from = $request->input('From');
+        $body = $request->input('Body');
+        $log = new LogComms([
+            'channel' => Channel::WHATSAPP,
+            'from' => $from,
+            'to' => "METO",
+            'body' => $body,
+        ]);
+        $log->save();
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
 
-        $client = new \GuzzleHttp\Client();
         try {
             // get all necessary database info to parse reply
             // user, message, message state, and branch data
-            $currentState = DB::select('
-                select
-                    users.id,
-                    users.first,
-                    users.last,
-                    users.email,
-                    messages.id,
-                    messages.text,
-                    messages.capture_filter,
-                    messages.answer_table,
-                    messages.answer_field,
-                    messages.branch_id,
-                    branches.response,
-                    branches.to_message_id,
-                    message_states.id,
-                    message_states.state
-                from users
-                join message_states on message_states.user_id = users.id
-                join messages on message_states.message_id = messages.id
-                join branches on branches.from_message_id = messages.id
-                where users.phone = ' . $from . '
-            ');
+
+            $user = User::findUserByPhoneNumber($from);
+            if (is_null($user)) {
+                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from);
+                return;
+            }
+
+            $currentState = MessageState::getState($from);
+            if (count($currentState) == 0) {
+                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.");
+                return;
+            }
 
             if ($body == "end of cycle") {
-
+                $newEndOfCycleChat = new MessageState([
+                    'user_id' => $currentState['user_id'],
+                    'message_id' => Chat::ENDOFCYCLE,
+                    'state' => \App\Enums\General\MessageState::QUEUED,
+                ]);
+                $newEndOfCycleChat->save();
+                return;
             }
 
-            // apply capture filter
-            $collaspedResponse = Message::collapseResponses($body);
-            if ($body) {
-              ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't understand. Can you try again?");
-            }
             // save reply in MessageState and update State
             // look at branch
             // trigger next message
@@ -128,23 +130,34 @@ class ChatbotController extends Controller
 
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
-            $this->sendWhatsAppMessage($response->message, $from);
+            // TODO: log exception and notify
         }
-        return;
     }
 
     /**
      * Sends a WhatsApp message to user using
      * @param string $message Body of message
      * @param array $recipient Number of recipient
+     * @throws \Twilio\Exceptions\TwilioException
      */
     public static function sendWhatsAppMessage(string $recipient, string $message = "")
     {
+        $log = new LogComms([
+            'channel' => Channel::WHATSAPP,
+            'from' => "METO",
+            'to' => $recipient,
+            'body' => $message,
+        ]);
+        $log->save();
+
         $twilio_whatsapp_number = getenv('TWILIO_WHATSAPP_NUMBER');
         $account_sid = getenv("TWILIO_SID");
         $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
         $client = new Client($account_sid, $auth_token);
-        return $client->messages->create($recipient, array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => ChatbotController::hydrateMessage($message)));
+        $client->messages->create(
+            $recipient,
+            ['from' => "whatsapp:$twilio_whatsapp_number", 'body' => ChatbotController::hydrateMessage($message)]
+        );
     }
 }

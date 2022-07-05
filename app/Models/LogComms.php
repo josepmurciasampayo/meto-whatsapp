@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MatchStudentInstitution extends Model
+class LogComms extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,10 @@ class MatchStudentInstitution extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'student_id',
-        'institution_id',
-        'change_date',
-        'status'
+        'channel',
+        'from',
+        'to',
+        'body',
     ];
 
     /**
@@ -27,6 +27,5 @@ class MatchStudentInstitution extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-
     ];
 }

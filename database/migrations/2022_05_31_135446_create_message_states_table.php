@@ -15,9 +15,9 @@ class CreateMessageStatesTable extends Migration
     {
         Schema::create('message_states', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('message_id')->unsigned();
-            $table->unsignedTinyInteger('state')->unsigned();
+            $table->unsignedTinyInteger('state')->nullable()->comment();
             $table->mediumText('response')->nullable();
             $table->dateTime('last_changed');
             $table->timestamps();
