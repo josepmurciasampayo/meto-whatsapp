@@ -58,10 +58,10 @@ class MessageState extends Model
                     branches.to_message_id,
                     message_states.id as state_id,
                     message_states.state as state
-                from ' . (new User)->getTable() . ' as users
-                join message_states as message_states on message_states.user_id = users.id
-                join messages as messages on message_states.message_id = messages.id
-                join branches as branches on branches.from_message_id = messages.id
+                from meto_users as users
+                join meto_message_states as message_states on message_states.user_id = users.id
+                join meto_messages as messages on message_states.message_id = messages.id
+                join meto_branches as branches on branches.from_message_id = messages.id
                 where users.phone = "' . $fromNumber . '";
             ');
     }

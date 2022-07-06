@@ -62,22 +62,22 @@ class ChatbotController extends Controller
      * @param string $message String with template directives
      * @return string String with replaced data
      */
-    public static function hydrateMessage(array $message) :string
+    public static function hydrateMessage(string $message) :string
     {
-        if (str_contains($message['text'], "{")) {
-            $startPos = strpos($message['text'], '{');
-            $endPos = strpos($message['text'], '}');
-            $length = strlen($message['text']) - $endPos;
-            $field = substr($message['text'], $startPos, $length);
+        if (str_contains($message, "{")) {
+            $startPos = strpos($message, '{');
+            $endPos = strpos($message, '}');
+            $length = strlen($message) - $endPos;
+            $field = substr($message, $startPos, $length);
             if ($field == 'application_status') {
 
             }
             // parse database table and column name
             // execute query
             // replace text with query result
-            return $message['text'];
+            return $message;
         } else {
-            return $message['text'];
+            return $message;
         }
     }
 
@@ -157,7 +157,7 @@ class ChatbotController extends Controller
         $client = new Client($account_sid, $auth_token);
         $client->messages->create(
             $recipient,
-            ['from' => "whatsapp:$twilio_whatsapp_number", 'body' => ChatbotController::hydrateMessage($message)]
+            array('from' => $twilio_whatsapp_number, 'body' => ChatbotController::hydrateMessage($message))
         );
     }
 }

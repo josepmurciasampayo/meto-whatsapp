@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-
+    //static public $tableName = config('') . 'meto_users';
 
     /**
      * The attributes that are mass assignable.
@@ -50,7 +50,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function findUserByPhoneNumber(string $phone) :User
+    public static function findUserByPhoneNumber(string $phone)
     {
         return User::where('phone', $phone)->first();
     }
