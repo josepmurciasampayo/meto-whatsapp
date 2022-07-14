@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Student\Consent;
 use App\Enums\Student\Verified;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
@@ -27,7 +28,10 @@ class UserSeeder extends Seeder
             'id' => $userID++,
             'first' => "Greg",
             'last' => "Garrison",
-            'phone' => "571-214-3085",
+            'phone_raw' => "571-214-3085",
+            'phone_country' => 1,
+            'phone_area' => 571,
+            'phone_local' => 2143085,
             'password' => bcrypt('password'),
             'email' => "gmgarrison+meto@gmail.com",
             'role' => Role::ADMIN,
@@ -38,7 +42,9 @@ class UserSeeder extends Seeder
             'id' => $userID++,
             'first' => "Ryan",
             'last' => "Benitez",
-            'phone' => "571-214-3085",
+            'phone_country' => 1,
+            'phone_area' => 571,
+            'phone_local' => 2143085,
             'password' => bcrypt('password'),
             'email' => "ryan@meto-intl.org",
             'role' => Role::ADMIN,
@@ -48,8 +54,10 @@ class UserSeeder extends Seeder
         User::create([
             'id' => $userID++,
             'first' => "Abraham",
-            'last' => "Garrison",
-            'phone' => "571-214-3085",
+            'last' => "Barry",
+            'phone_country' => 1,
+            'phone_area' => 571,
+            'phone_local' => 2143085,
             'password' => bcrypt('password'),
             'email' => "abraham@meto-intl.org",
             'role' => Role::ADMIN,
@@ -59,89 +67,16 @@ class UserSeeder extends Seeder
         User::create([
             'id' => $userID++,
             'first' => "Nic",
-            'last' => "Garrison",
-            'phone' => "571-214-3085",
+            'last' => "Nesbitt",
+            'phone_country' => 1,
+            'phone_area' => 571,
+            'phone_local' => 2143085,
             'password' => bcrypt('password'),
             'email' => "nic@meto-intl.org",
             'role' => Role::ADMIN,
             'status' => Status::ACTIVE
         ]);
 
-        /*
-         * create student test accounts
-         */
-        User::create([
-            'id' => $userID,
-            'first' => "Greg",
-            'last' => "Student" . $userID,
-            'phone' => "571-214-3085",
-            'password' => bcrypt('password'),
-            'email' => "gmgarrison+student@gmail.com",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
-        ]);
 
-        $studentID = 1;
-
-        Student::create([
-            'id' => $studentID++,
-            'user_id' => $userID++,
-            'phone_verified' => null,
-            'whatsapp_consent' => null,
-        ]);
-
-        User::create([
-            'id' => $userID,
-            'first' => "Ryan",
-            'last' => "Student" . $userID,
-            'phone' => "571-214-3085",
-            'password' => bcrypt('password'),
-            'email' => "gmgarrison+ryan@gmail.com",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
-        ]);
-
-        Student::create([
-            'id' => $studentID++,
-            'user_id' => $userID++,
-            'phone_verified' => null,
-            'whatsapp_consent' => null,
-        ]);
-
-        User::create([
-            'id' => $userID,
-            'first' => "Abraham",
-            'last' => "Student" . $userID,
-            'phone' => "571-214-3085",
-            'password' => bcrypt('password'),
-            'email' => "gmgarrison+abe@gmail.com",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
-        ]);
-
-        Student::create([
-            'id' => $studentID++,
-            'user_id' => $userID++,
-            'phone_verified' => null,
-            'whatsapp_consent' => null,
-        ]);
-
-        User::create([
-            'id' => $userID,
-            'first' => "Nic",
-            'last' => "Student" . $userID,
-            'phone' => "571-214-3085",
-            'password' => bcrypt('password'),
-            'email' => "gmgarrison+nic@gmail.com",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
-        ]);
-
-        Student::create([
-            'id' => $studentID++,
-            'user_id' => $userID++,
-            'phone_verified' => null,
-            'whatsapp_consent' => null,
-        ]);
     }
 }

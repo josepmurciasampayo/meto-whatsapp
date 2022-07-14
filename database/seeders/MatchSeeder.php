@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\MatchStudentInstitution;
 use Illuminate\Database\Seeder;
 
 class MatchSeeder extends Seeder
@@ -14,6 +14,6 @@ class MatchSeeder extends Seeder
      */
     public function run()
     {
-        //
+
     }
 }

@@ -30,8 +30,6 @@ class Student extends Model
         'submission_device',
         'current_cycle',
         'curriculum',
-        'phone_verified',
-        'whatsapp_consent',
     ];
 
     /**

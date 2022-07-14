@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('institution_id');
-            $table->unsignedTinyInteger('status')->default()->comment(\App\Enums\General\StudentInstitutionMatch::toString());
+            $table->unsignedTinyInteger('status')->nullable()->comment(\App\Enums\General\MatchStudentInstitution::toString());
             $table->timestamps();
         });
     }

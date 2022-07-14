@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             StudentSeeder::class,
             MatchSeeder::class,
             ChatSeeder::class,
+            ChatTestSeeder::class,
         ]);
     }
 }

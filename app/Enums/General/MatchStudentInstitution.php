@@ -4,7 +4,7 @@ namespace App\Enums\General;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum StudentInstitutionMatch :int
+enum MatchStudentInstitution :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
@@ -14,6 +14,7 @@ enum StudentInstitutionMatch :int
     case DENIED = 4;
     case ACCEPTED = 5;
     case ENROLLED = 6;
+    case UNKNOWN = 7;
 
 
     public static function getText(self $value) :string
@@ -25,6 +26,7 @@ enum StudentInstitutionMatch :int
             self::DENIED => 'Denied',
             self::ACCEPTED => 'Accepted',
             self::ENROLLED => 'Enrolled',
+            self::UNKNOWN => 'Unknown',
         };
     }
 }

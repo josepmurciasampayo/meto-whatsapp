@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Http\Controllers\ChatbotController;
 use Illuminate\Console\Command;
 
-class StartDailyMessageLoop extends Command
+class MessageLoop extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:startDailyLoop';
+    protected $signature = 'command:startLoop';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Starts the daily loop in the WhatsApp Chatbot Controller';
+    protected $description = 'Starts the loop in the WhatsApp Chatbot Controller';
 
     /**
      * Execute the console command.
@@ -28,7 +28,7 @@ class StartDailyMessageLoop extends Command
      */
     public function handle()
     {
-        ChatbotController::initiateDailyLoop();
+        ChatbotController::initiateLoop();
         return 0;
     }
 }

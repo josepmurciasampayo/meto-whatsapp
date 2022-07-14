@@ -10,7 +10,7 @@ enum Chat :int
 
     case CONFIRMIDENTITY = 1;
     case CONFIRMPERMISSION = 3;
-    case ENDOFCYCLE = 5;
+    case ENDOFCYCLE = 4;
 
     public static function getText(self $value) :string
     {

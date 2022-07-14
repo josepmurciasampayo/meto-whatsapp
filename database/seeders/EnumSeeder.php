@@ -14,9 +14,9 @@ class EnumSeeder extends Seeder
 {
     public function run()
     {
-        self::loadToTable(Method::options(),EnumGroup::GENERAL);
-        self::loadToTable(SocialNetwork::options(), EnumGroup::GENERAL);
-        self::loadToTable(TagGroups::options(), EnumGroup::GENERAL);
+        self::loadToTable(Method::options(),EnumGroup::GENERAL_METHOD);
+        self::loadToTable(SocialNetwork::options(), EnumGroup::GENERAL_SOCIALNETWORK);
+        self::loadToTable(TagGroups::options(), EnumGroup::GENERAL_TAGGROUP);
 
         self::loadToTable(InstTags::options(), EnumGroup::INSTITUTION);
         self::loadToTable(Type::options(), EnumGroup::INSTITUTION);
@@ -31,8 +31,8 @@ class EnumSeeder extends Seeder
         self::loadToTable(StuTags::options(), EnumGroup::STUDENT);
         self::loadToTable(Verified::options(), EnumGroup::STUDENT);
 
-        self::loadToTable(Role::options(), EnumGroup::USER);
-        self::loadToTable(Status::options(), EnumGroup::USER);
+        self::loadToTable(Role::options(), EnumGroup::USER_ROLE);
+        self::loadToTable(Status::options(), EnumGroup::USER_STATUS);
     }
 
 

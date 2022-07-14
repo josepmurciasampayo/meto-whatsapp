@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\TableName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,9 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    //static public $tableName = config('') . 'meto_users';
+    use HasApiTokens, HasFactory, Notifiable, TableName;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +24,12 @@ class User extends Authenticatable
         'last',
         'email',
         'password',
-        'phone',
+        'phone_raw',
+        'phone_country',
+        'phone_area',
+        'phone_local',
+        'phone_verified',
+        'whatsapp_consent',
     ];
 
     /**
@@ -50,8 +54,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function findUserByPhoneNumber(string $phone)
-    {
-        return User::where('phone', $phone)->first();
-    }
 }

@@ -13,8 +13,4 @@ enum Refugee :int
 
     }
 
-    public static function getString(bool $nameFirst) :string
-    {
-        return self::toString($nameFirst);
-    }
 }

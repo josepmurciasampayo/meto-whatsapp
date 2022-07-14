@@ -10,28 +10,25 @@ use App\Models\LogComms;
 use App\Models\User;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 
 class ChatbotController extends Controller
 {
     /**
-     * Runs at a scheduled time every day to test all potential triggers and identify new conversations to start
+     * Runs at a scheduled time to test all potential triggers and identify new conversations to start
      * @returns void
      */
-    public static function initiateDailyLoop() :void
-    {
-        ChatbotController::runTriggers();
-        ChatbotController::sendMessages();
-    }
-
-    /**
-     * Collection of individual triggers for each question set
-     */
-    public static function runTriggers() :void
+    public static function initiateLoop() :void
     {
         self::endOfApplicationCycle();
         // more questions with different triggers follow
+
+        $toSend = MessageState::getNewMessagesToSend();
+        foreach ($toSend as $message) {
+            $phone = $message['phone_country'] . $message['phone_area'] . $message['phone_local'];
+            self::sendWhatsAppMessage($phone, $message['text']);
+            MessageState::updateMessageState($message['message_state_id'], \App\Enums\General\MessageState::SENT);
+        }
     }
 
     /**
@@ -39,21 +36,9 @@ class ChatbotController extends Controller
      */
     public static function endOfApplicationCycle() :void
     {
-        $ids = DB::select('');
-        foreach ($ids as $id) {
-            MessageState::startQuestion($id, Chat::ENDOFCYCLE);
-        }
-    }
-
-    /*
-     * Gets all the messages to be sent, initiates the sending and updates the state
-     */
-    public static function sendMessages() :void
-    {
-        $messages = MessageState::getMessagesToSend();
-        foreach($messages as $message) {
-            self::sendWhatsAppMessage($message['number'], $message['message']);
-            MessageState::updateMessageState($message['user_id'], $message['message_id'], 3);
+        $users = MessageState::getEndOfApplicationCycles();
+        foreach ($users as $user) {
+            MessageState::startMessage($user['user_id'], Chat::ENDOFCYCLE);
         }
     }
 
@@ -101,25 +86,26 @@ class ChatbotController extends Controller
             // get all necessary database info to parse reply
             // user, message, message state, and branch data
 
-            $user = User::findUserByPhoneNumber($from);
+            $user = User::where('phone', $from)->first();
             if (is_null($user)) {
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from);
+                return;
+            }
+
+            if ($body == "end of cycle") {
+                $newEndOfCycleChat = new MessageState([
+                    'user_id' => $user->id,
+                    'message_id' => Chat::ENDOFCYCLE,
+                    'state' => \App\Enums\General\MessageState::QUEUED,
+                ]);
+                $newEndOfCycleChat->save();
                 return;
             }
 
             $currentState = MessageState::getState($from);
             if (count($currentState) == 0) {
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.");
-                return;
-            }
-
-            if ($body == "end of cycle") {
-                $newEndOfCycleChat = new MessageState([
-                    'user_id' => $currentState['user_id'],
-                    'message_id' => Chat::ENDOFCYCLE,
-                    'state' => \App\Enums\General\MessageState::QUEUED,
-                ]);
-                $newEndOfCycleChat->save();
+                // TODO: send notification to team member?
                 return;
             }
 
@@ -155,9 +141,10 @@ class ChatbotController extends Controller
         $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
         $client = new Client($account_sid, $auth_token);
-        $client->messages->create(
-            $recipient,
-            array('from' => $twilio_whatsapp_number, 'body' => ChatbotController::hydrateMessage($message))
+        $result = $client->messages->create(
+            "whatsapp:+". $recipient,
+            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => self::hydrateMessage($message))
         );
+        echo $result;
     }
 }

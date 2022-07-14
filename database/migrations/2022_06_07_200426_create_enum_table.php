@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('enum', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('group_id');
+            $table->unsignedSmallInteger('group_id')->comment(\App\Enums\EnumGroup::toString());
             $table->unsignedSmallInteger('enum_id');
             $table->string('enum_value');
             $table->string('enum_desc')->nullable();

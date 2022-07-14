@@ -19,7 +19,6 @@ class CreateMessageStatesTable extends Migration
             $table->unsignedBigInteger('message_id')->unsigned();
             $table->unsignedTinyInteger('state')->nullable()->comment();
             $table->mediumText('response')->nullable();
-            $table->dateTime('last_changed');
             $table->timestamps();
         });
     }

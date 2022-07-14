@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('student_tags', function (Blueprint $table) {
             $table->id();
+            $table->unsignedSmallInteger('type')->comment(\App\Enums\Student\StuTags::toString());
+            $table->bigInteger('data_int')->nullable();
+            $table->string('data_str')->nullable();
             $table->timestamps();
         });
     }
