@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\General\Chat;
-use App\Enums\Student\Consent;
-use App\Enums\Student\Verified;
-use App\Enums\User\Role;
-use App\Enums\User\Status;
+use App\Enums\User\{Role, Status, Consent, Verified};
 
 use App\Models\Chat\MessageState;
 use App\Models\MatchStudentInstitution;
@@ -57,7 +54,6 @@ class ChatTestSeeder extends Seeder
            'role' => Role::STUDENT,
            'status' => Status::ACTIVE,
            'phone_verified' => Verified::VERIFIED,
-           'whatsapp_consent' => null,
        ]);
 
        Student::create([
@@ -76,7 +72,6 @@ class ChatTestSeeder extends Seeder
            'email' => "gmgarrison+abe@gmail.com",
            'role' => Role::STUDENT,
            'status' => Status::ACTIVE,
-           'phone_verified' => null,
            'whatsapp_consent' => Consent::CONSENT,
        ]);
 
@@ -96,8 +91,6 @@ class ChatTestSeeder extends Seeder
            'email' => "gmgarrison+nic@gmail.com",
            'role' => Role::STUDENT,
            'status' => Status::ACTIVE,
-           'phone_verified' => null,
-           'whatsapp_consent' => null,
        ]);
 
        Student::create([

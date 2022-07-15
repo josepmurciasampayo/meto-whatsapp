@@ -3,12 +3,15 @@
 namespace App\Models\Chat;
 
 use App\Enums\General\Chat;
-use App\Enums\Student\Consent;
-use App\Enums\Student\Verified;
+use App\Enums\User\{Consent, Verified};
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
+/**
+ *
+ */
 class MessageState extends Model
 {
     /**
@@ -34,6 +37,7 @@ class MessageState extends Model
 
     public static function startMessage(int $user_id, Chat $message) :void
     {
+        Log::info("Queueing chat " . $message->name . " for user " . $user_id);
         DB::insert("
             insert into meto_message_states
             (user_id, message_id, state)
@@ -59,6 +63,7 @@ class MessageState extends Model
             order by message_state.message_id asc
             limit 1
         ');
+        Log::info($toReturn);
         return $toReturn;
     }
 
@@ -81,14 +86,15 @@ class MessageState extends Model
         ');
 
         foreach ($toCheck as $student) {
-            if ($student['phone_verified'] == Verified::DENIED or $student['whatsapp_consent'] == Consent::NOCONSENT) {
+            if ($student['phone_verified'] == Verified::DENIED() or $student['whatsapp_consent'] == Consent::NOCONSENT()) {
                 $toRemove[] = $student['user_id'];
                 continue;
             }
-            if ($student['phone_verified'] == Verified::UNKNOWN) {
+            if ($student['phone_verified'] == Verified::UNKNOWN()) {
                 self::startMessage($student['user_id'], Chat::CONFIRMIDENTITY);
+
             }
-            if ($student['whatsapp_consent'] == Consent::UNKNOWN) {
+            if ($student['whatsapp_consent'] == Consent::UNKNOWN()) {
                 self::startMessage($student['user_id'], Chat::CONFIRMPERMISSION);
             }
         }
@@ -116,7 +122,6 @@ class MessageState extends Model
 
     public static function getState(string $fromNumber) :array
     {
-
         return DB::select('
                 select
                     users.id as user_id,
@@ -145,9 +150,10 @@ class MessageState extends Model
 
     public static function updateMessageState($user_id, $message_id, $state) :void
     {
-        DB::update('
-            set
-        ');
+        DB::update("
+            update meto_message_states set state = " . $state() . "
+            where user_id = " . $user_id . " and message_id = " . $message_id . ";
+        ");
     }
 
 

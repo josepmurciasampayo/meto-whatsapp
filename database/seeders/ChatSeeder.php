@@ -22,7 +22,7 @@ class ChatSeeder extends Seeder
          */
         $message = new Message();
         $message->id = Chat::CONFIRMIDENTITY;
-        $message->text = "Hi, this is Meto. Can you confirm that you are {{user.name}}?";
+        $message->text = "Hi, this is Meto. Can you confirm that you are {first}?";
         $message->capture_filter = "Y,N";
         $message->capture_display = "Yes / No";
         $message->answer_table = "users"; // user validation field
@@ -74,7 +74,7 @@ class ChatSeeder extends Seeder
 
         $message = new Message();
         $message->id = Chat::ENDOFCYCLE;
-        $message->text = "Please click the link below to let us know how your university applications are going. {{application_status_form}}";
+        $message->text = "Please click the link below to let us know how your university applications are going. {form_application_status}";
         $message->save();
     }
 }

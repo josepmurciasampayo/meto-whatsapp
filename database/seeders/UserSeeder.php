@@ -2,13 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Student\Consent;
-use App\Enums\Student\Verified;
-use App\Enums\User\Role;
-use App\Enums\User\Status;
+use App\Enums\User\{Role, Status, Consent, Verified};
 use App\Models\Student;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\User\{Role, Status};
+use App\Enums\User\{Role, Status, Verified, Consent};
 
 return new class extends Migration
 {
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('phone_country')->nullable();
             $table->unsignedSmallInteger('phone_area')->nullable();
             $table->unsignedBigInteger('phone_local')->nullable();
-            $table->unsignedTinyInteger('phone_verified')->nullable()->comment(\App\Enums\Student\Verified::toString());
-            $table->unsignedTinyInteger('whatsapp_consent')->nullable()->comment(\App\Enums\Student\Consent::toString());
+            $table->unsignedTinyInteger('phone_verified')->default(Verified::UNKNOWN())->comment(Verified::toString());
+            $table->unsignedTinyInteger('whatsapp_consent')->default(Consent::UNKNOWN())->comment(Consent::toString());
             $table->unsignedTinyInteger('role')->comment(Role::toString());
             $table->unsignedTinyInteger('status')->comment(Status::toString());
             $table->rememberToken();

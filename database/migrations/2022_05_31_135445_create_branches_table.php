@@ -15,9 +15,9 @@ class CreateBranchesTable extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('from_message_id')->unsigned();
+            $table->unsignedBigInteger('from_message_id');
             $table->mediumText('response');
-            $table->unsignedBigInteger('to_message_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('to_message_id')()->nullable();
             $table->timestamps();
         });
     }

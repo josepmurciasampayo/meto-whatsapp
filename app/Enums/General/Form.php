@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Enums\Student;
+namespace App\Enums\General;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum Consent :int
+enum Form :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case UNKNOWN = 12;
-    case NOCONSENT = 6;
-    case CONSENT = 7;
+    case ENDOFCYCLE = 1;
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::UNKNOWN => "Unknown",
-            self::NOCONSENT => "No Consent",
-            self::CONSENT => "Consent",
+            self::ENDOFCYCLE => 'End of Application Cycle Survey'
         };
     }
-
 }
