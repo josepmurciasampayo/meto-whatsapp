@@ -4,7 +4,7 @@ namespace App\Enums\Institution;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum InstTags :int
+enum TagsInstitution :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 

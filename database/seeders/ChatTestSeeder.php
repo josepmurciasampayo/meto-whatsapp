@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\General\Chat;
+use App\Enums\Chat\Chat;
 use App\Enums\User\{Role, Status, Consent, Verified};
 
 use App\Models\Chat\MessageState;
@@ -16,7 +16,7 @@ class ChatTestSeeder extends Seeder
    public function run()
    {
        /*
-         * create student test accounts
+         * create student test accounts and matches
          */
 
        $userID = User::all()->count();
@@ -38,9 +38,41 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => $studentID++,
+           'id' => $studentID,
            'user_id' => $userID++,
        ]);
+
+       /*
+        * Greg - BU, Carleton, Hope, Trinity
+        */
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 2,
+           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 4,
+           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 8,
+           'status' => \App\Enums\General\MatchStudentInstitution::APPLIED
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 21,
+       ]);
+       $match->save();
+
+
 
        User::create([
            'id' => $userID,
@@ -57,9 +89,46 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => $studentID++,
+           'id' => ++$studentID,
            'user_id' => $userID++,
        ]);
+
+       /*
+        * Ryan - Ithaca, Pomona, Union, Worcester, York
+        */
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 10,
+           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 24,
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 29,
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 31,
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 33,
+
+       ]);
+       $match->save();
+
+
 
        User::create([
            'id' => $userID,
@@ -76,9 +145,47 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => $studentID++,
+           'id' => ++$studentID,
            'user_id' => $userID++,
        ]);
+
+       /*
+        * Abraham - BU, Ithaca, Skidmore, Union, York
+        */
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 2,
+
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 10,
+
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 12,
+
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 29,
+           'status' => \App\Enums\General\MatchStudentInstitution::ENROLLED
+       ]);
+       $match->save();
+
+       $match = new MatchStudentInstitution([
+           'student_id' => $studentID,
+           'institution_id' => 33,
+           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
+       ]);
+       $match->save();
 
        User::create([
            'id' => $userID,
@@ -94,123 +201,18 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => $studentID++,
+           'id' => ++$studentID,
            'user_id' => $userID++,
        ]);
 
-       /*
-       * Greg - BU, Carleton, Hope, Trinity
-       */
-       $match = new MatchStudentInstitution([
-           'student_id' => 5,
-           'institution_id' => 2,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 5,
-           'institution_id' => 4,
-           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 5,
-           'institution_id' => 8,
-           'status' => \App\Enums\General\MatchStudentInstitution::APPLIED
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 5,
-           'institution_id' => 21,
-       ]);
-       $match->save();
-
-       /*
-        * Ryan - Ithaca, Pomona, Union, Worcester, York
-        */
-       $match = new MatchStudentInstitution([
-           'student_id' => 6,
-           'institution_id' => 10,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 6,
-           'institution_id' => 24,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 6,
-           'institution_id' => 29,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 6,
-           'institution_id' => 31,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 6,
-           'institution_id' => 33,
-
-       ]);
-       $match->save();
-
-       /*
-        * Abraham - BU, Ithaca, Skidmore, Union, York
-        */
-       $match = new MatchStudentInstitution([
-           'student_id' => 7,
-           'institution_id' => 2,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 7,
-           'institution_id' => 10,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 7,
-           'institution_id' => 12,
-
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 7,
-           'institution_id' => 29,
-           'status' => \App\Enums\General\MatchStudentInstitution::ENROLLED
-       ]);
-       $match->save();
-
-       $match = new MatchStudentInstitution([
-           'student_id' => 7,
-           'institution_id' => 33,
-           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
-       ]);
-       $match->save();
 
        /*
         * Setup testchats for test students
         */
        $userCount = User::all()->count();
 
-       MessageState::startMessage($userCount--, Chat::ENDOFCYCLE);
-       MessageState::startMessage($userCount--, Chat::ENDOFCYCLE);
-       MessageState::startMessage($userCount--, Chat::ENDOFCYCLE);
+       MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
+       //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
+       //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
    }
 }

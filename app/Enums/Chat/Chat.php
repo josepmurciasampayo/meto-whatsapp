@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\General;
+namespace App\Enums\Chat;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
@@ -9,8 +9,8 @@ enum Chat :int
     use InvokableCases, Options, Values, Names, Strings;
 
     case CONFIRMIDENTITY = 1;
-    case CONFIRMPERMISSION = 3;
-    case ENDOFCYCLE = 4;
+    case CONFIRMPERMISSION = 2;
+    case ENDOFCYCLE = 3;
 
     public static function getText(self $value) :string
     {

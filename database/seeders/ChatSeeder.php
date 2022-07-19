@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\General\Chat;
+use App\Enums\Chat\Chat;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 
@@ -34,7 +34,7 @@ class ChatSeeder extends Seeder
         $branch->id = 1;
         $branch->from_message_id = Chat::CONFIRMIDENTITY;
         $branch->response = "N";
-        $branch->to_message_id = "2";
+        $branch->to_message_id = 4;
         $branch->save();
 
         $branch = new Branch();
@@ -45,7 +45,7 @@ class ChatSeeder extends Seeder
         $branch->save();
 
         $message = new Message();
-        $message->id = 2;
+        $message->id = 4;
         $message->text = "No problem! We won't message you any more.";
         $message->save();
 
@@ -63,7 +63,7 @@ class ChatSeeder extends Seeder
         $branch->id = 3;
         $branch->from_message_id = 3;
         $branch->response = "N";
-        $branch->to_message_id = 2;
+        $branch->to_message_id = 4;
         $branch->save();
 
         $branch = new Branch();
@@ -74,7 +74,7 @@ class ChatSeeder extends Seeder
 
         $message = new Message();
         $message->id = Chat::ENDOFCYCLE;
-        $message->text = "Please click the link below to let us know how your university applications are going. {form_application_status}";
+        $message->text = "Please click the link to let us know how your university applications are going. {form_application_status}";
         $message->save();
     }
 }

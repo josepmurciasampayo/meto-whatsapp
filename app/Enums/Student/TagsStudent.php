@@ -4,7 +4,7 @@ namespace App\Enums\Student;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum StuTags :int
+enum TagsStudent :int
 {
 
     use InvokableCases, Options, Values, Names, Strings;

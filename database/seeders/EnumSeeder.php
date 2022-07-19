@@ -6,8 +6,8 @@ use App\Enums\EnumGroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Enums\General\{Method, SocialNetwork, TagGroups};
-use App\Enums\Institution\{InstTags, Type};
-use App\Enums\Student\{Curriculum, Disability, Gender, Owner, Refugee, SubmissionDevice, StuTags};
+use App\Enums\Institution\{TagsInstitution, Type};
+use App\Enums\Student\{Curriculum, Disability, Gender, Owner, Refugee, SubmissionDevice, TagsStudent};
 use App\Enums\User\{Role, Status, Consent, Verified};
 
 class EnumSeeder extends Seeder
@@ -18,7 +18,7 @@ class EnumSeeder extends Seeder
         self::loadToTable(SocialNetwork::options(), EnumGroup::GENERAL_SOCIALNETWORK);
         self::loadToTable(TagGroups::options(), EnumGroup::GENERAL_TAGGROUP);
 
-        self::loadToTable(InstTags::options(), EnumGroup::INSTITUTION);
+        self::loadToTable(TagsInstitution::options(), EnumGroup::INSTITUTION);
         self::loadToTable(Type::options(), EnumGroup::INSTITUTION);
 
         self::loadToTable(Curriculum::options(), EnumGroup::STUDENT);
@@ -27,7 +27,7 @@ class EnumSeeder extends Seeder
         self::loadToTable(Owner::options(), EnumGroup::STUDENT);
         self::loadToTable(Refugee::options(), EnumGroup::STUDENT);
         self::loadToTable(SubmissionDevice::options(), EnumGroup::STUDENT);
-        self::loadToTable(StuTags::options(), EnumGroup::STUDENT);
+        self::loadToTable(TagsStudent::options(), EnumGroup::STUDENT);
 
         self::loadToTable(Consent::options(), EnumGroup::USER_CONSENT);
         self::loadToTable(Verified::options(), EnumGroup::USER_VERIFIED);

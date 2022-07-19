@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Enums\General;
+namespace App\Enums\Chat;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum MessageState :int
+enum State :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
     case QUEUED = 1;
-    case SENT = 3;
-    case REPLIED = 5;
+    case SENT = 2;
+    case REPLIED = 3;
+    case ERROR = 4;
 
     public static function getText(self $value) :string
     {
         return match($value) {
             self::QUEUED => 'Queued',
             self::SENT => 'Sent',
-            self::REPLIED => 'REPLIED',
+            self::REPLIED => 'Replied',
+            self::ERROR => 'Error',
         };
     }
 }

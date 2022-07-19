@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Chat\State;
 use App\Enums\General\Channel;
-use App\Enums\General\Chat;
+use App\Enums\Chat\Chat;
 use App\Enums\General\Form;
-use App\Enums\General\FormStatus;
+use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 use App\Models\Chat\MessageState;
 use App\Models\LogComms;
@@ -14,7 +15,6 @@ use App\Models\UserForm;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Twilio\Rest\Client;
 
 class ChatbotController extends Controller
@@ -25,18 +25,19 @@ class ChatbotController extends Controller
      */
     public static function initiateLoop() :void
     {
-        Log::info("Starting message loop");
+
         // methods here correspond to specific chat campaigns
         self::endOfApplicationCycle();
 
         // after new campaign messages are identified and queued, loop through to send them
         $toSend = MessageState::getNewMessagesToSend();
+        Log::channel('chat')->debug("New messages to send: " . count($toSend));
         foreach ($toSend as $message) {
             $phone = $message['phone_country'] . $message['phone_area'] . $message['phone_local'];
             self::sendWhatsAppMessage($phone, $message['text'], $message['user_id']);
-            MessageState::updateMessageState($message['user_id'], $message['message_state_id'], \App\Enums\General\MessageState::SENT);
+            MessageState::updateMessageState($message['user_id'], $message['message_state_id'], State::SENT);
         }
-        Log::info("Ending message loop");
+
     }
 
     /**
@@ -45,10 +46,9 @@ class ChatbotController extends Controller
     public static function endOfApplicationCycle() :void
     {
         $users = MessageState::getEndOfApplicationCycles();
-        Log::info("Found " . count($users) . " users with end of cycle");
+        Log::channel('chat')->debug('Found ' . count($users) . ' for end of app cycle');
         foreach ($users as $user) {
-            MessageState::startMessage($user['user_id'], Chat::ENDOFCYCLE);
-            Log::info("Finished end of cycle for user " . $user['user_id']);
+            MessageState::startMessage($user['user_id'], Chat::ENDOFCYCLE());
         }
     }
 
@@ -60,14 +60,16 @@ class ChatbotController extends Controller
     public static function hydrateMessage(string $message, int $user_id) :string
     {
         if (str_contains($message, "{")) { // means there's *something* to replace, we'll look individually for each thing
+            Log::channel('chat')->debug('Found a {');
             if (str_contains($message, '{form_application_status}')) {
+                Log::channel('chat')->debug('Found form_application_status');
                 $form = UserForm::getForm($user_id, Form::ENDOFCYCLE);
                 $url = "https://app.meto-intl.org/form/" . $form->url;
                 $message = str_replace("{form_application_status}", $url, $message);
             }
             if (str_contains($message, '{first}')) {
                 $first = User::find($user_id)->first()->first;
-                Log::info("Found " . $first);
+                Log::channel('chat')->debug('Found first: ' . $first);
                 $message = str_replace("{first}", $first, $message);
             }
             // parse database table and column name
@@ -93,6 +95,7 @@ class ChatbotController extends Controller
             'body' => $body,
         ]);
         $log->save();
+        Log::channel('chat')->debug($log);
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
 
         try {
@@ -102,31 +105,37 @@ class ChatbotController extends Controller
             $user = User::where('phone', $from)->first();
             if (is_null($user)) {
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null);
+                Log::error("Couldn't find " . $from . ". They WhatsApped: " . $body);
                 return;
             }
 
-            if ($body == "end of cycle") {
-                $newEndOfCycleChat = new MessageState([
-                    'user_id' => $user->id,
-                    'message_id' => Chat::ENDOFCYCLE,
-                    'state' => \App\Enums\General\MessageState::QUEUED,
-                ]);
-                $newEndOfCycleChat->save();
-                return;
-            }
-
-            $currentState = MessageState::getState($from);
+            $currentState = MessageState::getState($user->id);
             if (count($currentState) == 0) {
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
                 return;
             }
+            if (count($currentState) > 1) {
+                // TODO: send notification to team member?
+                Log::error("Too many states: " . print_r($currentState));
+                return;
+            }
 
-            // save reply in MessageState and update State
-            // look at branch
-            // trigger next message
+            $messageState = MessageState::find($currentState['state_id'])->first();
+            $messageState->state = State::REPLIED;
+            $messageState->response = $body;
+            $messageState->save();
 
+            // TODO:
+            $branch = Branch::where([
+                'from_message_id', $currentState->message_id,
+                'response', $body
+            ])->first();
+            if (is_null($branch)) {
+                // TODO: queue message to resend with filter
+            }
 
+            MessageState::startMessage($user->id, $branch->to_message_id);
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             // TODO: log exception and notify
@@ -148,6 +157,7 @@ class ChatbotController extends Controller
             'body' => $message,
         ]);
         $log->save();
+        Log::channel('chat')->debug($log);
 
         $twilio_whatsapp_number = getenv('GREG_TWILIO_WHATSAPP_NUMBER');
         $account_sid = getenv("GREG_TWILIO_SID");
@@ -158,5 +168,6 @@ class ChatbotController extends Controller
             "whatsapp:+". $recipient,
             array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => self::hydrateMessage($message, $user_id))
         );
+        Log::channel('chat')->debug($result);
     }
 }

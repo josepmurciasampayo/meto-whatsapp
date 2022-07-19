@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\General\MatchStudentInstitution;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('institution_id');
-            $table->unsignedTinyInteger('status')->nullable()->comment(\App\Enums\General\MatchStudentInstitution::toString());
+            $table->unsignedTinyInteger('status')->default(MatchStudentInstitution::UNKNOWN())->comment(MatchStudentInstitution::toString());
             $table->timestamps();
         });
     }
