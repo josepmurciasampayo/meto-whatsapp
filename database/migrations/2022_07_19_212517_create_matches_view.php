@@ -13,8 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("
-        ");
+        //DB::statement("");
     }
 
     /**
