@@ -11,7 +11,12 @@
                 <div class="p-6">
                     <h2>Chat Text</h2>
                     <table class="table">
-                        <form method="POST" action="/chats">
+                        <form
+                            method="POST"
+                            action="/chats"
+                            name="update-chats"
+                            id="update-chats"
+                        >
                             @csrf
                         <thead class="">
                         <tr>
@@ -41,16 +46,19 @@
                         </tbody>
                         </form>
                     </table>
-                    <x-button>
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                        form="update-chats"
+                    >
                         Submit Changes
-                    </x-button>
+                    </button>
                 </div>
                 <div class="p-6">
                     <h2>Branches</h2>
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>From Message</th>
                             <th>Repsonse</th>
                             <th>To Message</th>
@@ -58,7 +66,6 @@
                         </thead>
                         <?php foreach ($branches as $branch) { ?>
                         <tr>
-                            <td><?php echo $branch->id ?></td>
                             <td><?php echo $branch->from_message_id ?></td>
                             <td><?php echo $branch->response ?></td>
                             <td><?php echo $branch->to_message_id ?></td>
