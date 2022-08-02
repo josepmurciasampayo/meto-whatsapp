@@ -15,9 +15,9 @@ class CreateBranchesTable extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('from_message_id')->comment(\App\Enums\Chat\Chat::toString());
+            $table->unsignedBigInteger('from_message_id')->comment(\App\Enums\Chat\Campaign::toString());
             $table->mediumText('response');
-            $table->unsignedBigInteger('to_message_id')->comment(\App\Enums\Chat\Chat::toString())->nullable();
+            $table->unsignedBigInteger('to_message_id')->comment(\App\Enums\Chat\Campaign::toString())->nullable();
             $table->timestamps();
         });
     }

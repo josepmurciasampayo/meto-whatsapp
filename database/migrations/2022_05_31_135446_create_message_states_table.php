@@ -16,7 +16,7 @@ class CreateMessageStatesTable extends Migration
         Schema::create('message_states', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('message_id')->comment(\App\Enums\Chat\Chat::toString());
+            $table->unsignedBigInteger('message_id')->comment(\App\Enums\Chat\Campaign::toString());
             $table->unsignedTinyInteger('state')->nullable()->comment(\App\Enums\Chat\State::toString());
             $table->mediumText('response')->nullable();
             $table->timestamps();

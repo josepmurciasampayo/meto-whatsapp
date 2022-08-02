@@ -2,7 +2,7 @@
 
 namespace App\Models\Chat;
 
-use App\Enums\Chat\Chat;
+use App\Enums\Chat\Campaign;
 use App\Enums\User\{Consent, Verified};
 use App\Enums\Chat\State;
 use App\Helpers;
@@ -38,7 +38,7 @@ class MessageState extends Model
 
     /**
      * @param int $user_id
-     * @param Chat $message
+     * @param Campaign $message
      */
     public static function startMessage(int $user_id, int $message_id) :void
     {
@@ -98,11 +98,11 @@ class MessageState extends Model
                 continue;
             }
             if ($student['phone_verified'] == Verified::UNKNOWN()) {
-                self::startMessage($student['user_id'], Chat::CONFIRMIDENTITY());
+                self::startMessage($student['user_id'], Campaign::CONFIRMIDENTITY());
                 Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
             }
             if ($student['whatsapp_consent'] == Consent::UNKNOWN()) {
-                self::startMessage($student['user_id'], Chat::CONFIRMPERMISSION());
+                self::startMessage($student['user_id'], Campaign::CONFIRMPERMISSION());
                 Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
             }
         }
@@ -123,7 +123,7 @@ class MessageState extends Model
             join meto_message_states as message_states on message_states.user_id = users.id
             join meto_messages as messages on message_states.message_id = messages.id
             where message_states.state = ' . State::QUEUED() . '
-            and message_states.message_id = ' . Chat::ENDOFCYCLE() . ';
+            and message_states.message_id = ' . Campaign::ENDOFCYCLE() . ';
         ');
 
         $toRemove = self::preMessageChecks(array_column($toReturn, 'user_id'));

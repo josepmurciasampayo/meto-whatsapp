@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Chat\State;
 use App\Enums\General\Channel;
-use App\Enums\Chat\Chat;
+use App\Enums\Chat\Campaign;
 use App\Enums\General\Form;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
@@ -48,7 +48,7 @@ class ChatbotController extends Controller
         $users = MessageState::getEndOfApplicationCycles();
         Log::channel('chat')->debug('Found ' . count($users) . ' for end of app cycle');
         foreach ($users as $user) {
-            MessageState::startMessage($user['user_id'], Chat::ENDOFCYCLE());
+            MessageState::startMessage($user['user_id'], Campaign::ENDOFCYCLE());
         }
     }
 
@@ -150,11 +150,12 @@ class ChatbotController extends Controller
      */
     public static function sendWhatsAppMessage(string $recipient, string $message, int $user_id) :void
     {
+        $body = self::hydrateMessage($message, $user_id);
         $log = new LogComms([
             'channel' => Channel::WHATSAPP,
             'from' => "METO",
             'to' => $recipient,
-            'body' => $message,
+            'body' => $body,
         ]);
         $log->save();
         Log::channel('chat')->debug($log);
@@ -166,7 +167,7 @@ class ChatbotController extends Controller
         $client = new Client($account_sid, $auth_token);
         $result = $client->messages->create(
             "whatsapp:+". $recipient,
-            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => self::hydrateMessage($message, $user_id))
+            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $body)
         );
         Log::channel('chat')->debug($result);
     }

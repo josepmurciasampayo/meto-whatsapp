@@ -2,62 +2,29 @@
 
 namespace App\Enums\Country;
 
-use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings, Metadata};
+use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
 enum SubRegion :int
 {
-    use InvokableCases, Options, Values, Names, Strings, Metadata;
+    use InvokableCases, Options, Values, Names, Strings;
 
-    #[Description('Southern Asia')]
-    case SOUTHERNASIA = 5;
-
-    #[Description('Northern Europe')]
-    case NORTHERNEUROPE	= 6;
-
-    #[Description('Southern Europe')]
-    case SOUTHERNEUROPE	= 7;
-
-    #[Description('Northern Africa')]
-    case NORTHERNAFRICA	= 8;
-
-    #[Description('Polynesia')]
-    case POLYNESIA = 9;
-
-    #[Description('Sub Saharan Africa')]
-    case SUBSAHARANAFRICA = 10;
-
-    #[Description('Latin America and the Caribbean')]
-    case LATINAMERICAANDTHECARIBBEAN = 11;
-
-    #[Description('Western Asia')]
-    case WESTERNASIA = 12;
-
-    #[Description('Australia and New Zealand')]
-    case AUSTRALIAANDNEWZEALAND	= 13;
-
-    #[Description('Western Europe')]
-    case WESTERNEUROPE = 14;
-
-    #[Description('Eastern Europe')]
-    case EASTERNEUROPE = 15;
-
-    #[Description('Northern American')]
-    case NORTHERNAMERICA = 16;
-
-    #[Description('Southeastern Asia')]
-    case SOUTHEASTERNASIA = 17;
-
-    #[Description('Eastern Asia')]
-    case EASTERNASIA = 18;
-
-    #[Description('Melanesia')]
-    case MELANESIA = 19;
-
-    #[Description('Micronesia')]
-    case MICRONESIA = 20;
-
-    #[Description('Central Asia')]
-    case CENTRALASIA = 21;
+    case SOUTHERNASIA = 1;
+    case NORTHERNEUROPE	= 2;
+    case SOUTHERNEUROPE	= 3;
+    case NORTHERNAFRICA	= 4;
+    case POLYNESIA = 5;
+    case SUBSAHARANAFRICA = 6;
+    case LATINAMERICAANDTHECARIBBEAN = 7;
+    case WESTERNASIA = 8;
+    case AUSTRALIAANDNEWZEALAND	= 9;
+    case WESTERNEUROPE = 10;
+    case EASTERNEUROPE = 11;
+    case NORTHERNAMERICA = 12;
+    case SOUTHEASTERNASIA = 13;
+    case EASTERNASIA = 14;
+    case MELANESIA = 15;
+    case MICRONESIA = 16;
+    case CENTRALASIA = 17;
 
     public static function getText(self $value) :string
     {
@@ -80,6 +47,29 @@ enum SubRegion :int
             self::MICRONESIA => "Micronesia",
             self::CENTRALASIA => "Central Asia",
         };
+    }
+
+    public static function lookup(string $name) :SubRegion
+    {
+         return match($name) {
+             "Southern Asia" => self::SOUTHERNASIA,
+             "Northern Europe" => self::NORTHERNEUROPE,
+             "Southern Europe" => self::SOUTHERNEUROPE,
+             "Northern Africa" => self::NORTHERNAFRICA,
+             "Polynesia" => self::POLYNESIA,
+             "SubSaharan Africa" => self::SUBSAHARANAFRICA,
+             "Latin America and the Caribbean" => self::LATINAMERICAANDTHECARIBBEAN,
+             "Western Asia" => self::WESTERNASIA,
+             "Australia and New Zealand" => self::AUSTRALIAANDNEWZEALAND,
+             "Western Europe" => self::WESTERNEUROPE,
+             "Eastern Europe" => self::EASTERNEUROPE,
+             "Northern America" => self::NORTHERNAMERICA,
+             "Southeastern Asia" => self::SOUTHEASTERNASIA,
+             "Eastern Asia" => self::EASTERNASIA,
+             "Melanesia" => self::MELANESIA,
+             "Micronesia" => self::MICRONESIA,
+             "Central Asia" => self::CENTRALASIA,
+         };
     }
 
 }

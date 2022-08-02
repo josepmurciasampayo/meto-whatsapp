@@ -15,11 +15,23 @@ enum MatchStudentInstitution :int
     case ACCEPTED = 5;
     case ENROLLED = 6;
     case UNKNOWN = 7;
+    case NOTINTERESTED = 8;
 
+    public static function getStudentChoices() :array
+    {
+        return array(
+            self::UNKNOWN() => self::getText(self::UNKNOWN),
+            self::APPLIED() => self::getText(self::APPLIED),
+            self::DENIED() => self::getText(self::DENIED),
+            self::ACCEPTED() => self::getText(self::ACCEPTED),
+            self::ENROLLED() => self::getText(self::ENROLLED),
+            self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
+        );
+    }
 
     public static function getText(self $value) :string
     {
-        return match($value) {
+        return match ($value) {
             self::INITIATED => 'Initiated',
             self::MATCHED => 'Matched',
             self::APPLIED => 'Applied',
@@ -27,6 +39,7 @@ enum MatchStudentInstitution :int
             self::ACCEPTED => 'Accepted',
             self::ENROLLED => 'Enrolled',
             self::UNKNOWN => 'Unknown',
+            self::NOTINTERESTED => 'Not Interested',
         };
     }
 }

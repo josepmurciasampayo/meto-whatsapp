@@ -76,6 +76,12 @@ return [
             'days' => 7,
         ],
 
+        'form' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/form.log'),
+            'days' => 7,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Chat\Chat;
+use App\Enums\Chat\Campaign;
+use App\Enums\General\Form;
+use App\Enums\General\FormStatus;
+use App\Models\UserForm;
 use App\Enums\User\{Role, Status, Consent, Verified};
 
 use App\Models\Chat\MessageState;
@@ -13,19 +16,17 @@ use Illuminate\Database\Seeder;
 
 class ChatTestSeeder extends Seeder
 {
-   public function run()
-   {
        /*
          * create student test accounts and matches
          */
-
-       $userID = User::all()->count();
-       $studentID = 1;
-
+   public function run()
+   {
+       /*
+        * Greg Student
+        */
        User::create([
-           'id' => ++$userID,
            'first' => "Greg",
-           'last' => "Student" . $userID,
+           'last' => "Student",
            'phone_country' => 1,
            'phone_area' => 571,
            'phone_local' => 2143085,
@@ -38,102 +39,112 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => $studentID,
-           'user_id' => $userID++,
+           'user_id' => User::all()->count(),
        ]);
+
+       MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
 
        /*
         * Greg - BU, Carleton, Hope, Trinity
         */
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 2,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
+           'status' => \App\Enums\General\MatchStudentInstitution::DENIED()
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 4,
-           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
+           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED()
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 8,
-           'status' => \App\Enums\General\MatchStudentInstitution::APPLIED
+           'status' => \App\Enums\General\MatchStudentInstitution::APPLIED()
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 21,
        ]);
        $match->save();
 
+       $form = new UserForm([
+           'user_id' => User::all()->count(),
+           'form_id' => Form::ENDOFCYCLE,
+           'status' => FormStatus::SENT,
+           'url' => 'TLW5CBD2',
+       ]);
+       $form->save();
 
 
+       /*
+        * Ryan Student
+        */
        User::create([
-           'id' => $userID,
            'first' => "Ryan",
-           'last' => "Student" . $userID,
+           'last' => "Student",
            'phone_country' => 1,
            'phone_area' => 571,
            'phone_local' => 2143085,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+ryan@gmail.com",
-           'role' => Role::STUDENT,
-           'status' => Status::ACTIVE,
-           'phone_verified' => Verified::VERIFIED,
+           'role' => Role::STUDENT(),
+           'status' => Status::ACTIVE(),
+           'phone_verified' => Verified::VERIFIED(),
        ]);
 
        Student::create([
-           'id' => ++$studentID,
-           'user_id' => $userID++,
+           'user_id' => User::all()->count(),
        ]);
 
        /*
         * Ryan - Ithaca, Pomona, Union, Worcester, York
         */
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 10,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED
+           'status' => \App\Enums\General\MatchStudentInstitution::DENIED()
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 24,
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 29,
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 31,
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 33,
 
        ]);
        $match->save();
 
 
-
+       /*
+        * Abraham
+        */
        User::create([
-           'id' => $userID,
            'first' => "Abraham",
-           'last' => "Student" . $userID,
+           'last' => "Student",
            'phone_country' => 1,
            'phone_area' => 571,
            'phone_local' => 2143085,
@@ -145,52 +156,47 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => ++$studentID,
-           'user_id' => $userID++,
+           'user_id' => User::all()->count(),
        ]);
 
        /*
         * Abraham - BU, Ithaca, Skidmore, Union, York
         */
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 2,
-
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 10,
-
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 12,
-
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 29,
            'status' => \App\Enums\General\MatchStudentInstitution::ENROLLED
        ]);
        $match->save();
 
        $match = new MatchStudentInstitution([
-           'student_id' => $studentID,
+           'student_id' => Student::all()->count(),
            'institution_id' => 33,
            'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
        ]);
        $match->save();
 
        User::create([
-           'id' => $userID,
            'first' => "Nic",
-           'last' => "Student" . $userID,
+           'last' => "Student",
            'phone_country' => 1,
            'phone_area' => 571,
            'phone_local' => 2143085,
@@ -201,17 +207,10 @@ class ChatTestSeeder extends Seeder
        ]);
 
        Student::create([
-           'id' => ++$studentID,
-           'user_id' => $userID++,
+           'user_id' => User::all()->count(),
        ]);
 
 
-       /*
-        * Setup testchats for test students
-        */
-       $userCount = User::all()->count();
-
-       MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
        //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
        //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
    }

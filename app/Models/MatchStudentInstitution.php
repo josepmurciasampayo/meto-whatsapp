@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers;
+use Illuminate\Support\Facades\DB;
 
 class MatchStudentInstitution extends Model
 {
@@ -35,6 +36,7 @@ class MatchStudentInstitution extends Model
     {
         return Helpers::dbQueryArray('
             select
+                matches.id as match_id,
                 user_id,
                 institution_id,
                 matches.status,
@@ -45,7 +47,16 @@ class MatchStudentInstitution extends Model
             join meto_students as students on matches.student_id = students.id
             join meto_users as users on students.user_id = users.id
             join meto_institutions as institutions on matches.institution_id = institutions.id
-            where users.id = " . $user_id . ";
+            where users.id = ' . $user_id . ';
         ');
+    }
+
+    public static function updateMatchStatusByMatchID(int $match_id, int $status) :void
+    {
+        DB::update('
+            update meto_match_student_institutions
+            set status = ' . $status . '
+            where id = ' . $match_id .';
+    ');
     }
 }

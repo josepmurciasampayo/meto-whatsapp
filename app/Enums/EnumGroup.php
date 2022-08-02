@@ -8,40 +8,70 @@ enum EnumGroup: int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case GENERAL_CHANNEL = 1;
-    case GENERAL_CHAT = 2;
-    case GENERAL_FORMSTATUS = 3;
-    case GENERAL_MESSAGESTATE = 4;
-    case GENERAL_METHOD = 5;
-    case GENERAL_SOCIALNETWORK = 6;
-    case GENERAL_MATCH = 7;
-    case GENERAL_TAGGROUP = 8;
+    case CHAT_CAMPAIGNS = 1;
+    case CHAT_STATE = 2;
 
+    case COUNTRY = 3;
+    case SUBREGION = 4;
+    case REGION = 5;
 
-    case USER_ROLE = 9;
-    case USER_STATUS = 10;
-    case USER_CONSENT = 11;
-    case USER_VERIFIED = 12;
+    case GENERAL_CHANNEL = 6;
+    case GENERAL_FORM = 7;
+    case GENERAL_FORMSTATUS = 8;
+    case GENERAL_MATCH = 9;
+    case GENERAL_METHOD = 10;
+    case GENERAL_SOCIALNETWORK = 11;
+    case GENERAL_TAGGROUP = 12;
 
-    case STUDENT = 18;
+    case INSTITUTION_TAG = 13;
+    case INSTITUTION_TYPE = 14;
 
-    case INSTITUTION = 13;
+    case STUDENT_CURRICULUM = 15;
+    case STUDENT_DISABILITY = 16;
+    case STUDENT_GENDER = 17;
+    case STUDENT_OWNER = 18;
+    case STUDENT_REFUGEE = 19;
+    case STUDENT_SUBMISSION_DEVICE = 20;
+    case STUDENT_TAG = 21;
 
-    case MATCH = 14;
-
-    case COUNTRY = 15;
-
-    case SUBREGION = 16;
-
-    case REGION = 17;
+    case USER_CONSENT = 22;
+    case USER_ROLE = 23;
+    case USER_STATUS = 24;
+    case USER_VERIFIED = 25;
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::GENERAL_CHANNEL => "Administrator",
-            self::GENERAL_CHAT => "Student",
-            self::GENERAL_FORMSTATUS => "Institution",
-            self::GENERAL_MESSAGESTATE => "Privacy Terms",
+            self::CHAT_CAMPAIGNS => "",
+            self::CHAT_STATE => "",
+
+            self::COUNTRY => "",
+            self::SUBREGION => "",
+            self::REGION => "",
+
+            self::GENERAL_CHANNEL => "",
+            self::GENERAL_FORM => "",
+            self::GENERAL_FORMSTATUS => "",
+            self::GENERAL_MATCH => "",
+            self::GENERAL_METHOD  => "",
+            self::GENERAL_SOCIALNETWORK  => "",
+            self::GENERAL_TAGGROUP  => "",
+
+            self::INSTITUTION_TAG  => "",
+            self::INSTITUTION_TYPE  => "",
+
+            self::STUDENT_CURRICULUM  => "",
+            self::STUDENT_DISABILITY  => "",
+            self::STUDENT_GENDER  => "",
+            self::STUDENT_OWNER  => "",
+            self::STUDENT_REFUGEE  => "",
+            self::STUDENT_SUBMISSION_DEVICE  => "",
+            self::STUDENT_TAG  => "",
+
+            self::USER_CONSENT  => "",
+            self::USER_ROLE  => "",
+            self::USER_STATUS  => "",
+            self::USER_VERIFIED  => "",
         };
     }
 }

@@ -10,6 +10,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
+Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
+Route::post('/form', '\App\Http\Controllers\UserFormController@update');
+
 Route::middleware('guest')->group(function () {
 /*
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -35,8 +38,6 @@ Route::middleware('guest')->group(function () {
         ->name('password.update');
 
     Route::get('/', function () {return view('login');});
-
-    Route::get('form/{url}', '\App\Http\Controllers\UserFormController@show');
 });
 
 Route::middleware('auth')->group(function () {
@@ -67,7 +68,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('chats', '\App\Http\Controllers\ChatMessageController@show')->name('chats');
     Route::post('chats', '\App\Http\Controllers\ChatMessageController@update');
-
 
     Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
 });

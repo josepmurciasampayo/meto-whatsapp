@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Chat\Chat;
+use App\Enums\Chat\Campaign;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 
@@ -21,7 +21,7 @@ class ChatSeeder extends Seeder
          * User identity verification and communication agreement loop
          */
         $message = new Message();
-        $message->id = Chat::CONFIRMIDENTITY;
+        $message->id = Campaign::CONFIRMIDENTITY;
         $message->text = "Hi, this is Meto. Can you confirm that you are {first}?";
         $message->capture_filter = "Y,N";
         $message->capture_display = "Yes / No";
@@ -32,7 +32,7 @@ class ChatSeeder extends Seeder
 
         $branch = new Branch();
         $branch->id = 1;
-        $branch->from_message_id = Chat::CONFIRMIDENTITY;
+        $branch->from_message_id = Campaign::CONFIRMIDENTITY;
         $branch->response = "N";
         $branch->to_message_id = 4;
         $branch->save();
@@ -50,7 +50,7 @@ class ChatSeeder extends Seeder
         $message->save();
 
         $message = new Message();
-        $message->id = Chat::CONFIRMPERMISSION;
+        $message->id = Campaign::CONFIRMPERMISSION;
         $message->text = "Do we have your permission to use WhatsApp to collect some information from you?";
         $message->capture_filter = "Y,N";
         $message->capture_display = "Y/N";
@@ -73,7 +73,7 @@ class ChatSeeder extends Seeder
         $branch->save();
 
         $message = new Message();
-        $message->id = Chat::ENDOFCYCLE;
+        $message->id = Campaign::ENDOFCYCLE;
         $message->text = "Please click the link to let us know how your university applications are going. {form_application_status}";
         $message->save();
     }

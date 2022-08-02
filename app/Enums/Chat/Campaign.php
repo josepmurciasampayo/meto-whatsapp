@@ -4,7 +4,7 @@ namespace App\Enums\Chat;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum Chat :int
+enum Campaign :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 

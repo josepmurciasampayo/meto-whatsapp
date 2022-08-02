@@ -22,7 +22,9 @@
             </header>
 
             <main>
+                <div class="p-3">
                 {{ $slot }}
+                </div>
             </main>
     </body>
 </html>

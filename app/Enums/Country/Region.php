@@ -2,25 +2,16 @@
 
 namespace App\Enums\Country;
 
-use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings, Metadata};
+use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
 enum Region :int
 {
-    use InvokableCases, Options, Values, Names, Strings, Metadata;
+    use InvokableCases, Options, Values, Names, Strings;
 
-    #[Description('Asia')]
     case ASIA = 1;
-
-    #[Description('Europe')]
     case EUROPE = 2;
-
-    #[Description('Africa')]
     case AFRICA = 3;
-
-    #[Description('Oceania')]
     case OCEANIA = 4;
-
-    #[Description('Americas')]
     case AMERICAS = 5;
 
     public static function getText(self $value) :string
@@ -31,6 +22,17 @@ enum Region :int
             self::AFRICA => "Africa",
             self::OCEANIA => "Oceania",
             self::AMERICAS => "Americas",
+        };
+    }
+
+    public static function lookup(string $name) :Region
+    {
+        return match($name) {
+            "Asia" => self::ASIA,
+            "Europe" => self::EUROPE,
+            "Africa" => self::AFRICA,
+            "Oceania" => self::OCEANIA,
+            "Americas" => self::AMERICAS,
         };
     }
 
