@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public static function findFromPhone(string $phone) : ?User
     {
-        return User::where('phone_combined', $phone);
+        return User::where('phone_combined', $phone)->first();
     }
 
 }
