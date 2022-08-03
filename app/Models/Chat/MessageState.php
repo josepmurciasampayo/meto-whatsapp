@@ -165,7 +165,7 @@ class MessageState extends Model
                 join meto_branches as branches on branches.from_message_id = messages.id
                 where users.id = ' . $user_id . '
                 and message_states.state in (' . implode(",", [State::SENT()]) . ')
-                order by message_states.message asc;
+                order by message_states.message_id asc;
             ');
     }
 
