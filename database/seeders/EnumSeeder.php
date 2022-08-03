@@ -48,7 +48,7 @@ class EnumSeeder extends Seeder
         self::loadToTable(Status::options(), EnumGroup::USER_STATUS);
     }
 
-    private static function loadToTable(array $values, EnumGroup $group) :void
+    private static function loadToTable(array $values, EnumGroup $group, array $descriptions) :void
     {
         foreach ($values as $value => $id) {
             DB::table('enum')->insert([

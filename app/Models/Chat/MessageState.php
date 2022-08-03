@@ -92,9 +92,15 @@ class MessageState extends Model
         ');
 
         foreach ($toCheck as $student) {
-            if ($student['phone_verified'] == Verified::DENIED() or $student['whatsapp_consent'] == Consent::NOCONSENT()) {
+            if ($student['phone_verified'] == Verified::DENIED()) {
                 $toRemove[] = $student['user_id'];
-                Log::channel('chat')->debug('Removed ' . $student['user_id']);
+                Log::channel('chat')->debug('Removed ' . $student['user_id'] . ' because they denied identity verification');
+                continue;
+            }
+
+            if ($student['whatsapp_consent'] == Consent::NOCONSENT()) {
+                $toRemove[] = $student['user_id'];
+                Log::channel('chat')->debug('Removed ' . $student['user_id'] . ' because they did not give consent');
                 continue;
             }
             if ($student['phone_verified'] == Verified::UNKNOWN()) {

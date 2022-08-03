@@ -6,6 +6,7 @@ use App\Enums\Chat\State;
 use App\Enums\Chat\Campaign;
 use App\Enums\General\Channel;
 use App\Enums\General\Form;
+use App\Helpers;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 use App\Models\Chat\MessageState;
@@ -86,25 +87,19 @@ class ChatbotController extends Controller
     {
         $from = $request->input('From');
         $body = $request->input('Body');
-        $log = new LogComms([
-            'channel' => Channel::WHATSAPP,
-            'from' => $from,
-            'to' => "METO",
-            'body' => $body,
-        ]);
-        $log->save();
-        Log::channel('chat')->debug($log);
+        Helpers::log(Channel::WHATSAPP, $from, "METO", $body);
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
 
         try {
-            $user = User::where('phone', $from)->first();
+            $user = User::findFromPhone($from);
             if (is_null($user)) {
+                Log::channel('chat')->error("Couldn't find user with phone " . $from . ". They WhatsApp'd: " . $body);
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null);
-                Log::channel('chat')->error("Couldn't find " . $from . ". They WhatsApped: " . $body);
                 return;
             }
 
             $currentState = MessageState::getState($user->id);
+
             if (count($currentState) == 0) {
                 Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);

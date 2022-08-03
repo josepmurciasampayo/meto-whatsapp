@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('phone_country')->nullable();
             $table->unsignedSmallInteger('phone_area')->nullable();
             $table->unsignedBigInteger('phone_local')->nullable();
+            $table->unsignedBigInteger('phone_combined')->nullable();
             $table->unsignedTinyInteger('phone_verified')->default(Verified::UNKNOWN())->comment(Verified::toString());
             $table->unsignedTinyInteger('whatsapp_consent')->default(Consent::UNKNOWN())->comment(Consent::toString());
             $table->unsignedTinyInteger('role')->comment(Role::toString());

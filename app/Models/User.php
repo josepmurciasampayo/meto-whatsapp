@@ -28,6 +28,7 @@ class User extends Authenticatable
         'phone_country',
         'phone_area',
         'phone_local',
+        'phone_combined',
         'phone_verified',
         'whatsapp_consent',
     ];
@@ -53,5 +54,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function findFromPhone(string $phone) : ?User
+    {
+        return User::where('phone_combined', $phone);
+    }
 
 }

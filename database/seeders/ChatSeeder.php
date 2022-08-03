@@ -76,5 +76,13 @@ class ChatSeeder extends Seeder
         $message->id = Campaign::ENDOFCYCLE;
         $message->text = "Please click the link to let us know how your university applications are going. {form_application_status}";
         $message->save();
+
+        $message = new Message();
+        $message->id = Campaign::UNKNOWNUSER;
+        $message->text = "";
+        $message->save();
+
+        $message = new Message();
+
     }
 }

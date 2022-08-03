@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Enums\General\Channel;
+use App\Models\LogComms;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  *
@@ -12,6 +15,7 @@ class Helpers
 
     public static function dbQueryArray(string $query) :array
     {
+        $start = now();
         $toReturn = array();
         $initialSet = DB::select($query);
 
@@ -19,6 +23,8 @@ class Helpers
             $toReturn[$index] = (array) $value;
         }
 
+        $end = now();
+        Log::channel('db')->debug('Query took ' . $end->diffInMilliseconds($start) . ' ms: ' . $query);
         return $toReturn;
     }
 
@@ -62,6 +68,18 @@ class Helpers
             }
         }
         return $toReturn;
+    }
+
+    public static function log($channel, $from, $to, $body)
+    {
+        $log = new LogComms([
+            'channel' => $channel,
+            'from' => $from,
+            'to' => $to,
+            'body' => $body,
+        ]);
+        $log->save();
+        Log::channel('chat')->debug($log);
     }
 
     /**
