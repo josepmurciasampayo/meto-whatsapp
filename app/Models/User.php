@@ -57,6 +57,7 @@ class User extends Authenticatable
 
     public static function findFromPhone(string $phone) : ?User
     {
+        $phone = preg_replace('~\D~', '', $phone);
         return User::where('phone_combined', $phone)->first();
     }
 
