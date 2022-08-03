@@ -37,4 +37,38 @@ enum TagsInstitution :int
     case PRIVACYP2TD = 27;
     case PRIVACYP2TE = 28;
 
+    public static function getText(self $value) :string
+    {
+        return match($value) {
+            self::LOWINCOME => "",
+            self::FULLRIDE => "",
+            self::MERIT5K => "",
+            self::MERIT10K => "",
+            self::MERIT15K => "",
+            self::MERIT20K => "",
+            self::MERIT25K => "",
+            self::MERIT30K => "",
+            self::MERIT35K => "",
+            self::MERITMAX => "",
+            self::EFC5K => "",
+            self::EFC10K => "",
+            self::EFC15K => "",
+            self::EFC20K => "",
+            self::EFC25K => "",
+            self::EFC30K => "",
+            self::EFC35K => "",
+            self::EFCMAX => "",
+            self::REFUGEE => "",
+            self::MINSELECT => "",
+            self::SELECT => "",
+            self::HIGHSELECT => "",
+            self::PRIVACYP1 => "",
+            self::PRIVACYP2TA => "",
+            self::PRIVACYP2TB => "",
+            self::PRIVACYP2TC => "",
+            self::PRIVACYP2TD => "",
+            self::PRIVACYP2TE => "",
+        };
+    }
+
 }

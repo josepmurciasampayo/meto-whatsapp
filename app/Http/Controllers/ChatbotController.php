@@ -102,7 +102,8 @@ class ChatbotController extends Controller
 
             if (count($currentState) == 0) {
                 Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
-                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
+                MessageState::startMessage($user->id, Campaign::UNKNOWNMESSAGE());
+                //ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
                 return;
             }
@@ -111,6 +112,8 @@ class ChatbotController extends Controller
                 Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
             }
+
+            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
             $branch = Branch::where([
                 'from_message_id', $currentState['message_id'],
@@ -122,11 +125,15 @@ class ChatbotController extends Controller
                 // TODO: queue message to resend with filter
             }
 
-            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
-            MessageState::startMessage($user->id, $branch->to_message_id);
+            if (!is_null($branch->to_message_id)) {
+                MessageState::startMessage($user->id, $branch->to_message_id);
+            } else {
+                self::initiateLoop();
+            }
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
-            Log::channel('chat')->debug('Chat exception: ' . $th);
+            Log::channel('chat')->error('Chat exception: ' . $th);
+            Log::channel('chat')->error('Chat response: ' . $response);
             // TODO: log exception and notify
         }
     }

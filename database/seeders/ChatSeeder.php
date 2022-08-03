@@ -27,21 +27,18 @@ class ChatSeeder extends Seeder
         $message->capture_display = "Yes / No";
         $message->answer_table = "users"; // user validation field
         $message->answer_field = "phone_verified";
-        $message->branch_id = 1;
         $message->save();
 
         $branch = new Branch();
-        $branch->id = 1;
         $branch->from_message_id = Campaign::CONFIRMIDENTITY;
         $branch->response = "N";
         $branch->to_message_id = 4;
         $branch->save();
 
         $branch = new Branch();
-        $branch->id = 2;
         $branch->from_message_id = 1;
         $branch->response = "Y";
-        $branch->to_message_id = "3";
+        $branch->to_message_id = Campaign::CONFIRMPERMISSION;
         $branch->save();
 
         $message = new Message();
@@ -51,38 +48,28 @@ class ChatSeeder extends Seeder
 
         $message = new Message();
         $message->id = Campaign::CONFIRMPERMISSION;
-        $message->text = "Do we have your permission to use WhatsApp to collect some information from you?";
+        $message->text = "Do we have your permission to use WhatsApp and our website to collect some information from you?";
         $message->capture_filter = "Y,N";
         $message->capture_display = "Y/N";
         $message->answer_table = "students"; // user communication agreement field
         $message->answer_field = "whatsapp_consent";
-        $message->branch_id = 2;
         $message->save();
 
         $branch = new Branch();
-        $branch->id = 3;
-        $branch->from_message_id = 3;
+        $branch->from_message_id = Campaign::CONFIRMPERMISSION;
         $branch->response = "N";
         $branch->to_message_id = 4;
         $branch->save();
 
-        $branch = new Branch();
-        $branch->id = 4;
-        $branch->from_message_id = 3;
-        $branch->response = "Y";
-        $branch->save();
-
         $message = new Message();
         $message->id = Campaign::ENDOFCYCLE;
-        $message->text = "Please click the link to let us know how your university applications are going. {form_application_status}";
+        $message->text = "Please click the link to let us know how your university applications are going. {form_application_status} If you have any questions, you can message us here.";
         $message->save();
 
         $message = new Message();
-        $message->id = Campaign::UNKNOWNUSER;
-        $message->text = "";
+        $message->id = Campaign::UNKNOWNMESSAGE;
+        $message->text = "Sorry, {first}, I wasn't expecting to hear from you. I will forward your message to our office. I will keep forwarding anything you message me. Thanks!";
         $message->save();
-
-        $message = new Message();
 
     }
 }
