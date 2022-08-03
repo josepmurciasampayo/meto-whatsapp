@@ -89,6 +89,7 @@ class ChatbotController extends Controller
         $body = $request->input('Body');
         Helpers::log(Channel::WHATSAPP, $from, "METO", $body);
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
+        Log::channel('chat')->debug('Received WhatsApp from ' . $from . ': ' . $body);
 
         try {
             $user = User::findFromPhone($from);
@@ -105,13 +106,14 @@ class ChatbotController extends Controller
                 MessageState::startMessage($user->id, Campaign::UNKNOWNMESSAGE());
                 //ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
-                return;
+                self::initiateLoop();
             }
             if (count($currentState) > 1) {
                 // TODO: send notification to team member?
                 Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
             }
+            Log::channel('chat')->debug('Found state: ' . $currentState);
 
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 

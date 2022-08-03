@@ -42,7 +42,7 @@ class MessageState extends Model
      */
     public static function startMessage(int $user_id, int $message_id) :void
     {
-        Log::channel('chat')->debug("Queueing chat " . $message_id . " for user " . $user_id);
+        Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
         DB::insert("
             insert into meto_message_states
             (user_id, message_id, state)
