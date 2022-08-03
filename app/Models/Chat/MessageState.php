@@ -176,5 +176,13 @@ class MessageState extends Model
         ");
     }
 
+    public static function updateMessageStateByID(int $state_id, State $state) :void
+    {
+        DB::update("
+            update meto_message_states set state = " . $state() . "
+            where id = " . $state_id . ";
+        ");
+    }
+
 
 }

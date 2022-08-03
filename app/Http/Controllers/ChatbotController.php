@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Chat\State;
-use App\Enums\General\Channel;
 use App\Enums\Chat\Campaign;
+use App\Enums\General\Channel;
 use App\Enums\General\Form;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
@@ -25,19 +25,21 @@ class ChatbotController extends Controller
      */
     public static function initiateLoop() :void
     {
+        Log::channel('chat')->debug('Starting chat loop initiation');
 
         // methods here correspond to specific chat campaigns
         self::endOfApplicationCycle();
 
         // after new campaign messages are identified and queued, loop through to send them
         $toSend = MessageState::getNewMessagesToSend();
-        Log::channel('chat')->debug("New messages to send: " . count($toSend));
+        Log::channel('chat')->debug("New messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
             $phone = $message['phone_country'] . $message['phone_area'] . $message['phone_local'];
             self::sendWhatsAppMessage($phone, $message['text'], $message['user_id']);
             MessageState::updateMessageState($message['user_id'], $message['message_state_id'], State::SENT);
         }
 
+        Log::channel('chat')->debug('End of chat loop');
     }
 
     /**
@@ -46,7 +48,7 @@ class ChatbotController extends Controller
     public static function endOfApplicationCycle() :void
     {
         $users = MessageState::getEndOfApplicationCycles();
-        Log::channel('chat')->debug('Found ' . count($users) . ' for end of app cycle');
+        Log::channel('chat')->debug('Found ' . count($users) . ' to start the End of App cycle');
         foreach ($users as $user) {
             MessageState::startMessage($user['user_id'], Campaign::ENDOFCYCLE());
         }
@@ -60,7 +62,6 @@ class ChatbotController extends Controller
     public static function hydrateMessage(string $message, int $user_id) :string
     {
         if (str_contains($message, "{")) { // means there's *something* to replace, we'll look individually for each thing
-            Log::channel('chat')->debug('Found a {');
             if (str_contains($message, '{form_application_status}')) {
                 Log::channel('chat')->debug('Found form_application_status');
                 $form = UserForm::getForm($user_id, Form::ENDOFCYCLE);
@@ -69,12 +70,9 @@ class ChatbotController extends Controller
             }
             if (str_contains($message, '{first}')) {
                 $first = User::find($user_id)->first()->first;
-                Log::channel('chat')->debug('Found first: ' . $first);
+                Log::channel('chat')->debug('Found first name: ' . $first);
                 $message = str_replace("{first}", $first, $message);
             }
-            // parse database table and column name
-            // execute query
-            // replace text with query result
             return $message;
         } else {
             return $message;
@@ -99,45 +97,41 @@ class ChatbotController extends Controller
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
 
         try {
-            // get all necessary database info to parse reply
-            // user, message, message state, and branch data
-
             $user = User::where('phone', $from)->first();
             if (is_null($user)) {
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null);
-                Log::error("Couldn't find " . $from . ". They WhatsApped: " . $body);
+                Log::channel('chat')->error("Couldn't find " . $from . ". They WhatsApped: " . $body);
                 return;
             }
 
             $currentState = MessageState::getState($user->id);
             if (count($currentState) == 0) {
+                Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
                 return;
             }
             if (count($currentState) > 1) {
                 // TODO: send notification to team member?
-                Log::error("Too many states: " . print_r($currentState));
+                Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
             }
 
-            $messageState = MessageState::find($currentState['state_id'])->first();
-            $messageState->state = State::REPLIED;
-            $messageState->response = $body;
-            $messageState->save();
-
-            // TODO:
             $branch = Branch::where([
-                'from_message_id', $currentState->message_id,
+                'from_message_id', $currentState['message_id'],
                 'response', $body
             ])->first();
+
             if (is_null($branch)) {
+                Log::channel('chat')->debug('Branch not found: ' . $user->id);
                 // TODO: queue message to resend with filter
             }
 
+            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
             MessageState::startMessage($user->id, $branch->to_message_id);
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
+            Log::channel('chat')->debug('Chat exception: ' . $th);
             // TODO: log exception and notify
         }
     }

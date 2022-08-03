@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\Form;
 use App\Models\MatchStudentInstitution;
+use App\Enums\General\MatchStudentInstitution as EnumMatch;
 use App\Models\User;
 use App\Models\UserForm;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +16,7 @@ class UserFormController extends Controller
 {
     public function show(string $url) :View
     {
+        // TODO: how to handle 419's from these links (or unexpire the links)
         Log::channel('form')->debug('Landed in UserForm Controller');
         $userForm = UserForm::where('url', $url)->first();
         if (is_null($userForm)) {
@@ -39,7 +41,8 @@ class UserFormController extends Controller
             'user' => $user,
             'url' => $userForm->url,
             'userform_id' => $userForm->id,
-            'options' => \App\Enums\General\MatchStudentInstitution::getStudentChoices(),
+            'options' => EnumMatch::getStudentChoices(),
+            'unknown' => EnumMatch::UNKNOWN(),
         ]);
     }
 

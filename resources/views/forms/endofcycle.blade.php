@@ -10,11 +10,13 @@
             <?php echo $match['name'] ?>
         <select class="form-select" id="match[<?php echo $match['match_id'] ?>]" name="match[<?php echo $match['match_id'] ?>]" >
             <?php foreach($options as $value => $option) { ?>
+            <?php if (($value != $unknown) || ($value == $match['status'])) { ?>
             <option
                 value="<?php echo $value ?>"
                 <?php if ($match['status'] == $value) { echo 'selected '; } ?>
                 ><?php echo $option ?>
             </option>
+                <?php } ?>
             <?php } ?>
         </select>
         </label>
