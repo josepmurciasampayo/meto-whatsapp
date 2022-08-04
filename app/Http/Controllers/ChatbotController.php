@@ -149,13 +149,13 @@ class ChatbotController extends Controller
     public static function sendWhatsAppMessage(string $recipient, string $message, ?int $user_id) :void
     {
         if (!is_null($user_id)) {
-            $body = self::hydrateMessage($message, $user_id);
+            $message = self::hydrateMessage($message, $user_id);
         }
         $log = new LogComms([
             'channel' => Channel::WHATSAPP,
             'from' => "METO",
             'to' => $recipient,
-            'body' => $body,
+            'body' => $message,
         ]);
         $log->save();
         Log::channel('chat')->debug($log);
@@ -167,7 +167,7 @@ class ChatbotController extends Controller
         $client = new Client($account_sid, $auth_token);
         $result = $client->messages->create(
             "whatsapp:+". $recipient,
-            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $body)
+            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $message)
         );
         Log::channel('chat')->debug($result);
     }
