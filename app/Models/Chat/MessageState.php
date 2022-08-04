@@ -68,7 +68,7 @@ class MessageState extends Model
             join meto_message_states as message_state on message_state.user_id = user.id
             join meto_messages as message on message.id = message_id
             where message_state.state = ' . State::QUEUED() . '
-            and user.role = ' . Role::STUDENT . '
+            and user.role = ' . Role::STUDENT() . '
             group by user.id
         ');
         return $toReturn;
