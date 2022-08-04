@@ -113,7 +113,7 @@ class ChatbotController extends Controller
                 Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
             }
-            Log::channel('chat')->debug('Found state: ' . $currentState);
+            Log::channel('chat')->debug('Found state: ' . print_r($currentState, true));
 
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 

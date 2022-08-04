@@ -145,9 +145,10 @@ class ChatTestSeeder extends Seeder
        User::create([
            'first' => "Abraham",
            'last' => "Student",
-           'phone_country' => 1,
-           'phone_area' => 571,
-           'phone_local' => 2143085,
+           'phone_country' => 231,
+           'phone_area' => 886,
+           'phone_local' => 416380,
+           'phone_combined' => 1231886416380,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+abe@gmail.com",
            'role' => Role::STUDENT,
@@ -158,6 +159,8 @@ class ChatTestSeeder extends Seeder
        Student::create([
            'user_id' => User::all()->count(),
        ]);
+
+       MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
 
        /*
         * Abraham - BU, Ithaca, Skidmore, Union, York
@@ -210,8 +213,5 @@ class ChatTestSeeder extends Seeder
            'user_id' => User::all()->count(),
        ]);
 
-
-       //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
-       //MessageState::startMessage($userCount--, Chat::ENDOFCYCLE());
    }
 }
