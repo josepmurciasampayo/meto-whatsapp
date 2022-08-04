@@ -146,9 +146,11 @@ class ChatbotController extends Controller
      * @param array $recipient Number of recipient
      * @throws \Twilio\Exceptions\TwilioException
      */
-    public static function sendWhatsAppMessage(string $recipient, string $message, int $user_id) :void
+    public static function sendWhatsAppMessage(string $recipient, string $message, ?int $user_id) :void
     {
-        $body = self::hydrateMessage($message, $user_id);
+        if (!is_null($user_id)) {
+            $body = self::hydrateMessage($message, $user_id);
+        }
         $log = new LogComms([
             'channel' => Channel::WHATSAPP,
             'from' => "METO",
