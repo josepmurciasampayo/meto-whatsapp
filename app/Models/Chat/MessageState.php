@@ -155,7 +155,6 @@ class MessageState extends Model
                     messages.capture_filter,
                     messages.answer_table,
                     messages.answer_field,
-                    messages.branch_id,
                     branches.response,
                     branches.to_message_id,
                     message_states.id as state_id,

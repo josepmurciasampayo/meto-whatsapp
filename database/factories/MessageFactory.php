@@ -28,7 +28,6 @@ class MessageFactory extends Factory
             'capture_display' => $this->faker->text,
             'answer_table' => $this->faker->text,
             'answer_field' => $this->faker->text,
-            'branch_id' => $this->faker->word,
         ];
     }
 }

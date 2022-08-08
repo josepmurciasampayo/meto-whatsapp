@@ -23,7 +23,6 @@
                             <th>ID</th>
                             <th>Text</th>
                             <th>Capture Filter</th>
-                            <th>Branch ID</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,7 +39,6 @@
                                 >
                             </td>
                             <td><?php echo $message->capture_filter ?></td>
-                            <td><?php echo $message->branch_id ?></td>
                         </tr>
                         <?php } ?>
                         </tbody>
