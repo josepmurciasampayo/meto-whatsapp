@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\User\Role;
+use App\Helpers;
 use App\Traits\TableName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,7 +60,17 @@ class User extends Authenticatable
     public static function findFromPhone(string $phone) : ?User
     {
         $phone = preg_replace('~\D~', '', $phone);
-        return User::where('phone_combined', $phone)->first();
+        $result = Helpers::dbQueryArray('
+            select
+            id
+            from meto_users
+            where phone_combined = ' . $phone . ';
+        ');
+        if (is_null($result)) {
+            return null;
+        }
+        $user_id = $result[0]['id'];
+        return User::find($user_id);
     }
 
 }
