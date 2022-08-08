@@ -15,12 +15,12 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedMediumInteger('campaign')->nullable();
             $table->longText('text');
             $table->mediumText('capture_filter')->nullable();
             $table->mediumText('capture_display')->nullable();
             $table->mediumText('answer_table')->nullable();
             $table->mediumText('answer_field')->nullable();
-            $table->unsignedBigInteger('branch_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

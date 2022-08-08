@@ -11,7 +11,8 @@ enum Campaign :int
     case CONFIRMIDENTITY = 1;
     case CONFIRMPERMISSION = 2;
     case ENDOFCYCLE = 3;
-    case UNKNOWNMESSAGE = 5;
+    case UNKNOWNMESSAGE = 4;
+    case GOODBYE = 5;
 
     public static function getText(self $value) :string
     {
@@ -20,6 +21,7 @@ enum Campaign :int
             self::CONFIRMPERMISSION => 'Confirm Permission to Collect Info',
             self::ENDOFCYCLE => 'End of Application Cycle Survey',
             self::UNKNOWNMESSAGE => 'Unknown Message Response',
+            self::GOODBYE => 'No problem. We won\'t message you anymore.',
         };
     }
 }

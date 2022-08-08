@@ -2,8 +2,11 @@
 
 namespace App\Models\Chat;
 
+use App\Enums\Chat\Campaign;
+use App\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Message extends Model
 {
@@ -16,11 +19,11 @@ class Message extends Model
      */
     protected $fillable = [
         'text',
+        'campaign',
         'capture_filter',
         'capture_display',
         'answer_table',
         'answer_field',
-        'branch_id',
     ];
 
     /**
@@ -31,6 +34,20 @@ class Message extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public static function getIDfromCampaign(Campaign $campaign) :?int
+    {
+        $toReturn = Helpers::dbQueryArray('
+            select
+            id
+            from meto_messages
+            where campaign = ' . $campaign() . ';
+        ');
+        if (is_null($toReturn)) {
+            return null;
+        }
+        return $toReturn[0]['id'];
+    }
 
     public static function collapseResponses($string) :string
     {

@@ -160,9 +160,9 @@ class ChatbotController extends Controller
         $log->save();
         Log::channel('chat')->debug($log);
 
-        $twilio_whatsapp_number = getenv('GREG_TWILIO_WHATSAPP_NUMBER');
-        $account_sid = getenv("GREG_TWILIO_SID");
-        $auth_token = getenv("GREG_TWILIO_AUTH_TOKEN");
+        $twilio_whatsapp_number = getenv('TWILIO_WHATSAPP_NUMBER');
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
         $client = new Client($account_sid, $auth_token);
         $result = $client->messages->create(
