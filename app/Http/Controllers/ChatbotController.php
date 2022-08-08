@@ -104,7 +104,6 @@ class ChatbotController extends Controller
             if (count($currentState) == 0) {
                 Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
                 MessageState::startMessage($user->id, Campaign::UNKNOWNMESSAGE());
-                //ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
                 self::initiateLoop();
                 return;
@@ -114,9 +113,9 @@ class ChatbotController extends Controller
                 Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
             }
-            Log::channel('chat')->debug('Found state: ' . print_r($currentState, true));
 
-            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
+            Log::channel('chat')->debug('Found state: ' . print_r($currentState, true));
+            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED, $body);
 
             $branch = Branch::where([
                 'from_message_id', $currentState['message_id'],
@@ -124,15 +123,15 @@ class ChatbotController extends Controller
             ])->first();
 
             if (is_null($branch)) {
-                Log::channel('chat')->debug('Branch not found: ' . $user->id);
+                Log::channel('chat')->error('Branch not found: ' . $user->id);
                 // TODO: queue message to resend with filter
+                return;
             }
 
             if (!is_null($branch->to_message_id)) {
                 MessageState::startMessage($user->id, $branch->to_message_id);
-            } else {
-                self::initiateLoop();
             }
+            self::initiateLoop();
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             Log::channel('chat')->error('Chat exception: ' . $th);

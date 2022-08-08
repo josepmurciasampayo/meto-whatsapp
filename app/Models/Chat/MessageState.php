@@ -194,10 +194,14 @@ class MessageState extends Model
         ");
     }
 
-    public static function updateMessageStateByID(int $state_id, State $state) :void
+    public static function updateMessageStateByID(int $state_id, State $state, string $body) :void
     {
         DB::update("
-            update meto_message_states set state = " . $state() . "
+            update
+                meto_message_states
+            set
+                state = " . $state() . ",
+                response = " . $body . "
             where id = " . $state_id . ";
         ");
     }
