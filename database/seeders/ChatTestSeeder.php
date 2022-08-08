@@ -35,8 +35,8 @@ class ChatTestSeeder extends Seeder
            'email' => "gmgarrison+student@gmail.com",
            'role' => Role::STUDENT,
            'status' => Status::ACTIVE,
-           'phone_verified' => Verified::VERIFIED,
-           'whatsapp_consent' => Consent::CONSENT,
+           //'phone_verified' => Verified::VERIFIED,
+           //'whatsapp_consent' => Consent::CONSENT,
        ]);
 
        Student::create([
