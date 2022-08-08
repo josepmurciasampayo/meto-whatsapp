@@ -81,6 +81,10 @@ class MessageState extends Model
      */
     public static function preMessageChecks(array $userIDs) :array
     {
+        if (count($userIDs) == 0) {
+            return [];
+        }
+
         $toRemove = array();
 
         $toCheck = Helpers::dbQueryArray('
