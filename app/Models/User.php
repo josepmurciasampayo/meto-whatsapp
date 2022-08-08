@@ -64,7 +64,7 @@ class User extends Authenticatable
             select
             id
             from meto_users
-            where phone_combined = ' . $phone . ' and role in (' . implode(",", [Role::STUDENT, Role::INSTITUTION]) . ');
+            where phone_combined = ' . $phone . ' and role in (' . implode(",", [Role::STUDENT(), Role::INSTITUTION()]) . ');
         ');
         if (is_null($result)) {
             return null;
