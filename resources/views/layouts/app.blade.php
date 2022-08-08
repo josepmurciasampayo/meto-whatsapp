@@ -11,6 +11,15 @@
         <link rel="stylesheet" type="text/css" href="/css/app.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+        <style>
+            body {
+                padding: 0 15px;
+                max-width: 650px;
+                font-size: 115%;
+                line-height: 1.4;
+            }
+        </style>
+
     </head>
 
     <body class="font-sans antialiased" style="font-family: 'Roboto Thin';">

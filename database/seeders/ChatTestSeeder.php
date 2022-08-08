@@ -42,7 +42,7 @@ class ChatTestSeeder extends Seeder
            'user_id' => User::all()->count(),
        ]);
 
-       MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
+       // MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
 
        /*
         * Greg - BU, Carleton, Hope, Trinity
@@ -160,7 +160,7 @@ class ChatTestSeeder extends Seeder
            'user_id' => User::all()->count(),
        ]);
 
-       MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
+       // MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
 
        /*
         * Abraham - BU, Ithaca, Skidmore, Union, York
