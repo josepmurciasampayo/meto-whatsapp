@@ -30,6 +30,7 @@ class ChatTestSeeder extends Seeder
            'phone_country' => 1,
            'phone_area' => 571,
            'phone_local' => 2143085,
+           'phone_combined' => 15712143085,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+student@gmail.com",
            'role' => Role::STUDENT,

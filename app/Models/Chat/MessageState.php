@@ -43,10 +43,18 @@ class MessageState extends Model
     public static function startMessage(int $user_id, int $message_id) :void
     {
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
+        $existing = Helpers::dbQueryArray('
+            select
+            id
+            from meto_message_states
+            where user_id = ' . $user_id .' and message_id = ' . $message_id .'
+                and state in (' . implode(",", [State::QUEUED, State::SENT, State::ERROR]) . ');
+        ');
+
         DB::insert("
             insert into meto_message_states
-            (user_id, message_id, state)
-            values (" . $user_id .", " . $message_id . ", " . State::QUEUED() .");
+            (user_id, message_id, state, created_at)
+            values (" . $user_id .", " . $message_id . ", " . State::QUEUED() .", now());
         ");
     }
 
