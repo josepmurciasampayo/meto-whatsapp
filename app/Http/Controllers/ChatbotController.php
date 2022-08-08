@@ -107,6 +107,7 @@ class ChatbotController extends Controller
                 //ChatbotController::sendWhatsAppMessage($from, "I'm sorry, " . $user->first . ", I wasn't expecting to hear from you.", $user->id);
                 // TODO: send notification to team member?
                 self::initiateLoop();
+                return;
             }
             if (count($currentState) > 1) {
                 // TODO: send notification to team member?
