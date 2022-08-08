@@ -48,7 +48,7 @@ class MessageState extends Model
             id
             from meto_message_states
             where user_id = ' . $user_id .' and message_id = ' . $message_id .'
-                and state in (' . implode(",", [State::QUEUED, State::SENT, State::ERROR]) . ');
+                and state in (' . implode(",", [State::QUEUED(), State::SENT(), State::ERROR()]) . ');
         ');
 
         DB::insert("
