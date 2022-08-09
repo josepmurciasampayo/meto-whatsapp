@@ -27,16 +27,14 @@ class ChatbotController extends Controller
     public static function initiateLoop() :void
     {
         Log::channel('chat')->debug('Starting chat loop initiation');
-
         // methods here correspond to specific chat campaigns
         self::endOfApplicationCycle();
 
-        // after new campaign messages are identified and queued, loop through to send them
-        $toSend = MessageState::getNewMessagesToSend();
-        Log::channel('chat')->debug("New messages to send: " . print_r($toSend, true));
+        $toSend = MessageState::getQueuedMessagesToSend();
+
+        Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
-            $phone = $message['phone_country'] . $message['phone_area'] . $message['phone_local'];
-            self::sendWhatsAppMessage($phone, $message['text'], $message['user_id']);
+            self::sendWhatsAppMessage($message['phone_combined'], $message['text'], $message['user_id']);
             MessageState::updateMessageState($message['user_id'], $message['message_state_id'], State::SENT);
         }
 

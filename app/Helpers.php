@@ -57,7 +57,7 @@ class Helpers
      * @param array $arrayToScan
      * @param array $elementsToRemove
      * @param string $column
-     * @return array
+     * @return array initial array without removed elements
      */
     public static function removeElementsInArray(array $arrayToScan, array $elementsToRemove, string $column) :array
     {

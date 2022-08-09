@@ -39,11 +39,13 @@ class ChatTestSeeder extends Seeder
            //'whatsapp_consent' => Consent::CONSENT,
        ]);
 
+       $user_id = User::all()->count();
+
        Student::create([
-           'user_id' => User::all()->count(),
+           'user_id' => $user_id,
        ]);
 
-       MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
+       MessageState::startMessage($user_id, Campaign::ENDOFCYCLE());
 
        /*
         * Greg - BU, Carleton, Hope, Trinity

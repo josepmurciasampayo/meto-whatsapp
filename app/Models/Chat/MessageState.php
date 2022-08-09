@@ -33,7 +33,8 @@ class MessageState extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        //'state' => State::class,
+        // TODO: use this casting for enums
     ];
 
     /**
@@ -51,18 +52,23 @@ class MessageState extends Model
                 and state in (' . implode(",", [State::QUEUED(), State::SENT(), State::ERROR()]) . ');
         ');
 
-        DB::insert("
-            insert into meto_message_states
-            (user_id, message_id, state, created_at)
-            values (" . $user_id .", " . $message_id . ", " . State::QUEUED() .", now());
-        ");
+        if (count($existing) == 0) {
+            DB::insert("
+                insert into meto_message_states
+                (user_id, message_id, state, created_at)
+                values (" . $user_id .", " . $message_id . ", " . State::QUEUED() .", now());
+            ");
+        }
     }
 
     /**
      * @return array
      */
-    public static function getNewMessagesToSend() :array
+    public static function getQueuedMessagesToSend() :array
     {
+        self::queueVerifications();
+        self::queueConfirmations();
+
         $toReturn = Helpers::dbQueryArray('
             select
             user.id as user_id,
@@ -71,62 +77,55 @@ class MessageState extends Model
             user.first as first,
             user.phone_country,
             user.phone_area,
-            user.phone_local
+            user.phone_local,
+            user.phone_combined
             from meto_users as user
             join meto_message_states as message_state on message_state.user_id = user.id
             join meto_messages as message on message.id = message_id
             where message_state.state = ' . State::QUEUED() . '
             and user.role = ' . Role::STUDENT() . '
+            and user.phone_verified != ' . Verified::DENIED() . '
+            and user.whatsapp_consent != ' . Consent::NOCONSENT() . '
             group by user.id
         ');
+
         return $toReturn;
     }
 
-    /**
-     * Remove users who denied permission and asks permission for users who haven't been
-     * @param array $userIDs
-     * @return array of user_ids to not send message to
-     */
-    public static function preMessageChecks(array $userIDs) :array
+    public static function queueConfirmations() :void
     {
-        if (count($userIDs) == 0) {
-            return [];
-        }
-
-        $toRemove = array();
-
-        $toCheck = Helpers::dbQueryArray('
+        $toReturn = Helpers::dbQueryArray('
             select
-            users.id as user_id,
-            users.phone_verified,
-            users.whatsapp_consent
-            from meto_users as users
-            where id in (' . implode(",", $userIDs, ) . ');
+            distinct user.id as user_id
+            from meto_users as user
+            join meto_message_states as message_state on message_state.user_id = user.id
+            where message_state.state = ' . State::QUEUED() . '
+            and user.role = ' . Role::STUDENT() . '
+            and user.whatsapp_consent = ' . Consent::UNKNOWN() . '
         ');
 
-        foreach ($toCheck as $student) {
-            if ($student['phone_verified'] == Verified::DENIED()) {
-                $toRemove[] = $student['user_id'];
-                Log::channel('chat')->debug('Removed ' . $student['user_id'] . ' because they denied identity verification');
-                continue;
-            }
-
-            if ($student['whatsapp_consent'] == Consent::NOCONSENT()) {
-                $toRemove[] = $student['user_id'];
-                Log::channel('chat')->debug('Removed ' . $student['user_id'] . ' because they did not give consent');
-                continue;
-            }
-            if ($student['phone_verified'] == Verified::UNKNOWN()) {
-                self::startMessage($student['user_id'], Campaign::CONFIRMIDENTITY());
-                Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
-            }
-            if ($student['whatsapp_consent'] == Consent::UNKNOWN()) {
-                self::startMessage($student['user_id'], Campaign::CONFIRMPERMISSION());
-                Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
-            }
+        foreach ($toReturn as $student) {
+            self::startMessage($student['user_id'], Campaign::CONFIRMPERMISSION());
+            Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
         }
+    }
 
-        return $toRemove;
+    public static function queueVerifications() :void
+    {
+        $toReturn = Helpers::dbQueryArray('
+            select
+            distinct user.id as user_id
+            from meto_users as user
+            join meto_message_states as message_state on message_state.user_id = user.id
+            where message_state.state = ' . State::QUEUED() . '
+            and user.role = ' . Role::STUDENT() . '
+            and user.phone_verified = ' . Verified::DENIED() . '
+        ');
+
+        foreach ($toReturn as $student) {
+            self::startMessage($student['user_id'], Campaign::CONFIRMIDENTITY());
+            Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
+        }
     }
 
     /**
@@ -145,8 +144,6 @@ class MessageState extends Model
             and message_states.message_id = ' . Campaign::ENDOFCYCLE() . ';
         ');
 
-        $toRemove = self::preMessageChecks(array_column($toReturn, 'user_id'));
-        $toReturn = Helpers::removeElementsInArray($toReturn, $toRemove, 'user_id');
         return $toReturn;
     }
 
@@ -194,7 +191,7 @@ class MessageState extends Model
         ");
     }
 
-    public static function updateMessageStateByID(int $state_id, State $state, string $body) :void
+    public static function updateMessageStateByID(int $state_id, State $state, string $body = null) :void
     {
         DB::update("
             update
@@ -205,6 +202,5 @@ class MessageState extends Model
             where id = " . $state_id . ";
         ");
     }
-
 
 }
