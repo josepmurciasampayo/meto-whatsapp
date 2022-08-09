@@ -23,25 +23,16 @@ class MessageState extends Model
     protected $fillable = [
         'user_id',
         'message_id',
+        'priority',
         'state',
         'response',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        //'state' => State::class,
-        // TODO: use this casting for enums
     ];
 
     /**
      * @param int $user_id
      * @param Campaign $message
      */
-    public static function startMessage(int $user_id, int $message_id) :void
+    public static function queueMessage(int $user_id, int $message_id, int $priority = null) :void
     {
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
         $existing = Helpers::dbQueryArray('
@@ -55,8 +46,8 @@ class MessageState extends Model
         if (count($existing) == 0) {
             DB::insert("
                 insert into meto_message_states
-                (user_id, message_id, state, created_at)
-                values (" . $user_id .", " . $message_id . ", " . State::QUEUED() .", now());
+                (user_id, message_id, priority, state, created_at)
+                values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
         }
     }
@@ -106,7 +97,7 @@ class MessageState extends Model
         ');
 
         foreach ($toReturn as $student) {
-            self::startMessage($student['user_id'], Campaign::CONFIRMPERMISSION());
+            self::queueMessage($student['user_id'], Campaign::CONFIRMPERMISSION(), 2);
             Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
         }
     }
@@ -124,7 +115,7 @@ class MessageState extends Model
         ');
 
         foreach ($toReturn as $student) {
-            self::startMessage($student['user_id'], Campaign::CONFIRMIDENTITY());
+            self::queueMessage($student['user_id'], Campaign::CONFIRMIDENTITY(), 2);
             Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
         }
     }

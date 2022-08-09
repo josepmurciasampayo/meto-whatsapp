@@ -4,14 +4,10 @@ namespace App\Models\Chat;
 
 use App\Enums\Chat\Campaign;
 use App\Helpers;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Message extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -24,15 +20,6 @@ class Message extends Model
         'capture_display',
         'answer_table',
         'answer_field',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
     ];
 
     public static function getIDfromCampaign(Campaign $campaign) :?int

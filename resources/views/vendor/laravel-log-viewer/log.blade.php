@@ -173,21 +173,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col sidebar mb-3">
-      <h1><i class="fa fa-calendar" aria-hidden="true"></i> Laravel Log Viewer</h1>
-      <p class="text-muted"><i>by Rap2h</i></p>
-
-      <div class="custom-control custom-switch" style="padding-bottom:20px;">
-        <input type="checkbox" class="custom-control-input" id="darkSwitch">
-        <label class="custom-control-label" for="darkSwitch" style="margin-top: 6px;">Dark Mode</label>
-      </div>
+      <h1>Meto Log Viewer</h1>
 
       <div class="list-group div-scroll">
         @foreach($folders as $folder)
           <div class="list-group-item">
-            <?php
-            \Rap2hpoutre\LaravelLogViewer\LaravelLogViewer::DirectoryTreeStructure( $storage_path, $structure );
-            ?>
-
+            <?php \Rap2hpoutre\LaravelLogViewer\LaravelLogViewer::DirectoryTreeStructure( $storage_path, $structure ); ?>
           </div>
         @endforeach
         @foreach($files as $file)
@@ -295,7 +286,7 @@
   const darkSwitch = document.getElementById('darkSwitch');
 
   // this is here so we can get the body dark mode before the page displays
-  // otherwise the page will be white for a second... 
+  // otherwise the page will be white for a second...
   initTheme();
 
   window.addEventListener('load', () => {
@@ -308,7 +299,7 @@
   });
 
   // end darkmode js
-        
+
   $(document).ready(function () {
     $('.table-container tr').on('click', function () {
       $('#' + $(this).data('display')).toggle();

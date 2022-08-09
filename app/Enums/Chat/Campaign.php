@@ -10,8 +10,8 @@ enum Campaign :int
 
     case CONFIRMIDENTITY = 1;
     case CONFIRMPERMISSION = 2;
-    case ENDOFCYCLE = 3;
-    case UNKNOWNMESSAGE = 4;
+    case UNKNOWNMESSAGE = 3;
+    case ENDOFCYCLE = 4;
     case GOODBYE = 5;
 
     public static function getText(self $value) :string

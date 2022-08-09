@@ -45,7 +45,7 @@ class ChatTestSeeder extends Seeder
            'user_id' => $user_id,
        ]);
 
-       MessageState::startMessage($user_id, Campaign::ENDOFCYCLE());
+       MessageState::queueMessage($user_id, Campaign::ENDOFCYCLE());
 
        /*
         * Greg - BU, Carleton, Hope, Trinity

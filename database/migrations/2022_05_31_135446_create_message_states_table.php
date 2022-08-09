@@ -15,10 +15,11 @@ class CreateMessageStatesTable extends Migration
     {
         Schema::create('message_states', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('message_id')->comment(\App\Enums\Chat\Campaign::toString());
-            $table->unsignedTinyInteger('state')->nullable()->comment(\App\Enums\Chat\State::toString());
-            $table->mediumText('response')->nullable();
+            $table->unsignedTinyInteger('priority')->default(3)->comment('Higher number corresponds to higher priority');
+            $table->unsignedTinyInteger('state')->comment(\App\Enums\Chat\State::toString());
+            $table->mediumText('response')->nullable()->comment('Stores user response to campaign message');
             $table->timestamps();
         });
     }
