@@ -12,6 +12,7 @@ enum State :int
     case SENT = 2;
     case REPLIED = 3;
     case ERROR = 4;
+    case COMPLETE = 5;
 
     public static function getText(self $value) :string
     {
@@ -20,6 +21,7 @@ enum State :int
             self::SENT => 'Sent',
             self::REPLIED => 'Replied',
             self::ERROR => 'Error',
+            self::COMPLETE => 'Complete',
         };
     }
 }

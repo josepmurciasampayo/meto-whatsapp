@@ -32,7 +32,13 @@ class MessageState extends Model
      * @param int $user_id
      * @param Campaign $message
      */
-    public static function queueMessage(int $user_id, int $message_id, int $priority = null) :void
+    public static function queueCampaign(int $user_id, Campaign $campaign, int $priority = 3) :void
+    {
+        $message_id = Message::getIDfromCampaign($campaign);
+        self::queueMessage($user_id, $message_id, $priority);
+    }
+
+    public static function queueMessage(int $user_id, int $message_id, int $priority = 3) :void
     {
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
         $existing = Helpers::dbQueryArray('
@@ -63,7 +69,7 @@ class MessageState extends Model
         $toReturn = Helpers::dbQueryArray('
             select
             user.id as user_id,
-            min(message.id) as message_id,
+            message.id as message_id,
             message_state.id as message_state_id,
             message.text as text,
             user.first as first,
@@ -78,7 +84,7 @@ class MessageState extends Model
             and user.role = ' . Role::STUDENT() . '
             and user.phone_verified != ' . Verified::DENIED() . '
             and user.whatsapp_consent != ' . Consent::NOCONSENT() . '
-            group by user.id
+            and message_state.priority = (select min(priority) from meto_message_states)
         ');
 
         return $toReturn;
@@ -97,7 +103,7 @@ class MessageState extends Model
         ');
 
         foreach ($toReturn as $student) {
-            self::queueMessage($student['user_id'], Campaign::CONFIRMPERMISSION(), 2);
+            self::queueCampaign($student['user_id'], Campaign::CONFIRMPERMISSION, 2);
             Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
         }
     }
@@ -115,7 +121,7 @@ class MessageState extends Model
         ');
 
         foreach ($toReturn as $student) {
-            self::queueMessage($student['user_id'], Campaign::CONFIRMIDENTITY(), 2);
+            self::queueCampaign($student['user_id'], Campaign::CONFIRMIDENTITY, 1);
             Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
         }
     }

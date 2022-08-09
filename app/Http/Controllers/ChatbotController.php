@@ -49,7 +49,7 @@ class ChatbotController extends Controller
         $users = MessageState::getEndOfApplicationCycles();
         Log::channel('chat')->debug('Found ' . count($users) . ' to start the End of App cycle');
         foreach ($users as $user) {
-            MessageState::queueMessage($user['user_id'], Campaign::ENDOFCYCLE(), 3);
+            MessageState::queueCampaign($user['user_id'], Campaign::ENDOFCYCLE, 3);
         }
     }
 
@@ -101,7 +101,7 @@ class ChatbotController extends Controller
 
             if (count($currentState) == 0) {
                 Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
-                MessageState::queueMessage($user->id, Campaign::UNKNOWNMESSAGE());
+                MessageState::queueCampaign($user->id, Campaign::UNKNOWNMESSAGE);
                 // TODO: send notification to team member?
                 self::initiateLoop();
                 return;

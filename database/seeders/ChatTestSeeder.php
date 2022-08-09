@@ -45,7 +45,7 @@ class ChatTestSeeder extends Seeder
            'user_id' => $user_id,
        ]);
 
-       MessageState::queueMessage($user_id, Campaign::ENDOFCYCLE());
+       MessageState::queueCampaign($user_id, Campaign::ENDOFCYCLE);
 
        /*
         * Greg - BU, Carleton, Hope, Trinity
@@ -102,9 +102,15 @@ class ChatTestSeeder extends Seeder
            'phone_verified' => Verified::VERIFIED(),
        ]);
 
+       $user_id = User::all()->count();
+
        Student::create([
-           'user_id' => User::all()->count(),
+           'user_id' => $user_id,
        ]);
+
+       MessageState::queueCampaign($user_id, Campaign::ENDOFCYCLE);
+       MessageState::queueCampaign($user_id, Campaign::CONFIRMPERMISSION, 2);
+       MessageState::queueCampaign($user_id, Campaign::CONFIRMIDENTITY, 1);
 
        /*
         * Ryan - Ithaca, Pomona, Union, Worcester, York
