@@ -72,7 +72,8 @@ class MessageState extends Model
         $toReturn = Helpers::dbQueryArray('
             select
             user.id as user_id,
-            min(message_state.id) as message_state_id,
+            min(message.id) as message_id,
+            message_state.id as message_state_id,
             message.text as text,
             user.first as first,
             user.phone_country,

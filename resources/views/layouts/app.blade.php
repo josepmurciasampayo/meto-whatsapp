@@ -14,7 +14,6 @@
         <style>
             body {
                 padding: 0 15px;
-                max-width: 650px;
                 font-size: 115%;
                 line-height: 1.4;
             }
