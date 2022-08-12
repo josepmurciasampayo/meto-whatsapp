@@ -9,7 +9,7 @@ enum State :int
     use InvokableCases, Options, Values, Names, Strings;
 
     case QUEUED = 1;
-    case SENT = 2;
+    case WAITING = 2;
     case REPLIED = 3;
     case ERROR = 4;
     case COMPLETE = 5;

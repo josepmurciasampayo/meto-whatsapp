@@ -16,9 +16,6 @@ use Illuminate\Database\Seeder;
 
 class ChatTestSeeder extends Seeder
 {
-       /*
-         * create student test accounts and matches
-         */
    public function run()
    {
        /*
@@ -84,7 +81,6 @@ class ChatTestSeeder extends Seeder
            'url' => 'TLW5CBD2',
        ]);
        $form->save();
-
 
        /*
         * Ryan Student

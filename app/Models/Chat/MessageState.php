@@ -38,6 +38,11 @@ class MessageState extends Model
         self::queueMessage($user_id, $message_id, $priority);
     }
 
+    /**
+     * @param int $user_id
+     * @param int $message_id
+     * @param int $priority
+     */
     public static function queueMessage(int $user_id, int $message_id, int $priority = 3) :void
     {
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
@@ -72,6 +77,7 @@ class MessageState extends Model
             message.id as message_id,
             message_state.id as message_state_id,
             message.text as text,
+            message.capture_filter as filter,
             user.first as first,
             user.phone_country,
             user.phone_area,
@@ -90,6 +96,9 @@ class MessageState extends Model
         return $toReturn;
     }
 
+    /**
+     * Find all users with a queued message of any type that also have an unknown Whatsapp consent status
+     */
     public static function queueConfirmations() :void
     {
         $toReturn = Helpers::dbQueryArray('
@@ -108,6 +117,9 @@ class MessageState extends Model
         }
     }
 
+    /**
+     * Fina all users with a queued message of any type that also have an unknown identity verification status
+     */
     public static function queueVerifications() :void
     {
         $toReturn = Helpers::dbQueryArray('
@@ -117,7 +129,7 @@ class MessageState extends Model
             join meto_message_states as message_state on message_state.user_id = user.id
             where message_state.state = ' . State::QUEUED() . '
             and user.role = ' . Role::STUDENT() . '
-            and user.phone_verified = ' . Verified::DENIED() . '
+            and user.phone_verified = ' . Verified::UNKNOWN() . '
         ');
 
         foreach ($toReturn as $student) {
@@ -171,7 +183,7 @@ class MessageState extends Model
                 join meto_messages as messages on message_states.message_id = messages.id
                 join meto_branches as branches on branches.from_message_id = messages.id
                 where users.id = ' . $user_id . '
-                and message_states.state in (' . implode(",", [State::SENT()]) . ')
+                and message_states.state in (' . implode(",", [State::WAITING()]) . ')
                 order by message_states.message_id asc;
             ');
     }
@@ -189,6 +201,11 @@ class MessageState extends Model
         ");
     }
 
+    /**
+     * @param int $state_id
+     * @param State $state
+     * @param string|null $body
+     */
     public static function updateMessageStateByID(int $state_id, State $state, string $body = null) :void
     {
         DB::update("

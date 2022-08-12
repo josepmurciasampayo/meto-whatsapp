@@ -26,7 +26,7 @@ class ChatbotController extends Controller
      */
     public static function initiateLoop() :void
     {
-        Log::channel('chat')->debug('Starting chat loop initiation');
+        Log::channel('chat')->debug('Starting chat loop');
         // methods here correspond to specific chat campaigns
         self::endOfApplicationCycle();
 
@@ -34,8 +34,9 @@ class ChatbotController extends Controller
 
         Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
-            self::sendWhatsAppMessage($message['phone_combined'], $message['text'], $message['user_id']);
-            MessageState::updateMessageState($message['user_id'], $message['message_state_id'], State::SENT);
+            self::sendWhatsAppMessage($message['phone_combined'], $message['text'], $message['user_id'], $message['message_state_id']);
+            $newState = (is_null($message['filter'])) ? State::COMPLETE : State::WAITING;
+            MessageState::updateMessageState($message['user_id'], $message['message_state_id'], $newState);
         }
 
         Log::channel('chat')->debug('End of chat loop');
@@ -144,7 +145,7 @@ class ChatbotController extends Controller
      * @param array $recipient Number of recipient
      * @throws \Twilio\Exceptions\TwilioException
      */
-    public static function sendWhatsAppMessage(string $recipient, string $message, ?int $user_id) :void
+    public static function sendWhatsAppMessage(string $recipient, string $message, ?int $user_id, ?int $state_id) :void
     {
         if (!is_null($user_id)) {
             $message = self::hydrateMessage($message, $user_id);
@@ -168,5 +169,8 @@ class ChatbotController extends Controller
             array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $message)
         );
         Log::channel('chat')->debug($result);
+        /*if (&& !is_null($state_id)) {
+            MessageState::updateMessageStateByID($state_id, State::ERROR);
+        }*/
     }
 }
