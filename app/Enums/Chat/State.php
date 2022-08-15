@@ -18,7 +18,7 @@ enum State :int
     {
         return match($value) {
             self::QUEUED => 'Queued',
-            self::SENT => 'Sent',
+            self::WAITING => 'Waiting',
             self::REPLIED => 'Replied',
             self::ERROR => 'Error',
             self::COMPLETE => 'Complete',
