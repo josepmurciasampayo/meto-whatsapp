@@ -51,7 +51,7 @@ class MessageState extends Model
             id
             from meto_message_states
             where user_id = ' . $user_id .' and message_id = ' . $message_id .'
-                and state in (' . implode(",", [State::QUEUED(), State::SENT(), State::ERROR()]) . ');
+                and state in (' . implode(",", [State::QUEUED(), State::WAITING(), State::ERROR()]) . ');
         ');
 
         if (count($existing) == 0) {
@@ -74,23 +74,26 @@ class MessageState extends Model
         $toReturn = Helpers::dbQueryArray('
             select
             user.id as user_id,
-            message.id as message_id,
-            message_state.id as message_state_id,
-            message.text as text,
-            message.capture_filter as filter,
+            pri.message_id,
+            pri.message_state_id,
+            pri.text,
+            if(message.capture_filter is null, false, true) as wait_for_reply,
             user.first as first,
-            user.phone_country,
-            user.phone_area,
-            user.phone_local,
             user.phone_combined
             from meto_users as user
-            join meto_message_states as message_state on message_state.user_id = user.id
-            join meto_messages as message on message.id = message_id
-            where message_state.state = ' . State::QUEUED() . '
+            join (
+                meto_users.id as user_id,
+                min(priority) as priority,
+                message_state.*
+                from meto_users
+                join message_state on message_state.user_id = meto_users.id
+                join meto_message_states as message_state on message_state.user_id = user.id
+                join meto_messages as message on message.id = message_id
+                where message_state.state = ' . State::QUEUED() . '
+            ) as pri on user.id = pri.user_id
             and user.role = ' . Role::STUDENT() . '
             and user.phone_verified != ' . Verified::DENIED() . '
             and user.whatsapp_consent != ' . Consent::NOCONSENT() . '
-            and message_state.priority = (select min(priority) from meto_message_states)
         ');
 
         return $toReturn;

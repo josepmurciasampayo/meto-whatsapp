@@ -35,11 +35,11 @@ class ChatbotController extends Controller
         Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
             self::sendWhatsAppMessage($message['phone_combined'], $message['text'], $message['user_id'], $message['message_state_id']);
-            $newState = (is_null($message['filter'])) ? State::COMPLETE : State::WAITING;
+            $newState = ($message['wait_for_reply']) ? State::COMPLETE : State::WAITING;
             MessageState::updateMessageState($message['user_id'], $message['message_state_id'], $newState);
         }
 
-        Log::channel('chat')->debug('End of chat loop');
+        Log::channel('chat')->debug('Ending chat loop');
     }
 
     /**

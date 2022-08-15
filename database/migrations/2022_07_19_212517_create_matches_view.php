@@ -39,7 +39,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches_view');
+        Schema::dropIfExists('view_matches');
     }
 
 };
