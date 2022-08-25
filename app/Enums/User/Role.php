@@ -11,6 +11,7 @@ enum Role: int
     case ADMIN = 1;
     case STUDENT = 2;
     case INSTITUTION = 3;
+    case COUNSELOR = 4;
 
     public static function getText(self $value) :string
     {
@@ -18,6 +19,7 @@ enum Role: int
             self::ADMIN => "Administrator",
             self::STUDENT => "Student",
             self::INSTITUTION => "Institution",
+            self::COUNSELOR => "Counselor",
         };
     }
 

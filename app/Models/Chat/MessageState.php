@@ -68,33 +68,56 @@ class MessageState extends Model
      */
     public static function getQueuedMessagesToSend() :array
     {
+        // identify queued messages that need verifications or confirmations before sending
+        // verifications and confirmations get loaded with higher priorities than campaigns
         self::queueVerifications();
         self::queueConfirmations();
 
-        $toReturn = Helpers::dbQueryArray('
+        // do not queue new messages for users who we are waiting on responses for
+        $waitingUsers = Helpers::dbQueryArray("
+            select user_id from meto_message_states where state = ". State::WAITING() . "
+        ");
+
+        // TODO: fix all this in SQL
+        echo "Count: " . count($waitingUsers);
+        $waitingUsersClause = (count($waitingUsers) > 0) ? ' and user.id not in (' . implode(",", $waitingUsers) . ') ' : '';
+
+        // find all messages that are queued for each user not excluded above
+        $allMessages = Helpers::dbQueryArray('
             select
             user.id as user_id,
-            pri.message_id,
-            pri.message_state_id,
-            pri.text,
-            if(message.capture_filter is null, false, true) as wait_for_reply,
             user.first as first,
-            user.phone_combined
+            user.phone_combined as phone,
+            message_id,
+            state.id as state_id,
+            priority,
+            text,
+            if(capture_filter is null, false, true) as wait_for_reply
             from meto_users as user
-            join (
-                meto_users.id as user_id,
-                min(priority) as priority,
-                message_state.*
-                from meto_users
-                join message_state on message_state.user_id = meto_users.id
-                join meto_message_states as message_state on message_state.user_id = user.id
-                join meto_messages as message on message.id = message_id
-                where message_state.state = ' . State::QUEUED() . '
-            ) as pri on user.id = pri.user_id
-            and user.role = ' . Role::STUDENT() . '
+            join meto_message_states as state on state.user_id = user.id
+            join meto_messages as message on state.message_id = message.id
+            where user.role = ' . Role::STUDENT() . '
             and user.phone_verified != ' . Verified::DENIED() . '
-            and user.whatsapp_consent != ' . Consent::NOCONSENT() . '
+            and user.whatsapp_consent != ' . Consent::NOCONSENT() .
+            $waitingUsersClause . ';
         ');
+
+        Log::channel('chat')->debug('All messages found: ' . print_r($allMessages, true));
+
+        // Look through each message, save one per user, replace if there's one with a lower priority
+        $toReturn = array();
+        foreach ($allMessages as $message) {
+            $user_id = $message['user_id'];
+            if (!key_exists($user_id, $toReturn)) {
+                $toReturn[$user_id] = $message;
+            } else {
+                if ($message['priority'] < $toReturn[$user_id]['priority']) {
+                    $toReturn[$user_id] = $message;
+                }
+            }
+        }
+
+        Log::channel('chat')->debug('Messages returned: ' . print_r($toReturn, true));
 
         return $toReturn;
     }
@@ -221,4 +244,8 @@ class MessageState extends Model
         ");
     }
 
+    public static function saveResponse(int $state_id, string $body) :void
+    {
+
+    }
 }

@@ -7,7 +7,6 @@ use App\Enums\General\Form;
 use App\Enums\General\FormStatus;
 use App\Models\UserForm;
 use App\Enums\User\{Role, Status, Consent, Verified};
-
 use App\Models\Chat\MessageState;
 use App\Models\MatchStudentInstitution;
 use App\Models\Student;
@@ -16,8 +15,36 @@ use Illuminate\Database\Seeder;
 
 class ChatTestSeeder extends Seeder
 {
-   public function run()
+   public function run(bool $createUsers = true)
    {
+       if ($createUsers) {
+           $this->createUsers();
+       }
+       $this->queueMessages();
+   }
+
+   public function queueMessages()
+   {
+       // Greg
+       $user = User::where('email', 'gmgarrison+student@gmail.com')->first();
+       MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
+
+       // Abraham
+       /*
+       $user = User::where('email', 'gmgarrison+abe@gmail.com')->first();
+       MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
+       MessageState::queueCampaign($user->id, Campaign::CONFIRMPERMISSION, 2);
+       MessageState::queueCampaign($user->id, Campaign::CONFIRMIDENTITY, 1);
+       */
+
+       // Ryan
+       /*
+       $user = User::where('email', 'gmgarrison+ryan@gmail.com')->first();
+       MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
+       */
+   }
+
+   public function createUsers() {
        /*
         * Greg Student
         */
@@ -41,8 +68,6 @@ class ChatTestSeeder extends Seeder
        Student::create([
            'user_id' => $user_id,
        ]);
-
-       MessageState::queueCampaign($user_id, Campaign::ENDOFCYCLE);
 
        /*
         * Greg - BU, Carleton, Hope, Trinity
@@ -89,8 +114,9 @@ class ChatTestSeeder extends Seeder
            'first' => "Ryan",
            'last' => "Student",
            'phone_country' => 1,
-           'phone_area' => 571,
-           'phone_local' => 2143085,
+           'phone_area' => 303,
+           'phone_local' => 6016774,
+           'phone_combined' => 13036016774,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+ryan@gmail.com",
            'role' => Role::STUDENT(),
@@ -103,10 +129,6 @@ class ChatTestSeeder extends Seeder
        Student::create([
            'user_id' => $user_id,
        ]);
-
-       MessageState::queueCampaign($user_id, Campaign::ENDOFCYCLE);
-       MessageState::queueCampaign($user_id, Campaign::CONFIRMPERMISSION, 2);
-       MessageState::queueCampaign($user_id, Campaign::CONFIRMIDENTITY, 1);
 
        /*
         * Ryan - Ithaca, Pomona, Union, Worcester, York
@@ -153,7 +175,7 @@ class ChatTestSeeder extends Seeder
            'phone_country' => 231,
            'phone_area' => 886,
            'phone_local' => 416380,
-           'phone_combined' => 1231886416380,
+           'phone_combined' => 231886416380,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+abe@gmail.com",
            'role' => Role::STUDENT,
@@ -164,8 +186,6 @@ class ChatTestSeeder extends Seeder
        Student::create([
            'user_id' => User::all()->count(),
        ]);
-
-       // MessageState::startMessage(User::all()->count(), Campaign::ENDOFCYCLE());
 
        /*
         * Abraham - BU, Ithaca, Skidmore, Union, York

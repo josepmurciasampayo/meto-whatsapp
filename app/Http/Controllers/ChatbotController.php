@@ -24,7 +24,7 @@ class ChatbotController extends Controller
      * Runs at a scheduled time to test all potential triggers and identify new conversations to start
      * @returns void
      */
-    public static function initiateLoop() :void
+    public static function startLoop() :void
     {
         Log::channel('chat')->debug('Starting chat loop');
         // methods here correspond to specific chat campaigns
@@ -34,9 +34,9 @@ class ChatbotController extends Controller
 
         Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
-            self::sendWhatsAppMessage($message['phone_combined'], $message['text'], $message['user_id'], $message['message_state_id']);
+            self::sendWhatsAppMessage($message['phone'], $message['text'], $message['user_id'], $message['state_id']);
             $newState = ($message['wait_for_reply']) ? State::COMPLETE : State::WAITING;
-            MessageState::updateMessageState($message['user_id'], $message['message_state_id'], $newState);
+            MessageState::updateMessageState($message['user_id'], $message['state_id'], $newState);
         }
 
         Log::channel('chat')->debug('Ending chat loop');
@@ -86,6 +86,8 @@ class ChatbotController extends Controller
     {
         $from = $request->input('From');
         $body = $request->input('Body');
+
+        // Logging
         Helpers::log(Channel::WHATSAPP, $from, "METO", $body);
         $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
         Log::channel('chat')->debug('Received WhatsApp from ' . $from . ': ' . $body);
@@ -98,16 +100,16 @@ class ChatbotController extends Controller
                 return;
             }
 
+            // Get state and error handle
             $currentState = MessageState::getState($user->id);
-
-            if (count($currentState) == 0) {
+            if (count($currentState) == 0) { // No state found, unexpected message
                 Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
                 MessageState::queueCampaign($user->id, Campaign::UNKNOWNMESSAGE);
                 // TODO: send notification to team member?
-                self::initiateLoop();
+                self::startLoop();
                 return;
             }
-            if (count($currentState) > 1) {
+            if (count($currentState) > 1) { // Multiple states found, unexpected condition
                 // TODO: send notification to team member?
                 Log::channel('chat')->error("Too many states: " . print_r($currentState));
                 return;
@@ -116,6 +118,7 @@ class ChatbotController extends Controller
             Log::channel('chat')->debug('Found state: ' . print_r($currentState, true));
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED, $body);
 
+            // Branching and saving response
             $branch = Branch::where([
                 'from_message_id', $currentState['message_id'],
                 'response', $body
@@ -123,14 +126,17 @@ class ChatbotController extends Controller
 
             if (is_null($branch)) {
                 Log::channel('chat')->error('Branch not found: ' . $user->id);
-                // TODO: queue message to resend with filter
+                self::sendWhatsAppMessage($from, "I didn't understand that - please try again: " . $currentState['capture_display']);
                 return;
             }
+
+            MessageState::saveResponse($currentState['state_id'], $body);
 
             if (!is_null($branch->to_message_id)) {
                 MessageState::queueMessage($user->id, $branch->to_message_id);
             }
-            self::initiateLoop();
+
+            self::startLoop();
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             Log::channel('chat')->error('Chat exception: ' . $th);
@@ -169,6 +175,7 @@ class ChatbotController extends Controller
             array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $message)
         );
         Log::channel('chat')->debug($result);
+        // TODO: error handle here
         /*if (&& !is_null($state_id)) {
             MessageState::updateMessageStateByID($state_id, State::ERROR);
         }*/

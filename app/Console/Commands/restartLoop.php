@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\ChatbotController;
+use App\Models\Chat\MessageState;
+use App\Models\MatchStudentInstitution;
+use Database\Seeders\ChatTestSeeder;
 use Illuminate\Console\Command;
 
 class restartLoop extends Command
@@ -21,12 +25,17 @@ class restartLoop extends Command
     protected $description = 'Reload chat tables for testing and start test loop';
 
     /**
-     * Execute the console command.
+     * Dump the relevant tables, reload them with the chat test seeder, and restart the loop
      *
      * @return int
      */
     public function handle()
     {
+        MessageState::truncate();
+        MatchStudentInstitution::truncate();
+        $seeder = new ChatTestSeeder();
+        $seeder->run(false);
+        ChatbotController::startLoop();
         return 0;
     }
 }

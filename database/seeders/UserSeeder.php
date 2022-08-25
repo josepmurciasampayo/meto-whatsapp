@@ -76,6 +76,5 @@ class UserSeeder extends Seeder
             'status' => Status::ACTIVE
         ]);
 
-
     }
 }

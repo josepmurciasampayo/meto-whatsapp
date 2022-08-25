@@ -8,8 +8,8 @@ enum Status: int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case ACTIVE = 4;
-    case INACTIVE = 5;
+    case ACTIVE = 1;
+    case INACTIVE = 2;
 
     public static function getText(self $value) :string
     {

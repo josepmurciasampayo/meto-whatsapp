@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Branch;
-use App\Models\Message;
 use Illuminate\Database\Seeder;
 
 

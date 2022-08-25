@@ -39,6 +39,8 @@ class Student extends Model
      */
     protected $hidden = [
         'user_id',
+        'google_mysql_id',
+        'google_sheet_id',
         'trigger_endAppCycle',
     ];
 }
