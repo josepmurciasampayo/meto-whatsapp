@@ -32,7 +32,6 @@ class restartLoop extends Command
     public function handle()
     {
         MessageState::truncate();
-        MatchStudentInstitution::truncate();
         $seeder = new ChatTestSeeder();
         $seeder->run(false);
         ChatbotController::startLoop();

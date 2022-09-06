@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CounselorController;
+use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -7,12 +11,39 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
+// Unauthenticated routes
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
 
+// Admin functionality
+Route::middleware('admin')->group(function() {
+    Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
+    Route::get('campaigns', '\App\Http\Controllers\ChatCampaignController@show')->name('campaigns');
+    Route::post('campaigns', '\App\Http\Controllers\ChatCampaignController@update');
+    Route::get('/', [AdminController::class, 'index'])->name('admin-home');
+});
+
+// Counselor functionality
+Route::middleware('counselor')->group(function() {
+    Route::get('/', [CounselorController::class, 'index'])->name('counselor-home');
+    Route::get('/students', [CounselorController::class, 'students'])->name('counselor-students');
+    Route::get('/school-profile', [CounselorController::class, 'profile'])->name('counselor-school');
+    Route::get('/connections', [CounselorController::class, 'connections'])->name('counselor-connections');
+});
+
+// Student functionality
+Route::middleware('student')->group(function() {
+    Route::get('/', [StudentController::class, 'index'])->name('student-home');
+});
+
+// Institution functionality
+Route::middleware('student')->group(function() {
+    Route::get('/', [InstitutionController::class, 'index'])->name('institution-home');
+});
+
+// Redirects if already authenticated
 Route::middleware('guest')->group(function () {
 /*
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -37,9 +68,10 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.update');
 
-    Route::get('/', function () {return view('login');});
+    Route::get('/', function () {return view('auth.login');});
 });
 
+// Any signed-in user
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');
@@ -61,23 +93,4 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy']);
-
-    Route::get('/', function () {return view('home');});
-
-    Route::get('/home', function () {return view('home');})->name('home');
-
-    Route::get('chats', '\App\Http\Controllers\ChatMessageController@show')->name('chats');
-    Route::post('chats', '\App\Http\Controllers\ChatMessageController@update');
-
-    Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
 });
-
-
-
-
-
-
-
-
-
-

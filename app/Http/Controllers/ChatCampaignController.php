@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
-class ChatMessageController extends Controller
+class ChatCampaignController extends Controller
 {
     public function show() :View
     {
         $messages = Message::all();
         $branches = Branch::all();
-        return view('chats', ['messages' => $messages, 'branches' => $branches]);
+        return view('admin.chats', ['messages' => $messages, 'branches' => $branches]);
     }
 
     public function update(Request $request)

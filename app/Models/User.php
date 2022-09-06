@@ -73,4 +73,23 @@ class User extends Authenticatable
         return User::find($user_id);
     }
 
+    public function isAdmin() :bool
+    {
+        return ($this->role == Role::ADMIN());
+    }
+
+    public function isStudent() :bool
+    {
+        return ($this->role == Role::STUDENT());
+    }
+
+    public function isCounselor() :bool
+    {
+        return ($this->role == Role::COUNSELOR());
+    }
+
+    public function isInstitution() :bool
+    {
+        return ($this->role == Role::INSTITUTION());
+    }
 }

@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'phone_local' => 2143085,
             'phone_combined' => 15712143085,
             'password' => bcrypt('password'),
-            'email' => "gmgarrison+meto@gmail.com",
+            'email' => "gmgarrison@gmail.com",
             'role' => Role::ADMIN,
             'status' => Status::ACTIVE
         ]);
