@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 // Unauthenticated routes
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
+Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
 
 // Admin functionality
 Route::middleware('admin')->group(function() {
