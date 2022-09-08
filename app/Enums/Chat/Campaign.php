@@ -24,4 +24,9 @@ enum Campaign :int
             self::GOODBYE => 'No problem. We won\'t message you anymore.',
         };
     }
+
+    public static function getCampaignFromID(int $message_id) :Campaign
+    {
+        return Campaign::from($message_id);
+    }
 }

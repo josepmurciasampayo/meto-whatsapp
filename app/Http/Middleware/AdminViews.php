@@ -18,9 +18,13 @@ class AdminViews
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth()->user()->isAdmin()) {
+        $user = Auth()->user();
+        if (is_null($user)) {
+            return redirect('login');
+        }
+        if ($user->isAdmin()) {
             return $next($request);
         }
-        return redirect('errors/403', 403);
+        redirect('errors/403', );
     }
 }

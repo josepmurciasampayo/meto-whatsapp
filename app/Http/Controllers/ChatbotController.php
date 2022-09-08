@@ -35,8 +35,8 @@ class ChatbotController extends Controller
         Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
             self::sendWhatsAppMessage($message['phone'], $message['text'], $message['user_id'], $message['state_id']);
-            $newState = ($message['wait_for_reply']) ? State::COMPLETE : State::WAITING;
-            MessageState::updateMessageState($message['user_id'], $message['state_id'], $newState);
+            $newState = ($message['wait_for_reply']) ? State::WAITING : State::COMPLETE;
+            MessageState::updateMessageStateByID($message['state_id'], $newState);
         }
 
         Log::channel('chat')->debug('Ending chat loop');
@@ -96,41 +96,27 @@ class ChatbotController extends Controller
             $user = User::findFromPhone($from);
             if (is_null($user)) {
                 Log::channel('chat')->error("Couldn't find user with phone " . $from . ". They WhatsApp'd: " . $body);
-                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null);
+                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null, null);
                 return;
             }
 
             // Get state and error handle
             $currentState = MessageState::getState($user->id);
-            if (count($currentState) == 0) { // No state found, unexpected message
-                Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user->id);
-                MessageState::queueCampaign($user->id, Campaign::UNKNOWNMESSAGE);
-                // TODO: send notification to team member?
-                self::startLoop();
+            if (is_null($currentState)) {
                 return;
             }
-            if (count($currentState) > 1) { // Multiple states found, unexpected condition
-                // TODO: send notification to team member?
-                Log::channel('chat')->error("Too many states: " . print_r($currentState));
-                return;
-            }
-
-            Log::channel('chat')->debug('Found state: ' . print_r($currentState, true));
-            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED, $body);
 
             // Branching and saving response
-            $branch = Branch::where([
-                'from_message_id', $currentState['message_id'],
-                'response', $body
-            ])->first();
+            $branch = Branch::getBranchByMessageAndResponse($currentState['message_id'], $body);
 
             if (is_null($branch)) {
                 Log::channel('chat')->error('Branch not found: ' . $user->id);
-                self::sendWhatsAppMessage($from, "I didn't understand that - please try again: " . $currentState['capture_display']);
+                self::sendWhatsAppMessage($from, "I didn't understand that - please try again?", $user->id, $currentState['state_id']);
                 return;
             }
 
-            MessageState::saveResponse($currentState['state_id'], $body);
+            MessageState::saveResponse($user->id, $currentState['state_id'], $body, $branch);
+            MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
             if (!is_null($branch->to_message_id)) {
                 MessageState::queueMessage($user->id, $branch->to_message_id);

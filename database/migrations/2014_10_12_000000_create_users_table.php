@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedMediumInteger('google_id')->unique()->nullable();
             $table->string('first');
             $table->string('last');
             $table->string('email')->unique();

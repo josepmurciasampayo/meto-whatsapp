@@ -46,6 +46,7 @@ class User extends Authenticatable
         'role',
         'status',
         'email_status',
+        'google_id',
     ];
 
     /**
@@ -66,7 +67,7 @@ class User extends Authenticatable
             from meto_users
             where phone_combined = ' . $phone . ' and role in (' . implode(",", [Role::STUDENT(), Role::INSTITUTION()]) . ');
         ');
-        if (is_null($result)) {
+        if (count($result) == 0) {
             return null;
         }
         $user_id = $result[0]['id'];

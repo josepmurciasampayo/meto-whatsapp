@@ -1,12 +1,12 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Meto",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "archtechx/enums": "^0.3.0",
+        "archtechx/enums": "0.3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",

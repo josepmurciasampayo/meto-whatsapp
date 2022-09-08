@@ -34,15 +34,17 @@ class importFromGoogle extends Command
      */
     public function handle()
     {
-        $query = '';
-        $students = DB::connection('')->select($query);
+        $query = '
+            select * from students_table;
+        ';
+        $students = DB::connection('google')->select($query);
         foreach ($students as $student) {
             self::importStudent($student);
         }
         return 0;
     }
 
-    private function importStudent(array $student) {
+    private function importStudent(\stdClass $student) {
         /**
         timestamp,
         country_of_birth,
@@ -65,18 +67,23 @@ class importFromGoogle extends Command
         curriculum
         **/
 
+        $user = User::where('email', trim($student->email_address_1));
+        if (!is_null($user)) {
+            return;
+        }
+
         $user = new User();
-        $user->first = $student['first_name'];
-        $user->last = $student['last_name'];
-        $user->email = $student['email_address_1'];
+        $user->first = trim($student->first_name);
+        $user->last = trim($student->last_name);
+        $user->email = trim($student->email_address_1);
         $user->role = Role::STUDENT();
         $user->status = Status::ACTIVE();
         $user->save();
 
         $stu = new Student();
         $stu->user_id = $user->id;
-        $stu->dob = $student['dob'];
-        $stu->gender = match ($student['gender']) {
+        $stu->dob = $student->dob;
+        $stu->gender = match (strtolower($student->gender)) {
             'male' =>  Gender::MALE(),
             'female' => Gender::FEMALE(),
             default => Gender::OTHER()

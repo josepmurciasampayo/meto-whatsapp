@@ -79,7 +79,6 @@ class MessageState extends Model
         ");
 
         // TODO: fix all this in SQL
-        echo "Count: " . count($waitingUsers);
         $waitingUsersClause = (count($waitingUsers) > 0) ? ' and user.id not in (' . implode(",", $waitingUsers) . ') ' : '';
 
         // find all messages that are queued for each user not excluded above
@@ -187,9 +186,9 @@ class MessageState extends Model
      * @param int $user_id
      * @return array
      */
-    public static function getState(int $user_id) :array
+    public static function getState(int $user_id) :?array
     {
-        return Helpers::dbQueryArray('
+        $result = Helpers::dbQueryArray('
                 select
                     users.id as user_id,
                     users.first as first,
@@ -200,52 +199,70 @@ class MessageState extends Model
                     messages.capture_filter,
                     messages.answer_table,
                     messages.answer_field,
-                    branches.response,
-                    branches.to_message_id,
                     message_states.id as state_id,
                     message_states.state as state
                 from meto_users as users
                 join meto_message_states as message_states on message_states.user_id = users.id
                 join meto_messages as messages on message_states.message_id = messages.id
-                join meto_branches as branches on branches.from_message_id = messages.id
                 where users.id = ' . $user_id . '
                 and message_states.state in (' . implode(",", [State::WAITING()]) . ')
                 order by message_states.message_id asc;
             ');
-    }
 
-    /**
-     * @param $user_id
-     * @param $message_id
-     * @param $state
-     */
-    public static function updateMessageState(int $user_id, int $message_id, State $state) :void
-    {
-        DB::update("
-            update meto_message_states set state = " . $state() . "
-            where user_id = " . $user_id . " and message_id = " . $message_id . ";
-        ");
+        if (count($result) == 0) { // No state found, unexpected message
+            Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user_id);
+            // TODO: send notification to team member?
+            return null;
+        }
+        if (count($result) > 1) { // Multiple states found, unexpected condition
+            // TODO: send notification to team member?
+            Log::channel('chat')->error("Too many states: " . print_r($currentState));
+            return null;
+        }
+
+        return $result[0];
     }
 
     /**
      * @param int $state_id
      * @param State $state
-     * @param string|null $body
      */
-    public static function updateMessageStateByID(int $state_id, State $state, string $body = null) :void
+    public static function updateMessageStateByID(int $state_id, State $state) :void
     {
         DB::update("
-            update
-                meto_message_states
-            set
-                state = " . $state() . ",
-                response = " . $body . "
-            where id = " . $state_id . ";
+            update meto_message_states set state = " . $state() . " where id = " . $state_id . ";
         ");
     }
 
-    public static function saveResponse(int $state_id, string $body) :void
+    public static function saveResponse(int $user_id, int $state_id, string $body, Branch $branch) :void
     {
+        // write raw response into messagestate table
+        DB::update("
+            update meto_message_states set response = '" . $body . "' where id = " . $state_id . ";
+        ");
 
+        // find appropriate campaign and save translated response in the schema
+        // TODO: this is just bad all over the place
+        switch ($branch->getCampaign()) {
+            case Campaign::CONFIRMIDENTITY:
+                $value = ($branch->response == 'Y') ? Verified::VERIFIED() : Verified::DENIED();
+                DB::update('
+                    update meto_users set phone_verified = ' . $value .' where id = ' . $user_id . ';
+                ');
+                break;
+            case Campaign::CONFIRMPERMISSION:
+                $value = ($branch->response == 'Y') ? Consent::CONSENT() : Consent::NOCONSENT();
+                DB::update('
+                    update meto_users set whatsapp_consent = ' . $value .' where id = ' . $user_id . ';
+                ');
+                break;
+            case Campaign::ENDOFCYCLE:
+                // no response needed
+                break;
+
+            default:
+                Log::channel('chat')->error('State ' . $state_id . ' could not find a campaign');
+                break;
+        }
     }
 }

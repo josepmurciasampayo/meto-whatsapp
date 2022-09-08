@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CounselorController;
-use App\Http\Controllers\InstitutionController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\{AdminController, CounselorController, InstitutionController, StudentController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -23,7 +20,7 @@ Route::middleware('admin')->group(function() {
     Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
     Route::get('campaigns', '\App\Http\Controllers\ChatCampaignController@show')->name('campaigns');
     Route::post('campaigns', '\App\Http\Controllers\ChatCampaignController@update');
-    Route::get('/', [AdminController::class, 'index'])->name('admin-home');
+    Route::get('/test', [AdminController::class, 'index'])->name('admin-home');
 });
 
 // Counselor functionality
