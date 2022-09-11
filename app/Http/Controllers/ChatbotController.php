@@ -22,17 +22,19 @@ class ChatbotController extends Controller
 {
     /**
      * Runs at a scheduled time to test all potential triggers and identify new conversations to start
+     * Queues new campaigns to start, looks for verifications and confirmations, then sends all queued messages
      * @returns void
      */
     public static function startLoop() :void
     {
         Log::channel('chat')->debug('Starting chat loop');
-        // methods here correspond to specific chat campaigns
-        self::endOfApplicationCycle();
+
+        $users = MessageState::getEndOfApplicationCycles();
+        foreach ($users as $user) {
+            MessageState::queueCampaign($user['user_id'], Campaign::ENDOFCYCLE, 3);
+        }
 
         $toSend = MessageState::getQueuedMessagesToSend();
-
-        Log::channel('chat')->debug("Found new messages to send: " . print_r($toSend, true));
         foreach ($toSend as $message) {
             self::sendWhatsAppMessage($message['phone'], $message['text'], $message['user_id'], $message['state_id']);
             $newState = ($message['wait_for_reply']) ? State::WAITING : State::COMPLETE;
@@ -40,18 +42,6 @@ class ChatbotController extends Controller
         }
 
         Log::channel('chat')->debug('Ending chat loop');
-    }
-
-    /**
-     * Finds users at the end of an application cycle and messages them about application plans
-     */
-    public static function endOfApplicationCycle() :void
-    {
-        $users = MessageState::getEndOfApplicationCycles();
-        Log::channel('chat')->debug('Found ' . count($users) . ' to start the End of App cycle');
-        foreach ($users as $user) {
-            MessageState::queueCampaign($user['user_id'], Campaign::ENDOFCYCLE, 3);
-        }
     }
 
     /**
@@ -93,35 +83,41 @@ class ChatbotController extends Controller
         Log::channel('chat')->debug('Received WhatsApp from ' . $from . ': ' . $body);
 
         try {
+            // Find which user messaged, if we can't identify there's not much else to do
             $user = User::findFromPhone($from);
             if (is_null($user)) {
                 Log::channel('chat')->error("Couldn't find user with phone " . $from . ". They WhatsApp'd: " . $body);
-                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from, null, null);
+                ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from);
                 return;
             }
 
             // Get state and error handle
             $currentState = MessageState::getState($user->id);
             if (is_null($currentState)) {
+                Log::channel('chat')->error("Couldn't find existing state for " . $user->email);
+                // TODO: notify staff?
                 return;
             }
 
             // Branching and saving response
+            MessageState::saveResponseInState($currentState['state_id'], $body);
             $branch = Branch::getBranchByMessageAndResponse($currentState['message_id'], $body);
 
             if (is_null($branch)) {
                 Log::channel('chat')->error('Branch not found: ' . $user->id);
-                self::sendWhatsAppMessage($from, "I didn't understand that - please try again?", $user->id, $currentState['state_id']);
+                self::sendWhatsAppMessage($from, "I didn't understand that - please try again?", $user->id);
                 return;
             }
 
-            MessageState::saveResponse($user->id, $currentState['state_id'], $body, $branch);
+            MessageState::saveResponseInSchema($user->id, $currentState['state_id'], $branch);
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
-            if (!is_null($branch->to_message_id)) {
-                MessageState::queueMessage($user->id, $branch->to_message_id);
+            if (is_null($branch->to_message_id) || ($branch->to_message_id == Campaign::NOBRANCH())) {
+                return;
             }
 
+            // restart loop to handle any new queued messages
+            MessageState::queueMessage($user->id, $branch->to_message_id);
             self::startLoop();
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
@@ -137,7 +133,7 @@ class ChatbotController extends Controller
      * @param array $recipient Number of recipient
      * @throws \Twilio\Exceptions\TwilioException
      */
-    public static function sendWhatsAppMessage(string $recipient, string $message, ?int $user_id, ?int $state_id) :void
+    public static function sendWhatsAppMessage(string $recipient, string $message, int $user_id = null) :void
     {
         if (!is_null($user_id)) {
             $message = self::hydrateMessage($message, $user_id);

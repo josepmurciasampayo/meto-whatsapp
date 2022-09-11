@@ -3,12 +3,15 @@
 namespace App\Models\Chat;
 
 use App\Enums\Chat\Campaign;
+use App\Http\Controllers\ChatbotController;
+use Carbon\Carbon;
 use App\Enums\User\{Consent, Role, Verified};
 use App\Enums\Chat\State;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Twilio\Rest\Chat;
 
 /**
  *
@@ -34,8 +37,7 @@ class MessageState extends Model
      */
     public static function queueCampaign(int $user_id, Campaign $campaign, int $priority = 3) :void
     {
-        $message_id = Message::getIDfromCampaign($campaign);
-        self::queueMessage($user_id, $message_id, $priority);
+        self::queueMessage($user_id, $campaign(), $priority);
     }
 
     /**
@@ -60,6 +62,8 @@ class MessageState extends Model
                 (user_id, message_id, priority, state, created_at)
                 values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
+        } else {
+            Log::channel('chat')->debug("Found duplicate message - did not queue");
         }
     }
 
@@ -68,43 +72,37 @@ class MessageState extends Model
      */
     public static function getQueuedMessagesToSend() :array
     {
+        $startTime = Carbon::now();
+        $toReturn = array();
+
         // identify queued messages that need verifications or confirmations before sending
         // verifications and confirmations get loaded with higher priorities than campaigns
         self::queueVerifications();
         self::queueConfirmations();
 
-        // do not queue new messages for users who we are waiting on responses for
-        $waitingUsers = Helpers::dbQueryArray("
-            select user_id from meto_message_states where state = ". State::WAITING() . "
-        ");
-
-        // TODO: fix all this in SQL
-        $waitingUsersClause = (count($waitingUsers) > 0) ? ' and user.id not in (' . implode(",", $waitingUsers) . ') ' : '';
-
         // find all messages that are queued for each user not excluded above
         $allMessages = Helpers::dbQueryArray('
             select
-            user.id as user_id,
-            user.first as first,
-            user.phone_combined as phone,
-            message_id,
-            state.id as state_id,
-            priority,
-            text,
-            if(capture_filter is null, false, true) as wait_for_reply
+                user.id as user_id,
+                user.first as first,
+                user.phone_combined as phone,
+                message_id,
+                state.id as state_id,
+                priority,
+                text,
+                if(capture_filter is null, false, true) as wait_for_reply
             from meto_users as user
             join meto_message_states as state on state.user_id = user.id
             join meto_messages as message on state.message_id = message.id
             where user.role = ' . Role::STUDENT() . '
             and user.phone_verified != ' . Verified::DENIED() . '
-            and user.whatsapp_consent != ' . Consent::NOCONSENT() .
-            $waitingUsersClause . ';
+            and user.whatsapp_consent != ' . Consent::NOCONSENT() .'
+            and state = ' . State::QUEUED() . ';
         ');
 
-        Log::channel('chat')->debug('All messages found: ' . print_r($allMessages, true));
-
         // Look through each message, save one per user, replace if there's one with a lower priority
-        $toReturn = array();
+        // TODO: should be possible to do this in SQL
+
         foreach ($allMessages as $message) {
             $user_id = $message['user_id'];
             if (!key_exists($user_id, $toReturn)) {
@@ -116,8 +114,8 @@ class MessageState extends Model
             }
         }
 
-        Log::channel('chat')->debug('Messages returned: ' . print_r($toReturn, true));
-
+        $runTime = $startTime->diffInMilliseconds(Carbon::now());
+        Log::channel('chat')->info('Time to run getQueuedMessagesToSend: ' . $runTime) . 'ms';
         return $toReturn;
     }
 
@@ -126,6 +124,30 @@ class MessageState extends Model
      */
     public static function queueConfirmations() :void
     {
+        // first, find users who just opted out of chat - we need to send them a message outside of the normal process
+        // look for a Replied State for Verify campaign and a Queued state for Goodbye campaign
+        $consents = Helpers::dbQueryArray('
+            select
+                user.id as user_id,
+                user.phone_combined as phone,
+                text
+            from meto_users as user
+            join meto_message_states as consent on consent.user_id = user.id and consent.message_id = ' . Campaign::CONFIRMPERMISSION() . '
+            join meto_message_states as goodbye on goodbye.user_id = user.id and goodbye.message_id = ' . Campaign::GOODBYE() . '
+            join meto_messages as messages on messages.id = ' . Campaign::GOODBYE() . '
+            where consent.state = ' . State::REPLIED() . '
+            and goodbye.state = ' . State::QUEUED() . ';
+        ');
+        foreach ($consents as $consent) {
+            ChatbotController::sendWhatsAppMessage($consent['phone'], $consent['text']);
+            DB::update('
+                update meto_message_states
+                set state = ' . State::COMPLETE() . '
+                where user_id = ' . $consent['user_id'] . '
+                and (message_id = ' . Campaign::CONFIRMPERMISSION() . ' OR message_id = ' . Campaign::GOODBYE() . ');
+            ');
+        }
+
         $toReturn = Helpers::dbQueryArray('
             select
             distinct user.id as user_id
@@ -135,7 +157,6 @@ class MessageState extends Model
             and user.role = ' . Role::STUDENT() . '
             and user.whatsapp_consent = ' . Consent::UNKNOWN() . '
         ');
-
         foreach ($toReturn as $student) {
             self::queueCampaign($student['user_id'], Campaign::CONFIRMPERMISSION, 2);
             Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
@@ -147,6 +168,30 @@ class MessageState extends Model
      */
     public static function queueVerifications() :void
     {
+        // first, find users who just opted out of chat - we need to send them a message outside of the normal process
+        // look for a Replied State for Verify campaign and a Queued state for Goodbye campaign
+        $verifications = Helpers::dbQueryArray('
+            select
+                user.id as user_id,
+                user.phone_combined as phone,
+                text
+            from meto_users as user
+            join meto_message_states as verified on verified.user_id = user.id and verified.message_id = ' . Campaign::CONFIRMIDENTITY() . '
+            join meto_message_states as goodbye on goodbye.user_id = user.id and goodbye.message_id = ' . Campaign::GOODBYE() . '
+            join meto_messages as messages on messages.id = ' . Campaign::GOODBYE() . '
+            where verified.state = ' . State::REPLIED() . '
+            and goodbye.state = ' . State::QUEUED() . ';
+        ');
+        foreach ($verifications as $verification) {
+            ChatbotController::sendWhatsAppMessage($verification['phone'], $verification['text']);
+            DB::update('
+                update meto_message_states
+                set state = ' . State::COMPLETE() . '
+                where user_id = ' . $verification['user_id'] . '
+                and (message_id = ' . Campaign::CONFIRMIDENTITY() . ' OR message_id = ' . Campaign::GOODBYE() . ');
+            ');
+        }
+
         $toReturn = Helpers::dbQueryArray('
             select
             distinct user.id as user_id
@@ -156,7 +201,6 @@ class MessageState extends Model
             and user.role = ' . Role::STUDENT() . '
             and user.phone_verified = ' . Verified::UNKNOWN() . '
         ');
-
         foreach ($toReturn as $student) {
             self::queueCampaign($student['user_id'], Campaign::CONFIRMIDENTITY, 1);
             Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
@@ -234,13 +278,16 @@ class MessageState extends Model
         ");
     }
 
-    public static function saveResponse(int $user_id, int $state_id, string $body, Branch $branch) :void
+    public static function saveResponseInState(int $state_id, string $body) :void
     {
         // write raw response into messagestate table
         DB::update("
             update meto_message_states set response = '" . $body . "' where id = " . $state_id . ";
         ");
+    }
 
+    public static function saveResponseInSchema(int $user_id, int $state_id, Branch $branch) :void
+    {
         // find appropriate campaign and save translated response in the schema
         // TODO: this is just bad all over the place
         switch ($branch->getCampaign()) {

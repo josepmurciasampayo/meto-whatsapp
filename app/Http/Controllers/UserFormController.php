@@ -64,6 +64,11 @@ class UserFormController extends Controller
             MatchStudentInstitution::updateMatchStatusByMatchID($match_id, $status);
         }
 
-        return redirect('/form/' . $userForm->url);
+        return redirect('thankyou');
+    }
+
+    public function thankyou()
+    {
+
     }
 }

@@ -21,7 +21,7 @@ class ChatSeeder extends Seeder
          * User identity verification and communication agreement loop
          */
         $message = new Message();
-        $message->campaign = Campaign::CONFIRMIDENTITY;
+        $message->campaign = Campaign::CONFIRMIDENTITY();
         $message->text = "Hi, this is Meto. Can you confirm that you are {first}?";
         $message->capture_filter = "Y,N";
         $message->capture_display = "Yes / No";
@@ -30,7 +30,7 @@ class ChatSeeder extends Seeder
         $message->save();
 
         $message = new Message();
-        $message->campaign = Campaign::GOODBYE;
+        $message->campaign = Campaign::GOODBYE();
         $message->text = "No problem! We won't message you any more.";
         $message->save();
 
@@ -55,21 +55,27 @@ class ChatSeeder extends Seeder
 
 
         $branch = new Branch();
-        $branch->from_message_id = Message::getIDfromCampaign(Campaign::CONFIRMIDENTITY);
+        $branch->from_message_id = Campaign::CONFIRMIDENTITY();
         $branch->response = "N";
-        $branch->to_message_id = Message::getIDfromCampaign(Campaign::GOODBYE);
+        $branch->to_message_id = Campaign::GOODBYE();
         $branch->save();
 
         $branch = new Branch();
-        $branch->from_message_id = Message::getIDfromCampaign(Campaign::CONFIRMIDENTITY);
+        $branch->from_message_id = Campaign::CONFIRMIDENTITY();
         $branch->response = "Y";
-        $branch->to_message_id = Message::getIDfromCampaign(Campaign::CONFIRMPERMISSION);
+        $branch->to_message_id = Campaign::CONFIRMPERMISSION();
         $branch->save();
 
         $branch = new Branch();
-        $branch->from_message_id = Message::getIDfromCampaign(Campaign::CONFIRMPERMISSION);
+        $branch->from_message_id = Campaign::CONFIRMPERMISSION();
+        $branch->response = "Y";
+        $branch->to_message_id = Campaign::NOBRANCH();
+        $branch->save();
+
+        $branch = new Branch();
+        $branch->from_message_id = Campaign::CONFIRMPERMISSION();
         $branch->response = "N";
-        $branch->to_message_id = Message::getIDfromCampaign(Campaign::GOODBYE);
+        $branch->to_message_id = Campaign::GOODBYE();
         $branch->save();
 
     }

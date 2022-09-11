@@ -45,6 +45,10 @@ class ChatTestSeeder extends Seeder
    }
 
    public function createUsers() {
+       User::truncate();
+       Student::truncate();
+       MatchStudentInstitution::truncate();
+
        /*
         * Greg Student
         */

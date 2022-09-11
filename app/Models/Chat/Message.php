@@ -22,20 +22,6 @@ class Message extends Model
         'answer_field',
     ];
 
-    public static function getIDfromCampaign(Campaign $campaign) :?int
-    {
-        $toReturn = Helpers::dbQueryArray('
-            select
-            id
-            from meto_messages
-            where campaign = ' . $campaign() . ';
-        ');
-        if (is_null($toReturn)) {
-            return null;
-        }
-        return $toReturn[0]['id'];
-    }
-
     public static function collapseResponses($string) :string
     {
         switch ($string) {

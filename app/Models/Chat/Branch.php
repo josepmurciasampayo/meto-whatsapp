@@ -33,7 +33,7 @@ class Branch extends Model
 
     public function getCampaign() :Campaign
     {
-        return Campaign::getCampaignFromID($this->from_message_id);
+        return Campaign::getCampaignFromMessage($this->from_message_id);
     }
 
     public static function getBranchByMessageAndResponse(int $message_id, string $body) :?Branch

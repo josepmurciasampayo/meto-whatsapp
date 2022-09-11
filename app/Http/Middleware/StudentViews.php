@@ -16,7 +16,7 @@ class StudentViews
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth()->user()->isStudent()){
+        if (Auth()->user() && Auth()->user()->isStudent()){
             return $next($request);
         }
         return redirect('errors/403', 403);

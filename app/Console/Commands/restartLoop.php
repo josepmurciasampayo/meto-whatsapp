@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\ChatbotController;
 use App\Models\Chat\MessageState;
+use App\Models\LogComms;
 use App\Models\MatchStudentInstitution;
 use Database\Seeders\ChatTestSeeder;
 use Illuminate\Console\Command;
@@ -15,7 +16,7 @@ class restartLoop extends Command
      *
      * @var string
      */
-    protected $signature = 'command:restartLoop';
+    protected $signature = 'command:restartLoop {createUsers=false}';
 
     /**
      * The console command description.
@@ -32,8 +33,9 @@ class restartLoop extends Command
     public function handle()
     {
         MessageState::truncate();
+        LogComms::truncate();
         $seeder = new ChatTestSeeder();
-        $seeder->run(false);
+        $seeder->run($this->argument('createUsers'));
         ChatbotController::startLoop();
         return 0;
     }
