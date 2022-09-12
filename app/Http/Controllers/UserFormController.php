@@ -46,13 +46,15 @@ class UserFormController extends Controller
         ]);
     }
 
-    public function update(Request $request) :RedirectResponse
+    public function update(Request $request) :View
     {
         $toStore = $request->toArray();
         Log::channel('form')->debug("UserForm Update received request: " . print_r($toStore, true));
-        $userForm = UserForm::find($toStore['userform_id']);
+        $userForm = UserForm::where('url', $toStore['userform_url']);
         if (is_null($userForm)) {
             // TODO: log and notify
+        } else {
+            $userForm = $userForm->first();
         }
 
         $matches = MatchStudentInstitution::getByUserID($userForm->user_id);
@@ -60,15 +62,15 @@ class UserFormController extends Controller
             // TODO: log and notify
         }
 
-        foreach ($request['match'] as $match_id => $status) {
-            MatchStudentInstitution::updateMatchStatusByMatchID($match_id, $status);
+        foreach ($request['matches'] as $match_id => $status) {
+            MatchStudentInstitution::updateMatchStatusByMatchID($match_id, $status, $userForm->user_id);
         }
 
-        return redirect('thankyou');
+        return view('forms.thankyou');
     }
 
-    public function thankyou()
+    public function thankyou() :View
     {
-
+        return view('forms.thankyou');
     }
 }

@@ -24,11 +24,16 @@ class Message extends Model
 
     public static function collapseResponses($string) :string
     {
-        switch ($string) {
-            case 'Ye':
-            case 'Yes':
+        switch (strtolower($string)) {
+            case 'y':
+            case 'ye':
+            case 'yes':
+            case 'yeah':
+            case 'ys':
                 return 'Y';
-            case 'No':
+            case 'n':
+            case 'no':
+            case 'nope':
                 return 'N';
             default:
                 return $string;

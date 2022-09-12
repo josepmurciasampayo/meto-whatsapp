@@ -20,7 +20,7 @@
 
     </head>
 
-    <body class="font-sans antialiased" style="font-family: 'Proza Libre';">
+    <body class="font-sans antialiased" style="font-family: 'Proza Libre'; background-color: rgb(249, 242, 240)">
             <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
                 <div class="p-6">
                     <img src="/img/meto-logo.webp" style="width: 5%;">

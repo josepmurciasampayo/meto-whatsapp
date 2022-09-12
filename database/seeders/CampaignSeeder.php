@@ -8,7 +8,7 @@ use App\Models\Chat\Message;
 
 use Illuminate\Database\Seeder;
 
-class ChatSeeder extends Seeder
+class CampaignSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -51,12 +51,22 @@ class MatchStudentInstitution extends Model
         ');
     }
 
-    public static function updateMatchStatusByMatchID(int $match_id, int $status) :void
+    public static function updateMatchStatusByMatchID(int $match_id, int $status, int $user_id = null) :void
     {
+        if (is_null($user_id)) { // run by system/admin
+            DB::update('
+                update meto_match_student_institutions
+                set status = ' . $status . '
+                where id = ' . $match_id . ';
+            ');
+            return;
+        }
         DB::update('
-            update meto_match_student_institutions
+            update meto_match_student_institutions as m
+            join meto_students as s on s.user_id = ' . $user_id .'
             set status = ' . $status . '
-            where id = ' . $match_id .';
-    ');
+            where m.id = ' . $match_id . '
+            and student_id = s.id;
+        ');
     }
 }

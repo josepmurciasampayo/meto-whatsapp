@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 // Unauthenticated routes
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
-Route::get('/thank-you', '\App\Http\Controllers\UserFormController::@thankyou')->name('thankyou');
+Route::get('/thank-you', '\App\Http\Controllers\UserFormController@thankyou')->name('thankyou');
 Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

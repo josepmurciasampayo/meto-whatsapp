@@ -1462,3 +1462,22 @@ select {
   }
 }
 
+.btn {
+    border-radius: 0 !important;
+}
+
+.btn-border-color {
+    color: rgb(16, 135, 101) !important;
+}
+
+ .btn:active, .btn:hover, .btn:checked {
+    background-color: rgb(16, 135, 101) !important;
+    border-color: rgb(16, 135, 101) !important;
+    color: white !important;
+}
+
+
+
+.bs-button-border-color {
+    color: rgba(128, 128, 128, 0.77);
+}

@@ -20,11 +20,11 @@ enum MatchStudentInstitution :int
     public static function getStudentChoices() :array
     {
         return array(
+            self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
             self::APPLIED() => self::getText(self::APPLIED),
             self::DENIED() => self::getText(self::DENIED),
             self::ACCEPTED() => self::getText(self::ACCEPTED),
             self::ENROLLED() => self::getText(self::ENROLLED),
-            self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
         );
     }
 

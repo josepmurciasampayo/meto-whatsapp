@@ -19,7 +19,7 @@ class HomeController extends Controller
         if (Auth()->user()->isCounselor()) {
             return view('counselor.home');
         }
-        if (Auth()->user()->isInstituion()) {
+        if (Auth()->user()->isInstitution()) {
             return view('institution.home');
         }
         if (Auth()->user()->isStudent()) {

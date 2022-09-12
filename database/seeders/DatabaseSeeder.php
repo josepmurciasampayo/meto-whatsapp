@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StudentSeeder::class,
             MatchSeeder::class,
-            ChatSeeder::class,
+            CampaignSeeder::class,
             ChatTestSeeder::class,
             UserRolesSeeder::class,
         ]);
