@@ -15,7 +15,6 @@
                         <div style="color: rgb(16, 135, 101); margin-right: 10%;"><?php echo $i++ . ' of ' . count($matches) ?></div>
                     </div>
                     <div class="container m-2">
-                        <!--input type="hidden" id="<?php echo $match['match_id'] ?>" name="<?php echo $match['match_id'] ?>" value="<?php echo $match['status'] ?>"-->
                         <div class="btn-group " role="group" style="min-width: 90%;">
                             <?php foreach($options as $value => $option) { ?>
                                 <?php $optionName = $match['match_id'] . '-' . $value ?>

@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Jenssegers\Agent\Agent;
 
 class UserFormController extends Controller
 {
@@ -36,14 +37,21 @@ class UserFormController extends Controller
         $matches = MatchStudentInstitution::getByUserID($userForm->user_id);
         Log::channel('form')->debug("Found " . count($matches) . " matches");
         $user = User::find($userForm->user_id);
-        return view('forms.endofcycle', [
+        $data = [
             'matches' => $matches,
             'user' => $user,
             'url' => $userForm->url,
             'userform_id' => $userForm->id,
             'options' => EnumMatch::getStudentChoices(),
             'unknown' => EnumMatch::UNKNOWN(),
-        ]);
+        ];
+        $agent = new Agent;
+        if ($agent->isDesktop()) {
+            return view('forms.endofcycle', $data);
+        } else {
+            return view('forms.mobile-endofcycle', $data);
+        }
+
     }
 
     public function update(Request $request) :View

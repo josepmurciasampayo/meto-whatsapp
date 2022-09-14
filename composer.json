@@ -8,12 +8,13 @@
         "php": "^8.1",
         "archtechx/enums": "^0.3.0",
         "guzzlehttp/guzzle": "^7.2",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "rap2hpoutre/laravel-log-viewer": "^2.2",
         "sendgrid/sendgrid": "^8.0",
-        "twilio/sdk": "^6.36",
-        "rap2hpoutre/laravel-log-viewer": "^2.2"
+        "twilio/sdk": "^6.36"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
