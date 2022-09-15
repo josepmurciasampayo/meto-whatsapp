@@ -7,11 +7,11 @@
                 </div>
                 <div class="p-6">
                     <ul>
-                        <li><a href="/campaigns">Review chat message language</a></li>
-                        <li><a href="">Review WhatsApp student match survey data</a></li>
+                        <li><a href="{{ route('campaigns') }}">Review chat message language</a></li>
                         <li><a href="{{ route('comms-log') }}">Review all WhatsApp messaging</a></li>
+                        <li>Review student match data</li>
                         <li>Review raw student data</li>
-                        <li>Review all match data</li>
+                        <li><a href="{{ route('logs') }}">Review all system logs</a></li>
                     </ul>
                 </div>
             </div>
