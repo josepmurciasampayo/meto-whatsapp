@@ -14,15 +14,17 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
 Route::get('/thank-you', '\App\Http\Controllers\UserFormController@thankyou')->name('thankyou');
-Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Admin functionality
 Route::middleware('admin')->group(function() {
+    Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
     Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
     Route::get('/campaigns', '\App\Http\Controllers\ChatCampaignController@show')->name('campaigns');
     Route::post('/campaigns', '\App\Http\Controllers\ChatCampaignController@update');
     Route::get('/test', [AdminController::class, 'index'])->name('admin-home');
+    Route::get('/comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
+    Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');
 });
 
 // Counselor functionality

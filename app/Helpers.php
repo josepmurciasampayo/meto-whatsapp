@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
  */
 class Helpers
 {
-
     public static function dbQueryArray(string $query) :array
     {
         $start = now();

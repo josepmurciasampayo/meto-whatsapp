@@ -8,8 +8,8 @@
                 <div class="p-6">
                     <ul>
                         <li><a href="/campaigns">Review chat message language</a></li>
-                        <li>Review WhatsApp student match survey data</li>
-                        <li>Review all WhatsApp messaging</li>
+                        <li><a href="">Review WhatsApp student match survey data</a></li>
+                        <li><a href="{{ route('comms-log') }}">Review all WhatsApp messaging</a></li>
                         <li>Review raw student data</li>
                         <li>Review all match data</li>
                     </ul>
