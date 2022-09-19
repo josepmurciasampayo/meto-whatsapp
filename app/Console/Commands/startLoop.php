@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\ChatbotController;
 use Illuminate\Console\Command;
 
-class StartLoop extends Command
+class startLoop extends Command
 {
     /**
      * The name and signature of the console command.

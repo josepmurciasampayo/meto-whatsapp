@@ -49,10 +49,6 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#data thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#data thead');
 
             var table = $('#data').DataTable({
                 searching: false,
@@ -62,14 +58,7 @@
                 ],
                 orderCellsTop: true,
                 fixedHeader: true,
-                "columnDefs": [
-                    {"width": "80px"},
-                    {"width": "80px"},
-                    {"width": "120px"},
-                    {"width": "25px"},
-                    {"width": "120px"},
-                    {"width": "400px"},
-                ],
+
                 /*
                 initComplete: function() {
                     var api = this.api();

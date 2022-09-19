@@ -11,6 +11,7 @@ enum Type: int
     case UNIVERSITY = 1;
     case VOCATIONAL = 2;
     case SCHOLARSHIP = 3;
+    case OTHER = 4;
 
     public static function getText(self $value) :string
     {
@@ -18,6 +19,7 @@ enum Type: int
             self::UNIVERSITY => "University or college",
             self::VOCATIONAL => "Vocational program",
             self::SCHOLARSHIP => "Scholarship or access program",
+            self::OTHER => "Other",
         };
     }
 

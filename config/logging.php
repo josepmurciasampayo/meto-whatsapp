@@ -48,6 +48,12 @@ return [
             'days' => 7,
         ],
 
+        'import' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/import.lgo'),
+            'days' => 7,
+        ],
+
         'chat' => [
             'driver' => 'daily',
             'path' => storage_path('logs/chat.log'),

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedMediumInteger('google_id')->unique()->nullable();
             $table->string('first');
             $table->string('last');
+            $table->string('title')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

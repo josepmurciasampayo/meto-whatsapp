@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('startLoop')->everyMinute();
+        // to add to cron job:
+        // * * * * * cd /var/www/meto-???? && php artisan schedule:run >> /dev/null 2>&1
+        $schedule->command('command:startLoop')->everyMinute();
     }
 
     /**

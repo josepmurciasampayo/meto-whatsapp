@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('postal_code')->nullable();
             $table->unsignedSmallInteger('country');
+            $table->unsignedBigInteger('google_id')->nullable();
             $table->timestamps();
         });
     }

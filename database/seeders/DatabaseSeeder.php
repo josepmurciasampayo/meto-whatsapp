@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountrySeeder::class,
             EnumSeeder::class,
-            InstitutionSeeder::class,
+            //InstitutionSeeder::class,
             UserSeeder::class,
-            StudentSeeder::class,
             MatchSeeder::class,
             CampaignSeeder::class,
-            ChatTestSeeder::class,
-            UserRolesSeeder::class,
+            //ChatTestSeeder::class,
+            GoogleSeeder::class,
+            // UserRolesSeeder::class,
         ]);
     }
 }

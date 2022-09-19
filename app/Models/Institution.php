@@ -23,6 +23,7 @@ class Institution extends Model
         'state',
         'postal_code',
         'country',
+        'google_id',
     ];
 
     /**

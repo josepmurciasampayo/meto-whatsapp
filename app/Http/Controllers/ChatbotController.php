@@ -55,7 +55,7 @@ class ChatbotController extends Controller
             if (str_contains($message, '{form_application_status}')) {
                 Log::channel('chat')->debug('Found form_application_status');
                 $form = UserForm::getForm($user_id, Form::ENDOFCYCLE);
-                $url = "https://app.meto-intl.org/form/" . $form->url;
+                $url = env('APP_URL') . "/form/" . $form->url;
                 $message = str_replace("{form_application_status}", $url, $message);
             }
             if (str_contains($message, '{first}')) {
