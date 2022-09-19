@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MatchStudentInstitution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -23,6 +24,23 @@ class AdminController extends Controller
     {
         $data = ChatbotController::getAdminData();
         return view('admin.commsLog', ['data' => $data]);
+    }
+
+    public function matchData() :View
+    {
+        $match_data = MatchStudentInstitution::getMatchData();
+        $data = "";
+        foreach ($match_data as $row) {
+            $name = $row['first'] . ' ' . $row['last'];
+            $data .= '{student:"' .$name. '", institution:"' .$row["name"]. '", date:"' .$row["match_date"]. '", status:"' .$row['match_status']. '"},';
+        }
+        $script = "
+            var tabledata = [
+            " . $data . "
+            ];
+
+        ";
+        return view('admin.match-data', ['data' => $script]);
     }
 
     public function sendMessage(Request $request) :RedirectResponse

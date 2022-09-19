@@ -9,9 +9,9 @@
                     <ul>
                         <li><a href="{{ route('campaigns') }}">Review chat message language</a></li>
                         <li><a href="{{ route('comms-log') }}">Review all WhatsApp messaging</a></li>
-                        <li>Review student match data</li>
+                        <li><a href="{{ route('matchData') }}">Review student match data</a></li>
                         <li>Review raw student data</li>
-                        <li><a href="{{ route('logs') }}">Review all system logs</a></li>
+                        <li><a href="{{ url('/logs') }}">Review all system logs</a></li>
                     </ul>
                 </div>
             </div>

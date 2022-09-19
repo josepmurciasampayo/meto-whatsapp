@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EnumGroup;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers;
@@ -67,6 +68,27 @@ class MatchStudentInstitution extends Model
             set status = ' . $status . '
             where m.id = ' . $match_id . '
             and student_id = s.id;
+        ');
+    }
+
+    public static function getMatchData() :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                m.id as match_id,
+                student_id,
+                institution_id,
+                m.status,
+                enum_desc as match_status,
+                m.created_at as match_date,
+                u.first,
+                u.last,
+                i.name
+            from meto_match_student_institutions as m
+            join meto_students as s on student_id = s.id
+            join meto_users as u on s.user_id = u.id
+            join meto_institutions as i on institution_id = i.id
+            join meto_enum as match_status on match_status.group_id = ' . EnumGroup::GENERAL_MATCH() . ' and m.status = enum_id
         ');
     }
 }
