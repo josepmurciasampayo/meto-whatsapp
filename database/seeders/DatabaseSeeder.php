@@ -17,9 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountrySeeder::class,
             EnumSeeder::class,
-            //InstitutionSeeder::class,
             UserSeeder::class,
-            MatchSeeder::class,
             CampaignSeeder::class,
             //ChatTestSeeder::class,
             GoogleSeeder::class,

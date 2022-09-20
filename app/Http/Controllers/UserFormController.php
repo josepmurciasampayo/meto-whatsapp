@@ -7,6 +7,7 @@ use App\Models\MatchStudentInstitution;
 use App\Enums\General\MatchStudentInstitution as EnumMatch;
 use App\Models\User;
 use App\Models\UserForm;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -75,6 +76,13 @@ class UserFormController extends Controller
         }
 
         return view('forms.thankyou');
+    }
+
+    public static function createForms(Collection $students, Form $form) :void
+    {
+        foreach ($students as $student) {
+            UserForm::createForm($student->id, $form);
+        }
     }
 
     public function thankyou() :View

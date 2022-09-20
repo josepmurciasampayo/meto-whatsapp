@@ -7,8 +7,8 @@
             <?php echo $data ?>
 
             var table = new Tabulator("#match-data", {
-                height:605, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
-                data:tabledata, //assign data to table
+                height: 605, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+                data: tabledata, //assign data to table
                 layout:"fitColumns", //fit columns to width of table (optional)
                 columns:[ //Define Table Columns
                     {title:"Student", field:"student"},

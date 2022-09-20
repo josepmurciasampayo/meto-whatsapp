@@ -74,10 +74,22 @@ class Students
         $stu->save();
         }
 
-        private static function markImported($student) :void
+        private static function markImported(\stdClass $student) :void
         {
             DB::connection('google')->update('
                 update students_table set imported = 1 where student_id = ' . $student->student_id . ';
             ');
+        }
+
+        public static function countMatches(int $user_id) :int
+        {
+            $toReturn = DB::select('
+                select count(*) as c
+                from meto_users as u
+                join meto_students as s on s.user_id = u.id
+                join meto_match_student_institutions as m on m.student_id = s.id
+                where u.id = ' . $user_id . '
+            ');
+            return $toReturn[0]->c;
         }
 }
