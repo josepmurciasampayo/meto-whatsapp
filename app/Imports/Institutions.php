@@ -19,7 +19,7 @@ class Institutions
         $institutions = DB::connection('google')->select($query);
         foreach ($institutions as $institution) {
             self::importInstitution($institution);
-            //self::markImported($institution);
+            self::markImported($institution);
         }
         return 0;
     }

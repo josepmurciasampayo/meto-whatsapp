@@ -19,7 +19,7 @@ class Students
         $students = DB::connection('google')->select($query);
         foreach ($students as $student) {
             self::importStudent($student);
-            //self::markImported($student);
+            self::markImported($student);
         }
         return 0;
     }

@@ -16,7 +16,6 @@ class GoogleSeeder extends Seeder
 {
     public function run()
     {
-        /*
         DB::connection('google')->update('
             update students_table set imported=0;
         ');
@@ -26,7 +25,6 @@ class GoogleSeeder extends Seeder
         DB::connection('google')->update('
             update inst_student_relationships set imported=0;
         ');
-        */
 
         Students::importStudentsFromGoogle();
         Institutions::importInstitutionsFromGoogle();
