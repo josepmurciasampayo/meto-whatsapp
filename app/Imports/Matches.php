@@ -18,7 +18,7 @@ class Matches
         $matches = DB::connection('google')->select($query);
         foreach ($matches as $match) {
             self::importMatch($match);
-            self::markImported($match);
+            //self::markImported($match);
         }
         return 0;
     }

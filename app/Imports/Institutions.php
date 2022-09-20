@@ -3,11 +3,9 @@
 namespace App\Imports;
 
 use App\Enums\Institution\Type;
-use App\Enums\Student\Gender;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Models\Institution;
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +19,7 @@ class Institutions
         $institutions = DB::connection('google')->select($query);
         foreach ($institutions as $institution) {
             self::importInstitution($institution);
-            self::markImported($institution);
+            //self::markImported($institution);
         }
         return 0;
     }
