@@ -12,16 +12,32 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(string $type = '')
     {
         $this->call([
             CountrySeeder::class,
             EnumSeeder::class,
             UserSeeder::class,
             CampaignSeeder::class,
-            //ChatTestSeeder::class,
-            GoogleSeeder::class,
-            // UserRolesSeeder::class,
         ]);
+
+        if ($type == 'chat') {
+            $this->call([
+                ChatTestSeeder::class,
+            ]);
+        }
+
+        if ($type == 'roles') {
+            $this->call([
+                UserRolesSeeder::class,
+            ]);
+        }
+
+        if ($type == 'google') {
+            $this->call([
+                GoogleSeeder::class,
+            ]);
+        }
+
     }
 }
