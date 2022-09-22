@@ -19,8 +19,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Admin functionality
 Route::middleware('admin')->group(function() {
     Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
-    Route::get('/campaigns', '\App\Http\Controllers\ChatCampaignController@show')->name('campaigns');
-    Route::post('/campaigns', '\App\Http\Controllers\ChatCampaignController@update');
+    Route::get('/campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
+    Route::post('/campaigns', '\App\Http\Controllers\CampaignController@update');
     Route::get('/matches', [AdminController::class, 'matchData'])->name('matchData');
     Route::get('/comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
     Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');

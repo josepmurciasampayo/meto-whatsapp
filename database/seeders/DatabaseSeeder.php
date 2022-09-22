@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             UserRolesSeeder::class,
             ChatTestSeeder::class,
+            InstitutionSeeder::class,
         ]);
 
         if ($type == 'google') {

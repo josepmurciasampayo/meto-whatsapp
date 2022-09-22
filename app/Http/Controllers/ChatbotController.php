@@ -6,6 +6,7 @@ use App\Enums\Chat\State;
 use App\Enums\Chat\Campaign;
 use App\Enums\General\Channel;
 use App\Enums\General\Form;
+use App\Enums\User\Role;
 use App\Helpers;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
@@ -16,6 +17,7 @@ use App\Models\UserForm;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class ChatbotController extends Controller
@@ -112,10 +114,6 @@ class ChatbotController extends Controller
             MessageState::saveResponseInSchema($user->id, $currentState['state_id'], $branch);
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
-            if (is_null($branch->to_message_id) || ($branch->to_message_id == Campaign::NOBRANCH())) {
-                return;
-            }
-
             // restart loop to handle any new queued messages
             MessageState::queueMessage($user->id, $branch->to_message_id);
             self::startLoop();
@@ -152,11 +150,14 @@ class ChatbotController extends Controller
         $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
         $client = new Client($account_sid, $auth_token);
-        $result = $client->messages->create(
-            "whatsapp:+". $recipient,
-            array('from' => "whatsapp:+". $twilio_whatsapp_number, 'body' => $message)
-        );
-        Log::channel('chat')->debug($result);
+        try {
+            $result = $client->messages->create(
+                "whatsapp:+" . $recipient,
+                array('from' => "whatsapp:+" . $twilio_whatsapp_number, 'body' => $message)
+            );
+        } catch (TwilioException $e) {
+            Log::channel('chat')->debug($e);
+        }
         // TODO: error handle here
         /*if (&& !is_null($state_id)) {
             MessageState::updateMessageStateByID($state_id, State::ERROR);
@@ -165,6 +166,7 @@ class ChatbotController extends Controller
 
     public static function getAdminData() :array
     {
+        // TODO: move to Model class
         return Helpers::dbQueryArray("
             select
                 c.id as message_id,
@@ -175,8 +177,8 @@ class ChatbotController extends Controller
                 coalesce(user_to.id, user_from.id) as user_id,
                 concat(coalesce(user_to.first, user_from.first), ' ', coalesce(user_to.last, user_from.last)) as 'name'
             from meto_log_comms as c
-            left outer join meto_users as user_to on c.to = user_to.phone_combined
-            left outer join meto_users as user_from on c.from = user_from.phone_combined
+            left outer join meto_users as user_to on c.to = user_to.phone_combined and user_to.role = " . Role::STUDENT() . "
+            left outer join meto_users as user_from on c.from = user_from.phone_combined and user_from.role = " . Role::STUDENT() . "
             where channel = " . Channel::WHATSAPP() . "
             order by c.created_at;
         ");

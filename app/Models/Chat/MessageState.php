@@ -3,11 +3,13 @@
 namespace App\Models\Chat;
 
 use App\Enums\Chat\Campaign;
+use App\Enums\EnumGroup;
 use App\Http\Controllers\ChatbotController;
 use Carbon\Carbon;
 use App\Enums\User\{Consent, Role, Verified};
 use App\Enums\Chat\State;
 use App\Helpers;
+use Faker\Extension\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -45,8 +47,13 @@ class MessageState extends Model
      * @param int $message_id
      * @param int $priority
      */
-    public static function queueMessage(int $user_id, int $message_id, int $priority = 3) :void
+    public static function queueMessage(int $user_id, ?int $message_id, int $priority = 3) :void
     {
+        if (is_null($message_id) || ($message_id == Campaign::NOBRANCH())) {
+            // nothing to do
+            return;
+        }
+
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
         $existing = Helpers::dbQueryArray('
             select
@@ -248,7 +255,7 @@ class MessageState extends Model
                 from meto_users as users
                 join meto_message_states as message_states on message_states.user_id = users.id
                 join meto_messages as messages on message_states.message_id = messages.id
-                where users.id = ' . $user_id . '
+                where users.id = ' . $user_id . ' and users.role != ' . Role::ADMIN() . '
                 and message_states.state in (' . implode(",", [State::WAITING()]) . ')
                 order by message_states.message_id asc;
             ');
@@ -260,11 +267,28 @@ class MessageState extends Model
         }
         if (count($result) > 1) { // Multiple states found, unexpected condition
             // TODO: send notification to team member?
-            Log::channel('chat')->error("Too many states: " . print_r($currentState));
+            Log::channel('chat')->error("Too many states: " . print_r($result));
             return null;
         }
 
         return $result[0];
+    }
+
+    public static function getAllState() :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                concat(u.first, " ", u.last) as "name",
+                u.email,
+                campaign.enum_desc as "campaign",
+                priority,
+                state.enum_desc as "state",
+                response
+            from meto_users as u
+            join meto_message_states as s on s.user_id = u.id
+            join meto_enum as campaign on campaign.group_id = ' . EnumGroup::CHAT_CAMPAIGNS() .' and campaign.enum_id = message_id
+            join meto_enum as state on state.group_id = ' . EnumGroup::CHAT_STATE() . ' and state.enum_id = state;
+        ');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat\MessageState;
 use App\Models\MatchStudentInstitution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,11 @@ class AdminController extends Controller
     public function commsLog() :View
     {
         $data = ChatbotController::getAdminData();
-        return view('admin.commsLog', ['data' => $data]);
+        $state = MessageState::getAllState();
+        return view('admin.commsLog', [
+            'data' => $data,
+            'state' => $state,
+            ]);
     }
 
     public function matchData() :View
