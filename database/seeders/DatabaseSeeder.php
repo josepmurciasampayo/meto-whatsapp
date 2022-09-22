@@ -19,19 +19,9 @@ class DatabaseSeeder extends Seeder
             EnumSeeder::class,
             UserSeeder::class,
             CampaignSeeder::class,
+            UserRolesSeeder::class,
+            ChatTestSeeder::class,
         ]);
-
-        if ($type == 'chat') {
-            $this->call([
-                ChatTestSeeder::class,
-            ]);
-        }
-
-        if ($type == 'roles') {
-            $this->call([
-                UserRolesSeeder::class,
-            ]);
-        }
 
         if ($type == 'google') {
             $this->call([

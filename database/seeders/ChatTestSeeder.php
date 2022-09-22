@@ -21,6 +21,9 @@ class ChatTestSeeder extends Seeder
            $this->createUsers();
        }
        $this->queueMessages();
+
+       User::find(1)->phone_combined = '';
+       User::find(3)->phone_combined = '';
    }
 
    public function queueMessages()

@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 
 class reset extends Command
 {

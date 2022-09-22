@@ -26,11 +26,11 @@ class UserRolesSeeder extends Seeder
             'phone_country' => 1,
             'phone_area' => 571,
             'phone_local' => 2143085,
-            'phone_combined' => 15712143085,
+            'phone_combined' => '', //15712143085,
             'password' => bcrypt('password'),
             'email' => "gmgarrison+counselor@gmail.com",
-            'role' => Role::COUNSELOR,
-            'status' => Status::ACTIVE
+            'role' => Role::COUNSELOR(),
+            'status' => Status::ACTIVE()
         ]);
 
         /*
@@ -45,8 +45,8 @@ class UserRolesSeeder extends Seeder
             'phone_combined' => 13036016774,
             'password' => bcrypt('password'),
             'email' => "gmgarrison+institution@gmail.com",
-            'role' => Role::INSTITUTION,
-            'status' => Status::ACTIVE
+            'role' => Role::INSTITUTION(),
+            'status' => Status::ACTIVE()
         ]);
 
     }

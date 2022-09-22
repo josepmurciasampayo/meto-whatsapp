@@ -10,19 +10,20 @@ class HomeController extends Controller
     //
     public function index()
     {
-        if (is_null(Auth()->user())) {
+        $user = Auth()->user();
+        if (is_null($user)) {
             return redirect('login');
         }
-        if (Auth()->user()->isAdmin()) {
+        if ($user->isAdmin()) {
             return view('admin.home');
         }
-        if (Auth()->user()->isCounselor()) {
+        if ($user->isCounselor()) {
             return view('counselor.home');
         }
-        if (Auth()->user()->isInstitution()) {
+        if ($user->isInstitution()) {
             return view('institution.home');
         }
-        if (Auth()->user()->isStudent()) {
+        if ($user->isStudent()) {
             return view('student.home');
         }
         Log::error("Home Controller with no home found");

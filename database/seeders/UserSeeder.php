@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\User\{Role, Status, Consent, Verified};
-use App\Models\Student;
+use App\Enums\User\{Role, Status};
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +19,10 @@ class UserSeeder extends Seeder
         /*
          * Create admin users
          */
+
+        $role = Role::ADMIN();
+        $status = Status::ACTIVE();
+
         User::create([
             'id' => $userID++,
             'first' => "Greg",
@@ -31,8 +34,8 @@ class UserSeeder extends Seeder
             'phone_combined' => 15712143085,
             'password' => bcrypt('password'),
             'email' => "gmgarrison@gmail.com",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
+            'role' => $role,
+            'status' => $status,
         ]);
 
         User::create([
@@ -45,8 +48,8 @@ class UserSeeder extends Seeder
             'phone_combined' => 13036016774,
             'password' => bcrypt('password'),
             'email' => "ryan@meto-intl.org",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
+            'role' => Role::ADMIN(),
+            'status' => Status::ACTIVE()
         ]);
 
         User::create([
@@ -57,10 +60,10 @@ class UserSeeder extends Seeder
             'phone_area' => 886,
             'phone_local' => 416380,
             'phone_combined' => 1231886416380,
-            'password' => bcrypt('password'),
+            'password' => '$2a$10$NteedlJ0/e.f/EYz8ywbN.BApYX.S6jIq9RKo6rI24h9kAhV.RN.6',
             'email' => "abraham@meto-intl.org",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
+            'role' => Role::ADMIN(),
+            'status' => Status::ACTIVE()
         ]);
 
         User::create([
@@ -72,8 +75,8 @@ class UserSeeder extends Seeder
             'phone_local' => 3883878,
             'password' => bcrypt('password'),
             'email' => "nic@meto-intl.org",
-            'role' => Role::ADMIN,
-            'status' => Status::ACTIVE
+            'role' => Role::ADMIN(),
+            'status' => Status::ACTIVE()
         ]);
 
     }
