@@ -16,11 +16,13 @@ enum MatchStudentInstitution :int
     case ENROLLED = 6;
     case UNKNOWN = 7;
     case NOTINTERESTED = 8;
+    case WAITLISTED = 9;
 
     public static function getStudentChoices() :array
     {
         return array(
             self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
+            self::WAITLISTED() => self::getText(self::WAITLISTED),
             self::APPLIED() => self::getText(self::APPLIED),
             self::DENIED() => self::getText(self::DENIED),
             self::ACCEPTED() => self::getText(self::ACCEPTED),
@@ -39,6 +41,7 @@ enum MatchStudentInstitution :int
             self::ENROLLED => 'Enrolled',
             self::UNKNOWN => 'Unknown',
             self::NOTINTERESTED => 'Not Interested',
+            self::WAITLISTED => 'Waitlisted',
         };
     }
 }

@@ -43,7 +43,7 @@ class ChatbotController extends Controller
             MessageState::updateMessageStateByID($message['state_id'], $newState);
         }
 
-        Log::channel('chat')->debug('Ending chat loop');
+        //Log::channel('chat')->debug('Ending chat loop');
     }
 
     /**
@@ -62,7 +62,7 @@ class ChatbotController extends Controller
             }
             if (str_contains($message, '{first}')) {
                 $first = User::find($user_id)->first()->first;
-                Log::channel('chat')->debug('Found first name: ' . $first);
+                Log::channel('chat')->debug('Found first name: ' . $first . ' for user ID ' . $user_id);
                 $message = str_replace("{first}", $first, $message);
             }
             return $message;
