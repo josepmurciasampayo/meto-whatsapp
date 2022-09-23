@@ -157,11 +157,8 @@ class ChatbotController extends Controller
             );
         } catch (TwilioException $e) {
             Log::channel('chat')->debug($e);
+            // TODO: error handle here
         }
-        // TODO: error handle here
-        /*if (&& !is_null($state_id)) {
-            MessageState::updateMessageStateByID($state_id, State::ERROR);
-        }*/
     }
 
     public static function getAdminData() :array
