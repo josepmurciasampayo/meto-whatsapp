@@ -85,6 +85,11 @@ class MessageState extends Model
         $toReturn = array();
 
         // identify queued messages that need verifications or confirmations before sending
+        $usersWaiting = Helpers::dbQueryArray('
+            select distinct group_concat(user_id) as u from meto_message_states where state = ' . State::WAITING() . ';
+        ');
+        $usersWaiting = isset($usersWaiting[0]["u"]) ? ' and user.id not in (' . $usersWaiting[0]["u"] . ')' : '';
+
         // verifications and confirmations get loaded with higher priorities than campaigns
         self::queueVerifications();
         self::queueConfirmations();
@@ -103,10 +108,11 @@ class MessageState extends Model
             from meto_users as user
             join meto_message_states as state on state.user_id = user.id
             join meto_messages as message on state.message_id = message.id
-            where user.role = ' . Role::STUDENT() . '
+            where user.role = ' . Role::STUDENT() .
+             $usersWaiting . '
             and user.phone_verified != ' . Verified::DENIED() . '
             and user.whatsapp_consent != ' . Consent::NOCONSENT() .'
-            and state = ' . State::QUEUED() . ';
+            and state in (' . State::QUEUED() . ');
         ');
 
         // Look through each message, save one per user, replace if there's one with a lower priority
@@ -377,20 +383,20 @@ class MessageState extends Model
                 DB::update('
                     update meto_users set phone_verified = ' . $value .' where id = ' . $user_id . ';
                 ');
-                break;
+                return;
             case Campaign::CONFIRMPERMISSION:
                 $value = ($branch->response == 'Y') ? Consent::CONSENT() : Consent::NOCONSENT();
                 DB::update('
                     update meto_users set whatsapp_consent = ' . $value .' where id = ' . $user_id . ';
                 ');
-                break;
+                return;
             case Campaign::ENDOFCYCLE:
                 // no response needed
-                break;
+                return;
 
             default:
                 Log::channel('chat')->error('State ' . $state_id . ' could not find a campaign');
-                break;
+                return;
         }
     }
 }

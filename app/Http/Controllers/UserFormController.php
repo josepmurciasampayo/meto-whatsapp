@@ -19,7 +19,6 @@ class UserFormController extends Controller
     public function show(string $url) :View
     {
         // TODO: how to handle 419's from these links (or unexpire the links)
-        Log::channel('form')->debug('Landed in UserForm Controller');
         $userForm = UserForm::where('url', $url)->first();
         if (is_null($userForm)) {
             Log::error('Could not find form URL: ' . $url);
@@ -61,6 +60,7 @@ class UserFormController extends Controller
         Log::channel('form')->debug("UserForm Update received request: " . print_r($toStore, true));
         $userForm = UserForm::where('url', $toStore['userform_url']);
         if (is_null($userForm)) {
+            return view ('errors.404');
             // TODO: log and notify
         } else {
             $userForm = $userForm->first();
@@ -68,6 +68,7 @@ class UserFormController extends Controller
 
         $matches = MatchStudentInstitution::getByUserID($userForm->user_id);
         if (count($matches) == 0) {
+            return view('errors.404');
             // TODO: log and notify
         }
 
