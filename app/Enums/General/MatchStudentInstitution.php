@@ -22,8 +22,8 @@ enum MatchStudentInstitution :int
     {
         return array(
             self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
-            self::WAITLISTED() => self::getText(self::WAITLISTED),
             self::APPLIED() => self::getText(self::APPLIED),
+            self::WAITLISTED() => self::getText(self::WAITLISTED),
             self::DENIED() => self::getText(self::DENIED),
             self::ACCEPTED() => self::getText(self::ACCEPTED),
             self::ENROLLED() => self::getText(self::ENROLLED),

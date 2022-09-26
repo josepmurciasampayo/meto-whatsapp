@@ -122,9 +122,7 @@ class ChatbotController extends Controller
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
             // restart loop to handle any new queued messages
-            if (MessageState::queueMessage($user->id, $branch->to_message_id)) {
-                self::startLoop();
-            }
+            self::startLoop();
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             Log::channel('chat')->error('Chat exception: ' . $th);

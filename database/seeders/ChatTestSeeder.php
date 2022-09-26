@@ -35,7 +35,7 @@ class ChatTestSeeder extends Seeder
 
        // Abraham
        $user = User::where('email', 'gmgarrison+abe@gmail.com')->first();
-       //MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
+       MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
 
        // Ryan
        /*
