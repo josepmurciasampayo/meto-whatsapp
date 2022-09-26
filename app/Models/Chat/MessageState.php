@@ -85,10 +85,15 @@ class MessageState extends Model
         $toReturn = array();
 
         // identify queued messages that need verifications or confirmations before sending
-        $usersWaiting = Helpers::dbQueryArray('
-            select distinct group_concat(user_id) as u from meto_message_states where state = ' . State::WAITING() . ';
-        ');
-        $usersWaiting = isset($usersWaiting[0]["u"]) ? ' and user.id not in (' . $usersWaiting[0]["u"] . ')' : '';
+        $usersWaitingCount = DB::select('select count(*) as c from meto_message_states where state = 2;')[0]->c;
+        if ($usersWaitingCount > 0) {
+            $usersWaiting = Helpers::dbQueryArray('
+                select distinct group_concat(user_id) as u from meto_message_states where state = ' . State::WAITING() . ';
+            ');
+            $usersWaiting = ' and user.id not in (' . $usersWaiting[0]["u"] . ')';
+        } else {
+            $usersWaiting = '';
+        }
 
         // verifications and confirmations get loaded with higher priorities than campaigns
         self::queueVerifications();
