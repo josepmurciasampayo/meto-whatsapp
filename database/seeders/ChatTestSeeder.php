@@ -6,6 +6,7 @@ use App\Enums\Chat\Campaign;
 use App\Enums\General\Form;
 use App\Enums\General\FormStatus;
 use App\Models\UserForm;
+use Illuminate\Support\Facades\DB;
 use App\Enums\User\{Role, Status, Consent, Verified};
 use App\Models\Chat\MessageState;
 use App\Models\MatchStudentInstitution;
@@ -44,6 +45,9 @@ class ChatTestSeeder extends Seeder
    }
 
    public function createUsers() {
+       $studentRole = Role::STUDENT();
+       $activeStatus = Status::ACTIVE();
+
        /*
         * Greg Student
         */
@@ -56,11 +60,13 @@ class ChatTestSeeder extends Seeder
            'phone_combined' => 15712143085,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+student@gmail.com",
-           'role' => Role::STUDENT,
-           'status' => Status::ACTIVE,
+           'role' => $studentRole,
+           'status' => $activeStatus,
            //'phone_verified' => Verified::VERIFIED,
            //'whatsapp_consent' => Consent::CONSENT,
        ]);
+
+
 
        $user_id = User::all()->count();
 
@@ -177,8 +183,8 @@ class ChatTestSeeder extends Seeder
            'phone_combined' =>  231886416380,
            'password' => bcrypt('password'),
            'email' => "gmgarrison+abe@gmail.com",
-           'role' => Role::STUDENT(),
-           'status' => Status::ACTIVE(),
+           'role' => 2,
+           'status' => 1,
            'whatsapp_consent' => Consent::UNKNOWN(),
        ]);
 
@@ -236,6 +242,9 @@ class ChatTestSeeder extends Seeder
        Student::create([
            'user_id' => User::all()->count(),
        ]);
+
+       DB::update('update meto_users set role = ' . $studentRole . ' where role = 0');
+       DB::update('update meto_users set status = ' . $activeStatus . ' where status = 0');
 
    }
 }

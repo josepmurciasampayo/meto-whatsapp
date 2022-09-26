@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('admin')->group(function() {
 });
+    Route::post('/resetChatbot', [ChatbotController::class, 'reset'])->name('resetChatbot');
+    Route::post('/startChatbot', [ChatbotController::class, 'startLoop'])->name('startChatbot');
 
 Route::post('/chat', [ChatbotController::class, 'listenToReply']);

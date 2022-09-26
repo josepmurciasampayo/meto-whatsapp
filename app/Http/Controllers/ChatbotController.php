@@ -12,11 +12,17 @@ use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 use App\Models\Chat\MessageState;
 use App\Models\LogComms;
+use App\Models\MatchStudentInstitution;
+use App\Models\Student;
 use App\Models\User;
 use App\Models\UserForm;
+use Database\Seeders\ChatTestSeeder;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
@@ -161,6 +167,21 @@ class ChatbotController extends Controller
             Log::channel('chat')->debug($e);
             // TODO: error handle here
         }
+    }
+
+    public static function reset() :RedirectResponse
+    {
+        MessageState::truncate();
+        LogComms::truncate();
+        User::deleteByRole(Role::STUDENT);
+        UserForm::truncate();
+        Student::truncate();
+        MatchStudentInstitution::truncate();
+        Session::flush();
+        $seeder = new ChatTestSeeder();
+        $seeder->run();
+
+        return redirect('comms-log');
     }
 
     public static function getAdminData() :array

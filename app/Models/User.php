@@ -94,4 +94,9 @@ class User extends Authenticatable
     {
         return ($this->role == Role::INSTITUTION());
     }
+
+    public static function deleteByRole(Role $role) :void
+    {
+        User::where('role', $role())->delete();
+    }
 }
