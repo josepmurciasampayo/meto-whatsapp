@@ -47,11 +47,11 @@ class MessageState extends Model
      * @param int $message_id
      * @param int $priority
      */
-    public static function queueMessage(int $user_id, ?int $message_id, int $priority = 3) :void
+    public static function queueMessage(int $user_id, ?int $message_id, int $priority = 3) :bool
     {
         if (is_null($message_id) || ($message_id == Campaign::NOBRANCH())) {
             // nothing to do
-            return;
+            return false;
         }
 
         Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
@@ -69,8 +69,10 @@ class MessageState extends Model
                 (user_id, message_id, priority, state, created_at)
                 values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
+            return true;
         } else {
-            Log::channel('chat')->debug("Found duplicate message - did not queue");
+            Log::channel('chat')->debug("Found duplicate message " . $message_id . " for user " . $user_id);
+            return true;
         }
     }
 
@@ -122,7 +124,9 @@ class MessageState extends Model
         }
 
         $runTime = $startTime->diffInMilliseconds(Carbon::now());
-        Log::channel('chat')->info('Time to run getQueuedMessagesToSend: ' . $runTime) . 'ms';
+        if ($runTime > 50) {
+            Log::channel('chat')->info('Time to run getQueuedMessagesToSend: ' . $runTime . 'ms');
+        }
         return $toReturn;
     }
 
@@ -237,7 +241,7 @@ class MessageState extends Model
      * @param int $user_id
      * @return array
      */
-    public static function getState(int $user_id) :?array
+    public static function getStateBackup(int $user_id) :?array
     {
         $result = Helpers::dbQueryArray('
                 select
@@ -274,21 +278,65 @@ class MessageState extends Model
         return $result[0];
     }
 
-    public static function getAllState() :array
+    /**
+     * @param int|null $user_id
+     * @param array|null $states
+     * @return array|null
+     */
+    public static function getState(int $user_id = null, ?array $states = null) :?array
     {
-        return Helpers::dbQueryArray('
+        $whereClause = '';
+        if (isset($user_id)) {
+            $whereClauses[] = 'u.id = ' . $user_id;
+        }
+        if (isset($states)) {
+            $whereClauses[] = 's.state in (' . implode(",", $states) . ')';
+        }
+        if (isset($whereClauses)) {
+            $whereClause = ' where ' . implode(' and ', $whereClauses);
+        }
+
+        $toReturn = Helpers::dbQueryArray('
             select
+                u.id as user_id,
                 concat(u.first, " ", u.last) as "name",
                 u.email,
+                m.id as message_id,
+                m.text,
+                m.capture_filter,
+                m.answer_table,
+                m.answer_field,
+                s.id as state_id,
+                s.state as message_state,
                 campaign.enum_desc as "campaign",
                 priority,
                 state.enum_desc as "state",
                 response
             from meto_users as u
             join meto_message_states as s on s.user_id = u.id
+            join meto_messages as m on s.message_id = m.id
             join meto_enum as campaign on campaign.group_id = ' . EnumGroup::CHAT_CAMPAIGNS() .' and campaign.enum_id = message_id
-            join meto_enum as state on state.group_id = ' . EnumGroup::CHAT_STATE() . ' and state.enum_id = state;
+            join meto_enum as state on state.group_id = ' . EnumGroup::CHAT_STATE() . ' and state.enum_id = state
+            ' . $whereClause . '
+            order by s.message_id asc;
         ');
+
+        if (isset($user_id)) { //checking for just one user
+            if (count($toReturn) == 0) { // No state found, unexpected message
+                Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user_id);
+                // TODO: send notification to team member?
+                return null;
+            }
+            if (isset($user_id) && count($toReturn) > 1) { // Multiple states found, unexpected condition
+                // TODO: send notification to team member?
+                Log::channel('chat')->error("Too many states: " . print_r($toReturn));
+                return null;
+            }
+
+            return $toReturn[0]; // return just the first record for the relevant user
+        }
+
+        return $toReturn; // return all records for an admin user
     }
 
     /**
@@ -302,6 +350,10 @@ class MessageState extends Model
         ");
     }
 
+    /**
+     * @param int $state_id
+     * @param string $body
+     */
     public static function saveResponseInState(int $state_id, string $body) :void
     {
         // write raw response into messagestate table
@@ -310,6 +362,11 @@ class MessageState extends Model
         ");
     }
 
+    /**
+     * @param int $user_id
+     * @param int $state_id
+     * @param Branch $branch
+     */
     public static function saveResponseInSchema(int $user_id, int $state_id, Branch $branch) :void
     {
         // find appropriate campaign and save translated response in the schema

@@ -23,7 +23,10 @@ class Helpers
         }
 
         $end = now();
-        Log::channel('db')->debug('Query took ' . $end->diffInMilliseconds($start) . ' ms: ' . $query . "<br/><br/>" . print_r($toReturn, true));
+        $elapsed = $end->diffInMilliseconds($start);
+        if ($elapsed > 5) {
+            Log::channel('db')->debug('Query took ' . $elapsed . ' ms: ' . $query . "\n\n" . print_r($toReturn, true));
+        }
         return $toReturn;
     }
 

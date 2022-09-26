@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, CounselorController, HomeController, InstitutionController, StudentController};
+use App\Http\Controllers\{AdminController, ChatbotController, CounselorController, HomeController, InstitutionController, StudentController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -24,6 +24,9 @@ Route::middleware('admin')->group(function() {
     Route::get('/matches', [AdminController::class, 'matchData'])->name('matchData');
     Route::get('/comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
     Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');
+    Route::post('/resetChatbot', [ChatbotController::class, 'reset'])->name('resetChatbot');
+    Route::post('/startChatbot', [ChatbotController::class, 'startLoop'])->name('startChatbot');
+
 });
 
 // Counselor functionality

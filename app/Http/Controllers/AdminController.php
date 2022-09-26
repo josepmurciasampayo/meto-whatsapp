@@ -24,7 +24,7 @@ class AdminController extends Controller
     public function commsLog() :View
     {
         $data = ChatbotController::getAdminData();
-        $state = MessageState::getAllState();
+        $state = MessageState::getState();
         return view('admin.commsLog', [
             'data' => $data,
             'state' => $state,

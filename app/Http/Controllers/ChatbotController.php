@@ -48,8 +48,6 @@ class ChatbotController extends Controller
             $newState = ($message['wait_for_reply']) ? State::WAITING : State::COMPLETE;
             MessageState::updateMessageStateByID($message['state_id'], $newState);
         }
-
-        //Log::channel('chat')->debug('Ending chat loop');
     }
 
     /**
@@ -88,8 +86,9 @@ class ChatbotController extends Controller
 
         // Logging
         Helpers::log(Channel::WHATSAPP, $from, "METO", $body);
-        $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
         Log::channel('chat')->debug('Received WhatsApp from ' . $from . ': ' . $body);
+
+        $body = Message::collapseResponses(str_replace(".", "", $request->input('Body')));
 
         try {
             // Find which user messaged, if we can't identify there's not much else to do
@@ -100,11 +99,11 @@ class ChatbotController extends Controller
                 return;
             }
 
-            // Get state and error handle
-            $currentState = MessageState::getState($user->id);
+            // Get any waiting states and error handle
+            $currentState = MessageState::getState($user->id, [State::WAITING()]);
             if (is_null($currentState)) {
                 Log::channel('chat')->error("Couldn't find existing state for " . $user->email);
-                ChatbotController::sendWhatsAppMessage($from, "I wasn't expecting to hear from you but I've forwarded your message to our staff.", $user->id);
+                self::sendWhatsAppMessage($from, "I'm sorry, {first}. I wasn't expecting to hear from you but I've forwarded your message to our staff.", $user->id);
                 // TODO: notify staff?
                 return;
             }
@@ -123,8 +122,9 @@ class ChatbotController extends Controller
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
             // restart loop to handle any new queued messages
-            MessageState::queueMessage($user->id, $branch->to_message_id);
-            self::startLoop();
+            if (MessageState::queueMessage($user->id, $branch->to_message_id)) {
+                self::startLoop();
+            }
         } catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             Log::channel('chat')->error('Chat exception: ' . $th);

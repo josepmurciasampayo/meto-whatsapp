@@ -17,7 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware('admin')->group(function() {
 });
-    Route::post('/resetChatbot', [ChatbotController::class, 'reset'])->name('resetChatbot');
-    Route::post('/startChatbot', [ChatbotController::class, 'startLoop'])->name('startChatbot');
 
 Route::post('/chat', [ChatbotController::class, 'listenToReply']);
