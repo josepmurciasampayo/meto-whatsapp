@@ -61,7 +61,8 @@ class ChatbotController extends Controller
                 $message = str_replace("{form_application_status}", $url, $message);
             }
             if (str_contains($message, '{first}')) {
-                $first = User::find($user_id)->first()->first;
+                $user = User::find($user_id);
+                $first = $user->first;
                 Log::channel('chat')->debug('Found first name: ' . $first . ' for user ID ' . $user_id);
                 $message = str_replace("{first}", $first, $message);
             }
@@ -97,6 +98,7 @@ class ChatbotController extends Controller
             $currentState = MessageState::getState($user->id);
             if (is_null($currentState)) {
                 Log::channel('chat')->error("Couldn't find existing state for " . $user->email);
+                ChatbotController::sendWhatsAppMessage($from, "I wasn't expecting to hear from you but I've forwarded your message to our staff.", $user->id);
                 // TODO: notify staff?
                 return;
             }

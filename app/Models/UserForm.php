@@ -20,7 +20,7 @@ class UserForm extends Model
         'status',
     ];
 
-    public static function getForm(int $user_id, Form $form) :UserForm
+    public static function getForm(int $user_id, Form $form) :?UserForm
     {
         $existing = UserForm::where(['user_id' => $user_id, 'form_id' => $form()])->first();
         if ($existing) {
@@ -32,7 +32,7 @@ class UserForm extends Model
 
     public static function createForm(int $user_id, Form $form) :?UserForm
     {
-        if (Students::countMatches($user_id)) {
+        if (Students::countMatches($user_id) == 0) {
             return null;
         }
         $new = new UserForm([

@@ -12,7 +12,7 @@ class startLoop extends Command
      *
      * @var string
      */
-    protected $signature = 'chat:startLoop';
+    protected $signature = 'chat:start';
 
     /**
      * The console command description.
