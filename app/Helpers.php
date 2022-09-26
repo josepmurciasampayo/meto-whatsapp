@@ -84,6 +84,11 @@ class Helpers
         Log::channel('chat')->debug($log);
     }
 
+    public static function stripNonNumeric(string $from) :string
+    {
+        return preg_replace("/[^0-9]/", "", $from);
+    }
+
     /**
      * @param string $str
      * @return string

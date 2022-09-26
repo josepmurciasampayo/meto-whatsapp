@@ -114,6 +114,7 @@ class ChatbotController extends Controller
 
             if (is_null($branch)) {
                 Log::channel('chat')->error('Branch not found: ' . $user->id);
+                $from = Helpers::stripNonNumeric($from);
                 self::sendWhatsAppMessage($from, "I didn't understand that - please try again?", $user->id);
                 return;
             }
