@@ -7,12 +7,11 @@ use App\Enums\General\FormStatus;
 use App\Imports\Students;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class UserForm extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
         'form_id',
@@ -22,9 +21,12 @@ class UserForm extends Model
 
     public static function getForm(int $user_id, Form $form) :?UserForm
     {
-        $existing = UserForm::where(['user_id' => $user_id, 'form_id' => $form()])->first();
-        if ($existing) {
-            return $existing;
+        $id = DB::select('
+            select id from meto_user_forms where user_id = ' . $user_id . ' and form_id = ' . $form() . ';
+        ');
+        $existing = UserForm::where(['user_id' => $user_id, 'form_id' => $form()]);
+        if ($existing->count() > 0) {
+            return $existing->first();
         }
 
         return self::createForm($user_id, $form);
@@ -32,7 +34,7 @@ class UserForm extends Model
 
     public static function createForm(int $user_id, Form $form) :?UserForm
     {
-        if (Students::countMatches($user_id) == 0) {
+        if (Student::countMatches($user_id) == 0) {
             return null;
         }
         $new = new UserForm([

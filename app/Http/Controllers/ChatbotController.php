@@ -112,7 +112,7 @@ class ChatbotController extends Controller
             $branch = Branch::getBranchByMessageAndResponse($currentState['message_id'], $body);
 
             if (is_null($branch)) {
-                Log::channel('chat')->error('Branch not found: ' . $user->id);
+                Log::channel('chat')->error('Branch not found for input: ' . $body);
                 $from = Helpers::stripNonNumeric($from);
                 self::sendWhatsAppMessage($from, "I didn't understand that - please try again?", $user->id);
                 return;
@@ -169,7 +169,7 @@ class ChatbotController extends Controller
         }
     }
 
-    public static function reset() :RedirectResponse
+    public static function reset() :void
     {
         MessageState::truncate();
         LogComms::truncate();
@@ -177,30 +177,8 @@ class ChatbotController extends Controller
         UserForm::truncate();
         Student::truncate();
         MatchStudentInstitution::truncate();
-        Session::flush();
+        //Session::flush();
         $seeder = new ChatTestSeeder();
         $seeder->run();
-
-        return redirect('comms-log');
-    }
-
-    public static function getAdminData() :array
-    {
-        // TODO: move to Model class
-        return Helpers::dbQueryArray("
-            select
-                c.id as message_id,
-                c.from,
-                c.to,
-                body,
-                c.created_at,
-                coalesce(user_to.id, user_from.id) as user_id,
-                concat(coalesce(user_to.first, user_from.first), ' ', coalesce(user_to.last, user_from.last)) as 'name'
-            from meto_log_comms as c
-            left outer join meto_users as user_to on c.to = user_to.phone_combined and user_to.role = " . Role::STUDENT() . "
-            left outer join meto_users as user_from on c.from = user_from.phone_combined and user_from.role = " . Role::STUDENT() . "
-            where channel = " . Channel::WHATSAPP() . "
-            order by c.created_at;
-        ");
     }
 }

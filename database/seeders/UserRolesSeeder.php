@@ -38,7 +38,7 @@ class UserRolesSeeder extends Seeder
          */
         User::create([
             'first' => "Ryan",
-            'last' => "Student",
+            'last' => "Institution",
             'phone_country' => 1,
             'phone_area' => 303,
             'phone_local' => 6016774,

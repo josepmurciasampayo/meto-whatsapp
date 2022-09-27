@@ -6,6 +6,7 @@
     <div class="container bg-white">
 
         <div class="container py-5">
+            @env('local')
             <div class="my-5 py-3 mx-3">
                 <form method="post" action="{{ route('startChatbot') }}">
                     @csrf
@@ -16,8 +17,9 @@
                     @csrf
                     <button type="submit" class="btn btn-info">Reset Chatbot</button>
                 </form>
-
             </div>
+            @endenv
+
             <h3 class="my-2">Messaging State Summary</h3>
             <table id="state" class="table table-striped fs-6" style="width:100%">
                 <thead>

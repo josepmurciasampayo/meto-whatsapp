@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat\MessageState;
+use App\Models\LogComms;
 use App\Models\MatchStudentInstitution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class AdminController extends Controller
 
     public function commsLog() :View
     {
-        $data = ChatbotController::getAdminData();
+        $data = LogComms::getAdminData();
         $state = MessageState::getState();
         return view('admin.commsLog', [
             'data' => $data,
@@ -53,5 +54,17 @@ class AdminController extends Controller
         $request = $request->toArray();
         ChatbotController::sendWhatsAppMessage($request['to-phone'], $request['body']);
         return redirect('comms-log');
+    }
+
+    public function startChatbot() :View
+    {
+        ChatbotController::startLoop();
+        return self::commsLog();
+    }
+
+    public function resetChatbot() :View
+    {
+        ChatbotController::reset();
+        return self::commsLog();
     }
 }
