@@ -21,19 +21,6 @@ use Twilio\Rest\Chat;
 class MessageState extends Model
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'user_id',
-        'message_id',
-        'priority',
-        'state',
-        'response',
-    ];
-
-    /**
      * @param int $user_id
      * @param Campaign $message
      */
@@ -47,14 +34,13 @@ class MessageState extends Model
      * @param int $message_id
      * @param int $priority
      */
-    public static function queueMessage(int $user_id, ?int $message_id, int $priority = 3) :bool
+    public static function queueMessage(int $user_id, int $message_id, int $priority = 3) :bool
     {
         if (is_null($message_id) || ($message_id == Campaign::NOBRANCH())) {
             // nothing to do
             return false;
         }
 
-        Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
         $existing = Helpers::dbQueryArray('
             select
             id
@@ -69,11 +55,11 @@ class MessageState extends Model
                 (user_id, message_id, priority, state, created_at)
                 values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
-            return true;
-        } else {
-            Log::channel('chat')->debug("Found duplicate message " . $message_id . " for user " . $user_id);
-            return true;
+            Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
+
         }
+
+        return true;
     }
 
     /**

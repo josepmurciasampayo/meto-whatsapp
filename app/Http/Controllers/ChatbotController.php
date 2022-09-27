@@ -22,7 +22,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\View\View;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
@@ -44,7 +43,7 @@ class ChatbotController extends Controller
 
         $toSend = MessageState::getQueuedMessagesToSend();
         foreach ($toSend as $message) {
-            self::sendWhatsAppMessage($message['phone'], $message['text'], $message['user_id'], $message['state_id']);
+            self::sendWhatsAppMessage($message['phone'], $message['text'], $message['user_id']);
             $newState = ($message['wait_for_reply']) ? State::WAITING : State::COMPLETE;
             MessageState::updateMessageStateByID($message['state_id'], $newState);
         }
@@ -81,7 +80,7 @@ class ChatbotController extends Controller
      */
     public function listenToReply(Request $request) :void
     {
-        $from = $request->input('From');
+        $from = Helpers::stripNonNumeric($request->input('From'));
         $body = $request->input('Body');
 
         // Logging
@@ -121,6 +120,8 @@ class ChatbotController extends Controller
 
             MessageState::saveResponseInSchema($user->id, $currentState['state_id'], $branch);
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
+
+            MessageState::queueMessage($user->id, $branch->to_message_id);
 
             // restart loop to handle any new queued messages
             self::startLoop();
