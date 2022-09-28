@@ -25,6 +25,7 @@ class ChatTestSeeder extends Seeder
 
        // Have to remove phone numbers from admin users so the chatbot doesn't get caught
        User::find(1)->phone_combined = '';
+       User::find(2)->phone_combined = '';
        User::find(3)->phone_combined = '';
    }
 
@@ -223,9 +224,7 @@ class ChatTestSeeder extends Seeder
         MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
 
         // Ryan
-        /*
         $user = User::where('email', 'gmgarrison+ryan@gmail.com')->first();
         MessageState::queueCampaign($user->id, Campaign::ENDOFCYCLE);
-        */
     }
 }

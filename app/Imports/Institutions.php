@@ -14,7 +14,7 @@ class Institutions
     public static function importInstitutionsFromGoogle()
     {
         $query = '
-            select * from institutions_table where imported = 0;
+            select * from institutions_table as i join university_info as u on u.institution_id = i.institution_id where imported = 0;
         ';
         $institutions = DB::connection('google')->select($query);
         foreach ($institutions as $institution) {

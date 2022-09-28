@@ -46,8 +46,8 @@ class UserSeeder extends Seeder
             'phone_area' => 303,
             'phone_local' => 6016774,
             'phone_combined' => 13036016774,
-            'password' => bcrypt('password'),
-            'email' => "ryan@meto-intl.org",
+            'password' => '$2y$10$UlSwHCse51dlFFb/Xsr3rewNopIivLjAnTdkLh1O01MKvQ2wGxxom',
+            'email' => "benitez@meto-intl.org",
             'role' => Role::ADMIN(),
             'status' => Status::ACTIVE()
         ]);
@@ -66,6 +66,7 @@ class UserSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
+        /*
         User::create([
             'id' => $userID++,
             'first' => "Nic",
@@ -78,6 +79,6 @@ class UserSeeder extends Seeder
             'role' => Role::ADMIN(),
             'status' => Status::ACTIVE()
         ]);
-
+*/
     }
 }

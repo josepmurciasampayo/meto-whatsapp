@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Enums\Student\Gender;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
+use App\Helpers;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,7 @@ class Students
         $user->role = Role::STUDENT();
         $user->status = Status::ACTIVE();
         $user->google_id = $studentDB->student_id;
+        $user->phone_combined = Helpers::stripNonNumeric($studentDB->phone_number);
         $user->save();
 
         $stu = new Student();
@@ -69,17 +71,19 @@ class Students
         $stu->gender = match(strtolower($studentDB->gender)) {
             'male' => Gender::MALE(),
             'female' => Gender::FEMALE(),
-            default => Gender::OTHER(),
+            'other / prefer not to say' => Gender::OTHER(),
             };
-        $stu->save();
-        }
 
-        private static function markImported(\stdClass $student) :void
-        {
-            DB::connection('google')->update('
-                update students_table set imported = 1 where student_id = ' . $student->student_id . ';
-            ');
-        }
+
+        $stu->save();
+    }
+
+    private static function markImported(\stdClass $student) :void
+    {
+        DB::connection('google')->update('
+            update students_table set imported = 1 where student_id = ' . $student->student_id . ';
+        ');
+    }
 
 
 }

@@ -14,7 +14,7 @@ class importFromGoogle extends Command
      *
      * @var string
      */
-    protected $signature = 'command:importFromGoogle';
+    protected $signature = 'import:google';
 
     /**
      * The console command description.
@@ -31,7 +31,10 @@ class importFromGoogle extends Command
     public function handle()
     {
         Students::importStudentsFromGoogle();
+        echo "\nStudents imported";
         Institutions::importInstitutionsFromGoogle();
+        echo "\nInstitutions imported";
         Matches::importMatchesFromGoogle();
+        echo "\nMatches imported";
     }
 }
