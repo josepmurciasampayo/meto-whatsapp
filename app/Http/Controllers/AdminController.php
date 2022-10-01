@@ -32,6 +32,11 @@ class AdminController extends Controller
             ]);
     }
 
+    public function universities() :View
+    {
+        return view('admin.universities');
+    }
+
     public function matchData() :View
     {
         $match_data = MatchStudentInstitution::getMatchData();

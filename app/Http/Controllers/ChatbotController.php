@@ -129,7 +129,6 @@ class ChatbotController extends Controller
             $response = json_decode($th->getResponse()->getBody());
             Log::channel('chat')->error('Chat exception: ' . $th);
             Log::channel('chat')->error('Chat response: ' . $response);
-            // TODO: log exception and notify
         }
     }
 
@@ -164,8 +163,7 @@ class ChatbotController extends Controller
                 array('from' => "whatsapp:+" . $twilio_whatsapp_number, 'body' => $message)
             );
         } catch (TwilioException $e) {
-            Log::channel('chat')->debug($e);
-            // TODO: error handle here
+            Log::channel('chat')->error("Error sending WhatsApp: " . $e);
         }
     }
 

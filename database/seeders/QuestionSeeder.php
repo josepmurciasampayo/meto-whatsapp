@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Imports\Questions;
 use Illuminate\Database\Seeder;
 
 class QuestionSeeder extends Seeder
@@ -12,8 +12,8 @@ class QuestionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run($db)
     {
-        //
+        Questions::importFromGoogle($db);
     }
 }

@@ -21,14 +21,8 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             UserRolesSeeder::class,
             ChatTestSeeder::class,
-            InstitutionSeeder::class,
+            GoogleSeeder::class,
+            // InstitutionSeeder::class,
         ]);
-
-        if ($type == 'google') {
-            $this->call([
-                GoogleSeeder::class,
-            ]);
-        }
-
     }
 }

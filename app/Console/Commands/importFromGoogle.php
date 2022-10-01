@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Imports\Answers;
 use App\Imports\Institutions;
 use App\Imports\Matches;
 use App\Imports\Students;
+use Database\Seeders\GoogleSeeder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class importFromGoogle extends Command
 {
@@ -30,11 +33,9 @@ class importFromGoogle extends Command
      */
     public function handle()
     {
-        Students::importStudentsFromGoogle();
-        echo "\nStudents imported";
-        Institutions::importInstitutionsFromGoogle();
-        echo "\nInstitutions imported";
-        Matches::importMatchesFromGoogle();
-        echo "\nMatches imported";
+        $db = "google-local";
+
+        $seeder = new GoogleSeeder();
+        $seeder->run($db);
     }
 }

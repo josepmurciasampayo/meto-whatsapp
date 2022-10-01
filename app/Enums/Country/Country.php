@@ -516,7 +516,7 @@ enum Country :int
         };
     }
 
-    public static function lookup(string $name) :Country
+    public static function lookup(string $name) :int
     {
         return match($name) {
             "Afghanistan" => 1,
@@ -675,6 +675,7 @@ enum Country :int
             "Nauru" => 154,
             "Nepal" => 155,
             "Netherlands" => 156,
+            "The Netherlands" => 156,
             "New Caledonia" => 157,
             "New Zealand" => 158,
             "Nicaragua" => 159,
@@ -752,7 +753,8 @@ enum Country :int
             "Uganda" => 231,
             "Ukraine" => 232,
             "United Arab Emirates" => 233,
-            "United Kingdom of Great Britain and Northern Ireland" => 234,
+            "United Kingdom" => 234,
+            "Scotland" => 234,
             "United States" => 235,
             "United States Minor Outlying Islands" => 236,
             "Uruguay" => 237,

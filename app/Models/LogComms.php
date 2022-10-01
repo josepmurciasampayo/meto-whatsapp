@@ -23,7 +23,6 @@ class LogComms extends Model
 
     public static function getAdminData() :array
     {
-        // TODO: move to Model class
         return Helpers::dbQueryArray("
             select
                 c.id as message_id,

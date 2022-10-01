@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedTinyInteger(Curriculum::RWANDAN())->default(0)->comment('Rwandan');
             $table->unsignedTinyInteger(Curriculum::TRANSFER())->default(0)->comment('Transfer');
             $table->unsignedTinyInteger(Curriculum::UGANDAN())->default(0)->comment('Ugandan');
+            $table->unsignedTinyInteger(Curriculum::OTHER())->default(0)->comment('All Other');
             $table->timestamps();
         });
     }

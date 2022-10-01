@@ -267,7 +267,6 @@ class MessageState extends Model
             return null;
         }
         if (count($result) > 1) { // Multiple states found, unexpected condition
-            // TODO: send notification to team member?
             Log::channel('chat')->error("Too many states: " . print_r($result));
             return null;
         }
@@ -325,7 +324,6 @@ class MessageState extends Model
                 return null;
             }
             if (isset($user_id) && count($toReturn) > 1) { // Multiple states found, unexpected condition
-                // TODO: send notification to team member?
                 Log::channel('chat')->error("Too many states: " . print_r($toReturn));
                 return null;
             }

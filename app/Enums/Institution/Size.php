@@ -16,7 +16,6 @@ enum Size: int
     public static function getText(self $value) :string
     {
         return match($value) {
-            // TODO: add specific enrollment ranges
             self::SMALL => "Small",
             self::MID => "Mid-sized",
             self::LARGE => "Large",

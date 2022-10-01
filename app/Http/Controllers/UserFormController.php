@@ -60,16 +60,16 @@ class UserFormController extends Controller
         Log::channel('form')->debug("UserForm Update received request: " . print_r($toStore, true));
         $userForm = UserForm::where('url', $toStore['userform_url']);
         if (is_null($userForm)) {
+            Log::channel('form')->error('Form URL not found: ' . $toStore['userform_url']);
             return view ('errors.404');
-            // TODO: log and notify
         } else {
             $userForm = $userForm->first();
         }
 
         $matches = MatchStudentInstitution::getByUserID($userForm->user_id);
         if (count($matches) == 0) {
+            Log::channel('form')->error('No matches found for form URL: ' . $userForm->url);
             return view('errors.404');
-            // TODO: log and notify
         }
 
         foreach ($request['matches'] as $match_id => $status) {

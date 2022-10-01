@@ -10,22 +10,22 @@ use Illuminate\Support\Facades\Log;
 
 class Matches
 {
-    public static function importMatchesFromGoogle()
+    public static function importFromGoogle(string $db) :int
     {
         $query = '
             select * from inst_student_relationships where imported = 0;
         ';
-        $matches = DB::connection('google')->select($query);
+        $matches = DB::connection($db)->select($query);
         foreach ($matches as $match) {
             self::importMatch($match);
-            self::markImported($match);
+            self::markImported($match, $db);
         }
-        return 0;
+        return 1;
     }
 
     private static function importMatch(\stdClass $matchDB) :void
     {
-        $student = Student::where('google_db_id', $matchDB->student_id)->first();
+        $student = Student::where('google_id', $matchDB->student_id)->first();
         if (is_null($student)) {
             Log::channel('import')->error("Couldn't find student ID" . $matchDB->student_id);
             return;
@@ -42,9 +42,9 @@ class Matches
         $match->save();
     }
 
-    private static function markImported($match) :void
+    private static function markImported(\stdClass $match, string $db) :void
     {
-        DB::connection('google')->update('
+        DB::connection($db)->update('
             update inst_student_relationships set imported = 1 where relationship_id = ' . $match->relationship_id . ';
         ');
     }

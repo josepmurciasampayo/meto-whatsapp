@@ -15,6 +15,7 @@ enum Curriculum :int
     case IB = 5;
     case CAMBRIDGE = 6;
     case TRANSFER = 7;
+    case OTHER = 8;
 
     public static function getText(self $value) :string
     {
@@ -26,6 +27,7 @@ enum Curriculum :int
             self::IB => "IB",
             self::CAMBRIDGE => "Cambridge",
             self::TRANSFER => "Graduates and Transfers",
+            self::OTHER => "All Others",
         };
     }
 }

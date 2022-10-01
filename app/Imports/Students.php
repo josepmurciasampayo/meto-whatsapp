@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\DB;
 
 class Students
 {
-    public static function importStudentsFromGoogle()
+    public static function importFromGoogle(string $db) :int
     {
         $query = '
             select * from students_table where imported = 0;
         ';
-        $students = DB::connection('google')->select($query);
+        $students = DB::connection($db)->select($query);
         foreach ($students as $student) {
             self::importStudent($student);
-            self::markImported($student);
+            self::markImported($student, $db);
         }
-        return 0;
+        return 1;
     }
 
     private static function importStudent(\stdClass $studentDB) :void
@@ -67,23 +67,20 @@ class Students
         $stu = new Student();
         $stu->user_id = $user->id;
         $stu->dob = $studentDB->dob;
-        $stu->google_db_id = $studentDB->student_id;
+        $stu->google_id = $studentDB->student_id;
         $stu->gender = match(strtolower($studentDB->gender)) {
             'male' => Gender::MALE(),
             'female' => Gender::FEMALE(),
             'other / prefer not to say' => Gender::OTHER(),
             };
 
-
         $stu->save();
     }
 
-    private static function markImported(\stdClass $student) :void
+    private static function markImported(\stdClass $student, string $db) :void
     {
-        DB::connection('google')->update('
+        DB::connection($db)->update('
             update students_table set imported = 1 where student_id = ' . $student->student_id . ';
         ');
     }
-
-
 }

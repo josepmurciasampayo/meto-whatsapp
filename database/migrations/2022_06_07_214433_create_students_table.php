@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->comment();
-            $table->unsignedMediumInteger('google_db_id')->nullable();
+            $table->unsignedMediumInteger('google_id')->nullable();
             $table->unsignedMediumInteger('google_sheets_id')->nullable();
             $table->unsignedTinyInteger('gender')->nullable()->comment(\App\Enums\Student\Gender::toString());
             $table->date('dob')->nullable()->comment("Date of Birth");

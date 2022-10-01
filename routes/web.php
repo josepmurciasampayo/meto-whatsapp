@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, ChatbotController, CounselorController, HomeController, InstitutionController, StudentController};
+use App\Http\Controllers\{AdminController, CounselorController, HomeController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -26,7 +26,7 @@ Route::middleware('admin')->group(function() {
     Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');
     Route::post('/resetChatbot', [AdminController::class, 'resetChatbot'])->name('resetChatbot');
     Route::post('/startChatbot', [AdminController::class, 'startChatbot'])->name('startChatbot');
-
+    Route::get('/universities', [AdminController::class, 'universities'])->name('universities');
 });
 
 // Counselor functionality
@@ -56,7 +56,6 @@ Route::middleware('guest')->group(function () {
 */
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
-
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
