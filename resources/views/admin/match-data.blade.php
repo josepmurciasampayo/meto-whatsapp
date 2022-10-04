@@ -12,6 +12,7 @@
                 layout:"fitColumns", //fit columns to width of table (optional)
                 columns:[ //Define Table Columns
                     {title:"Student", field:"student"},
+                    {title:"High School", field: "school"},
                     {title:"Institution", field:"institution"},
                     {title:"Date", field:"date", sorter:"date"},
                     {title:"Status", field:"status"},

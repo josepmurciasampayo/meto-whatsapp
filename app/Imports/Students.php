@@ -62,6 +62,7 @@ class Students
         $user->status = Status::ACTIVE();
         $user->google_id = $studentDB->student_id;
         $user->phone_combined = Helpers::stripNonNumeric($studentDB->phone_number);
+        $user->phone_raw = $studentDB->phone_number;
         $user->save();
 
         $stu = new Student();

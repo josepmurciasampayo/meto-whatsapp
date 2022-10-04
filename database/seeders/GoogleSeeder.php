@@ -6,6 +6,7 @@ use App\Enums\General\Form;
 use App\Enums\User\Role;
 use App\Http\Controllers\UserFormController;
 use App\Imports\Answers;
+use App\Imports\HighSchools;
 use App\Imports\Institutions;
 use App\Imports\Matches;
 use App\Imports\Questions;
@@ -22,6 +23,7 @@ class GoogleSeeder extends Seeder
         DB::connection($db)->update('update institutions_table set imported = 0;');
         DB::connection($db)->update('update inst_student_relationships set imported = 0;');
         DB::connection($db)->update('update questions_table set imported = 0;');
+        DB::connection($db)->update('update answers_table set imported = 0;');
 
         echo "\n";
         Questions::importFromGoogle($db);
@@ -33,8 +35,11 @@ class GoogleSeeder extends Seeder
         Institutions::importFromGoogle($db);
         echo "\nInstitutions imported";
         Matches::importFromGoogle($db);
-        echo "\nMatches imported\n\n";
+        echo "\nMatches imported";
+        HighSchools::importFromGoogle($db);
+        echo "\nHigh Schools imported";
 
+        echo "\n\n";
         UserFormController::createForms(User::where('role', Role::STUDENT())->get(), Form::ENDOFCYCLE);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\General\Form;
 use App\Models\MatchStudentInstitution;
 use App\Enums\General\MatchStudentInstitution as EnumMatch;
+use App\Models\Student;
 use App\Models\User;
 use App\Models\UserForm;
 use Illuminate\Database\Eloquent\Collection;
@@ -79,10 +80,10 @@ class UserFormController extends Controller
         return view('forms.thankyou');
     }
 
-    public static function createForms(Collection $students, Form $form) :void
+    public static function createForms(Collection $users, Form $form) :void
     {
-        foreach ($students as $student) {
-            UserForm::createForm($student->id, $form);
+        foreach ($users as $user) {
+            UserForm::createForm($user->id, $form);
         }
     }
 

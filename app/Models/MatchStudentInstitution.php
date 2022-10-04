@@ -74,24 +74,24 @@ class MatchStudentInstitution extends Model
     public static function getMatchData() :array
     {
         // TODO: add high school name and country and last update date
-
-
         return Helpers::dbQueryArray('
             select
                 m.id as match_id,
-                student_id,
+                m.student_id,
                 institution_id,
                 m.status,
                 enum_desc as match_status,
                 m.created_at as match_date,
                 u.first,
                 u.last,
-                i.name
+                i.name,
+                a.text as "school"
             from meto_match_student_institutions as m
             join meto_students as s on student_id = s.id
             join meto_users as u on s.user_id = u.id
             join meto_institutions as i on institution_id = i.id
             join meto_enum as match_status on match_status.group_id = ' . EnumGroup::GENERAL_MATCH() . ' and m.status = enum_id
+            left outer join meto_answers as a on a.student_id = s.id and a.question_id = 118;
         ');
     }
 }

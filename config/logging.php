@@ -50,7 +50,7 @@ return [
 
         'import' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/import.lgo'),
+            'path' => storage_path('logs/import.log'),
             'days' => 7,
         ],
 

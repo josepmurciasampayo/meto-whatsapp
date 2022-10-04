@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,11 +27,24 @@ class Institution extends Model
         'google_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-    ];
+    public static function getAdminData() :array
+    {
+        $universities = Helpers::dbQueryArray('
+            select u.id, u.name, e.name as "country"
+            from meto_institutions as u
+            join meto_enum_countries as e on country = e.id;
+        ');
+
+        $counts = Helpers::dbQueryArray('
+            select institution_id, count(institution_id) as match_count
+			from meto_match_student_institutions
+            group by institution_id
+        ');
+        $countsToReturn = array();
+        foreach ($counts as $count) {
+            $countsToReturn[$count['institution_id']] = $count['match_count'];
+        }
+
+        return ['universities' => $universities, 'counts' => $countsToReturn];
+    }
 }

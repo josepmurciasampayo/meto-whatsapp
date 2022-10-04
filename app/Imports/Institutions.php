@@ -9,7 +9,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Models\Institution;
 use App\Models\User;
-use App\Models\UserInstitution;
+use App\Models\Joins\UserInstitution;
 use Illuminate\Support\Facades\DB;
 
 class Institutions

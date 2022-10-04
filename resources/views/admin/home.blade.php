@@ -7,10 +7,16 @@
                 </div>
                 <div class="p-6">
                     <ul>
-                        <li><a href="{{ route('campaigns') }}">Review chat message language</a></li>
-                        <li><a href="{{ route('comms-log') }}">Review all WhatsApp messaging</a></li>
+                        <li><a href="{{ route('campaigns') }}">Review chat language</a></li>
+                        <li><a href="{{ route('comms-log') }}">Review all WhatsApps</a></li>
+                        <br/>
+                        <li><a href="{{ route('students') }}">Review raw student data</a></li>
                         <li><a href="{{ route('matchData') }}">Review student match data</a></li>
-                        <li>Review raw student data</li>
+                        <br/>
+                        <li><a href="{{ route('universities') }}">Review University data</a></li>
+                        <li><a href="{{ route('highschools') }}">Review high school data</a></li>
+                        <br/>
+                        <li><a href="{{ route('logins') }}">Review user login data</a></li>
                         <li><a href="{{ url('/logs') }}">Review all system logs</a></li>
                     </ul>
                 </div>

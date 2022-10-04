@@ -4,7 +4,9 @@ namespace App\Imports;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Answers
 {
@@ -37,12 +39,19 @@ class Answers
         $answer = new Answer();
         $question = Question::findByText($answerDB->question_content);
         if (is_null($question)) {
+            Log::channel('import')->error('Question not found: ' . $answerDB->question_content);
             return;
         }
-        $answer->question_id = $question->id;
-        $answer->student_id = $answerDB->student_id;
-        $answer->text = $answerDB->response;
-        $answer->save();
+        $student = User::where('google_id', $answerDB->student_id)->first();
+        if (($student)) {
+            $answer->question_id = $question->id;
+            $answer->student_id = $student->id;
+            $answer->text = $answerDB->response;
+            $answer->save();
+        } else {
+            Log::channel('import')->error('Student Google ID not found: ' . $answerDB->student_id);
+            return;
+        }
     }
 
     private static function markImported(\stdClass $answerDB, string $db) :void

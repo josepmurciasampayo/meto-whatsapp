@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\General\LoginEventType;
+use App\Events\LoginEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -30,6 +32,8 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        event(new LoginEvent(Auth()->user(), LoginEventType::LOGIN));
+
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
@@ -44,6 +48,8 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
+
+        event(new LoginEvent(Auth()->user(), LoginEventType::LOGOUT));
 
         $request->session()->invalidate();
 

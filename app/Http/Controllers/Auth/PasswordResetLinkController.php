@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\General\LoginEventType;
+use App\Events\LoginEvent;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -26,7 +30,7 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request) :RedirectResponse
     {
         $request->validate([
             'email' => ['required', 'email'],
@@ -39,9 +43,17 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+        if ($status == Password::RESET_LINK_SENT) {
+            $email = $request->only('email');
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                event(new LoginEvent($user, LoginEventType::RESETPWREQUEST));
+            }
+            return redirect()->route('login')->with('status', __($status));
+            //TODO: fix going back
+        } else {
+            return back()->withInput($request->only('email'))
+                ->withErrors(['email' => __($status)]);
+        }
     }
 }

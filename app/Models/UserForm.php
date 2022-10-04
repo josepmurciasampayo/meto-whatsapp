@@ -21,9 +21,11 @@ class UserForm extends Model
 
     public static function getForm(int $user_id, Form $form) :?UserForm
     {
+        /*
         $id = DB::select('
             select id from meto_user_forms where user_id = ' . $user_id . ' and form_id = ' . $form() . ';
         ');
+        */
         $existing = UserForm::where(['user_id' => $user_id, 'form_id' => $form()]);
         if ($existing->count() > 0) {
             return $existing->first();

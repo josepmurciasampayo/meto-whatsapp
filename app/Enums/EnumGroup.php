@@ -22,6 +22,7 @@ enum EnumGroup: int
     case GENERAL_METHOD = 10;
     case GENERAL_SOCIALNETWORK = 11;
     case GENERAL_TAGGROUP = 12;
+    case GENERAL_LOGINEVENTTYPE = 26;
 
     case INSTITUTION_TAG = 13;
     case INSTITUTION_TYPE = 14;
