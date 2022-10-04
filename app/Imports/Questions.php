@@ -22,7 +22,6 @@ class Questions
         $questions = DB::connection($db)->select('
             select distinct question_content, group_concat(curriculum) as "curricula"
             from questions_table
-            where imported = 0
             group by question_content
         ');
 
