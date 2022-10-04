@@ -22,7 +22,6 @@ class GoogleSeeder extends Seeder
         DB::connection($db)->update('update students_table set imported = 0;');
         DB::connection($db)->update('update institutions_table set imported = 0;');
         DB::connection($db)->update('update inst_student_relationships set imported = 0;');
-        DB::connection($db)->update('update questions_table set imported = 0;');
         DB::connection($db)->update('update answers_table set imported = 0;');
 
         echo "\n";
