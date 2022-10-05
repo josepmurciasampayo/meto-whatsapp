@@ -24,6 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('phone_raw')->nullable();
+            $table->unsignedTinyInteger('phone_owner')->nullable()->comment(\App\Enums\Student\Owner::toString());
             $table->unsignedSmallInteger('phone_country')->nullable();
             $table->unsignedSmallInteger('phone_area')->nullable();
             $table->unsignedBigInteger('phone_local')->nullable();

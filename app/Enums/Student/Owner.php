@@ -8,17 +8,17 @@ enum Owner :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case SELF = 8;
-    case PARENT = 9;
-    case GUARDIAN = 10;
-    case OTHER = 11;
+    case MOM = 1;
+    case DAD = 2;
+    case SIBLING = 3;
+    case OTHER = 4;
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::SELF => "Self",
-            self::PARENT => "Parent",
-            self::GUARDIAN => "Guardian",
+            self::MOM => "Mom",
+            self::DAD => "Dad",
+            self::SIBLING => "Sibling",
             self::OTHER => "Other",
         };
     }

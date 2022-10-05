@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use App\Enums\Chat\Campaign;
+use App\Models\Chat\MessageState;
 use App\Models\Institution;
 use App\Models\MatchStudentInstitution;
 use App\Models\Student;
@@ -18,6 +20,9 @@ class Matches
         $matches = DB::connection($db)->select($query);
         foreach ($matches as $match) {
             self::importMatch($match);
+            $student = Student::where('student_id', $match->student_id);
+            // TODO: check about phone owner or multiple numbers
+            // MessageState::queueCampaign($student->user_id, Campaign::ENDOFCYCLE, 3);
             self::markImported($match, $db);
         }
         return 1;

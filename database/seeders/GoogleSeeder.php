@@ -29,12 +29,12 @@ class GoogleSeeder extends Seeder
         echo "\nQuestions imported";
         Students::importFromGoogle($db);
         echo "\nStudents imported";
-        Answers::importFromGoogle($db);
-        echo "\nAnswers imported";
         Institutions::importFromGoogle($db);
         echo "\nInstitutions imported";
         Matches::importFromGoogle($db);
         echo "\nMatches imported";
+        Answers::importFromGoogle($db);
+        echo "\nAnswers imported";
         HighSchools::importFromGoogle($db);
         echo "\nHigh Schools imported";
 

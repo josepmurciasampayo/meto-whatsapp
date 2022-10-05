@@ -2,6 +2,7 @@
 
 namespace App\Enums\Country;
 
+use Illuminate\Support\Facades\Log;
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
 enum Country :int
@@ -518,7 +519,7 @@ enum Country :int
 
     public static function lookup(string $name) :int
     {
-        return match($name) {
+        $match = match($name) {
             "Afghanistan" => 1,
             "Åland Islands" => 2,
             "Albania" => 3,
@@ -771,6 +772,11 @@ enum Country :int
             "Zimbabwe" => 248,
             default => 0,
         };
+
+        if ($match == 0) {
+            Log::error("Country not found: " . $name);
+        }
+        return $match;
     }
 
 }

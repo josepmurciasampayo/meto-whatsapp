@@ -26,9 +26,9 @@ return new class extends Migration
             $table->string('email_2')->nullable();
             $table->unsignedTinyInteger('email_owner')->nullable()->comment();
             $table->unsignedTinyInteger('email2_owner')->nullable()->comment(\App\Enums\Student\Owner::toString());
-            $table->unsignedTinyInteger('phone_owner')->nullable()->comment(\App\Enums\Student\Owner::toString());
             $table->string('government_id')->nullable();
             $table->date('passport_expiry')->nullable();
+            $table->string('disability_raw')->nullable();
             $table->unsignedTinyInteger('disability')->nullable()->comment(\App\Enums\Student\Disability::toString());
             $table->unsignedTinyInteger('curriculum')->nullable()->comment(\App\Enums\Student\Curriculum::toString());
             $table->unsignedTinyInteger('submission_device')->nullable()->comment(\App\Enums\Student\SubmissionDevice::toString());

@@ -19,39 +19,40 @@ class Answers
 
         for ($q = 1; $q < $maxQuestionID; ++$q) {
             $answers = DB::connection($db)->select('
-                select q.question_id, question_content, student_id, response
+                select q.question_id, question_content, s.id as student_id, response
                 from answers_table as a
                 join questions_table as q on q.question_id = a.question_id
+                join meto.meto_students as s on s.google_id = a.student_id
                 where a.imported = 0
                 and a.question_id = ' . $q . ';
             ');
 
             foreach ($answers as $answerDB) {
-                self::import($answerDB);
-                self::markImported($answerDB, $db);
+                if (is_null($answerDB->student_id)) {
+                    Log::channel('import')->error('Student Google ID not found: ' . $answerDB->student_id);
+                    continue;
+                }
+
+                $question = Question::findByText($answerDB->question_content);
+                if (is_null($question)) {
+                    Log::channel('import')->error('Question not found: ' . $answerDB->question_content);
+                    continue;
+                }
+                self::import($answerDB, $question);
+                //self::markImported($answerDB, $db);
             }
+            echo "\nImported answers for question " . $q . "(" . count($answers) . " answers)";
         }
         return 1;
     }
 
-    private static function import(\stdClass $answerDB) :void
+    private static function import(\stdClass $answerDB, $question) :void
     {
         $answer = new Answer();
-        $question = Question::findByText($answerDB->question_content);
-        if (is_null($question)) {
-            Log::channel('import')->error('Question not found: ' . $answerDB->question_content);
-            return;
-        }
-        $student = User::where('google_id', $answerDB->student_id)->first();
-        if (($student)) {
             $answer->question_id = $question->id;
-            $answer->student_id = $student->id;
+            $answer->student_id = $answerDB->student_id;
             $answer->text = $answerDB->response;
             $answer->save();
-        } else {
-            Log::channel('import')->error('Student Google ID not found: ' . $answerDB->student_id);
-            return;
-        }
     }
 
     private static function markImported(\stdClass $answerDB, string $db) :void
