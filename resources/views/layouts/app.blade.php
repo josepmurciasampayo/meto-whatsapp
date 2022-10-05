@@ -24,9 +24,7 @@
             <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
                 <div class="p-6 d-flex justify-content-between">
                     <div>
-                    <a href="{{ route('home') }}">
-                        <img src="/img/meto-logo.webp" style="height: 36px;">
-                    </a>
+                        <a href="{{ route('home') }}"><img src="/img/meto-logo.webp" style="height: 36px;"></a>
                     </div>
                     <div>
                         <a style="color:white; text-decoration: none;" href="{{ route('logout') }}">Logout</a>

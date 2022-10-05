@@ -50,7 +50,7 @@ class AdminController extends Controller
     public function highschools() :View
     {
         $data = HighSchool::getAdminData();
-        return view('admin.universities');
+        return view('admin.highschools', ['data' => $data]);
     }
 
     public function logins() :View
