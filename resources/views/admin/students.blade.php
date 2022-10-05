@@ -13,6 +13,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
+                    <th>Phone</th>
                     <th>Date of Birth</th>
                     <th>High School</th>
                     <th>Country</th>
@@ -24,6 +25,7 @@
                     <td><?php echo $row['name'] ?></td>
                     <td><?php echo $row['email'] ?></td>
                     <td><?php echo $row['gender'] ?></td>
+                    <td><?php echo $row['phone_raw'] ?></td>
                     <td><?php echo $row['dob'] ?></td>
                     <td><?php echo $row['school'] ?></td>
                     <td><?php echo '-' ?></td>

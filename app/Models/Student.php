@@ -29,6 +29,7 @@ class Student extends Model
                 u.email,
                 gender.enum_desc as "gender",
                 s.dob,
+                u.phone_raw,
                 a.text as "school"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
