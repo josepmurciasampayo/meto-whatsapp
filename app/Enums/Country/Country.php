@@ -519,6 +519,9 @@ enum Country :int
 
     public static function lookup(string $name) :int
     {
+        if (strlen($name) == 0) {
+            return 0;
+        }
         $match = match($name) {
             "Afghanistan" => 1,
             "Åland Islands" => 2,
@@ -571,6 +574,7 @@ enum Country :int
             "Comoros" => 49,
             "Congo" => 50,
             "Congo, Democratic Republic of the" => 51,
+            "Democratic Republic of the Congo" => 51,
             "Cook Islands" => 52,
             "Costa Rica" => 53,
             "Côte d'Ivoire" => 54,
@@ -737,9 +741,11 @@ enum Country :int
             "Sweden" => 214,
             "Switzerland" => 215,
             "Syrian Arab Republic" => 216,
+            "Syria" => 216,
             "Taiwan" => 217,
             "Tajikistan" => 218,
             "Tanzania, United Republic of" => 219,
+            "Tanzania" => 219,
             "Thailand" => 220,
             "Timor-Leste" => 221,
             "Togo" => 222,
@@ -755,8 +761,10 @@ enum Country :int
             "Ukraine" => 232,
             "United Arab Emirates" => 233,
             "United Kingdom" => 234,
+            "United Kingdon" => 234,
             "Scotland" => 234,
             "United States" => 235,
+            "United States of America" => 235,
             "United States Minor Outlying Islands" => 236,
             "Uruguay" => 237,
             "Uzbekistan" => 238,
@@ -774,7 +782,7 @@ enum Country :int
         };
 
         if ($match == 0) {
-            Log::error("Country not found: " . $name);
+            Log::channel('import')->error("Country not found: " . $name);
         }
         return $match;
     }

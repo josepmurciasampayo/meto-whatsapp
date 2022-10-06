@@ -18,6 +18,7 @@ class Answers
         ')[0]->id;
 
         for ($q = 1; $q < $maxQuestionID; ++$q) {
+            // TODO: this does not work across different database names - view?
             $answers = DB::connection($db)->select('
                 select q.question_id, question_content, s.id as student_id, response
                 from answers_table as a
@@ -35,13 +36,13 @@ class Answers
 
                 $question = Question::findByText($answerDB->question_content);
                 if (is_null($question)) {
-                    Log::channel('import')->error('Question not found: ' . $answerDB->question_content);
+                    Log::channel('import')->error('Question not found for: ' . $answerDB->question_content);
                     continue;
                 }
                 self::import($answerDB, $question);
                 //self::markImported($answerDB, $db);
             }
-            echo "\nImported answers for question " . $q . "(" . count($answers) . " answers)";
+            echo "\nImported answers for question " . $q . " (" . count($answers) . " answers)";
         }
         return 1;
     }

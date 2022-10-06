@@ -2416,16 +2416,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v1.5.1",
+            "version": "v1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "da17c021060b02584b76ced63928a8781a533a86"
+                "reference": "ba0a591dd206db5c9a2b9370c34ed03b3e7e7d07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/da17c021060b02584b76ced63928a8781a533a86",
-                "reference": "da17c021060b02584b76ced63928a8781a533a86",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/ba0a591dd206db5c9a2b9370c34ed03b3e7e7d07",
+                "reference": "ba0a591dd206db5c9a2b9370c34ed03b3e7e7d07",
                 "shasum": ""
             },
             "require": {
@@ -2485,9 +2485,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v1.5.1"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v1.5.3"
             },
-            "time": "2022-10-04T17:16:04+00:00"
+            "time": "2022-10-06T04:08:09+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -5708,16 +5708,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "6.42.1",
+            "version": "6.42.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:twilio/twilio-php.git",
-                "reference": "8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec"
+                "reference": "a86746d7e5d88e0406fe002768c4007f5cb26174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec",
-                "reference": "8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/a86746d7e5d88e0406fe002768c4007f5cb26174",
+                "reference": "a86746d7e5d88e0406fe002768c4007f5cb26174",
                 "shasum": ""
             },
             "require": {
@@ -5753,7 +5753,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2022-09-21T19:12:52+00:00"
+            "time": "2022-10-05T18:22:45+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
