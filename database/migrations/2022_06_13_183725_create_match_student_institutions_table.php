@@ -18,6 +18,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('institution_id');
+            $table->unsignedTinyInteger('status_application')->nullable();
+            $table->unsignedTinyInteger('enrollment_application')->nullable();
             $table->unsignedTinyInteger('status')->default(MatchStudentInstitution::UNKNOWN())->comment(MatchStudentInstitution::toString());
             $table->timestamps();
         });

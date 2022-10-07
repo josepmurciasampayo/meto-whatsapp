@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             UserRolesSeeder::class,
             ChatTestSeeder::class,
-            GoogleSeeder::class,
+            //GoogleSeeder::class,
             // InstitutionSeeder::class,
         ]);
     }
