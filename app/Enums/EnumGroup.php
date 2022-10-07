@@ -57,6 +57,7 @@ enum EnumGroup: int
             self::GENERAL_METHOD  => "",
             self::GENERAL_SOCIALNETWORK  => "",
             self::GENERAL_TAGGROUP  => "",
+            self::GENERAL_LOGINEVENTTYPE => "",
 
             self::INSTITUTION_TAG  => "",
             self::INSTITUTION_TYPE  => "",

@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Enums\Chat\{Campaign, State};
 use App\Enums\Country\{Country, Region, SubRegion};
-use App\Enums\General\{Channel, Form, FormStatus, MatchStudentInstitution, Method, SocialNetwork, TagGroups};
+use App\Enums\General\{Channel, Form, FormStatus, LoginEventType, MatchStudentInstitution, Method, SocialNetwork, TagGroups};
 use App\Enums\Institution\{TagsInstitution, Type};
 use App\Enums\Student\{Curriculum, Disability, Gender, Owner, Refugee, SubmissionDevice, TagsStudent};
 use App\Enums\User\{Role, Status, Consent, Verified};
@@ -19,7 +19,7 @@ class EnumSeeder extends Seeder
         self::loadToTable(Campaign::options(),EnumGroup::CHAT_CAMPAIGNS, Campaign::descriptions());
         self::loadToTable(State::options(),EnumGroup::CHAT_STATE, State::descriptions());
 
-        // self::loadToTable(Country::options(),EnumGroup::COUNTRY, Country::descriptions());
+
         self::loadToTable(Region::options(),EnumGroup::REGION, Region::descriptions());
         self::loadToTable(SubRegion::options(),EnumGroup::SUBREGION, SubRegion::descriptions());
 
@@ -46,6 +46,8 @@ class EnumSeeder extends Seeder
         self::loadToTable(Verified::options(), EnumGroup::USER_VERIFIED, Verified::descriptions());
         self::loadToTable(Role::options(), EnumGroup::USER_ROLE, Role::descriptions());
         self::loadToTable(Status::options(), EnumGroup::USER_STATUS, Status::descriptions());
+
+        self::loadToTable(LoginEventType::options(), EnumGroup::GENERAL_LOGINEVENTTYPE, LoginEventType::descriptions());
     }
 
     private static function loadToTable(array $values, EnumGroup $group, array $descriptions) :void
