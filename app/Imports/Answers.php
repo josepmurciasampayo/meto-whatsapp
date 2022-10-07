@@ -18,12 +18,11 @@ class Answers
         ')[0]->id;
 
         for ($q = 1; $q < $maxQuestionID; ++$q) {
-            // TODO: this does not work across different database names - view?
             $answers = DB::connection($db)->select('
                 select q.question_id, question_content, s.id as student_id, response
                 from answers_table as a
                 join questions_table as q on q.question_id = a.question_id
-                join meto.meto_students as s on s.google_id = a.student_id
+                join `meto-test`.meto_students as s on s.google_id = a.student_id
                 where a.imported = 0
                 and a.question_id = ' . $q . ';
             ');

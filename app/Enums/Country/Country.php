@@ -517,8 +517,11 @@ enum Country :int
         };
     }
 
-    public static function lookup(string $name) :int
+    public static function lookup(?string $name) :int
     {
+        if (is_null($name)) {
+            return 0;
+        }
         if (strlen($name) == 0) {
             return 0;
         }
