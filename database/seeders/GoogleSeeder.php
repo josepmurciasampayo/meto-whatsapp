@@ -7,6 +7,7 @@ use App\Enums\User\Role;
 use App\Http\Controllers\UserFormController;
 use App\Imports\Answers;
 use App\Imports\HighSchools;
+use App\Imports\HistoricalStudents;
 use App\Imports\Institutions;
 use App\Imports\Matches;
 use App\Imports\Questions;
@@ -37,6 +38,8 @@ class GoogleSeeder extends Seeder
         echo "\nAnswers imported";
         HighSchools::importFromGoogle($db);
         echo "\nHigh Schools imported";
+        HistoricalStudents::importFromCSV();
+        echo "\nHistorical students and matches imported";
 
         echo "\n\n";
         UserFormController::createForms(User::where('role', Role::STUDENT())->get(), Form::ENDOFCYCLE);

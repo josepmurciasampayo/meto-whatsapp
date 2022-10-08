@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Imports\Answers;
+use App\Imports\HistoricalStudents;
 use App\Imports\Institutions;
 use App\Imports\Matches;
 use App\Imports\Students;
@@ -35,7 +36,9 @@ class importFromGoogle extends Command
     {
         $db = "google-local";
 
-        $seeder = new GoogleSeeder();
-        $seeder->run($db);
+        //$seeder = new GoogleSeeder();
+        //$seeder->run($db);
+
+        HistoricalStudents::importFromCSV();
     }
 }

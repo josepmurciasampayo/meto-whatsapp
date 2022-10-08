@@ -100,11 +100,13 @@ class Students
         $stu->refugee = ($studentDB->refugee_status == 'Yes') ? Refugee::YES() : Refugee::NO();
         $stu->disability_raw = $studentDB->disability_status;
 
-        $citizenships = explode(",", $studentDB->citizenships);
-        foreach ($citizenships as $citizenship) {
-            $tag = new StudentTag();
-            $tag->type = TagsStudent::CITIZENSHIPS();
-            $tag->data_int = Country::lookup($citizenship);
+        if (strlen($studentDB->citizenships) > 0) {
+            $citizenships = explode(",", $studentDB->citizenships);
+            foreach ($citizenships as $citizenship) {
+                $tag = new StudentTag();
+                $tag->type = TagsStudent::CITIZENSHIPS();
+                $tag->data_int = Country::lookup($citizenship);
+            }
         }
 
         $family_in = explode(",", $studentDB->citizenships);
