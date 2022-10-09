@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\TypeaheadController;
 
 // Unauthenticated routes
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
@@ -41,7 +42,7 @@ Route::middleware('counselor')->group(function() {
 
 // Student functionality
 Route::middleware('student')->group(function() {
-
+    Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
 });
 
 // Institution functionality
