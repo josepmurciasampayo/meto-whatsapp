@@ -48,6 +48,5 @@ class UserRolesSeeder extends Seeder
             'role' => Role::INSTITUTION(),
             'status' => Status::ACTIVE()
         ]);
-
     }
 }

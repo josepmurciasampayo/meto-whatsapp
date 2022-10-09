@@ -14,7 +14,7 @@
             <tbody>
             <?php foreach ($data as $row) { ?>
             <tr>
-                <td><?php echo $row['name'] ?></td>
+                <td><a href="{{ route('highschool', ['id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
                 <td><?php echo $row['curriculum'] ?></td>
                 <td><?php echo $row['country'] ?></td>
                 <td><?php echo $row['students'] ?></td>

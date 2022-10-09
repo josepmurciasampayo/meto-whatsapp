@@ -235,46 +235,6 @@ class MessageState extends Model
     }
 
     /**
-     * @param int $user_id
-     * @return array
-     */
-    public static function getStateBackup(int $user_id) :?array
-    {
-        $result = Helpers::dbQueryArray('
-                select
-                    users.id as user_id,
-                    users.first as first,
-                    users.last as last,
-                    users.email as email,
-                    messages.id as message_id,
-                    messages.text as text,
-                    messages.capture_filter,
-                    messages.answer_table,
-                    messages.answer_field,
-                    message_states.id as state_id,
-                    message_states.state as state
-                from meto_users as users
-                join meto_message_states as message_states on message_states.user_id = users.id
-                join meto_messages as messages on message_states.message_id = messages.id
-                where users.id = ' . $user_id . ' and users.role != ' . Role::ADMIN() . '
-                and message_states.state in (' . implode(",", [State::WAITING()]) . ')
-                order by message_states.message_id asc;
-            ');
-
-        if (count($result) == 0) { // No state found, unexpected message
-            Log::channel('chat')->error('Unexpected Whatsapp from User ' . $user_id);
-            // TODO: send notification to team member?
-            return null;
-        }
-        if (count($result) > 1) { // Multiple states found, unexpected condition
-            Log::channel('chat')->error("Too many states: " . print_r($result));
-            return null;
-        }
-
-        return $result[0];
-    }
-
-    /**
      * @param int|null $user_id
      * @param array|null $states
      * @return array|null

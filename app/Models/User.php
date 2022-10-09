@@ -80,17 +80,17 @@ class User extends Authenticatable
 
     public function isStudent() :bool
     {
-        return ($this->role == Role::STUDENT());
+        return ($this->role == Role::STUDENT() || $this->role == Role::ADMIN());
     }
 
     public function isCounselor() :bool
     {
-        return ($this->role == Role::COUNSELOR());
+        return ($this->role == Role::COUNSELOR() || $this->role == Role::ADMIN());
     }
 
     public function isInstitution() :bool
     {
-        return ($this->role == Role::INSTITUTION());
+        return ($this->role == Role::INSTITUTION() || $this->role == Role::ADMIN());
     }
 
     public static function deleteByRole(Role $role) :void

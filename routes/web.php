@@ -38,6 +38,7 @@ Route::middleware('counselor')->group(function() {
     Route::get('/students', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/school-profile', [CounselorController::class, 'profile'])->name('counselor-school');
     Route::get('/connections', [CounselorController::class, 'connections'])->name('counselor-connections');
+    Route::get('/highschool/{id}', [CounselorController::class, 'highschool'])->name('highschool');
 });
 
 // Student functionality

@@ -11,7 +11,7 @@ class HighSchool extends Model
     {
         $withCounselors = Helpers::dbQueryArray('
             select
-            h.name, h.curriculum, h.country, count(*) as "students"
+            h.id, h.name, h.curriculum, h.country, count(*) as "students"
             from meto_high_schools as h
             join meto_user_high_schools as c on h.id = c.highschool_id
             group by c.highschool_id

@@ -32,7 +32,7 @@ class Institution extends Model
         $universities = Helpers::dbQueryArray('
             select u.id, u.name, e.name as "country"
             from meto_institutions as u
-            join meto_enum_countries as e on country = e.id;
+            left outer join meto_enum_countries as e on country = e.id;
         ');
 
         $counts = Helpers::dbQueryArray('

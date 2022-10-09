@@ -3,7 +3,6 @@
 namespace App\Imports;
 
 use App\Enums\Chat\Campaign;
-use App\Enums\Institution\Type;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
@@ -12,10 +11,6 @@ use App\Models\Institution;
 use App\Models\MatchStudentInstitution;
 use App\Models\Student;
 use App\Models\User;
-use Faker\Extension\Helper;
-use Illuminate\Database\Seeder;
-use Illuminate\Validation\Rules\In;
-use PHPUnit\TextUI\Help;
 
 class HistoricalStudents
 {
@@ -63,7 +58,7 @@ class HistoricalStudents
                 $student = self::createUserAndStudent($studentCSV);
             }
         } else {
-            $user = User::where('email', $studentCSV['email address'])->first(); // then check email
+            $user = User::where('email', $studentCSV['email'])->first(); // then check email
             if (is_null($user)) {
                 $student = self::createUserAndStudent($studentCSV);
             } else {
@@ -77,9 +72,9 @@ class HistoricalStudents
     public static function createUserAndStudent(array $userCSV) :Student
     {
         $user = new User();
-        $user->first = $userCSV['first name'];
-        $user->last = $userCSV['last name'];
-        $user->email = $userCSV['email address'];
+        $user->first = $userCSV['first'];
+        $user->last = $userCSV['last'];
+        $user->email = $userCSV['email'];
         if (isset($userCSV['numbers'])) {
             $user->phone_raw = $userCSV['numbers'];
             $user->phone_combined = Helpers::stripNonNumeric($userCSV['numbers']);

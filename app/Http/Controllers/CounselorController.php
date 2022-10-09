@@ -12,4 +12,9 @@ class CounselorController extends Controller
     {
         return view('counselor.home');
     }
+
+    public function highschool(int $id) :View
+    {
+        return view('counselor.highschool');
+    }
 }
