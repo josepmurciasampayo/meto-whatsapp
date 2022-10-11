@@ -28,6 +28,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $runTime = $start->diffInSeconds(Carbon::now());
-        echo "\n\nTotal time for seeding: " . $runTime . " seconds";
+        echo "\n\nTotal time for seeding: " . $runTime . " seconds\n\n";
     }
 }
