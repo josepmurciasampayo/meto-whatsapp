@@ -16,9 +16,13 @@ Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
 Route::get('/thank-you', '\App\Http\Controllers\UserFormController@thankyou')->name('thankyou');
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+Route::post('reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.update');
 
 // Admin functionality
-Route::middleware('admin')->group(function() {
+Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
     Route::get('/campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
     Route::post('/campaigns', '\App\Http\Controllers\CampaignController@update');
@@ -30,15 +34,18 @@ Route::middleware('admin')->group(function() {
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
     Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
+    Route::get('/admin/connections/{id}', [CounselorController::class, 'connections'])->name('connections');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
 });
 
 // Counselor functionality
-Route::middleware('counselor')->group(function() {
-    Route::get('/students', [CounselorController::class, 'students'])->name('counselor-students');
-    Route::get('/school-profile', [CounselorController::class, 'profile'])->name('counselor-school');
-    Route::get('/connections', [CounselorController::class, 'connections'])->name('counselor-connections');
+Route::middleware(['auth', 'counselor'])->group(function() {
+    Route::get('/students/{highscool_id}', [CounselorController::class, 'students'])->name('counselor-students');
+
+    Route::get('/matches/{highschool_id}', [CounselorController::class, 'matches'])->name('counselor-matches');
+
     Route::get('/highschool/{id}', [CounselorController::class, 'highschool'])->name('highschool');
+    Route::post('/highschool', [CounselorController::class, 'update'])->name('highschool.update');
 });
 
 // Student functionality
@@ -47,7 +54,7 @@ Route::middleware('student')->group(function() {
 });
 
 // Institution functionality
-Route::middleware('student')->group(function() {
+Route::middleware('institution')->group(function() {
 
 });
 
@@ -65,15 +72,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
-
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
-
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
-
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.update');
 });
 
 // Any signed-in user
@@ -98,4 +98,7 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy']);
+
+    Route::get('profile', [\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+    Route::post('profile', [\App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
 });

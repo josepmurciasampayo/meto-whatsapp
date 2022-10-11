@@ -18,8 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('form_id');
             $table->string('url')->unique();
-            $table->unsignedTinyInteger('status')->default()->comment();
+            $table->unsignedTinyInteger('status')->nullable();
             $table->timestamps();
+
+            $table->index('url');
         });
     }
 

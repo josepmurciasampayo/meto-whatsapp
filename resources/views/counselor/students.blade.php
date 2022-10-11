@@ -6,7 +6,7 @@
     <div class="container bg-white">
 
         <div class="container py-5">
-            <h3 class="my-2">Raw Student Data</h3>
+            <h3 class="my-2">Student Data</h3>
             <table id="data" class="table table-striped fs-6" style="width:100%">
                 <thead>
                 <tr>
@@ -15,8 +15,10 @@
                     <th>Gender</th>
                     <th>Phone</th>
                     <th>Date of Birth</th>
+                    <?php if (Auth()->user()->role == \App\Enums\User\Role::ADMIN()) { ?>
                     <th>High School</th>
                     <th>Country</th>
+                    <?php } ?>
                     <th>Matches</th>
                 </tr>
                 </thead>
@@ -28,8 +30,10 @@
                     <td><?php echo $row['gender'] ?></td>
                     <td><a href=""><?php echo $row['phone_raw'] ?></a></td>
                     <td><?php echo $row['dob'] ?></td>
+                    <?php if (Auth()->user()->role == \App\Enums\User\Role::ADMIN()) { ?>
                     <td><a href="{{ route('highschool', ['id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a></td>
                     <td><?php echo '-' ?></td>
+                    <?php } ?>
                     <td><a href="{{ route('connections', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
                 </tr>
                 <?php } ?>

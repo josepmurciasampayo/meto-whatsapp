@@ -8,7 +8,8 @@
                 <th>High School</th>
                 <th>Curriculum</th>
                 <th>Country</th>
-                <th>Count of Students</th>
+                <th>Students</th>
+                <th>Matches</th>
             </tr>
             </thead>
             <tbody>
@@ -17,7 +18,8 @@
                 <td><a href="{{ route('highschool', ['id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
                 <td><?php echo $row['curriculum'] ?></td>
                 <td><?php echo $row['country'] ?></td>
-                <td><?php echo $row['students'] ?></td>
+                <td class="text-center"><a href="{{ route('students', ['id' => $row['id']]) }}"><?php echo $row['students'] ?></a></td>
+                <td class="text-center">TBD</td>
             </tr>
             <?php } ?>
             </tbody>

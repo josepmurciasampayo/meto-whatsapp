@@ -24,15 +24,6 @@ class MatchStudentInstitution extends Model
         'status'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-
-    ];
-
     public static function getByUserID(int $user_id) :array
     {
         return Helpers::dbQueryArray('
@@ -92,6 +83,28 @@ class MatchStudentInstitution extends Model
             join meto_institutions as i on institution_id = i.id
             join meto_enum as match_status on match_status.group_id = ' . EnumGroup::GENERAL_MATCH() . ' and m.status = enum_id
             left outer join meto_answers as a on a.student_id = s.id and a.question_id = 118;
+        ');
+    }
+
+    public static function getMatchesByHighSchool(int $highschool_id) :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                u.id as "user_id",
+                s.id as "student_id",
+                concat(u.first, " ", u.last) as "name",
+                u.email,
+                i.id as "institution_id",
+                i.name as "institution_name",
+                m.created_at as "date",
+                status.enum_desc as "status"
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_user_high_schools as h on h.user_id = u.id and h.highschool_id = 1 and h.id = ' . $highschool_id .'
+            join meto_match_student_institutions as m on m.student_id = s.id
+            join meto_institutions as i on m.institution_id = i.id
+            join meto_high_schools as hs on h.highschool_id = hs.id
+            join meto_enum as status on status.enum_id = m.status and status.group_id = ' . EnumGroup::GENERAL_MATCH() . ';
         ');
     }
 }

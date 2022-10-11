@@ -24,6 +24,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('region_code')->nullable();
             $table->unsignedSmallInteger('subregion_code')->nullable();
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 

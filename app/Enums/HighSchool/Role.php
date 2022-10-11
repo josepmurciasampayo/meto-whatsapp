@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Enums\General;
+namespace App\Enums\HighSchool;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum HighSchoolRole :int
+enum Role :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 

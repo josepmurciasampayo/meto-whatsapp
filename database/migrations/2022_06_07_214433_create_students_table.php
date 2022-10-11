@@ -33,6 +33,10 @@ return new class extends Migration
             $table->unsignedTinyInteger('curriculum')->nullable()->comment(\App\Enums\Student\Curriculum::toString());
             $table->unsignedTinyInteger('submission_device')->nullable()->comment(\App\Enums\Student\SubmissionDevice::toString());
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('google_id');
+
         });
     }
 

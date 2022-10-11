@@ -17,9 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('highschool_id');
-            $table->unsignedTinyInteger('role');
+            $table->unsignedTinyInteger('role')->comment(\App\Enums\HighSchool\Role::toString());
             $table->unsignedTinyInteger('status')->default(\App\Enums\User\Status::ACTIVE());
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('highschool_id');
         });
     }
 

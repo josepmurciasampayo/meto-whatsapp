@@ -22,6 +22,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('enrollment_application')->nullable();
             $table->unsignedTinyInteger('status')->default(MatchStudentInstitution::UNKNOWN())->comment(MatchStudentInstitution::toString());
             $table->timestamps();
+
+            $table->index('student_id');
+            $table->index('institution_id');
         });
     }
 

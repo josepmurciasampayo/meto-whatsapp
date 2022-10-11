@@ -35,6 +35,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('status')->comment(Status::toString());
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index('role');
         });
     }
 

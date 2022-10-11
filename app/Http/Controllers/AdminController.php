@@ -44,7 +44,7 @@ class AdminController extends Controller
     public function students() :View
     {
         $data = Student::getAdminData();
-        return view('admin.students', ['data' => $data]);
+        return view('counselor.students', ['data' => $data]);
     }
 
     public function highschools() :View
@@ -97,5 +97,12 @@ class AdminController extends Controller
     {
         ChatbotController::reset();
         return self::commsLog();
+    }
+
+    public function matches(int $student_id) :View
+    {
+        $matches = MatchStudentInstitution::getByUserID();
+
+        return view('', ['data' => $data]);
     }
 }

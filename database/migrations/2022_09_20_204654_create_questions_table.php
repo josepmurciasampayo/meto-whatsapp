@@ -28,6 +28,8 @@ return new class extends Migration
             $table->unsignedTinyInteger(Curriculum::UGANDAN())->default(0)->comment('Ugandan');
             $table->unsignedTinyInteger(Curriculum::OTHER())->default(0)->comment('All Other');
             $table->timestamps();
+
+
         });
     }
 

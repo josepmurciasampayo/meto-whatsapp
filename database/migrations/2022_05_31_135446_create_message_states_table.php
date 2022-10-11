@@ -21,6 +21,10 @@ class CreateMessageStatesTable extends Migration
             $table->unsignedTinyInteger('state')->comment(\App\Enums\Chat\State::toString());
             $table->mediumText('response')->nullable()->comment('Stores user response to campaign message');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('priority');
+            $table->index('state');
         });
     }
 

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\HighSchool;
+use App\Models\Joins\UserHighSchools;
 use App\Enums\User\{Role, Status, Consent, Verified};
 use App\Models\Student;
 use App\Models\User;
@@ -19,7 +21,7 @@ class UserRolesSeeder extends Seeder
         /*
          * Create counselor users
          */
-        User::create([
+        $user = User::create([
             'first' => "Greg",
             'last' => "Counselor",
             'phone_raw' => "571-214-3085",
@@ -32,6 +34,8 @@ class UserRolesSeeder extends Seeder
             'role' => Role::COUNSELOR(),
             'status' => Status::ACTIVE()
         ]);
+
+        UserHighSchools::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::COUNSELOR);
 
         /*
          * Create institution users

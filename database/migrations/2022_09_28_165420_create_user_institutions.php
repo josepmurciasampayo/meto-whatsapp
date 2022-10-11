@@ -20,6 +20,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('role')->nullable();
             $table->unsignedTinyInteger('status')->nullable();
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('institution_id');
         });
     }
 

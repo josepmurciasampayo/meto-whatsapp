@@ -25,16 +25,50 @@ class Student extends Model
     {
         return Helpers::dbQueryArray('
             select
+                s.id as "student_id",
+                u.id as "user_id",
                 concat(u.first, " ", u.last) as "name",
                 u.email,
                 gender.enum_desc as "gender",
                 s.dob,
                 u.phone_raw,
-                a.text as "school"
+                h.name as "school",
+                ifnull(h.id, 0) as "highschool_id",
+                ifnull(sub.matches, 0) as "matches"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
+            left outer join meto_user_high_schools as j on j.user_id = u.id
             join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
-            left outer join meto_answers as a on student_id = s.id and question_id = 118
+            left outer join meto_high_schools as h on j.highschool_id = h.id
+            left outer join (
+            	select s1.id, count(*) as "matches" from meto_students as s1 join meto_match_student_institutions as m on s1.id = m.student_id group by s1.id
+            	) as sub on sub.id = s.id;
+        ');
+    }
+
+    public static function getStudentsAtSchool(int $id) :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                u.id as "user_id",
+                s.id as "student_id",
+                concat(u.first, " ", u.last) as "name",
+                u.email,
+                u.phone_raw,
+                s.dob,
+                gender.enum_desc as "gender",
+                sub.matches
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_user_high_schools as h on h.id = ' . $id . ' and h.user_id = s.user_id
+            join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
+            left outer join (
+            	    select s1.id, count(*) as "matches"
+            	    from meto_students as s1
+            	    join meto_user_high_schools as h1 on h1.id = ' . $id . '
+            	    join meto_match_student_institutions as m on s1.id = m.student_id
+            	    group by s1.id
+            	    ) as sub on sub.id = s.id;
         ');
     }
 }

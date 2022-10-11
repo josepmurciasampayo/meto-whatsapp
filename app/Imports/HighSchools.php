@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Enums\General\HighSchoolRole;
+use App\Enums\HighSchool\Role as HighSchoolRole;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
@@ -47,7 +47,7 @@ class HighSchools
         $user->status = Status::ACTIVE();
         $user->save();
 
-        UserHighSchools::joinUserHighSchool($user->id, $hs->id, HighSchoolRole::COUNSELOR);
+        UserHighSchools::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
     }
 
     public static function importStudent(\stdClass $student) :void

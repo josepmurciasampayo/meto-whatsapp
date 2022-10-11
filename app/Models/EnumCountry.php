@@ -2,30 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 
 class EnumCountry extends Model
 {
-    use HasFactory;
+    public static function getArray(bool $idFirst = true) :array
+    {
+        $toReturn = Helpers::dbQueryArray('
+            select id,name from meto_enum_countries
+        ');
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'two_letter',
-        'three_letter',
-        'code',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-    ];
+        if ($idFirst) {
+            return $toReturn;
+        }
+        return array_flip($toReturn);
+    }
 }

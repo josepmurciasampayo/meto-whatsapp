@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->string('text');
             $table->timestamps();
+
+            $table->index('student_id');
+            $table->index('question_id');
         });
     }
 

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('type')->comment(\App\Enums\General\LoginEventType::toString());
             $table->dateTime('event_time');
             $table->unsignedTinyInteger('latest')->default(1);
+
+            $table->index('latest');
         });
     }
 

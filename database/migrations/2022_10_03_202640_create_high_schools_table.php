@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedTinyInteger('curriculum')->nullable()->comment(\App\Enums\Student\Curriculum::toString());
+            $table->unsignedTinyInteger('type')->nullable()->comment(\App\Enums\HighSchool\Type::toString());
+            $table->unsignedTinyInteger('size')->nullable()->comment(\App\Enums\HighSchool\Size::toString());
             $table->string('city')->nullable();
             $table->string('district')->nullable();
             $table->unsignedMediumInteger('country')->nullable();
-            // class size
-
             $table->timestamps();
         });
     }
