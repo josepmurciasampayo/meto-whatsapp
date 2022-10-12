@@ -7,5 +7,5 @@ use App\Traits\TableName;
 
 class Answer extends Model
 {
-    private $tableName = "answers";
+
 }

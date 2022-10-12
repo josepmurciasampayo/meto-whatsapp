@@ -11,12 +11,27 @@ use Illuminate\View\View;
 
 class UserController extends \Illuminate\Routing\Controller
 {
-    public function profile() :View
+    public function profile(?int $user_id = null) :View
     {
-        return view('user.profile', [
-            'user' => Auth()->user(),
-            'countries' => Country::descriptions(),
-        ]);
+        // Viewing your own profile
+        if (is_null($user_id)) {
+            return view('user.profile', [
+                'user' => Auth()->user(),
+                'countries' => Country::descriptions(),
+            ]);
+        }
+
+        // TODO: finish this but think about counselor and uni
+        // Viewing someone else's profile
+        $loggedInUser = Auth()->user();
+        $profileUser = User::find($user_id);
+        if (Auth()->user()->role == Role::ADMIN()) {
+            return view('user.profile', [
+                'user' => $profileUser,
+                'countries' => Country::descriptions(),
+            ]);
+        }
+
     }
 
     public function update(Request $request) :RedirectResponse

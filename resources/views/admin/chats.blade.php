@@ -11,15 +11,10 @@
                 <div class="p-6">
                     <h2>Chat Text</h2>
                     <table class="table">
-                        <form
-                            method="POST"
-                            action="/chats"
-                            name="update-chats"
-                            id="update-chats"
-                        >
+                        <form method="POST" action="/chats" name="update-chats" id="update-chats">
                             @csrf
-                        <thead class="">
-                        <tr>
+                        <thead>
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Text</th>
                             <th>Capture Filter</th>
@@ -27,16 +22,10 @@
                         </thead>
                         <tbody>
                         <?php foreach ($messages as $message) { ?>
-                        <tr class="">
+                        <tr class="text-center">
                             <td><?php echo $message->id ?></td>
                             <td>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    name="<?php echo $message->id ?>"
-                                    id="<?php echo $message->id ?>"
-                                    value="<?php echo $message->text ?>"
-                                >
+                                <x-input type="text" name="$message->id" :value="$message->text" />
                             </td>
                             <td><?php echo $message->capture_filter ?></td>
                         </tr>
@@ -44,26 +33,21 @@
                         </tbody>
                         </form>
                     </table>
-                    <button
-                        class="btn btn-primary"
-                        type="submit"
-                        form="update-chats"
-                    >
-                        Submit Changes
-                    </button>
                 </div>
+                <x-button form="update-chats">Submit Changes</x-button>
+
                 <div class="p-6">
                     <h2>Branches</h2>
                     <table class="table">
                         <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>From Message</th>
                             <th>Repsonse</th>
                             <th>To Message</th>
                         </tr>
                         </thead>
                         <?php foreach ($branches as $branch) { ?>
-                        <tr>
+                        <tr class="text-center">
                             <td><?php echo $branch->from_message_id ?></td>
                             <td><?php echo $branch->response ?></td>
                             <td><?php echo $branch->to_message_id ?></td>

@@ -1,1 +1,11 @@
+.button-state-styles :hover
+.button-state-styles :active
+.button-state-styles :focus
+.button-state-styles.active {
+    background-color: white !important;
+    color: black !important;
+}
 
+.button-state-styles :disabled {
+
+}

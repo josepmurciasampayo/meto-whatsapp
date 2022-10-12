@@ -8,7 +8,7 @@ use App\Enums\User\Status;
 use App\Helpers;
 use App\Models\Chat\MessageState;
 use App\Models\Institution;
-use App\Models\MatchStudentInstitution;
+use App\Models\Matches;
 use App\Models\Student;
 use App\Models\User;
 
@@ -33,7 +33,7 @@ class HistoricalStudents
                 }
 
                 // create the join record
-                $match = new MatchStudentInstitution();
+                $match = new Matches();
                 $match->student_id = $student->id;
                 $match->institution_id = $institution->id;
                 $match->status = \App\Enums\General\MatchStudentInstitution::UNKNOWN();

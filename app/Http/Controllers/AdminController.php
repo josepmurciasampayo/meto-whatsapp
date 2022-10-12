@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Student\Curriculum;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
 use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
-use App\Models\MatchStudentInstitution;
+use App\Models\Matches;
+use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -65,7 +67,7 @@ class AdminController extends Controller
 
     public function matchData() :View
     {
-        $match_data = MatchStudentInstitution::getMatchData();
+        $match_data = Matches::getMatchData();
         $data = "";
         foreach ($match_data as $row) {
             $name = $row['first'] . ' ' . $row['last'];
@@ -101,8 +103,16 @@ class AdminController extends Controller
 
     public function matches(int $student_id) :View
     {
-        $matches = MatchStudentInstitution::getByUserID();
+        $matches = Matches::getByUserID();
+        return view('', ['data' => $matches]);
+    }
 
-        return view('', ['data' => $data]);
+    public function questions() :View
+    {
+        $data = Question::getAdminData();
+        return view('admin.questions', [
+            'data' => $data,
+            'curricula' => Curriculum::options(),
+            ]);
     }
 }

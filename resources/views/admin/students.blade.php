@@ -9,7 +9,7 @@
             <h3 class="my-2">Raw Student Data</h3>
             <table id="data" class="table table-striped fs-6" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-center">
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
@@ -30,7 +30,7 @@
                     <td><?php echo $row['dob'] ?></td>
                     <td><a href="{{ route('highschool', ['id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a></td>
                     <td><?php echo '-' ?></td>
-                    <td><a href="{{ route('connections', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
+                    <td class="text-center"><a href="{{ route('natches', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
                 </tr>
                 <?php } ?>
                 </tbody>

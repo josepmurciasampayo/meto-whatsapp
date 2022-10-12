@@ -10,6 +10,6 @@ class StudentController extends Controller
     //
     public function index() :View
     {
-        return view('studnet.home');
+        return view('student.home');
     }
 }

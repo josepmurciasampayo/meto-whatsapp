@@ -34,8 +34,9 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
     Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
-    Route::get('/admin/connections/{id}', [CounselorController::class, 'connections'])->name('connections');
+    Route::get('/admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
+    Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
 });
 
 // Counselor functionality
@@ -99,6 +100,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy']);
 
-    Route::get('profile', [\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+    Route::get('profile/{user_id?}', [\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
     Route::post('profile', [\App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
 });

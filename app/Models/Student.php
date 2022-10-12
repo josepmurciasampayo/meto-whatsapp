@@ -15,7 +15,7 @@ class Student extends Model
                 select count(*) as c
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id
-                join meto_match_student_institutions as m on m.student_id = s.id
+                join meto_matches as m on m.student_id = s.id
                 where u.id = ' . $user_id . '
             ');
         return $toReturn[0]->c;
@@ -41,7 +41,7 @@ class Student extends Model
             join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
             left outer join meto_high_schools as h on j.highschool_id = h.id
             left outer join (
-            	select s1.id, count(*) as "matches" from meto_students as s1 join meto_match_student_institutions as m on s1.id = m.student_id group by s1.id
+            	select s1.id, count(*) as "matches" from meto_students as s1 join meto_matches as m on s1.id = m.student_id group by s1.id
             	) as sub on sub.id = s.id;
         ');
     }
@@ -60,13 +60,13 @@ class Student extends Model
                 sub.matches
             from meto_students as s
             join meto_users as u on s.user_id = u.id
-            join meto_user_high_schools as h on h.id = ' . $id . ' and h.user_id = s.user_id
+            join meto_user_high_schools as j on j.highschool_id = ' . $id . ' and j.user_id = s.user_id
             join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
             left outer join (
             	    select s1.id, count(*) as "matches"
             	    from meto_students as s1
-            	    join meto_user_high_schools as h1 on h1.id = ' . $id . '
-            	    join meto_match_student_institutions as m on s1.id = m.student_id
+            	    join meto_user_high_schools as j1 on j1.highschool_id = ' . $id . '
+            	    join meto_matches as m on s1.id = m.student_id
             	    group by s1.id
             	    ) as sub on sub.id = s.id;
         ');

@@ -8,7 +8,7 @@ use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
-use App\Models\MatchStudentInstitution;
+use App\Models\Matches;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,13 +51,21 @@ class CounselorController extends Controller
 
     public function students(int $highscool_id) :View
     {
-        $data = Student::getStudentsAtSchool($highscool_id);
+        $rawData = Student::getStudentsAtSchool($highscool_id);
+        $data = "";
+        foreach ($rawData as $row) {
+            $data .= "[";
+            foreach ($row as $value) {
+                $data .= "'" . $value . "',";
+            }
+            $data .= "],";
+        }
         return view('counselor.students', ['data' => $data]);
     }
 
     public function matches(int $highscool_id) :View
     {
-        $data = MatchStudentInstitution::getMatchesByHighSchool($highscool_id);
+        $data = Matches::getMatchesByHighSchool($highscool_id);
         return view('counselor.matches', ['data' => $data]);
     }
 }

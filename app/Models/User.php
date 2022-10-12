@@ -48,16 +48,7 @@ class User extends Authenticatable
         'google_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public static function findFromPhone(string $phone) : ?User
+    public static function findFromPhone(string $phone) :?User
     {
         $phone = preg_replace('~\D~', '', $phone);
         $result = Helpers::dbQueryArray('

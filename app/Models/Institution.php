@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use App\Helpers;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Institution extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +34,7 @@ class Institution extends Model
 
         $counts = Helpers::dbQueryArray('
             select institution_id, count(institution_id) as match_count
-			from meto_match_student_institutions
+			from meto_matches
             group by institution_id
         ');
         $countsToReturn = array();

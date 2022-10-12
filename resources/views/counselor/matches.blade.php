@@ -26,7 +26,7 @@
                     <td><a href="{{ route('highschool', ['id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a></td>
                     <td><?php echo '-' ?></td>
                     <?php } ?>
-                    <td><a href=""><?php echo $row['name'] ?></a></td>
+                    <td><a href="{{ route('') }}"><?php echo $row['name'] ?></a></td>
                     <td><?php echo $row['date'] ?></td>
                     <td><?php echo $row['institution_name'] ?></td>
                     <td><?php echo $row['status'] ?></td>

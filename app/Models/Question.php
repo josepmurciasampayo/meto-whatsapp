@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Student\Curriculum;
+use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
@@ -15,12 +17,24 @@ class Question extends Model
             return $existing->first();
         }
     }
-    /*
-     *
-     * select s.first_name, a.*, q.*
-from students_table as s
-join answers_table as a on a.student_id=s.student_id
-join questions_table as q on q.question_id = a.question_id;
 
-     */
+    public static function getAdminData() :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                id,
+                text,
+                type,
+                order,
+                ' . Curriculum::TRANSFER() . ',
+                ' . Curriculum::KENYAN() . ',
+                ' . Curriculum::RWANDAN() . ',
+                ' . Curriculum::IB() . ',
+                ' . Curriculum::OTHER() . ',
+                ' . Curriculum::CAMBRIDGE() . ',
+                ' . Curriculum::UGANDAN() . ',
+                ' . Curriculum::AMERICAN() . '
+            from meto_questions;
+        ');
+    }
 }

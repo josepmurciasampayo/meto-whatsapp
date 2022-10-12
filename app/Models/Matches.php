@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use App\Enums\EnumGroup;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers;
 use Illuminate\Support\Facades\DB;
 
-class MatchStudentInstitution extends Model
+class Matches extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -35,7 +32,7 @@ class MatchStudentInstitution extends Model
                 first,
                 last,
                 name
-            from meto_match_student_institutions as matches
+            from meto_matches as matches
             join meto_students as students on matches.student_id = students.id
             join meto_users as users on students.user_id = users.id
             join meto_institutions as institutions on matches.institution_id = institutions.id
@@ -47,14 +44,15 @@ class MatchStudentInstitution extends Model
     {
         if (is_null($user_id)) { // run by system/admin
             DB::update('
-                update meto_match_student_institutions
+                update meto_matches
                 set status = ' . $status . '
                 where id = ' . $match_id . ';
             ');
             return;
         }
+
         DB::update('
-            update meto_match_student_institutions as m
+            update meto_matches as m
             join meto_students as s on s.user_id = ' . $user_id .'
             set status = ' . $status . '
             where m.id = ' . $match_id . '
@@ -77,7 +75,7 @@ class MatchStudentInstitution extends Model
                 u.last,
                 i.name,
                 a.text as "school"
-            from meto_match_student_institutions as m
+            from meto_matches as m
             join meto_students as s on student_id = s.id
             join meto_users as u on s.user_id = u.id
             join meto_institutions as i on institution_id = i.id
@@ -101,7 +99,7 @@ class MatchStudentInstitution extends Model
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             join meto_user_high_schools as h on h.user_id = u.id and h.highschool_id = 1 and h.id = ' . $highschool_id .'
-            join meto_match_student_institutions as m on m.student_id = s.id
+            join meto_matches as m on m.student_id = s.id
             join meto_institutions as i on m.institution_id = i.id
             join meto_high_schools as hs on h.highschool_id = hs.id
             join meto_enum as status on status.enum_id = m.status and status.group_id = ' . EnumGroup::GENERAL_MATCH() . ';
