@@ -71,20 +71,29 @@ class CounselorController extends Controller
             }
             $data .= "],";
         }
-        return view('counselor.students', ['data' => $data]);
+        return view('counselor.students', [
+            'data' => $rawData,
+            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+        ]);
     }
 
     public function matches(int $highscool_id) :View
     {
         // TODO: rows are students, columns are statuses, cells are counts
         $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
-        return view('counselor.matches', ['data' => $data]);
+        return view('counselor.matches', [
+            'data' => $data,
+            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+        ]);
     }
 
     public function student(int $student_id) :View
     {
         $data = Student::getStudentData($student_id);
-        return view('counselor.student', ['data' => $data]);
+        return view('counselor.student', [
+            'data' => $data,
+            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+            ]);
     }
 
     public function saveNotes(Request $request) :RedirectResponse

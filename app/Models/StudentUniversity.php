@@ -97,7 +97,7 @@ class StudentUniversity extends Model
                 status.enum_desc as "status"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
-            join meto_user_high_schools as h on h.user_id = u.id and h.highschool_id = 1 and h.id = ' . $highschool_id .'
+            join meto_user_high_schools as h on h.user_id = u.id and h.highschool_id = ' . $highschool_id .'
             join meto_student_universities as m on m.student_id = s.id
             join meto_institutions as i on m.institution_id = i.id
             join meto_high_schools as hs on h.highschool_id = hs.id

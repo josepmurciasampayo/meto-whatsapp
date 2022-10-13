@@ -53,11 +53,12 @@ class Student extends Model
                 concat(u.first, " ", u.last) as "name",
                 u.email,
                 gender.enum_desc as "gender",
-                u.phone_raw,
+                u.phone_raw as "phone",
+                if(s.active=1, "y", "N") as "active",
                 -- s.dob,
-                sub.matches
+                sub.matches,
                 -- u.id as "user_id",
-                -- s.id as "student_id"
+                s.id as "student_id"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             join meto_user_high_schools as j on j.highschool_id = ' . $id . ' and j.user_id = s.user_id
@@ -65,7 +66,8 @@ class Student extends Model
             left outer join (
             	    select s1.id, count(*) as "matches"
             	    from meto_students as s1
-            	    join meto_user_high_schools as j1 on j1.highschool_id = ' . $id . '
+            	    join meto_users as u1 on s1.user_id = u1.id
+            	    join meto_user_high_schools as j1 on j1.highschool_id = ' . $id . ' and j1.user_id = u1.id
             	    join meto_student_universities as m on s1.id = m.student_id
             	    group by s1.id
             	    ) as sub on sub.id = s.id;
