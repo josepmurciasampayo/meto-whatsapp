@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Chat\MessageState;
 use App\Models\LogComms;
-use App\Models\Matches;
 use Database\Seeders\ChatTestSeeder;
 use Illuminate\Console\Command;
 

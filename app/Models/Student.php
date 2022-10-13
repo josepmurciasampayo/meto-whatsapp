@@ -13,9 +13,9 @@ class Student extends Model
     {
         $toReturn = DB::select('
                 select count(*) as c
-                from meto_users as u
+                from meto_student_universities as u
                 join meto_students as s on s.user_id = u.id
-                join meto_matches as m on m.student_id = s.id
+                join meto_student_universities as m on m.student_id = s.id
                 where u.id = ' . $user_id . '
             ');
         return $toReturn[0]->c;
@@ -41,7 +41,7 @@ class Student extends Model
             join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
             left outer join meto_high_schools as h on j.highschool_id = h.id
             left outer join (
-            	select s1.id, count(*) as "matches" from meto_students as s1 join meto_matches as m on s1.id = m.student_id group by s1.id
+            	select s1.id, count(*) as "matches" from meto_students as s1 join meto_student_universities as m on s1.id = m.student_id group by s1.id
             	) as sub on sub.id = s.id;
         ');
     }
@@ -50,14 +50,14 @@ class Student extends Model
     {
         return Helpers::dbQueryArray('
             select
-                u.id as "user_id",
-                s.id as "student_id",
                 concat(u.first, " ", u.last) as "name",
                 u.email,
+                gender.enum_desc as "gender",
                 u.phone_raw,
                 s.dob,
-                gender.enum_desc as "gender",
                 sub.matches
+                -- u.id as "user_id",
+                -- s.id as "student_id"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             join meto_user_high_schools as j on j.highschool_id = ' . $id . ' and j.user_id = s.user_id
@@ -66,7 +66,7 @@ class Student extends Model
             	    select s1.id, count(*) as "matches"
             	    from meto_students as s1
             	    join meto_user_high_schools as j1 on j1.highschool_id = ' . $id . '
-            	    join meto_matches as m on s1.id = m.student_id
+            	    join meto_student_universities as m on s1.id = m.student_id
             	    group by s1.id
             	    ) as sub on sub.id = s.id;
         ');

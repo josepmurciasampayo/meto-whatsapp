@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\General\Form;
-use App\Models\Matches;
+use App\Models\StudentUniversity;
 use App\Enums\General\MatchStudentInstitution as EnumMatch;
-use App\Models\Student;
 use App\Models\User;
 use App\Models\UserForm;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,7 +34,7 @@ class UserFormController extends Controller
 
     public function showEndOfCycle(UserForm $userForm) :View
     {
-        $matches = Matches::getByUserID($userForm->user_id);
+        $matches = StudentUniversity::getByUserID($userForm->user_id);
         Log::channel('form')->debug("Found " . count($matches) . " matches");
         $user = User::find($userForm->user_id);
         $data = [
@@ -67,14 +66,14 @@ class UserFormController extends Controller
             $userForm = $userForm->first();
         }
 
-        $matches = Matches::getByUserID($userForm->user_id);
+        $matches = StudentUniversity::getByUserID($userForm->user_id);
         if (count($matches) == 0) {
             Log::channel('form')->error('No matches found for form URL: ' . $userForm->url);
             return view('errors.404');
         }
 
         foreach ($request['matches'] as $match_id => $status) {
-            Matches::updateMatchStatusByMatchID($match_id, $status, $userForm->user_id);
+            StudentUniversity::updateMatchStatusByMatchID($match_id, $status, $userForm->user_id);
         }
 
         return view('forms.thankyou');

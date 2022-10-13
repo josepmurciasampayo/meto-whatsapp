@@ -26,7 +26,7 @@ return new class extends Migration
                 enum_match_status.enum_desc
             from meto_users as users
             join meto_students as students on students.user_id = users.id
-            join meto_matches as matches on matches.student_id = students.id
+            join meto_student_universities as matches on matches.student_id = students.id
             join meto_institutions as institutions on matches.institution_id = institutions.id
             join meto_enum as enum_match_status on enum_match_status.enum_id = 'meto_matches.status' and enum_match_status.group_id = " . EnumGroup::GENERAL_MATCH() . "
          ;");

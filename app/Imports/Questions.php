@@ -38,6 +38,10 @@ class Questions
             $question->$other = str_contains($questionDB->curricula, 'all_other');
             $question->save();
         }
+
+        DB::unprepared(file_get_contents(database_path('seeders/questions_in_use.sql')));
+
         return 1;
+
     }
 }

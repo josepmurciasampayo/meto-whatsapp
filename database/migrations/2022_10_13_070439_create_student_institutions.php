@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\General\MatchStudentInstitution;
 
 return new class extends Migration
 {
@@ -14,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_universities', function (Blueprint $table) {
+        Schema::create('student_institutions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('institution_id');
-            $table->unsignedTinyInteger('status_application')->nullable();
-            $table->unsignedTinyInteger('enrollment_application')->nullable();
-            $table->unsignedTinyInteger('status')->default(MatchStudentInstitution::UNKNOWN())->comment(MatchStudentInstitution::toString());
+            $table->unsignedTinyInteger('role')->comment(\App\Enums\HighSchool\Role::toString());
+            $table->unsignedTinyInteger('status')->default(\App\Enums\User\Status::ACTIVE());
             $table->timestamps();
 
-            $table->index('student_id');
+            $table->index('user_id');
             $table->index('institution_id');
         });
     }
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('student_institutions');
     }
 };

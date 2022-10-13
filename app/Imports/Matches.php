@@ -2,11 +2,9 @@
 
 namespace App\Imports;
 
-use App\Enums\Chat\Campaign;
-use App\Models\Chat\MessageState;
 use App\Models\Institution;
-use App\Models\Matches;
 use App\Models\Student;
+use App\Models\StudentUniversity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -40,7 +38,7 @@ class Matches
             Log::channel('import')->error("Couldn't find institution ID" . $matchDB->institution_id);
             return;
         }
-        $match = new Matches();
+        $match = new StudentUniversity();
         $match->student_id = $student->id;
         $match->institution_id = $institution->id;
         $match->created_at = $matchDB->date_connected;

@@ -109,11 +109,13 @@ class Students
             }
         }
 
-        $family_in = explode(",", $studentDB->citizenships);
-        foreach ($family_in as $country) {
-            $tag = new StudentTag();
-            $tag->type = TagsStudent::COUNTRYFAMILY();
-            $tag->data_int = Country::lookup($country);
+        if (strlen($studentDB->family_in > 0)) {
+            $family_in = explode(",", $studentDB->family_in);
+            foreach ($family_in as $country) {
+                $tag = new StudentTag();
+                $tag->type = TagsStudent::COUNTRYFAMILY();
+                $tag->data_int = Country::lookup($country);
+            }
         }
 
         $stu->gender = match(strtolower($studentDB->gender)) {

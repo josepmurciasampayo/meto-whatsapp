@@ -34,7 +34,7 @@ class Institution extends Model
 
         $counts = Helpers::dbQueryArray('
             select institution_id, count(institution_id) as match_count
-			from meto_matches
+			from meto_student_universities
             group by institution_id
         ');
         $countsToReturn = array();

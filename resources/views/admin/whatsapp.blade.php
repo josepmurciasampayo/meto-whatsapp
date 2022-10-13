@@ -10,7 +10,7 @@
             <div class="my-5 py-3 mx-3">
                 <form method="post" action="{{ route('startChatbot') }}">
                     @csrf
-                    <button type="submit" class="btn btn-primary">Start Chatbot</button>
+                    <button type="submit" class="btn btn-secondary">Start Chatbot</button>
                 </form>
 
                 <form method="post" action="{{ route('resetChatbot') }}">

@@ -33,7 +33,7 @@
                 <td><?php echo $row[6] ?></td>
                 <td><?php echo $row[2] ?></td>
                 <td><?php echo $row[4] ?></td>
-                <td><?php echo $row['count'] ?></td>
+                <td><a href="{{ route('answers', ['question_id' => $row['id']]) }}"><?php echo $row['count'] ?></a></td>
             </tr>
             <?php } ?>
             </tbody>

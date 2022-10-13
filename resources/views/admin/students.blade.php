@@ -30,7 +30,7 @@
                     <td><?php echo $row['dob'] ?></td>
                     <td><a href="{{ route('highschool', ['id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a></td>
                     <td><?php echo '-' ?></td>
-                    <td class="text-center"><a href="{{ route('natches', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
+                    <td class="text-center"><a href="{{ route('matches', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
                 </tr>
                 <?php } ?>
                 </tbody>

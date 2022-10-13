@@ -7,18 +7,35 @@
             <div id="table-wrapper"></div>
                 <script type="text/javascript">
                     new gridjs.Grid({
-                        columns: ['Name', 'Email', 'Gender', 'Phone', 'Date of Birth', 'Matches'],
+                        columns: [
+                            'Name',
+                            'Email',
+                            'Gender',
+                            'Phone',
+                            'Date of Birth',
+                            {
+                                name: 'Matches',
+                                sort: {
+                                    compare: (a, b) => {
+                                        if (parseInt(a) == parseInt(b)) {
+                                            return 0;
+                                        }
+                                        if (parseInt(a) > parseInt(b)) {
+                                            return 1;
+                                        } else {
+                                            return -1;
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        sort: true,
+                        search: true,
                         data: [
                             <?php echo $data ?>
                         ],
                     }).render(document.getElementById('table-wrapper'));
                 </script>
         </div>
-
     </div>
-
-
-    <script type="text/javascript">
-        // $(document).ready(function () { var table = $('#data').DataTable({}); });
-    </script>
 </x-app-layout>

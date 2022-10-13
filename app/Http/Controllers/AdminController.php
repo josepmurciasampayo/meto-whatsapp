@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Student\Curriculum;
+use App\Models\Answer;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
 use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
-use App\Models\Matches;
+use App\Models\StudentUniversity;
 use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
@@ -31,7 +32,7 @@ class AdminController extends Controller
     {
         $data = LogComms::getAdminData();
         $state = MessageState::getState();
-        return view('admin.commsLog', [
+        return view('admin.whatsapp', [
             'data' => $data,
             'state' => $state,
             ]);
@@ -46,7 +47,7 @@ class AdminController extends Controller
     public function students() :View
     {
         $data = Student::getAdminData();
-        return view('counselor.students', ['data' => $data]);
+        return view('admin.students', ['data' => $data]);
     }
 
     public function highschools() :View
@@ -67,7 +68,7 @@ class AdminController extends Controller
 
     public function matchData() :View
     {
-        $match_data = Matches::getMatchData();
+        $match_data = StudentUniversity::getMatchData();
         $data = "";
         foreach ($match_data as $row) {
             $name = $row['first'] . ' ' . $row['last'];
@@ -103,7 +104,7 @@ class AdminController extends Controller
 
     public function matches(int $student_id) :View
     {
-        $matches = Matches::getByUserID();
+        $matches = StudentUniversity::getByUserID();
         return view('', ['data' => $matches]);
     }
 
@@ -113,5 +114,14 @@ class AdminController extends Controller
         return view('admin.questions', [
             'data' => $data,
             ]);
+    }
+
+    public function answers(int $question_id) :View
+    {
+        $data = Answer::getByQuestionID($question_id);
+        return view('admin.answers', [
+            'data' => $data,
+            'question' => Question::find($question_id),
+        ]);
     }
 }

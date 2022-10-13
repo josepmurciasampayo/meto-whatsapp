@@ -25,8 +25,10 @@
                         <div class="mb-4">
                             <x-label for="country" value="Country" />
                             <select class="form-select" id="country" name="country">
+                                <option value=""></option>
                                 <?php foreach ($countries as $country) { ?>
-                                    <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
+                                    <?php $selected = ($country['id'] == $school['country']) ? "selected" : "" ?>
+                                    <option value="{{ $country['id'] }}" {{ $selected }}>{{ $country['name'] }}</option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -34,8 +36,10 @@
                         <div class="mb-4">
                             <x-label for="curriculum" value="Curriculum" />
                             <select class="form-select" id="curriculum" name="curriculum">
+                                <option value=""></option>
                                 <?php foreach ($curricula as $id => $curriculum) { ?>
-                                    <option value="{{ $id }}">{{ $curriculum }}</option>
+                                    <?php $selected = ($id == $school['curriculum']) ? "selected" : "" ?>
+                                    <option value="{{ $id }}" {{ $selected }}>{{ $curriculum }}</option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -43,17 +47,21 @@
                         <div class="mb-4">
                             <x-label for="type" value="School Type" />
                             <select class="form-select" id="type" name="type">
+                                <option value=""></option>
                                 <?php foreach ($types as $id => $type) { ?>
-                                    <option value="{{ $id }}">{{ $type }}</option>
+                                    <?php $selected = ($id == $school['type']) ? "selected" : "" ?>
+                                    <option value="{{ $id }}" {{ $selected }}>{{ $type }}</option>
                                 <?php } ?>
                             </select>
                         </div>
 
                         <div class="mb-4">
-                            <x-label for="enrollment" value="School Size" />
-                            <select class="form-select" id="enrollment" name="enrollment">
+                            <x-label for="size" value="School Size" />
+                            <select class="form-select" id="size" name="size">
+                                <option value=""></option>
                                 <?php foreach ($sizes as $id => $size) { ?>
-                                <option value="{{ $id }}">{{ $size }}</option>
+                                    <?php $selected = ($id == $school['size']) ? "selected" : "" ?>
+                                    <option value="{{ $id }}" {{ $selected }}>{{ $size }}</option>
                                 <?php } ?>
                             </select>
                         </div>

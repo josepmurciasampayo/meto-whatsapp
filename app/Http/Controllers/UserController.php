@@ -36,19 +36,18 @@ class UserController extends \Illuminate\Routing\Controller
 
     public function update(Request $request) :RedirectResponse
     {
-        $elements = $request->toArray();
-        if (Auth()->user()->id != $elements['id']) {
+        if (Auth()->user()->id != $request->id) {
             if (Auth()->user()->role != Role::ADMIN())
             abort(403);
         }
 
-        $user = User::find($elements['id']);
-        $user->first = $elements['first'];
-        $user->last = $elements['last'];
-        $user->email = $elements['email'];
-        $user->phone_raw = $elements['phone'];
-        $user->title = $elements['title'];
-        $user->country = $elements['country'];
+        $user = User::find($request->id);
+        $user->first = $request->first;
+        $user->last = $request->last;
+        $user->email = $request->email;
+        $user->phone_raw = $request->phone;
+        $user->title = $request->title;
+        // $user->country = $request->country;
         $user->save();
 
         return redirect('profile');

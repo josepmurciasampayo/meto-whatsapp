@@ -8,10 +8,11 @@ use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
-use App\Models\Matches;
+use App\Models\StudentUniversity;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class CounselorController extends Controller
@@ -56,7 +57,7 @@ class CounselorController extends Controller
         foreach ($rawData as $row) {
             $data .= "[";
             foreach ($row as $value) {
-                $data .= "'" . $value . "',";
+                $data .= "'" . htmlspecialchars($value) . "',";
             }
             $data .= "],";
         }
@@ -65,7 +66,7 @@ class CounselorController extends Controller
 
     public function matches(int $highscool_id) :View
     {
-        $data = Matches::getMatchesByHighSchool($highscool_id);
+        $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
         return view('counselor.matches', ['data' => $data]);
     }
 }

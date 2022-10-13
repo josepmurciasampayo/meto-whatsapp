@@ -37,16 +37,6 @@
                         </div>
 
                         <div class="mb-4">
-                            <x-label for="country" value="Country" />
-                            <select class="form-select" id="country" name="country">
-                                <?php foreach ($countries as $id => $country) { ?>
-                                <?php $selected = ($id == $user->country) ? "selected" : "" ?>
-                                <option value="{{ $id }}" {{ $selected }}>{{ $country }}</option>
-                                <?php } ?>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
                             <a href="{{ route('password.reset') }}">Change Password</a>
                         </div>
 

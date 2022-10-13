@@ -37,6 +37,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
+    Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 });
 
 // Counselor functionality
