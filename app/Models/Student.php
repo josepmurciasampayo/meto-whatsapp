@@ -54,7 +54,7 @@ class Student extends Model
                 u.email,
                 gender.enum_desc as "gender",
                 u.phone_raw,
-                s.dob,
+                -- s.dob,
                 sub.matches
                 -- u.id as "user_id",
                 -- s.id as "student_id"

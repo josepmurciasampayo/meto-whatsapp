@@ -12,7 +12,6 @@
                             'Email',
                             'Gender',
                             'Phone',
-                            'Date of Birth',
                             {
                                 name: 'Matches',
                                 sort: {
