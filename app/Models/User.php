@@ -79,6 +79,11 @@ class User extends Authenticatable
         return ($this->role == Role::COUNSELOR() || $this->role == Role::ADMIN());
     }
 
+    public function isSchoolAdmin() :bool
+    {
+        return ($this->role == \App\Enums\HighSchool\Role::ADMIN() || $this->role == Role::ADMIN);
+    }
+
     public function isInstitution() :bool
     {
         return ($this->role == Role::INSTITUTION() || $this->role == Role::ADMIN());

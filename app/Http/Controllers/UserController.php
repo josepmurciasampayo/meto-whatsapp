@@ -50,6 +50,8 @@ class UserController extends \Illuminate\Routing\Controller
         // $user->country = $request->country;
         $user->save();
 
+        // send unsubscribe for counselors to abraham
+
         return redirect('profile');
     }
 }

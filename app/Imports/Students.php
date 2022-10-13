@@ -99,6 +99,7 @@ class Students
         $stu->birth_city = $studentDB->city_of_birth;
         $stu->refugee = ($studentDB->refugee_status == 'Yes') ? Refugee::YES() : Refugee::NO();
         $stu->disability_raw = $studentDB->disability_status;
+        $stu->active = $studentDB->actively_seeking_current_app_cycle;
 
         if (strlen($studentDB->citizenships) > 0) {
             $citizenships = explode(",", $studentDB->citizenships);

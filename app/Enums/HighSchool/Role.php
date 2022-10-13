@@ -10,12 +10,14 @@ enum Role :int
 
     case STUDENT = 1;
     case COUNSELOR = 2;
+    case ADMIN = 3;
 
     public static function getText(self $value) :string
     {
         return match($value) {
             self::STUDENT => 'Student',
             self::COUNSELOR => 'Counselor',
+            self::ADMIN => 'Admin',
         };
     }
 }

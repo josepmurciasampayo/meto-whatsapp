@@ -36,9 +36,18 @@
                             <x-input id="title" class="block mt-1 w-full" type="text" name="title" :value="$user->title" />
                         </div>
 
+                        <?php if (Auth()->user()->isCounselor()) { ?>
+                            <div class="mb-4">
+                                <x-label for="subscribe" value="Subscribe to student connections" />
+                                // TODO: create subscribe toggle
+                            </div>
+                        <?php } ?>
+
                         <div class="mb-4">
                             <a href="{{ route('password.reset') }}">Change Password</a>
                         </div>
+
+
 
                         <div class="text-end">
                             <x-button>Submit Changes</x-button>

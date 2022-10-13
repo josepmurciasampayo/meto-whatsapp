@@ -66,6 +66,7 @@ class CounselorController extends Controller
 
     public function matches(int $highscool_id) :View
     {
+        // TODO: rows are students, columns are statuses, cells are counts
         $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
         return view('counselor.matches', ['data' => $data]);
     }

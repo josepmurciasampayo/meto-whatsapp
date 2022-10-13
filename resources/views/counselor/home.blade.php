@@ -6,10 +6,14 @@
                     Welcome, {{ Auth::user()->first }}. You are a Counselor at {{ $school->name }}.
                 </div>
                 <div class="p-6">
+                    <p>Add student counts by actively applying</p>
                     <ul>
                         <li><a href="{{ route('counselor-students', ['highscool_id' => $school->id] ) }}">Review students</a></li>
                         <li><a href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}">Review matches</a></li>
-                        <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review school profile</a></li>
+                        <?php if (Auth()->user()->isSchoolAdmin()) { ?>
+                            <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review school profile</a></li>
+                            <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Invite new counselors</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

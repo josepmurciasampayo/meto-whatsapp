@@ -35,6 +35,22 @@ class UserRolesSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
+        UserHighSchools::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::ADMIN);
+
+        $user = User::create([
+            'first' => "Abraham",
+            'last' => "Counselor",
+            'phone_raw' => "571-214-3085",
+            'phone_country' => 1,
+            'phone_area' => 571,
+            'phone_local' => 2143085,
+            'phone_combined' => '', //15712143085,
+            'password' => bcrypt('password'),
+            'email' => "gmgarrison+abraham@gmail.com",
+            'role' => Role::COUNSELOR(),
+            'status' => Status::ACTIVE()
+        ]);
+
         UserHighSchools::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::COUNSELOR);
 
         /*
