@@ -112,7 +112,6 @@ class AdminController extends Controller
         $data = Question::getAdminData();
         return view('admin.questions', [
             'data' => $data,
-            'curricula' => Curriculum::options(),
             ]);
     }
 }

@@ -22,19 +22,30 @@ class Question extends Model
     {
         return Helpers::dbQueryArray('
             select
-                id,
+                q.id,
                 text,
                 type,
-                order,
-                ' . Curriculum::TRANSFER() . ',
-                ' . Curriculum::KENYAN() . ',
-                ' . Curriculum::RWANDAN() . ',
-                ' . Curriculum::IB() . ',
-                ' . Curriculum::OTHER() . ',
-                ' . Curriculum::CAMBRIDGE() . ',
-                ' . Curriculum::UGANDAN() . ',
-                ' . Curriculum::AMERICAN() . '
-            from meto_questions;
+                `order`,
+                if(isnull(u.question_id), "Y", "N") as in_use,
+                q.' . Curriculum::TRANSFER() . ',
+                q.' . Curriculum::KENYAN() . ',
+                q.' . Curriculum::RWANDAN() . ',
+                q.' . Curriculum::IB() . ',
+                q.' . Curriculum::OTHER() . ',
+                q.' . Curriculum::CAMBRIDGE() . ',
+                q.' . Curriculum::UGANDAN() . ',
+                q.' . Curriculum::AMERICAN() . ',
+                a.count
+            from meto_questions as q
+            left outer join question_ids_in_use as u on u.question_id = q.id
+            left outer join (
+                select q.id, count(*) as "count"
+                from meto_questions as q
+                left outer join meto_answers as a on q.id = a.question_id
+                group by q.id
+                order by q.id
+            ) as a on a.id = q.id
+            ;
         ');
     }
 }
