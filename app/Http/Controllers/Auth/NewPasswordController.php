@@ -66,8 +66,8 @@ class NewPasswordController extends Controller
             $user = User::where('email', $email)->first();
             if ($user) {
                 event(new LoginEvent($user, LoginEventType::RESETPW));
+                return redirect()->route('home');
             }
-            // TODO: fix redirect here
             return redirect()->route('login')->with('status', __($status));
         } else {
             return back()->withInput($request->only('email'))

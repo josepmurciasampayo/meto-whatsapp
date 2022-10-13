@@ -34,4 +34,15 @@ class HighSchool extends Model
 
         return HighSchool::find($id);
     }
+
+    public static function getSummaryCounts(int $school_id) :array
+    {
+        return Helpers::dbQueryArray('
+            select sum(active) as "active", count(*) as "total"
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_user_high_schools as m on m.user_id = u.id and m.highschool_id = ' . $school_id . '
+            ;
+        ')[0];
+    }
 }

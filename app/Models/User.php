@@ -7,6 +7,7 @@ use App\Helpers;
 use App\Traits\TableName;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -81,7 +82,8 @@ class User extends Authenticatable
 
     public function isSchoolAdmin() :bool
     {
-        return ($this->role == \App\Enums\HighSchool\Role::ADMIN() || $this->role == Role::ADMIN);
+        $hsRole = DB::select('select role from meto_user_high_schools where user_id = ' . $this->id)[0]->role;
+        return ($hsRole == \App\Enums\HighSchool\Role::ADMIN() || $this->role == Role::ADMIN);
     }
 
     public function isInstitution() :bool

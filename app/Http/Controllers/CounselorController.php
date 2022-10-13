@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Country\Country;
 use App\Enums\HighSchool\Size;
 use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
+use App\Models\Joins\UserHighSchool;
 use App\Models\StudentUniversity;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +17,16 @@ use Illuminate\View\View;
 
 class CounselorController extends Controller
 {
+    public function home() :View
+    {
+        $school = HighSchool::getByCounselorID(Auth()->user()->id);
+        return view('counselor.home', [
+            'school' => $school,
+            'summaryCounts' => HighSchool::getSummaryCounts($school->id),
+            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+        ]);
+    }
+
     public function highschool(int $id) :View
     {
         $data = HighSchool::getAdminData($id);
@@ -69,5 +79,21 @@ class CounselorController extends Controller
         // TODO: rows are students, columns are statuses, cells are counts
         $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
         return view('counselor.matches', ['data' => $data]);
+    }
+
+    public function student(int $student_id) :View
+    {
+        $data = Student::getStudentData($student_id);
+        return view('counselor.student', ['data' => $data]);
+    }
+
+    public function saveNotes(Request $request) :RedirectResponse
+    {
+        $user_id =  Auth()->user()->id;
+        $userHighschool = UserHighSchool::where('user_id', $user_id)->first();
+        $userHighschool->notes = $request->notes;
+        $userHighschool->save();
+
+        return redirect($request->headers->get('referer'));
     }
 }

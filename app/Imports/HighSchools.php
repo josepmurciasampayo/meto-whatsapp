@@ -7,7 +7,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
 use App\Models\HighSchool;
-use App\Models\Joins\UserHighSchools;
+use App\Models\Joins\UserHighSchool;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -47,7 +47,7 @@ class HighSchools
         $user->status = Status::ACTIVE();
         $user->save();
 
-        UserHighSchools::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
+        UserHighSchool::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
     }
 
     public static function importStudent(\stdClass $student) :void
@@ -55,13 +55,13 @@ class HighSchools
         // create new HS record, new student, new join
         $existing = HighSchool::where('name', $student->text);
         if ($existing->count() > 0) {
-            UserHighSchools::joinUserHighSchool($student->user_id, $existing->first()->id, HighSchoolRole::STUDENT);
+            UserHighSchool::joinUserHighSchool($student->user_id, $existing->first()->id, HighSchoolRole::STUDENT);
         } else {
             $new = new HighSchool();
             $new->name = $student->text;
             $new->save();
 
-            UserHighSchools::joinUserHighSchool($student->user_id, $new->id, HighSchoolRole::STUDENT);
+            UserHighSchool::joinUserHighSchool($student->user_id, $new->id, HighSchoolRole::STUDENT);
         }
     }
 

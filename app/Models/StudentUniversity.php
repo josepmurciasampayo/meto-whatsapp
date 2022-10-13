@@ -62,7 +62,6 @@ class StudentUniversity extends Model
 
     public static function getMatchData() :array
     {
-        // TODO: add high school name and country and last update date
         return Helpers::dbQueryArray('
             select
                 m.id as match_id,

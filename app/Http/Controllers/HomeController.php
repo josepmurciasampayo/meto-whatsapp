@@ -18,8 +18,8 @@ class HomeController extends Controller
             return view('admin.home');
         }
         if ($user->isCounselor()) {
-            $school = HighSchool::getByCounselorID(Auth()->user()->id);
-            return view('counselor.home', ['school' => $school]);
+            $c = new CounselorController();
+            return $c->home();
         }
         if ($user->isInstitution()) {
             return view('institution.home');

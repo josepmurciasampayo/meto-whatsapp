@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\HighSchool;
-use App\Models\Joins\UserHighSchools;
+use App\Models\Joins\UserHighSchool;
 use App\Enums\User\{Role, Status, Consent, Verified};
 use App\Models\Student;
 use App\Models\User;
@@ -35,7 +35,7 @@ class UserRolesSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
-        UserHighSchools::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::ADMIN);
+        UserHighSchool::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::ADMIN);
 
         $user = User::create([
             'first' => "Abraham",
@@ -51,7 +51,7 @@ class UserRolesSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
-        UserHighSchools::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::COUNSELOR);
+        UserHighSchool::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::COUNSELOR);
 
         /*
          * Create institution users

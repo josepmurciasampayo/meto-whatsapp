@@ -71,4 +71,19 @@ class Student extends Model
             	    ) as sub on sub.id = s.id;
         ');
     }
+
+    public static function getStudentData(int $student_id) :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                concat (u.first, " ", u.last) as "name",
+                q.text as "question",
+                a.text as "answer"
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_answers as a on a.student_id = s.id
+            join meto_questions as q on q.id = a.question_id
+            where student_id = ' . $student_id . ';
+        ');
+    }
 }
