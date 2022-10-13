@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\HighSchool\Size;
+use App\Enums\General\Month;
+use App\Enums\HighSchool\ClassSize;
+use App\Enums\HighSchool\Cost;
+use App\Enums\HighSchool\Exam;
+use App\Enums\HighSchool\SchoolSize;
 use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
 use App\Models\EnumCountry;
@@ -27,20 +31,18 @@ class CounselorController extends Controller
         ]);
     }
 
-    public function highschool(int $id) :View
+    public function highschool(int $school_id) :View
     {
-        $data = HighSchool::getAdminData($id);
-        $countries = EnumCountry::getArray();
-        $curricula = Curriculum::descriptions();
-        $types = Type::descriptions();
-        $sizes = Size::descriptions();
-
         return view('counselor.highschool', [
-            'school' => $data,
-            'countries' => $countries,
-            'curricula' => $curricula,
-            'types' => $types,
-            'sizes' => $sizes,
+            'school' => HighSchool::find($school_id),
+            'countries' => EnumCountry::getArray(),
+            'curricula' => Curriculum::descriptions(),
+            'types' => Type::descriptions(),
+            'classSizes' => ClassSize::descriptions(),
+            'schoolSizes' => SchoolSize::descriptions(),
+            'costs' => Cost::descriptions(),
+            'exams' => Exam::descriptions(),
+            'months' => Month::descriptions(),
         ]);
     }
 
@@ -53,7 +55,15 @@ class CounselorController extends Controller
         $highschool->country = $request->country;
         $highschool->curriculum = $request->curriculum;
         $highschool->type = $request->type;
-        $highschool->size = $request->size;
+        $highschool->school_size = $request->schooolSize;
+        $highschool->class_size = $request->classSize;
+        $highschool->url = $request->url;
+        $highschool->career_email = $request->career_email;
+        $highschool->connection_emails = $request->connection_emails;
+        $highschool->government_code = $request->government_code;
+        $highschool->cost = $request->cost;
+        $highschool->exam = $request->exam;
+        $highschool->finish_month = $request->finish_month;
 
         $highschool->save();
 

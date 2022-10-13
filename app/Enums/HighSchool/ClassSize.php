@@ -4,22 +4,22 @@ namespace App\Enums\HighSchool;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum Type :int
+enum ClassSize :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case PUBLIC = 1;
-    case PRIVATE = 2;
-    case ACCESS = 3;
-    case OTHER = 4;
+    case TINY = 1;
+    case SMALL = 2;
+    case MEDIUM = 3;
+    case LARGE = 4;
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::PUBLIC => 'Public',
-            self::PRIVATE => 'Private',
-            self::ACCESS => 'College Access Program',
-            self::OTHER => 'Other',
+            self::TINY => 'Less than 10',
+            self::SMALL => '11 - 50',
+            self::MEDIUM => '51 - 100',
+            self::LARGE => 'More than 100',
         };
     }
 }
