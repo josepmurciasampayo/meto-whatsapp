@@ -47,6 +47,9 @@ Route::middleware(['auth', 'counselor'])->group(function() {
 
     Route::post('/saveNotes', [CounselorController::class, 'saveNotes'])->name('saveNotes');
 
+    Route::get('/invite', [CounselorController::class, 'invite'])->name('invite');
+    Route::post('/invite', [CounselorController::class, 'sendInvite'])->name('sendInvite');
+
     Route::get('/matches/{highschool_id}', [CounselorController::class, 'matches'])->name('counselor-matches');
 
     Route::get('/highschool/{id}', [CounselorController::class, 'highschool'])->name('highschool');

@@ -115,4 +115,9 @@ class CounselorController extends Controller
 
         return redirect($request->headers->get('referer'));
     }
+
+    public function invite() :View
+    {
+
+    }
 }
