@@ -3,8 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    Welcome, {{ Auth::user()->first }}. You are a Counselor at {{ $school->name }}.
-                    <p class="my-3">{{ $summaryCounts['active'] }} active students out of {{ $summaryCounts['total'] }} total</p>
+                    Counselor Invitation
                 </div>
                 <div class="p-6">
                     <form id="invite" name="invite" action="{{ route('sendInvite') }}" method="POST">
@@ -12,7 +11,7 @@
 
                         <div class="mb-4">
                             <x-label for="first" value="First Name" />
-                            <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
+                            <x-input class="block mt-1 w-full" id="first" name="first" type="text" autofocus />
                         </div>
 
                         <div class="mb-4">

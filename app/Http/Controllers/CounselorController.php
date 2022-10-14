@@ -9,14 +9,19 @@ use App\Enums\HighSchool\Exam;
 use App\Enums\HighSchool\SchoolSize;
 use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
+use App\Enums\User\Role;
+use App\Enums\User\Status;
+use App\Mail\InviteCounselor;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Models\StudentUniversity;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class CounselorController extends Controller
@@ -118,6 +123,32 @@ class CounselorController extends Controller
 
     public function invite() :View
     {
+        return view('counselor.invite');
+    }
 
+    public function sendInvite(Request $request) :RedirectResponse
+    {
+        $currentUser = Auth()->user();
+        $highschool = HighSchool::getByCounselorID($currentUser->id);
+
+        $user = new User();
+        $user->first = $request->first;
+        $user->last = $request->last;
+        $user->email = $request->email;
+        $user->title = $request->title;
+        $user->role = Role::COUNSELOR();
+        $user->status = Status::ACTIVE();
+        $user->password = bcrypt("afow84hfao8w3hflaow8u3ro8afh8a3f");
+        $user->save();
+
+        $join = new UserHighSchool();
+        $join->user_id = $user->id;
+        $join->highschool_id = $highschool->id;
+        $join->role = \App\Enums\HighSchool\Role::COUNSELOR();
+        $join->save();
+
+        Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser));
+
+        return redirect(route('home'));
     }
 }
