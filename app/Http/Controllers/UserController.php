@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Country\Country;
 use App\Enums\User\Role;
+use App\Models\Joins\UserHighSchool;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class UserController extends \Illuminate\Routing\Controller
             return view('user.profile', [
                 'user' => Auth()->user(),
                 'countries' => Country::descriptions(),
+                'join' => UserHighSchool::getByCounselorUserID(Auth()->user()->id),
             ]);
         }
 
@@ -48,6 +50,11 @@ class UserController extends \Illuminate\Routing\Controller
         $user->phone_raw = $request->phone;
         $user->title = $request->title;
         // $user->country = $request->country;
+
+        if ($user->isCounselor()) {
+            $user->sub_email = $request->subscribe;
+        }
+
         $user->save();
 
         // send unsubscribe for counselors to abraham

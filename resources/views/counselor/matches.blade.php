@@ -1,16 +1,46 @@
 <x-app-layout>
     <div class="container bg-white">
         <div class="container py-5">
-            <h3 class="my-2">Match Data</h3>
-            <form id="notes" name="notes" action="{{ route('saveNotes') }}" method="POST">
-                @csrf
-                <x-label for="notes" value="Notes" />
-                <textarea class="form-control" id="notes" name="notes" rows="4">{{ $notes }}</textarea>
-                <div class="text-end p-3">
-                    <x-button>Update Notes</x-button>
-                </div>
-            </form>
+            <h2 class="my-2">Student Match Data</h2>
+            <x-notes-counselor :notes="$notes"></x-notes-counselor>
             <hr>
+            <h4>Summary Student Data</h4>
+            <table id="summary" class="table table-striped fs-6">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Active</th>
+                    <th>Unknown</th>
+                    <th>Not Interested</th>
+                    <th>Applied</th>
+                    <th>Accepted</th>
+                    <th>Denied</th>
+                    <th>Enrolled</th>
+                    <th>Waitlisted</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($summary as $row) { ?>
+                <tr>
+                    <td>{{ $row['name'] }}</td>
+                    <td>{{ $row['active'] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::UNKNOWN()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::NOTINTERESTED()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::APPLIED()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::ACCEPTED()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::DENIED()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::ENROLLED()] }}</td>
+                    <td>{{ $row[\App\Enums\General\MatchStudentInstitution::WAITLISTED()] }}</td>
+                </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+
+            <div class="my-4">
+                <hr>
+            </div>
+
+            <h4 class="mt-5">Detailed Match Data</h4>
             <table id="data" class="table table-striped fs-6" style="width:100%">
                 <thead>
                 <tr>

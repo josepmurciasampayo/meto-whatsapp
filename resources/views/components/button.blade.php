@@ -8,6 +8,9 @@
         border-color: rgb(16, 135, 101) !important;
         color: white !important;
         transition-duration: .3s;
+        :hover {
+            color: black !important;
+        }
     '
    ]) }}>
     {{ $slot }}

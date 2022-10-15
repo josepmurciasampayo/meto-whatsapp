@@ -60,6 +60,12 @@ return [
             'days' => 7,
         ],
 
+        'email' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/email.log'),
+            'days' => 7,
+        ],
+
         'form' => [
             'driver' => 'daily',
             'path' => storage_path('logs/form.log'),

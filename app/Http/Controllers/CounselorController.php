@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\General\MatchStudentInstitution;
 use App\Enums\General\Month;
 use App\Enums\HighSchool\ClassSize;
 use App\Enums\HighSchool\Cost;
@@ -94,12 +95,50 @@ class CounselorController extends Controller
 
     public function matches(int $highscool_id) :View
     {
-        // TODO: rows are students, columns are statuses, cells are counts
+
         $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
+        $summary = self::makeSummaryMatchData($data);
         return view('counselor.matches', [
             'data' => $data,
+            'summary' => $summary,
             'notes' => UserHighSchool::getNotes(Auth()->user()->id),
         ]);
+    }
+
+    public static function makeSummaryMatchData(array $data) :array
+    {
+        // name, active, unknown, not interested, applied, accepted, denied, enrolled, waitlisted
+        $toReturn = [];
+        $statusArray = [ // empty row to add for each student
+            'name' => '',
+            'active' => '',
+            MatchStudentInstitution::UNKNOWN() => 0,
+            MatchStudentInstitution::NOTINTERESTED() => 0,
+            MatchStudentInstitution::APPLIED() => 0,
+            MatchStudentInstitution::ACCEPTED() => 0,
+            MatchStudentInstitution::DENIED() => 0,
+            MatchStudentInstitution::ENROLLED() => 0,
+            MatchStudentInstitution::WAITLISTED() => 0,
+        ];
+        foreach ($data as $row) {
+            // inititialize $toReturn with 0's in every spot
+            $student = $row['student_id'];
+            if (isset($toReturn[$student])) {
+                continue;
+            } else {
+                $toReturn[$student] = $statusArray;
+            }
+        }
+
+        foreach ($data as $row) { // now go through and store the relevant data in the structure
+            $student = $row['student_id'];
+            $status = $row['status_code'];
+            $toReturn[$student]['name'] = $row['name'];
+            $toReturn[$student]['active'] = $row['active'];
+            $toReturn[$student][$status]++;
+        }
+
+        return $toReturn;
     }
 
     public function student(int $student_id) :View
@@ -148,6 +187,7 @@ class CounselorController extends Controller
         $join->save();
 
         Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser));
+        Log::channel('email')->info($currentUser->first . ' sent counselor invite to ' . $user->first);
 
         return redirect(route('home'));
     }

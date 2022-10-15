@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('role')->comment(\App\Enums\HighSchool\Role::toString());
             $table->unsignedTinyInteger('status')->default(\App\Enums\User\Status::ACTIVE());
             $table->string('notes')->nullable();
+            $table->unsignedTinyInteger('sub_email')->default(1)->comment('0 - No, 1 - Yes');
             $table->timestamps();
 
             $table->index('user_id');

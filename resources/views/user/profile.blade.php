@@ -38,19 +38,27 @@
 
                         <?php if (Auth()->user()->isCounselor()) { ?>
                             <div class="mb-4">
-                                <x-label for="subscribe" value="Subscribe to student connections" />
-                                // TODO: create subscribe toggle
+                                <x-label for="subscribe" value="Subscribe to student connections email notifications" />
+                                <div class="btn-group" role="group" aria-label="Email subscription">
+                                    <?php $on_checked = ($join->sub_email == 1) ? "checked" : ""; ?>
+                                    <?php $off_checked = ($join->sub_email == 0) ? "checked" : ""; ?>
+                                    <input type="radio" class="btn-check" name="subscribe" id="subscribe_on" autocomplete="off" {{ $on_checked }}>
+                                    <label class="btn btn-outline-success" for="subscribe_on">I want email notifications</label>
+
+                                    <input type="radio" class="btn-check" name="subscribe" id="subscribe_off" autocomplete="off" {{ $off_checked }}>
+                                    <label class="btn btn-outline-success" for="subscribe_off">I do not want emails</label>
+                                </div>
                             </div>
                         <?php } ?>
 
-                        <div class="mb-4">
-                            <a href="{{ route('password.reset') }}">Change Password</a>
-                        </div>
-
-
-
                         <div class="text-end">
-                            <x-button>Submit Changes</x-button>
+                            <div class="mb-6">
+                                <x-button>Submit Changes</x-button>
+                            </div>
+                                <a href="{{ route('password.reset') }}">
+                                    <x-button-secondary>Change Password</x-button-secondary>
+                                </a>
+
                         </div>
                     </form>
                 </div>

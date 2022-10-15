@@ -30,4 +30,9 @@ class UserHighSchool extends Model
         return $result[0]->notes;
     }
 
+    public static function getByCounselorUserID(int $user_id) :UserHighSchool
+    {
+        return UserHighSchool::where('user_id', $user_id)->first();
+    }
+
 }

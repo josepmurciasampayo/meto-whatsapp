@@ -21,6 +21,7 @@
 
     </head>
 
+    <script src="//instant.page/5.1.1" type="module" integrity="sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq"></script>
     <body class="font-sans antialiased" style="font-family: 'Proza Libre'; background-color: rgb(249, 242, 240)">
             <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
                 <div class="p-6 d-flex justify-content-between">

@@ -67,7 +67,7 @@ class StudentUniversity extends Model
                 m.id as match_id,
                 m.student_id,
                 institution_id,
-                m.status,
+                m.status as status_code,
                 enum_desc as match_status,
                 m.created_at as match_date,
                 u.first,
@@ -94,6 +94,8 @@ class StudentUniversity extends Model
                 i.id as "institution_id",
                 i.name as "institution_name",
                 m.created_at as "date",
+                m.status as status_code,
+                s.active,
                 status.enum_desc as "status"
             from meto_students as s
             join meto_users as u on s.user_id = u.id
@@ -104,4 +106,5 @@ class StudentUniversity extends Model
             join meto_enum as status on status.enum_id = m.status and status.group_id = ' . EnumGroup::GENERAL_MATCH() . ';
         ');
     }
+
 }
