@@ -3,49 +3,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.2.3/js/dataTables.fixedHeader.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <div class="container bg-white">
+        @env('local')
+        <div class="my-5 py-3 mx-3">
+            <form method="post" action="{{ route('startChatbot') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Start Chatbot</button>
+            </form>
 
-        <div class="container py-5">
-            @env('local')
-            <div class="my-5 py-3 mx-3">
-                <form method="post" action="{{ route('startChatbot') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-secondary">Start Chatbot</button>
-                </form>
-
-                <form method="post" action="{{ route('resetChatbot') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-info">Reset Chatbot</button>
-                </form>
-            </div>
-            @endenv
-
-            <h3 class="my-2">Messaging State Summary</h3>
-            <table id="state" class="table table-striped fs-6" style="width:100%">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Campaign</th>
-                    <th>Priority</th>
-                    <th>State</th>
-                    <th>Response</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($state as $row) { ?>
-                <tr>
-                    <td><?php echo $row['name'] ?></td>
-                    <td><?php echo $row['email'] ?></td>
-                    <td><?php echo $row['campaign'] ?></td>
-                    <td><?php echo $row['priority'] ?></td>
-                    <td><?php echo $row['state'] ?></td>
-                    <td><?php echo $row['response'] ?></td>
-                </tr>
-                <?php } ?>
-                </tbody>
-            </table>
+            <form method="post" action="{{ route('resetChatbot') }}">
+                @csrf
+                <button type="submit" class="btn btn-info">Reset Chatbot</button>
+            </form>
         </div>
+        @endenv
+
+        <h3 class="my-2">Messaging State Summary</h3>
+        <table id="state" class="table table-striped fs-6" style="width:100%">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Campaign</th>
+                <th>Priority</th>
+                <th>State</th>
+                <th>Response</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($state as $row) { ?>
+            <tr>
+                <td><?php echo $row['name'] ?></td>
+                <td><?php echo $row['email'] ?></td>
+                <td><?php echo $row['campaign'] ?></td>
+                <td><?php echo $row['priority'] ?></td>
+                <td><?php echo $row['state'] ?></td>
+                <td><?php echo $row['response'] ?></td>
+            </tr>
+            <?php } ?>
+            </tbody>
+        </table>
 
         <div class="container py-5">
             <h3 class="my-2">WhatsApp Messaging Log</h3>
