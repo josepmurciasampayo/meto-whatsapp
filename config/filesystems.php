@@ -44,13 +44,13 @@ return [
             'throw' => false,
         ],
 
-        's3' => [
+        's3-db-backup' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'key' => env('DB_BACKUP_S3_ACCESS_KEY'),
+            'secret' => env('DB_BACKUP_S3_SECRET'),
             'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'bucket' => env('DB_BACKUP_BUCKET'),
+            'url' => env('DB_BACKUP_S3_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
