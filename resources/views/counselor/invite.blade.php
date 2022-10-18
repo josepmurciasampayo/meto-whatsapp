@@ -2,6 +2,7 @@
     <div class="p-6 bg-white border-b border-gray-200">
         Counselor Invitation
     </div>
+    <h3>Please share the information for the person you would like to invite. This person will have access to the same information that you do. Note: You may not invite anyone who does not work for the institution</h3>
     <div class="p-6">
         <form id="invite" name="invite" action="{{ route('sendInvite') }}" method="POST">
             @csrf

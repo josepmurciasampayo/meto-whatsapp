@@ -49,6 +49,7 @@ class UserController extends \Illuminate\Routing\Controller
         $user->email = $request->email;
         $user->phone_raw = $request->phone;
         $user->title = $request->title;
+        $user->linkedin_url = $request->linkedin_url;
         // $user->country = $request->country;
 
         if ($user->isCounselor()) {

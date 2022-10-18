@@ -9,7 +9,7 @@
             <input type="hidden" value="{{ $school['id'] }}" name="id" id="id">
 
             <div class="mb-4">
-                <x-label for="name" value="School Name" />
+                <x-label for="name" value="Institution Name - This should be the full, official name of your institution" />
                 <x-input class="block mt-1 w-full" id="name" name="name" type="text" :value="$school['name']" autofocus />
             </div>
 
@@ -19,12 +19,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="url" value="Career Email Address" />
-                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
-            </div>
-
-            <div class="mb-4">
-                <x-label for="url" value="Government-Assigned School Code" />
+                <x-label for="url" value="Institution General Email Address" />
                 <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
             </div>
 
@@ -67,7 +62,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="type" value="School Type" />
+                <x-label for="type" value="Institution Type" />
                 <select class="form-select" id="type" name="type">
                     <option value=""></option>
                     <?php foreach ($types as $id => $type) { ?>
@@ -78,7 +73,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="cost" value="School Cost" />
+                <x-label for="cost" value="Institution Total Cost of Attendance" />
                 <select class="form-select" id="cost" name="cost">
                     <option value=""></option>
                     <?php foreach ($costs as $id => $cost) { ?>
@@ -89,7 +84,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="exam" value="Finishing Exam" />
+                <x-label for="exam" value="Finishing Exam - which exam do students take prior to graduation" />
                 <select class="form-select" id="exam" name="exam">
                     <option value=""></option>
                     <?php foreach ($exams as $id => $exam) { ?>
@@ -100,7 +95,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="month" value="Finishing Month" />
+                <x-label for="month" value="Month of Finishing Exam" />
                 <select class="form-select" id="month" name="month">
                     <option value=""></option>
                     <?php foreach ($months as $id => $month) { ?>
@@ -111,7 +106,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="schoolSize" value="School Size" />
+                <x-label for="schoolSize" value="Institution Size - cumulative number of students in the institution" />
                 <select class="form-select" id="schoolSize" name="schoolSize">
                     <option value=""></option>
                     <?php foreach ($schoolSizes as $id => $size) { ?>
@@ -122,7 +117,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="classSize" value="Class Size" />
+                <x-label for="classSize" value="Class Size - how many students will graduate in an academic year" />
                 <select class="form-select" id="classSize" name="classSize">
                     <option value=""></option>
                     <?php foreach ($classSizes as $id => $size) { ?>
@@ -130,6 +125,11 @@
                     <option value="{{ $id }}" {{ $selected }}>{{ $size }}</option>
                     <?php } ?>
                 </select>
+            </div>
+
+            <div class="mb-4">
+                <x-label for="url" value="Government-Assigned School Code (if applicable)" />
+                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
             </div>
 
             <div class="text-end">

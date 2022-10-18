@@ -6,11 +6,11 @@
     <div class="p-6">
         <x-notes-counselor :notes="$notes"></x-notes-counselor>
         <ul>
-            <li><a href="{{ route('counselor-students', ['highscool_id' => $school->id] ) }}">Review students</a></li>
+            <li><a href="{{ route('counselor-students', ['highscool_id' => $school->id] ) }}">My students</a></li>
             <li><a href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}">Review matches</a></li>
             <?php if (Auth()->user()->isSchoolAdmin()) { ?>
                 <br/>
-                <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review institution profile</a></li>
+                <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Institution profile</a></li>
                 <li><a href="{{ route('invite', ['highschool_id' => $school->id]) }}">Invite new counselors</a></li>
             <?php } ?>
         </ul>

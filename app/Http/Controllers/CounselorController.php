@@ -42,7 +42,7 @@ class CounselorController extends Controller
         return view('counselor.highschool', [
             'school' => HighSchool::find($school_id),
             'countries' => EnumCountry::getArray(),
-            'curricula' => Curriculum::descriptions(),
+            'curricula' => Curriculum::getSchoolChoices(),
             'types' => Type::descriptions(),
             'classSizes' => ClassSize::descriptions(),
             'schoolSizes' => SchoolSize::descriptions(),

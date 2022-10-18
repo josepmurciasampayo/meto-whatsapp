@@ -36,6 +36,11 @@
                             <x-input id="title" class="block mt-1 w-full" type="text" name="title" :value="$user->title" />
                         </div>
 
+                        <div class="mb-4">
+                            <x-label for="linkedin_url" value="LinkedIn Profile URL" />
+                            <x-input id="linkedin_url" class="block mt-1 w-full" type="text" name="linkedin_url" :value="$user->linkedin_url" />
+                        </div>
+
                         <?php if (Auth()->user()->isCounselor()) { ?>
                             <div class="mb-4">
                                 <x-label for="subscribe" value="Subscribe to student connections email notifications" />

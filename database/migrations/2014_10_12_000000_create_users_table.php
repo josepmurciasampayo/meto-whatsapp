@@ -33,6 +33,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('whatsapp_consent')->default(Consent::UNKNOWN())->comment(Consent::toString());
             $table->unsignedTinyInteger('role')->comment(Role::toString());
             $table->unsignedTinyInteger('status')->comment(Status::toString());
+            $table->string('linkedin_url')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
