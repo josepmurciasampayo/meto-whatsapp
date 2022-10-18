@@ -13,6 +13,7 @@
             <br/>
             <li><a href="{{ route('universities') }}">Universities</a></li>
             <li><a href="{{ route('highschools') }}">High schools</a></li>
+            <li><a href="{{ route('invite') }}">Invite counselor</a></li>
             <br/>
             <li><a href="{{ route('logins') }}">User logins</a></li>
             <li><a href="{{ url('/logs') }}">System logs</a></li>

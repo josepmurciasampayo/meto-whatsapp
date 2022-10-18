@@ -10,7 +10,7 @@
             <li><a href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}">Review matches</a></li>
             <?php if (Auth()->user()->isSchoolAdmin()) { ?>
                 <br/>
-                <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review school profile</a></li>
+                <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review institution profile</a></li>
                 <li><a href="{{ route('sendInvite') }}">Invite new counselors</a></li>
             <?php } ?>
         </ul>

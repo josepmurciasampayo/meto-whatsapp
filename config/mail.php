@@ -65,7 +65,7 @@ return [
 
     'from' => [
         'address' => 'app@meto-intl.org',
-        'name' => 'Meto International',
+        'name' => 'Meto',
     ],
 
     'markdown' => [

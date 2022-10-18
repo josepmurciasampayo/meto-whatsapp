@@ -44,6 +44,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
 Route::middleware(['auth', 'counselor'])->group(function() {
     Route::get('/students/{highscool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
+    Route::post('/student', [CounselorController::class, 'saveProfile'])->name('saveStudentProfile');
 
     Route::post('/saveNotes', [CounselorController::class, 'saveNotes'])->name('saveNotes');
 

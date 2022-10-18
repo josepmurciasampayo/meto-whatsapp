@@ -23,11 +23,6 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="url" value="Connection Email Addresses" />
-                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
-            </div>
-
-            <div class="mb-4">
                 <x-label for="url" value="Government-Assigned School Code" />
                 <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
             </div>

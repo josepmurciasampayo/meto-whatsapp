@@ -54,7 +54,7 @@ class Student extends Model
                 u.email,
                 gender.enum_desc as "gender",
                 u.phone_raw as "phone",
-                if(s.active=1, "y", "N") as "active",
+                if(s.active=1, "Yes", "No") as "active",
                 -- s.dob,
                 sub.matches,
                 -- u.id as "user_id",
@@ -79,13 +79,19 @@ class Student extends Model
         return Helpers::dbQueryArray('
             select
                 concat (u.first, " ", u.last) as "name",
+                u.id as "user_id",
+                s.id as "student_id",
                 q.text as "question",
-                a.text as "answer"
+                q.id as "question_id",
+                a.text as "answer",
+                s.verify,
+                s.verify_notes
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             join meto_answers as a on a.student_id = s.id
             join meto_questions as q on q.id = a.question_id
-            where student_id = ' . $student_id . ';
+            where student_id = ' . $student_id . '
+            order by question_id;
         ');
     }
 }

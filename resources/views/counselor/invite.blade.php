@@ -26,6 +26,14 @@
                 <x-input class="block mt-1 w-full" id="title" name="title" type="text" />
             </div>
 
+            <div class="mb-4">
+                <x-label for="role" value="Account Type" />
+                <select class="form-control" id="role" name="role">
+                    <option id="{{ \App\Enums\HighSchool\Role::COUNSELOR() }}" selected>Regular</option>
+                    <option id="{{ \App\Enums\HighSchool\Role::ADMIN() }}">Admin</option>
+                </select>
+            </div>
+
             <div class="text-end p-3">
                 <x-button>Send Invite</x-button>
             </div>

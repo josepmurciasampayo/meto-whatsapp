@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Enums\User\Role;
+use App\Models\HighSchool;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,16 +18,18 @@ class InviteCounselor extends Mailable
 
     public User $toUser;
     public User $fromUser;
+    public HighSchool $highschool;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $toUser, User $fromUser)
+    public function __construct(User $toUser, User $fromUser, HighSchool $highSchool)
     {
         $this->toUser = $toUser;
         $this->fromUser = $fromUser;
+        $this->highschool = $highSchool;
     }
 
     /**
@@ -35,8 +39,9 @@ class InviteCounselor extends Mailable
      */
     public function envelope()
     {
+        $subject = (Auth()->user()->role == Role::ADMIN()) ? "Welcome to Meto counselor portal; your students await!" : "You've been invited to join your colleagues on Meto";
         return new Envelope(
-            subject: "You've been invited to join your colleagues on Meto",
+            subject: $subject,
         );
     }
 
@@ -47,8 +52,9 @@ class InviteCounselor extends Mailable
      */
     public function content()
     {
+        $view = (Auth()->user()->role == Role::ADMIN()) ? "mail.inviteCounselorFromAdmin" : 'mail.inviteCounselor';
         return new Content(
-            view: 'mail.inviteCounselor',
+            view: $view,
         );
     }
 

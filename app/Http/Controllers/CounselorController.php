@@ -160,6 +160,15 @@ class CounselorController extends Controller
         return redirect($request->headers->get('referer'));
     }
 
+    public function saveProfile(Request $request) :RedirectResponse
+    {
+        $student = Student::find($request->student_id);
+        $student->verify_notes = $request->verification_notes;
+        $student->verify = ($request->verify == "verify_yes") ? 1 : 0;
+        $student->save();
+        return redirect(route('counselor-student', ['student_id' => $request->student_id]));
+    }
+
     public function invite() :View
     {
         return view('counselor.invite');
@@ -175,6 +184,9 @@ class CounselorController extends Controller
         $user->last = $request->last;
         $user->email = $request->email;
         $user->title = $request->title;
+        if ($currentUser->isAdmin()) {
+            $user->role = $request->role;
+        }
         $user->role = Role::COUNSELOR();
         $user->status = Status::ACTIVE();
         $user->password = bcrypt("afow84hfao8w3hflaow8u3ro8afh8a3f");

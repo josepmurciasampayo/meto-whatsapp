@@ -8,7 +8,7 @@
             <th>Gender</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Active</th>
+            <th>Actively Applying</th>
             <th>Matches</th>
         </tr>
         </thead>

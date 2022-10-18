@@ -33,6 +33,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('curriculum')->nullable()->comment(\App\Enums\Student\Curriculum::toString());
             $table->unsignedTinyInteger('submission_device')->nullable()->comment(\App\Enums\Student\SubmissionDevice::toString());
             $table->unsignedTinyInteger('active')->nullable()->comment("0 - No, 1 - Yes");
+            $table->unsignedTinyInteger('verify')->nullable()->comment('0 - No, 1 - Yes');
+            $table->string('verify_notes')->nullable();
             $table->timestamps();
 
             $table->index('user_id');
