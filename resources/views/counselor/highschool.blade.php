@@ -3,6 +3,7 @@
         <?php echo $school['name'] ?> - Administration
     </div>
     <div class="p-6">
+        <div class="mt-2 mb-4"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}">Invite counselor</a></div>
         <form  method="POST" action="/highschool" name="highschool" id="highschool">
             @csrf
             <input type="hidden" value="{{ $school['id'] }}" name="id" id="id">

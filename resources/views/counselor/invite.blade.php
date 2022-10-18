@@ -6,6 +6,8 @@
         <form id="invite" name="invite" action="{{ route('sendInvite') }}" method="POST">
             @csrf
 
+            <input type="hidden" name="highschool_id" id="highschool_id" value="{{ $highschool_id }}">
+
             <div class="mb-4">
                 <x-label for="first" value="First Name" />
                 <x-input class="block mt-1 w-full" id="first" name="first" type="text" autofocus />

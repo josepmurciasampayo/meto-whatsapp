@@ -11,7 +11,7 @@
             <?php if (Auth()->user()->isSchoolAdmin()) { ?>
                 <br/>
                 <li><a href="{{ route('highschool', ['id' => $school->id]) }}">Review institution profile</a></li>
-                <li><a href="{{ route('sendInvite') }}">Invite new counselors</a></li>
+                <li><a href="{{ route('invite', ['highschool_id' => $school->id]) }}">Invite new counselors</a></li>
             <?php } ?>
         </ul>
     </div>

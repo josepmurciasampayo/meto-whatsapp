@@ -170,15 +170,14 @@ class CounselorController extends Controller
         return redirect(route('counselor-student', ['student_id' => $request->student_id]));
     }
 
-    public function invite() :View
+    public function invite(int $highschool_id) :View
     {
-        return view('counselor.invite');
+        return view('counselor.invite', ['highschool_id' => $highschool_id]);
     }
 
     public function sendInvite(Request $request) :RedirectResponse
     {
         $currentUser = Auth()->user();
-        $highschool = HighSchool::getByCounselorID($currentUser->id);
 
         $user = new User();
         $user->first = $request->first;
@@ -195,11 +194,11 @@ class CounselorController extends Controller
 
         $join = new UserHighSchool();
         $join->user_id = $user->id;
-        $join->highschool_id = $highschool->id;
+        $join->highschool_id = $request->highschool_id;
         $join->role = \App\Enums\HighSchool\Role::COUNSELOR();
         $join->save();
 
-        Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser));
+        Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser, HighSchool::find($request->highschool_id)));
         Log::channel('email')->info($currentUser->first . ' sent counselor invite to ' . $user->first);
 
         return redirect(route('home'));
