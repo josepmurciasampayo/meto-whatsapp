@@ -144,9 +144,10 @@ class CounselorController extends Controller
     public function student(int $student_id) :View
     {
         $data = Student::getStudentData($student_id);
+        $notes = UserHighSchool::getNotes(Auth()->user()->id);
         return view('counselor.student', [
             'data' => $data,
-            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+            'notes' => $notes,
             ]);
     }
 
