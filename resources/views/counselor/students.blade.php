@@ -1,7 +1,11 @@
 <x-app-layout>
+    <script src="/js/jquery.dataTables.min"></script>
+    <script src="/js/dataTables.bootstrap5.min"></script>
+    <link rel="stylesheet" href="/css/dataTables.bootstrap5.min.css" type="text/css">
+
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
     <h3 class="my-2">Student Data</h3>
-    <table id="table">
+    <table id="table" class="table table-striped">
         <thead>
         <tr>
             <th>Name</th>
@@ -25,4 +29,9 @@
         <?php } ?>
         </tbody>
     </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
 </x-app-layout>

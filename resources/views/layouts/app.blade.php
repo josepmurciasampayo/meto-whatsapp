@@ -8,7 +8,7 @@
         <title>Meto</title>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Proza+Libre:wght@400;600;700&display=swap">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="/css/app.css" type="text/css">
         <script src="/js/bootstrap.bundle.min.js"></script>
         <script src="/js/jquery-3.6.1.min.js"></script>
@@ -22,7 +22,7 @@
 
     </head>
 
-    <script src="//instant.page/5.1.1" type="module" integrity="sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq"></script>
+    <script src="/js/instantpage-5.1.1.js" type="module"></script>
     <body class="font-sans antialiased" style="font-family: 'Proza Libre'; background-color: rgb(249, 242, 240)">
             <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
                 <div class="p-6 d-flex justify-content-between">
