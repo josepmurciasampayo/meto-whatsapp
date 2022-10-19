@@ -36,7 +36,7 @@ class HistoricalStudents
                 $match = new StudentUniversity();
                 $match->student_id = $student->id;
                 $match->institution_id = $institution->id;
-                $match->status = \App\Enums\General\MatchStudentInstitution::UNKNOWN();
+                $match->status = \App\Enums\General\MatchStudentInstitution::MATCHED();
                 $match->save();
 
             }

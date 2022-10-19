@@ -95,7 +95,7 @@ class StudentUniversity extends Model
                 i.name as "institution_name",
                 m.created_at as "date",
                 m.status as status_code,
-                s.active,
+                if(s.active = 1, "Yes", "No") as "active",
                 status.enum_desc as "status"
             from meto_students as s
             join meto_users as u on s.user_id = u.id

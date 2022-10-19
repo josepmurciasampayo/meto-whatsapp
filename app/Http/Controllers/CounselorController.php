@@ -112,7 +112,10 @@ class CounselorController extends Controller
         $statusArray = [ // empty row to add for each student
             'name' => '',
             'active' => '',
+            'student_id' => '',
+            'user_id' => '',
             MatchStudentInstitution::UNKNOWN() => 0,
+            MatchStudentInstitution::MATCHED() => 0,
             MatchStudentInstitution::NOTINTERESTED() => 0,
             MatchStudentInstitution::APPLIED() => 0,
             MatchStudentInstitution::ACCEPTED() => 0,
@@ -131,11 +134,13 @@ class CounselorController extends Controller
         }
 
         foreach ($data as $row) { // now go through and store the relevant data in the structure
-            $student = $row['student_id'];
+            $student_id = $row['student_id'];
             $status = $row['status_code'];
-            $toReturn[$student]['name'] = $row['name'];
-            $toReturn[$student]['active'] = $row['active'];
-            $toReturn[$student][$status]++;
+            $toReturn[$student_id]['name'] = $row['name'];
+            $toReturn[$student_id]['active'] = $row['active'];
+            $toReturn[$student_id]['student_id'] = $row['student_id'];
+            $toReturn[$student_id]['user_id'] = $row['user_id'];
+            $toReturn[$student_id][$status]++;
         }
 
         return $toReturn;

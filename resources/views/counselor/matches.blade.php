@@ -1,13 +1,12 @@
 <x-app-layout>
-
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
     <h4>Summary Student Data</h4>
-    <table id="summary" class="table table-striped fs-6">
+    <table id="summary" class="table table-striped bg-white">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Active</th>
-            <th>Unknown</th>
+            <th>Actively Applying</th>
+            <th>Matched</th>
             <th>Not Interested</th>
             <th>Applied</th>
             <th>Accepted</th>
@@ -16,10 +15,25 @@
             <th>Waitlisted</th>
         </tr>
         </thead>
+
+        <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Actively Applying</th>
+            <th>Matched</th>
+            <th>Not Interested</th>
+            <th>Applied</th>
+            <th>Accepted</th>
+            <th>Denied</th>
+            <th>Enrolled</th>
+            <th>Waitlisted</th>
+        </tr>
+        </tfoot>
+
         <tbody>
         <?php foreach ($summary as $row) { ?>
         <tr>
-            <td><a href="">{{ $row['name'] }}</td>
+            <td><a class="underline" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}">{{ $row['name'] }}</a></td>
             <td>{{ $row['active'] }}</td>
             <td>{{ $row[\App\Enums\General\MatchStudentInstitution::UNKNOWN()] }}</td>
             <td>{{ $row[\App\Enums\General\MatchStudentInstitution::NOTINTERESTED()] }}</td>
@@ -32,13 +46,14 @@
         <?php } ?>
         </tbody>
     </table>
+    <x-dataTable name="summary"></x-dataTable>
 
     <div class="my-4">
         <hr>
     </div>
 
     <h4 class="mt-5">Detailed Match Data</h4>
-    <table id="data" class="table table-striped fs-6" style="width:100%">
+    <table id="data" class="table table-striped bg-white">
         <thead>
         <tr>
             <th>Name</th>
@@ -47,6 +62,16 @@
             <th>Status</th>
         </tr>
         </thead>
+
+        <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Institution</th>
+            <th>Status</th>
+        </tr>
+        </tfoot>
+
         <tbody>
         <?php foreach ($data as $row) { ?>
         <tr>
@@ -58,4 +83,5 @@
         <?php } ?>
         </tbody>
     </table>
+    <x-dataTable name="data"></x-dataTable>
 </x-app-layout>
