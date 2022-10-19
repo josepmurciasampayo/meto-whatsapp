@@ -149,11 +149,13 @@ class CounselorController extends Controller
     public function student(int $student_id) :View
     {
         $data = Student::getStudentData($student_id);
+        $matches = StudentUniversity::getByUserID(Student::find($student_id)->user_id);
         $notes = UserHighSchool::getNotes(Auth()->user()->id);
         return view('counselor.student', [
             'data' => $data,
+            'matches' => $matches,
             'notes' => $notes,
-            ]);
+        ]);
     }
 
     public function saveNotes(Request $request) :RedirectResponse

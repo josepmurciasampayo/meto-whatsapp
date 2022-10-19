@@ -27,8 +27,10 @@ class StudentUniversity extends Model
             select
                 matches.id as match_id,
                 user_id,
+                student_id,
                 institution_id,
-                matches.status,
+                matches.status as status_id,
+                match_status.enum_desc as "status",
                 first,
                 last,
                 name
@@ -36,6 +38,7 @@ class StudentUniversity extends Model
             join meto_students as students on matches.student_id = students.id
             join meto_users as users on students.user_id = users.id
             join meto_institutions as institutions on matches.institution_id = institutions.id
+            join meto_enum as match_status on match_status.group_id = ' . EnumGroup::GENERAL_MATCH()  . ' and match_status.enum_id = matches.status
             where users.id = ' . $user_id . ';
         ');
     }
