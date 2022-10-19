@@ -54,10 +54,10 @@
                 <x-label for="boarding" value="Boarding" />
                 <select class="form-select" id="boarding" name="boarding">
                     <option value=""></option>
-                    <?php $selected = ($id == $school['type']) ? "selected" : "" ?>
-                    <option value="0" {{ ($school->boarding === 0) ? "selected" : "" }}>No</option>
-                    <option value="1" {{ ($school->boarding === 1) ? "selected" : "" }}>Yes</option>
-
+                    <?php foreach ($boarding as $id => $curriculum) { ?>
+                    <?php $selected = ($id == $school['boarding']) ? "selected" : "" ?>
+                    <option value="{{ $id }}" {{ $selected }}>{{ $curriculum }}</option>
+                    <?php } ?>
                 </select>
             </div>
 

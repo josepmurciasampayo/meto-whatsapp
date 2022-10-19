@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\General\Month;
+use App\Enums\HighSchool\Boarding;
 use App\Enums\HighSchool\ClassSize;
 use App\Enums\HighSchool\Cost;
 use App\Enums\HighSchool\Exam;
@@ -49,6 +50,7 @@ class CounselorController extends Controller
             'costs' => Cost::descriptions(),
             'exams' => Exam::descriptions(),
             'months' => Month::descriptions(),
+            'boarding' => Boarding::descriptions(),
         ]);
     }
 
@@ -64,7 +66,7 @@ class CounselorController extends Controller
         $highschool->school_size = $request->schooolSize;
         $highschool->class_size = $request->classSize;
         $highschool->url = $request->url;
-        $highschool->career_email = $request->career_email;
+        $highschool->boarding = $request->boarding;
         $highschool->connection_emails = $request->connection_emails;
         $highschool->government_code = $request->government_code;
         $highschool->cost = $request->cost;
@@ -95,7 +97,6 @@ class CounselorController extends Controller
 
     public function matches(int $highscool_id) :View
     {
-
         $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
         $summary = self::makeSummaryMatchData($data);
         return view('counselor.matches', [
