@@ -16,3 +16,5 @@ yarn-error.log
 /nbproject/private/
 nginx-meto
 /nbproject
+.DS_Store
+/public/.DS_Store
