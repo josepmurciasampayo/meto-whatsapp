@@ -39,6 +39,14 @@
                         {{ __('Log in') }}
                     </x-button>
                 </div>
+
+                <div class="flex items-center justify-end mt-4">
+                    <a href="https://meto-intl.typeform.com/signup">
+                        <x-button-secondary type="button" class="ml-3">
+                            Register as New Counselor
+                        </x-button-secondary>
+                    </a>
+                </div>
             </form>
         </div>
     </div>
