@@ -44,7 +44,7 @@ class LoginEvents extends Model
 
     public static function clearLatest(int $user_id, LoginEventType $type) :void
     {
-        DB::update('
+        Helpers::dbUpdate('
             update meto_login_events
             set latest = 0
             where user_id = ' . $user_id . ' and type = ' . $type() . ';

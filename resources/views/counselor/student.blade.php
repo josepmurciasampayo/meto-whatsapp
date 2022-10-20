@@ -44,4 +44,30 @@
         </div>
     <?php } ?>
     </div>
+    <form id="verify" name="verify" action="{{ route('saveVerify') }}" method="POST">
+
+        @csrf
+
+        <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
+
+        <div class="my-4">
+            <x-label for="verify" value="Does all of the above information look correct?" />
+            <div class="btn-group" role="group" aria-label="Data verification">
+                <?php $on_checked = ($data[0]['verify'] == 1) ? "checked" : ""; ?>
+                <?php $off_checked = ($data[0]['verify'] == 0) ? "checked" : ""; ?>
+                <input type="radio" class="btn-check" name="verify" id="verify_on" autocomplete="off" {{ $on_checked }}>
+                <label class="btn btn-outline-success" for="verify_on">Verified</label>
+
+                <input type="radio" class="btn-check" name="verify" id="verify_off" autocomplete="off" {{ $off_checked }}>
+                <label class="btn btn-outline-success" for="verify_off">Not Quite Perfect</label>
+            </div>
+        </div>
+
+        <x-label for="notes" value="Please make a few notes about what needs correction (if anything). Meto staff will be able to view this." />
+        <textarea class="form-control" id="verify_notes" name="verify_notes" rows="4">{{ $data[0]['verify_notes'] }}</textarea>
+        <div class="text-end p-3">
+            <x-button>Update Notes</x-button>
+        </div>
+    </form>
+
 </x-app-layout>

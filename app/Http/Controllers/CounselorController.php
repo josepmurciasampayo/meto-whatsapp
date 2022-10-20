@@ -161,6 +161,7 @@ class CounselorController extends Controller
             'notes' => $notes,
             'matchStatuses' => MatchStudentInstitution::getCounselorChoices(),
             'student_id' => $student_id,
+
         ]);
     }
 
@@ -189,11 +190,11 @@ class CounselorController extends Controller
         return redirect($request->headers->get('referer'));
     }
 
-    public function saveProfile(Request $request) :RedirectResponse
+    public function saveVerify(Request $request) :RedirectResponse
     {
         $student = Student::find($request->student_id);
-        $student->verify_notes = $request->verification_notes;
-        $student->verify = ($request->verify == "verify_yes") ? 1 : 0;
+        $student->verify_notes = $request->verify_notes;
+        $student->verify = ($request->verify == "on") ? 1 : 0;
         $student->save();
         return redirect(route('counselor-student', ['student_id' => $request->student_id]));
     }
