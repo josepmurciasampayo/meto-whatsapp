@@ -35,7 +35,7 @@ class UserRolesSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
-        UserHighSchool::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::ADMIN);
+        UserHighSchool::joinUserHighSchool($user->id, 15, \App\Enums\HighSchool\Role::ADMIN);
 
         $user = User::create([
             'first' => "Abraham",
@@ -51,7 +51,7 @@ class UserRolesSeeder extends Seeder
             'status' => Status::ACTIVE()
         ]);
 
-        UserHighSchool::joinUserHighSchool($user->id, 1, \App\Enums\HighSchool\Role::COUNSELOR);
+        UserHighSchool::joinUserHighSchool($user->id, 15, \App\Enums\HighSchool\Role::COUNSELOR);
 
         /*
          * Create institution users

@@ -41,6 +41,8 @@ class Questions
 
         DB::unprepared(file_get_contents(database_path('seeders/questions_in_use.sql')));
 
+        DB::unprepared(file_get_contents(database_path('seeders/question_types.sql')));
+
         return 1;
 
     }

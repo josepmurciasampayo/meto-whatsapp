@@ -91,7 +91,7 @@ class Student extends Model
             join meto_answers as a on a.student_id = s.id
             join meto_questions as q on q.id = a.question_id
             where student_id = ' . $student_id . '
-            order by question_id;
+            order by type, question_id;
         ');
     }
 }

@@ -59,7 +59,7 @@
                 <label class="btn btn-outline-success" for="verify_on">Verified</label>
 
                 <input type="radio" class="btn-check" name="verify" id="verify_off" autocomplete="off" {{ $off_checked }}>
-                <label class="btn btn-outline-success" for="verify_off">Not Quite Perfect</label>
+                <label class="btn btn-outline-success" for="verify_off">Not Verified Yet</label>
             </div>
         </div>
 
