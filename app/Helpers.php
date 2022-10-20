@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Log;
  */
 class Helpers
 {
-    public static function dbQueryArray(string $query) :array
+    public static function dbQueryArray(string $query, string $db = 'mysql') :array
     {
         $start = now();
         $toReturn = array();
-        $initialSet = DB::select($query);
+        $initialSet = DB::connection($db)->select($query);
 
         foreach ($initialSet as $index => $value) {
             $toReturn[$index] = (array) $value;

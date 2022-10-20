@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Enums\HighSchool\Role as HighSchoolRole;
+use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
@@ -18,24 +19,31 @@ class HighSchools
         $schools = DB::connection($db)->select('
             select * from counselors_table where imported = 0;
         ');
-
         foreach ($schools as $school) {
-            self::importItem($school);
-            self::markImported($school, $db);
+            self::importSchool($school);
+            self::markSchoolImported($school, $db);
         }
 
-        $schools = DB::select('
-            select student_id, text, s.user_id
+        $orgs = DB::connection($db)->select('
+            select * from additional_student_affiliated_orgs where imported = 0;
+        ');
+        foreach ($orgs as $org) {
+            self::importOrg($org);
+            self::markOrgImported($org, $db);
+        }
+
+        $students = DB::select('
+            select student_id, question_id, text, s.user_id
             from meto_answers
             join meto_students as s on student_id = s.id
-            where question_id = 118;
+            where question_id in (118, 164);
         ');
-        foreach ($schools as $school) {
-            self::importStudent($school);
+        foreach ($students as $student) {
+            self::importStudent($student);
         }
     }
 
-    public static function importItem(\stdClass $school)
+    public static function importSchool(\stdClass $school)
     {
         $hs = new HighSchool();
         $hs->name = $school->high_school;
@@ -50,6 +58,22 @@ class HighSchools
         UserHighSchool::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
     }
 
+    public static function importOrg(\stdClass $org)
+    {
+        $hs = new HighSchool();
+        $hs->name = $org->organization;
+        $hs->type = Type::ACCESS();
+        $hs->save();
+
+        $user = new User();
+        $user->email = $org->user_email;
+        $user->role = Role::COUNSELOR();
+        $user->status = Status::ACTIVE();
+        $user->save();
+
+        UserHighSchool::joinUserHighSchool($user->id, $org->id, \App\Enums\HighSchool\Role::ADMIN);
+    }
+
     public static function importStudent(\stdClass $student) :void
     {
         // create new HS record, new student, new join
@@ -58,6 +82,9 @@ class HighSchools
             UserHighSchool::joinUserHighSchool($student->user_id, $existing->first()->id, HighSchoolRole::STUDENT);
         } else {
             $new = new HighSchool();
+            if ($student->question_id == 164) {
+                $new->type = Type::ACCESS();
+            }
             $new->name = $student->text;
             $new->save();
 
@@ -65,10 +92,17 @@ class HighSchools
         }
     }
 
-    public static function markImported(\stdClass $school, $db)
+    public static function markSchoolImported(\stdClass $school, $db)
     {
         DB::connection($db)->update('
             update counselors_table set imported = 1 where high_school = "' . $school->high_school . '";
+        ');
+    }
+
+    public static function markOrgImported(\stdClass $org, $db)
+    {
+        DB::connection($db)->update('
+            update additional_student_affiliated_orgs set imported = 1 where organization = "' . $org->organization . '";
         ');
     }
 }
