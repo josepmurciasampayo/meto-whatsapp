@@ -34,6 +34,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('role')->comment(Role::toString());
             $table->unsignedTinyInteger('status')->comment(Status::toString());
             $table->string('linkedin_url')->nullable();
+            $table->unsignedTinyInteger('sub_email')->default(1)->comment("0 - Not Subscribed, 1 - Subscribed");
             $table->rememberToken();
             $table->timestamps();
 
