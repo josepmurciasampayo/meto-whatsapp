@@ -49,5 +49,12 @@
                 </div>
             </main>
 
+            <footer class="py-3 my-4 bg-black">
+                <ul class="nav justify-content-center pb-3 mb-3">
+                    <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+                    <li><a href="{{ route('privacy-policy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                </ul>
+            </footer>
+
     </body>
 </html>

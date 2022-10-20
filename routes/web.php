@@ -20,6 +20,8 @@ Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])
     ->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])
     ->name('password.update');
+Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
+Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy-policy');
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function() {
