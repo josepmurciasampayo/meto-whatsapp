@@ -30,6 +30,19 @@ enum MatchStudentInstitution :int
         );
     }
 
+    public static function getCounselorChoices() :array
+    {
+        return array(
+            self::MATCHED() => self::getText(self::MATCHED),
+            self::NOTINTERESTED() => self::getText(self::NOTINTERESTED),
+            self::APPLIED() => self::getText(self::APPLIED),
+            self::WAITLISTED() => self::getText(self::WAITLISTED),
+            self::DENIED() => self::getText(self::DENIED),
+            self::ACCEPTED() => self::getText(self::ACCEPTED),
+            self::ENROLLED() => self::getText(self::ENROLLED),
+        );
+    }
+
     public static function getText(self $value) :string
     {
         return match ($value) {

@@ -24,10 +24,16 @@ class Helpers
 
         $end = now();
         $elapsed = $end->diffInMilliseconds($start);
-        if ($elapsed > 5) {
+        if ($elapsed > 50) {
             Log::channel('db')->debug('Query took ' . $elapsed . ' ms: ' . $query . "\n\n" . print_r($toReturn, true));
         }
         return $toReturn;
+    }
+
+    public static function dbUpdate($query) :void
+    {
+        Log::channel('db')->info('Updated: ' . $query);
+        DB::update($query);
     }
 
     /**

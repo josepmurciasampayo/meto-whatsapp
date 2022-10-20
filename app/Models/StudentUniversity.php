@@ -45,8 +45,8 @@ class StudentUniversity extends Model
 
     public static function updateMatchStatusByMatchID(int $match_id, int $status, int $user_id = null) :void
     {
-        if (is_null($user_id)) { // run by system/admin
-            DB::update('
+        if (is_null($user_id)) { // run by system/admin/counselor
+            Helpers::dbUpdate('
                 update meto_student_universities
                 set status = ' . $status . '
                 where id = ' . $match_id . ';
@@ -54,7 +54,7 @@ class StudentUniversity extends Model
             return;
         }
 
-        DB::update('
+        Helpers::dbUpdate('
             update meto_student_universities as m
             join meto_students as s on s.user_id = ' . $user_id .'
             set status = ' . $status . '

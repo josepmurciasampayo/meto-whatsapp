@@ -85,6 +85,9 @@ class CounselorController extends Controller
         foreach ($rawData as $row) {
             $data .= "[";
             foreach ($row as $value) {
+                if (is_null($value)) {
+                    $value = '';
+                }
                 $data .= "'" . htmlspecialchars($value) . "',";
             }
             $data .= "],";
@@ -156,7 +159,24 @@ class CounselorController extends Controller
             'data' => $data,
             'matches' => $matches,
             'notes' => $notes,
+            'matchStatuses' => MatchStudentInstitution::getCounselorChoices(),
+            'student_id' => $student_id,
         ]);
+    }
+
+    public function saveMatches(Request $request) :RedirectResponse
+    {
+        $requestArray = $request->toArray();
+        $student_id = $requestArray['student_id'];
+        foreach ($requestArray as $index => $value) {
+            if ($index == "_token" || $index == 'student_id') {
+                continue;
+            }
+            $id = ((int) substr($index, strpos($index,'-') + 1));
+            StudentUniversity::updateMatchStatusByMatchID($id, $value);
+        }
+
+        return redirect(route('counselor-student', ['student_id' => $student_id]));
     }
 
     public function saveNotes(Request $request) :RedirectResponse

@@ -52,6 +52,7 @@ Route::middleware(['auth', 'counselor'])->group(function() {
     Route::post('/invite', [CounselorController::class, 'sendInvite'])->name('sendInvite');
 
     Route::get('/matches/{highschool_id}', [CounselorController::class, 'matches'])->name('counselor-matches');
+    Route::post('/matches', [CounselorController::class, 'saveMatches'])->name('saveStudentMatches');
 
     Route::get('/highschool/{id}', [CounselorController::class, 'highschool'])->name('highschool');
     Route::post('/highschool', [CounselorController::class, 'update'])->name('highschool.update');
