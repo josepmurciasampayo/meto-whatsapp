@@ -26,7 +26,7 @@ return [
             ]) : [],
         ],
 
-        'google' => [
+        'google-prod' => [
             'driver' => 'mysql',
             'host' => '35.239.61.68',
             'port' => '3306',

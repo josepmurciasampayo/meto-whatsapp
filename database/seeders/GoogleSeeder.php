@@ -14,12 +14,17 @@ use App\Imports\Questions;
 use App\Imports\Students;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class GoogleSeeder extends Seeder
 {
     public function run($db = 'google-local') :void
     {
+        if (App::environment('prod')) {
+            $db = 'google-prod';
+        }
+
         DB::connection($db)->update('update students_table set imported = 0;');
         DB::connection($db)->update('update institutions_table set imported = 0;');
         DB::connection($db)->update('update inst_student_relationships set imported = 0;');
