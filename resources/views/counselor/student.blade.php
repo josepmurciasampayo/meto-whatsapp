@@ -50,6 +50,7 @@
 
         <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
 
+        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="my-4">
             <x-label for="verify" value="Does all of the above information look correct?" />
             <div class="btn-group" role="group" aria-label="Data verification">
@@ -62,12 +63,19 @@
                 <label class="btn btn-outline-success" for="verify_off">Not Verified Yet</label>
             </div>
         </div>
+        <?php } ?>
 
+        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <x-label for="notes" value="Please make a few notes about what needs correction (if anything). Meto staff will be able to view this." />
+        <?php } else { ?>
+        <div class="my-4"><x-label for="notes" value="Counselor notes" /></div>
+        <?php } ?>
         <textarea class="form-control" id="verify_notes" name="verify_notes" rows="4">{{ $data[0]['verify_notes'] }}</textarea>
+        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="text-end p-3">
             <x-button>Update Notes</x-button>
         </div>
+        <?php } ?>
     </form>
 
 </x-app-layout>

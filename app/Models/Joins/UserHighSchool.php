@@ -21,11 +21,15 @@ class UserHighSchool extends Model
 
     public static function getNotes(int $user_id) :string
     {
+        if (Auth()->user()->role == \App\Enums\User\Role::ADMIN()) {
+            return "ADMIN USERS CANNOT READ OR SAVE NOTES";
+        }
+
         $result = DB::select('
             select
                    ifnull(notes, "") as "notes"
             from meto_user_high_schools
-            where user_id = ' . $user_id . ' and role in (' . Role::COUNSELOR() . ', ' . Role::ADMIN() . ');'
+            where user_id = ' . $user_id . ';'
         );
         return $result[0]->notes;
     }

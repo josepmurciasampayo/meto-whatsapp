@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EnumGroup;
 use App\Enums\Student\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ class Question extends Model
             select
                 q.id,
                 text,
-                type,
+                q_type.enum_desc as "type",
                 `order`,
                 if(isnull(u.question_id), "Y", "N") as in_use,
                 q.' . Curriculum::TRANSFER() . ',
@@ -38,6 +39,7 @@ class Question extends Model
                 a.count
             from meto_questions as q
             left outer join question_ids_in_use as u on u.question_id = q.id
+            left outer join meto_enum as q_type on enum_id = q.type and group_id = ' . EnumGroup::GENERAL_QUESTIONTYPE() . '
             left outer join (
                 select q.id, count(*) as "count"
                 from meto_questions as q

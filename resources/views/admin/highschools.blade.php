@@ -1,5 +1,5 @@
 <x-app-layout>
-    <table id="data" class="table table-striped fs-6" style="width:100%">
+    <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr>
             <th>High School</th>
@@ -9,6 +9,17 @@
             <th>Matches</th>
         </tr>
         </thead>
+
+        <tfoot>
+        <tr>
+            <th>High School</th>
+            <th>Curriculum</th>
+            <th>Country</th>
+            <th>Students</th>
+            <th>Matches</th>
+        </tr>
+        </tfoot>
+
         <tbody>
         <?php foreach ($data as $row) { ?>
         <tr>
@@ -21,4 +32,5 @@
         <?php } ?>
         </tbody>
     </table>
+    <x-dataTable></x-dataTable>
 </x-app-layout>

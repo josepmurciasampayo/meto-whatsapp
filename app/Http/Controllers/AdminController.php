@@ -68,19 +68,8 @@ class AdminController extends Controller
 
     public function matchData() :View
     {
-        $match_data = StudentUniversity::getMatchData();
-        $data = "";
-        foreach ($match_data as $row) {
-            $name = $row['first'] . ' ' . $row['last'];
-            $data .= '{student:"' .$name. '",school:"' . $row['school'] .'", institution:"' .$row["name"]. '", date:"' .$row["match_date"]. '", status:"' .$row['match_status']. '"},';
-        }
-        $script = "
-            var tabledata = [
-            " . $data . "
-            ];
-
-        ";
-        return view('admin.match-data', ['data' => $script]);
+        $data = StudentUniversity::getMatchData();
+        return view('admin.match-data', ['data' => $data]);
     }
 
     public function sendMessage(Request $request) :RedirectResponse

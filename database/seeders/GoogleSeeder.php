@@ -23,12 +23,12 @@ class GoogleSeeder extends Seeder
     {
         if (App::environment('prod')) {
             $db = 'google-prod';
+        } else {
+            DB::connection($db)->update('update students_table set imported = 0;');
+            DB::connection($db)->update('update institutions_table set imported = 0;');
+            DB::connection($db)->update('update inst_student_relationships set imported = 0;');
+            DB::connection($db)->update('update answers_table set imported = 0;');
         }
-
-        DB::connection($db)->update('update students_table set imported = 0;');
-        DB::connection($db)->update('update institutions_table set imported = 0;');
-        DB::connection($db)->update('update inst_student_relationships set imported = 0;');
-        DB::connection($db)->update('update answers_table set imported = 0;');
 
         echo "\n";
         Questions::importFromGoogle($db);
