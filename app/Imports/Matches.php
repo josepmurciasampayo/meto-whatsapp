@@ -43,7 +43,7 @@ class Matches
     private static function checkDupe($student, $institution) :bool
     {
         $existing = DB::select('
-            select id from meto_students_universities where student_id = ' . $student->id . ' and institution_id = ' . $institution->id . ';
+            select id from meto_student_universities where student_id = ' . $student->id . ' and institution_id = ' . $institution->id . ';
         ');
         return count($existing) > 0;
     }
