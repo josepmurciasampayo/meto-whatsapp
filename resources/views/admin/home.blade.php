@@ -14,6 +14,7 @@
             <li><a href="{{ route('universities') }}">Universities</a></li>
             <li><a href="{{ route('highschools') }}">High schools and Access Programs</a></li>
             <br/>
+            <li><a href="{{ route('databases') }}">Databases</a></li>
             <li><a href="{{ route('logins') }}">User logins</a></li>
             <li><a href="{{ url('/logs') }}">System logs</a></li>
         </ul>

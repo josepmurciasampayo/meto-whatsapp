@@ -26,20 +26,26 @@ Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'pr
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
+
     Route::get('/campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
     Route::post('/campaigns', '\App\Http\Controllers\CampaignController@update');
+
     Route::get('/admin/matches', [AdminController::class, 'matchData'])->name('matchData');
+    Route::get('/admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
+
     Route::get('/comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
     Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');
     Route::post('/resetChatbot', [AdminController::class, 'resetChatbot'])->name('resetChatbot');
     Route::post('/startChatbot', [AdminController::class, 'startChatbot'])->name('startChatbot');
+
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
     Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
-    Route::get('/admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
+
+    Route::get('/admin/databases', [AdminController::class, 'databases'])->name('databases');
 });
 
 // Counselor functionality
