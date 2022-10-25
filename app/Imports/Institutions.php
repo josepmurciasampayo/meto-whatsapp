@@ -36,7 +36,7 @@ class Institutions
     private static function checkDupe(\stdClass $institution) :bool
     {
         $existing = DB::select('
-            select id from meto_institutions where name = ' . $institution->inst_name . ';
+            select id from meto_institutions where name = "' . $institution->inst_name . '";
         ');
         return count($existing) > 0;
     }
