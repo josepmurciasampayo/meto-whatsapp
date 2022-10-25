@@ -20,6 +20,10 @@ class HighSchools
             select * from counselors_table where imported = 0;
         ');
         foreach ($schools as $school) {
+            if (self::checkDupeSchool($school)) {
+                self::markSchoolImported($school, $db);
+                continue;
+            }
             self::importSchool($school);
             self::markSchoolImported($school, $db);
         }
@@ -28,6 +32,10 @@ class HighSchools
             select * from additional_student_affiliated_orgs where imported = 0;
         ');
         foreach ($orgs as $org) {
+            if (self::checkDupeOrg($org)) {
+                self::markOrgImported($org, $db);
+                continue;
+            }
             self::importOrg($org);
             self::markOrgImported($org, $db);
         }
@@ -43,7 +51,23 @@ class HighSchools
         }
     }
 
-    public static function importSchool(\stdClass $school)
+    private static function checkDupeSchool(\stdClass $school) :bool
+    {
+        $existing = DB::select('
+            select id from meto_high_schools where name = ' . $school->high_school . ';
+        ');
+        return count($existing) > 0;
+    }
+
+    private static function checkDupeOrg(\stdClass $org) :bool
+    {
+        $existing = DB::select('
+            select id from meto_high_schools where name = ' . $org->organization . ';
+        ');
+        return count($existing) > 0;
+    }
+
+    private static function importSchool(\stdClass $school)
     {
         $hs = new HighSchool();
         $hs->name = $school->high_school;
@@ -58,7 +82,7 @@ class HighSchools
         UserHighSchool::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
     }
 
-    public static function importOrg(\stdClass $org)
+    private static function importOrg(\stdClass $org)
     {
         $hs = new HighSchool();
         $hs->name = $org->organization;
@@ -92,14 +116,14 @@ class HighSchools
         }
     }
 
-    public static function markSchoolImported(\stdClass $school, $db)
+    private static function markSchoolImported(\stdClass $school, $db)
     {
         DB::connection($db)->update('
             update counselors_table set imported = 1 where high_school = "' . $school->high_school . '";
         ');
     }
 
-    public static function markOrgImported(\stdClass $org, $db)
+    private static function markOrgImported(\stdClass $org, $db)
     {
         DB::connection($db)->update('
             update additional_student_affiliated_orgs set imported = 1 where organization = "' . $org->organization . '";

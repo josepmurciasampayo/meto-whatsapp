@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     {
         // to add to cron job:
         // * * * * * cd /var/www/meto-???? && php artisan schedule:run >> /dev/null 2>&1
-        $schedule->command('command:startLoop')->everyMinute();
+        //$schedule->command('command:startLoop')->everyMinute();
+        $schedule->command('backup:run')->daily()->at('11:30');
     }
 
     /**

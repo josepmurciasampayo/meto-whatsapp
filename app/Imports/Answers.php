@@ -40,12 +40,25 @@ class Answers
                     Log::channel('import')->error('Question not found for: ' . $answerDB->question_content);
                     continue;
                 }
+
+                if (self::checkDupe($answerDB)) {
+                    self::markImported($answerDB, $db);
+                    continue;
+                }
                 self::import($answerDB, $question);
-                //self::markImported($answerDB, $db);
+                self::markImported($answerDB, $db);
             }
             echo "\nImported answers for question " . $q . " (" . count($answers) . " answers)";
         }
         return 1;
+    }
+
+    private static function checkDupe(\stdClass $answer) :bool
+    {
+        $existing = DB::select('
+            select id from meto_answers where student_id = ' . $answer->student_id . ' and question_id = ' . $answer->question_id . ';
+        ');
+        return count($existing) > 0;
     }
 
     private static function import(\stdClass $answerDB, $question) :void

@@ -16,18 +16,29 @@ class Institutions
 {
     public static function importFromGoogle(string $db) :int
     {
-        $query = '
+        $institutions = DB::connection($db)->select('
             select *
             from institutions_table as i
             join university_info as u on u.institution_id = i.institution_id
             where i.imported = 0;
-        ';
-        $institutions = DB::connection($db)->select($query);
+        ');
         foreach ($institutions as $institution) {
+            if (self::checkDupe($institution)) {
+                self::markImported($institution, $db);
+                continue;
+            }
             self::importInstitution($institution);
             self::markImported($institution, $db);
         }
         return 1;
+    }
+
+    private static function checkDupe(\stdClass $institution) :bool
+    {
+        $existing = DB::select('
+            select id from meto_institutions where name = ' . $institution->inst_name . ';
+        ');
+        return count($existing) > 0;
     }
 
     private static function importInstitution(\stdClass $institutionDB) :void

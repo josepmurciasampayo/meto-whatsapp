@@ -3,12 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Imports\Answers;
+use App\Imports\HighSchools;
 use App\Imports\HistoricalStudents;
 use App\Imports\Institutions;
 use App\Imports\Matches;
+use App\Imports\Questions;
 use App\Imports\Students;
 use Database\Seeders\GoogleSeeder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class importFromGoogle extends Command
@@ -25,7 +28,7 @@ class importFromGoogle extends Command
      *
      * @var string
      */
-    protected $description = 'Connect to Google MySQL and import all relevant data';
+    protected $description = 'Connect to Google MySQL and import all updated data';
 
     /**
      * Execute the console command.
@@ -34,11 +37,17 @@ class importFromGoogle extends Command
      */
     public function handle()
     {
-        $db = "google-local";
+        if (App::environment('local')) {
+            $db = 'google-local';
+        }
+        if (App::environment('prod')) {
+            $db = "google-prod";
+        }
 
-        //$seeder = new GoogleSeeder();
-        //$seeder->run($db);
-
-        HistoricalStudents::importFromCSV();
+        Students::importFromGoogle($db);
+        Institutions::importFromGoogle($db);
+        Matches::importFromGoogle($db);
+        Answers::importFromGoogle($db);
+        HighSchools::importFromGoogle($db);
     }
 }

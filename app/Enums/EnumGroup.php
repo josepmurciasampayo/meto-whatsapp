@@ -18,20 +18,33 @@ enum EnumGroup: int
     case GENERAL_CHANNEL = 6;
     case GENERAL_FORM = 7;
     case GENERAL_FORMSTATUS = 8;
+    case GENERAL_LOGINEVENTTYPE = 26;
     case GENERAL_MATCH = 9;
     case GENERAL_METHOD = 10;
-    case GENERAL_SOCIALNETWORK = 11;
-    case GENERAL_TAGGROUP = 12;
-    case GENERAL_LOGINEVENTTYPE = 26;
+    case GENERAL_MONTH = 38;
     case GENERAL_QUESTIONTYPE = 27;
+    case GENERAL_SOCIALNETWORK = 11;
+    case GENERAL_SUBJECT = 39;
+    case GENERAL_TAGGROUP = 12;
+
+    case HS_BOARDING = 28;
+    case HS_CLASSSIZE = 29;
+    case HS_COST = 30;
+    case HS_EXAM = 31;
+    case HS_ROLE = 32;
+    case HS_SCHOOLSIZE = 33;
+    case HS_TYPE = 34;
 
     case INSTITUTION_TAG = 13;
+    case INSTITUTION_ROLE = 35;
+    case INSTITUTION_SIZE = 36;
     case INSTITUTION_TYPE = 14;
 
     case STUDENT_CURRICULUM = 15;
     case STUDENT_DISABILITY = 16;
     case STUDENT_GENDER = 17;
     case STUDENT_OWNER = 18;
+    case STUDENT_QUESTION_TYPE = 37;
     case STUDENT_REFUGEE = 19;
     case STUDENT_SUBMISSION_DEVICE = 20;
     case STUDENT_TAG = 21;
@@ -77,4 +90,5 @@ enum EnumGroup: int
             self::USER_VERIFIED  => "",
         };
     }
+
 }

@@ -25,10 +25,22 @@ class Students
         ';
         $students = DB::connection($db)->select($query);
         foreach ($students as $student) {
+            if (self::checkDupe($student)) {
+                self::markImported($student, $db);
+                continue;
+            }
             self::importStudent($student);
             self::markImported($student, $db);
         }
         return 1;
+    }
+
+    private static function checkDupe(\stdClass $student) :bool
+    {
+        $existing = DB::select('
+            select id from meto_students where google_id = ' . $student->student_id . ';
+        ');
+        return count($existing) > 0;
     }
 
     private static function importStudent(\stdClass $studentDB) :void

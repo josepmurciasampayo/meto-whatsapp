@@ -10,6 +10,10 @@ class UserHighSchool extends Model
 {
     public static function joinUserHighSchool(int $user_id, int $highschool_id, Role $role) :UserHighSchool
     {
+        $existing = UserHighSchool::where('user_id', $user_id)->where('highschool_id', $highschool_id)->get();
+        if ($existing->first()) {
+            return $existing->first();
+        }
         $new = new UserHighSchool();
         $new->user_id = $user_id;
         $new->highschool_id = $highschool_id;

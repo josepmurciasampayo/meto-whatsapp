@@ -12,36 +12,47 @@ class Matches
 {
     public static function importFromGoogle(string $db) :int
     {
-        $query = '
+        $matches = DB::connection($db)->select('
             select * from inst_student_relationships where imported = 0;
-        ';
-        $matches = DB::connection($db)->select($query);
+        ');
         foreach ($matches as $match) {
-            self::importMatch($match);
-            $student = Student::where('student_id', $match->student_id);
+            $student = Student::where('google_id', $match->student_id)->first();
+            if (is_null($student)) {
+                Log::channel('import')->error("Couldn't find student ID: " . $match->student_id);
+                continue;
+            }
+            $institution = Institution::where('google_id', $match->institution_id)->first();
+            if (is_null($institution)) {
+                Log::channel('import')->error("Couldn't find institution ID: " . $match->institution_id);
+                continue;
+            }
+
+            if (self::checkDupe($student, $institution)) {
+                self::markImported($match, $db);
+                continue;
+            }
+            self::importMatch($student, $institution);
             // TODO: check about phone owner or multiple numbers
+            // $student = Student::where('student_id', $match->student_id);
             // MessageState::queueCampaign($student->user_id, Campaign::ENDOFCYCLE, 3);
             self::markImported($match, $db);
         }
         return 1;
     }
 
-    private static function importMatch(\stdClass $matchDB) :void
+    private static function checkDupe($student, $institution) :bool
     {
-        $student = Student::where('google_id', $matchDB->student_id)->first();
-        if (is_null($student)) {
-            Log::channel('import')->error("Couldn't find student ID" . $matchDB->student_id);
-            return;
-        }
-        $institution = Institution::where('google_id', $matchDB->institution_id)->first();
-        if (is_null($institution)) {
-            Log::channel('import')->error("Couldn't find institution ID" . $matchDB->institution_id);
-            return;
-        }
+        $existing = DB::select('
+            select id from meto_students_universities where student_id = ' . $student->id . ' and institution_id = ' . $institution->id . ';
+        ');
+        return count($existing) > 0;
+    }
+
+    private static function importMatch($student, $institution) :void
+    {
         $match = new StudentUniversity();
         $match->student_id = $student->id;
         $match->institution_id = $institution->id;
-        $match->created_at = $matchDB->date_connected;
         $match->save();
     }
 

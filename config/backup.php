@@ -19,6 +19,9 @@ return [
                     base_path('node_modules'),
                     base_path('bootstrap'),
                     base_path('storage'),
+                    base_path('bootstrap'),
+                    base_path('lang'),
+                    base_path('tests'),
                 ],
 
                 'follow_links' => false,
@@ -74,7 +77,7 @@ return [
             \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class => ['mail'],
-            // \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => ['mail'],
             // \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => ['mail'],
             // \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class => ['mail'],
         ],
@@ -93,24 +96,6 @@ return [
                 'name' => 'Meto Backup Robot',
             ],
         ],
-
-    ],
-
-    /*
-     * Here you can specify which backups should be monitored.
-     * If a backup does not meet the specified requirements the
-     * UnHealthyBackupWasFound event will be fired.
-     */
-    'monitor_backups' => [
-        [
-            'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => ['local'],
-            'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
-            ],
-        ],
-
     ],
 
     'cleanup' => [
