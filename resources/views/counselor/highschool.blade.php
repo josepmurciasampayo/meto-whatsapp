@@ -3,10 +3,9 @@
         <?php echo $school['name'] ?> - Administration
     </div>
     <div class="p-6">
-        <div class="mt-2 mb-4"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}">Invite counselor</a></div>
-        <form  method="POST" action="/highschool" name="highschool" id="highschool">
+        <form  method="POST" action="{{ route('highschool.update') }}" name="highschool" id="highschool">
             @csrf
-            <input type="hidden" value="{{ $school['id'] }}" name="id" id="id">
+            <input type="hidden" value="{{ $school['id'] }}" name="highschool_id" id="highschool_id">
 
             <div class="mb-4">
                 <x-label for="name" value="Institution Name - This should be the full, official name of your institution" />
@@ -20,7 +19,7 @@
 
             <div class="mb-4">
                 <x-label for="url" value="Institution General Email Address" />
-                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
+                <x-input class="block mt-1 w-full" id="email" name="email" type="text" :value="$school['general_email']" autofocus />
             </div>
 
             <div class="mb-4">
@@ -99,7 +98,7 @@
                 <select class="form-select" id="month" name="month">
                     <option value=""></option>
                     <?php foreach ($months as $id => $month) { ?>
-                    <?php $selected = ($id == $school['month']) ? "selected" : "" ?>
+                    <?php $selected = ($id == $school['finish_month']) ? "selected" : "" ?>
                     <option value="{{ $id }}" {{ $selected }}>{{ $month }}</option>
                     <?php } ?>
                 </select>
@@ -110,7 +109,7 @@
                 <select class="form-select" id="schoolSize" name="schoolSize">
                     <option value=""></option>
                     <?php foreach ($schoolSizes as $id => $size) { ?>
-                        <?php $selected = ($id == $school['schoolSize']) ? "selected" : "" ?>
+                        <?php $selected = ($id == $school['school_size']) ? "selected" : "" ?>
                         <option value="{{ $id }}" {{ $selected }}>{{ $size }}</option>
                     <?php } ?>
                 </select>
@@ -121,15 +120,15 @@
                 <select class="form-select" id="classSize" name="classSize">
                     <option value=""></option>
                     <?php foreach ($classSizes as $id => $size) { ?>
-                    <?php $selected = ($id == $school['classSize']) ? "selected" : "" ?>
+                    <?php $selected = ($id == $school['class_size']) ? "selected" : "" ?>
                     <option value="{{ $id }}" {{ $selected }}>{{ $size }}</option>
                     <?php } ?>
                 </select>
             </div>
 
             <div class="mb-4">
-                <x-label for="url" value="Government-Assigned School Code (if applicable)" />
-                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
+                <x-label for="code" value="Government-Assigned School Code (if applicable)" />
+                <x-input class="block mt-1 w-full" id="code" name="code" type="text" :value="$school['government_code']" autofocus />
             </div>
 
             <div class="text-end">

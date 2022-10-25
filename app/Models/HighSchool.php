@@ -35,6 +35,26 @@ class HighSchool extends Model
         return HighSchool::find($id);
     }
 
+    public static function getByStudentID(int $student_id) :?HighSchool
+    {
+        $row = Helpers::dbQueryArray('
+            select
+                   u.id as user_id,
+                   s.id as student_id,
+                   h.id as highschool_id
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id
+            join meto_user_high_schools as j on j.user_id = u.id
+            join meto_high_schools as h on h.id = j.highschool_id
+            where s.id = ' . $student_id . ';
+        ');
+        if ($row) {
+            $id = $row[0]['highschool_id'];
+            return HighSchool::find($id);
+        }
+        return null;
+    }
+
     public static function getSummaryCounts(int $school_id) :array
     {
         return Helpers::dbQueryArray('

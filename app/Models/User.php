@@ -95,4 +95,9 @@ class User extends Authenticatable
     {
         User::where('role', $role())->delete();
     }
+
+    public function terms() :bool
+    {
+        return $this->isAdmin() || $this->terms;
+    }
 }

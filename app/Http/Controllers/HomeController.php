@@ -17,6 +17,9 @@ class HomeController extends Controller
         if ($user->isAdmin()) {
             return view('admin.home');
         }
+        if (!$user->terms) {
+            return redirect('terms');
+        }
         if ($user->isCounselor()) {
             $c = new CounselorController();
             return $c->home();

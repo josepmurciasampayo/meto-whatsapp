@@ -25,6 +25,6 @@ class AdminViews
         if ($user->isAdmin()) {
             return $next($request);
         }
-        redirect('errors/403', );
+        abort(403);
     }
 }

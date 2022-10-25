@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class InstitutionViews
+class AgreeTerms
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,9 @@ class InstitutionViews
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth()->user()->isInstitution()) {
+        if (Auth()->user()->terms()) {
             return $next($request);
         }
-        return redirect(route('home'));
+        return redirect(route('terms'));
     }
 }

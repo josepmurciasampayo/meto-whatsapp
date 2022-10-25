@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminViews;
+use App\Http\Middleware\AgreeTerms;
 use App\Http\Middleware\CounselorViews;
 use App\Http\Middleware\StudentViews;
 use App\Http\Middleware\InstitutionViews;
@@ -73,5 +74,6 @@ class Kernel extends HttpKernel
         'student' => StudentViews::class,
         'counselor' => CounselorViews::class,
         'university' => InstitutionViews::class,
+        'terms' => AgreeTerms::class,
     ];
 }

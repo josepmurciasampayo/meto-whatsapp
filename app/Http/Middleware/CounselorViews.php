@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\HighSchool;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,43 @@ class CounselorViews
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth()->user()->isCounselor()) {
+        if (Auth()->user()->isAdmin()) {
             return $next($request);
         }
-        return redirect('errors/403', 403);
+        if (Auth()->user()->isCounselor()) {
+            $params = $request->route()->parameters();
+            if (isset($params['highschool_id'])) {
+                $this->checkSchool($params['highschool_id']);
+            }
+            if (isset($request->highschool_id)) {
+                $this->checkSchool($request->highschool_id);
+            }
+            if (isset($params['student_id'])) {
+                $this->checkStudent($params['student_id']);
+            }
+            return $next($request);
+        }
+    }
+
+    private function checkSchool(int $highschool_id) :void
+    {
+        $homeSchool = HighSchool::getByCounselorID(Auth()->user()->id);
+        if ($homeSchool->id != $highschool_id) {
+            abort(403);
+        }
+    }
+
+    private function checkStudent(int $student_id) :void
+    {
+        $studentSchool = HighSchool::getByStudentID($student_id);
+        $homeSchool = HighSchool::getByCounselorID(Auth()->user()->id);
+
+        if (is_null($studentSchool) || is_null($homeSchool)) {
+            abort(403);
+        }
+
+        if ($homeSchool->id != $studentSchool->id) {
+            abort(403);
+        }
     }
 }

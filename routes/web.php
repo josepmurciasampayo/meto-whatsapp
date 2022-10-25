@@ -43,8 +43,8 @@ Route::middleware(['auth', 'admin'])->group(function() {
 });
 
 // Counselor functionality
-Route::middleware(['auth', 'counselor'])->group(function() {
-    Route::get('/students/{highscool_id}', [CounselorController::class, 'students'])->name('counselor-students');
+Route::middleware(['auth', 'counselor', 'terms'])->group(function() {
+    Route::get('/students/{highschool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::post('/student', [CounselorController::class, 'saveVerify'])->name('saveVerify');
 
@@ -56,17 +56,17 @@ Route::middleware(['auth', 'counselor'])->group(function() {
     Route::get('/matches/{highschool_id}', [CounselorController::class, 'matches'])->name('counselor-matches');
     Route::post('/matches', [CounselorController::class, 'saveMatches'])->name('saveStudentMatches');
 
-    Route::get('/highschool/{id}', [CounselorController::class, 'highschool'])->name('highschool');
-    Route::post('/highschool', [CounselorController::class, 'update'])->name('highschool.update');
+    Route::get('/highschool/{highschool_id}', [CounselorController::class, 'highschool'])->name('highschool');
+    Route::post('/highschool', [CounselorController::class, 'updateHighschool'])->name('highschool.update');
 });
 
 // Student functionality
-Route::middleware('student')->group(function() {
+Route::middleware(['auth', 'terms','student'])->group(function() {
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
 });
 
 // Institution functionality
-Route::middleware('institution')->group(function() {
+Route::middleware(['auth', 'terms', 'institution'])->group(function() {
 
 });
 
@@ -113,4 +113,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('profile/{user_id?}', [\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
     Route::post('profile', [\App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
+
+    Route::post('terms', [\App\Http\Controllers\StaticController::class, 'saveTerms'])->name('saveTerms');
 });

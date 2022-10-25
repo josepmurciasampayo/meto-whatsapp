@@ -41,4 +41,13 @@
         <p>Meto is not liable for any damages that may occur to you as a result of your misuse of our website and associated application.</p>
         <p>Meto reserves the right to edit, modify, and change this Agreement any time. We shall let our users know of these changes through electronic mail or by alerts through our application. This Agreement is an understanding between Meto and the user, and this supersedes and replaces all prior agreements regarding the use of this website and associated application.</p>
     </div>
+    <?php if (Auth()->user()->terms == 0) { ?>
+    <form action="{{ route('saveTerms') }}" method="POST">
+        @csrf
+        <input type="hidden" name="terms" id="terms" value="1">
+        <div class="text-end">
+            <x-button>I Agree</x-button>
+        </div>
+    </form>
+    <?php } ?>
 </x-app-layout>

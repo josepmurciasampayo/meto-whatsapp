@@ -19,6 +19,6 @@ class StudentViews
         if (Auth()->user() && Auth()->user()->isStudent()){
             return $next($request);
         }
-        return redirect('errors/403', 403);
+        return redirect(route('home'));
     }
 }

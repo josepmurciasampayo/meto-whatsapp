@@ -38,49 +38,52 @@ class CounselorController extends Controller
         ]);
     }
 
-    public function highschool(int $school_id) :View
+    public function highschool(int $highschool_id) :View
     {
-        return view('counselor.highschool', [
-            'school' => HighSchool::find($school_id),
-            'countries' => EnumCountry::getArray(),
-            'curricula' => Curriculum::getSchoolChoices(),
-            'types' => Type::descriptions(),
-            'classSizes' => ClassSize::descriptions(),
-            'schoolSizes' => SchoolSize::descriptions(),
-            'costs' => Cost::descriptions(),
-            'exams' => Exam::descriptions(),
-            'months' => Month::descriptions(),
-            'boarding' => Boarding::descriptions(),
-        ]);
+        $school = HighSchool::find($highschool_id);
+        if ($school) {
+            return view('counselor.highschool', [
+                'school' => $school,
+                'countries' => EnumCountry::getArray(),
+                'curricula' => Curriculum::getSchoolChoices(),
+                'types' => Type::descriptions(),
+                'classSizes' => ClassSize::descriptions(),
+                'schoolSizes' => SchoolSize::descriptions(),
+                'costs' => Cost::descriptions(),
+                'exams' => Exam::descriptions(),
+                'months' => Month::descriptions(),
+                'boarding' => Boarding::descriptions(),
+            ]);
+        }
     }
 
-    public function update(Request $request) :RedirectResponse
+    public function updateHighschool(Request $request) :RedirectResponse
     {
-        $highschool = HighSchool::find($request->id);
+        $highschool = HighSchool::find($request->highschool_id);
 
         $highschool->name = $request->name;
         $highschool->city = $request->city;
         $highschool->country = $request->country;
         $highschool->curriculum = $request->curriculum;
         $highschool->type = $request->type;
-        $highschool->school_size = $request->schooolSize;
+        $highschool->school_size = $request->schoolSize;
         $highschool->class_size = $request->classSize;
         $highschool->url = $request->url;
         $highschool->boarding = $request->boarding;
-        $highschool->connection_emails = $request->connection_emails;
-        $highschool->government_code = $request->government_code;
+        $highschool->general_email = $request->email;
+        $highschool->government_code = $request->code;
         $highschool->cost = $request->cost;
         $highschool->exam = $request->exam;
-        $highschool->finish_month = $request->finish_month;
+        $highschool->finish_month = $request->month;
 
         $highschool->save();
 
-        return redirect(route('highschool', ['id' => $request->id]));
+        return redirect(route('highschool', ['highschool_id' => $request->highschool_id]));
     }
 
-    public function students(int $highscool_id) :View
+    public function students(int $highschool_id) :View
     {
-        $rawData = Student::getStudentsAtSchool($highscool_id);
+        $rawData = Student::getStudentsAtSchool($highschool_id);
         $data = "";
         foreach ($rawData as $row) {
             $data .= "[";
@@ -98,9 +101,9 @@ class CounselorController extends Controller
         ]);
     }
 
-    public function matches(int $highscool_id) :View
+    public function matches(int $highschool_id) :View
     {
-        $data = StudentUniversity::getMatchesByHighSchool($highscool_id);
+        $data = StudentUniversity::getMatchesByHighSchool($highschool_id);
         $summary = self::makeSummaryMatchData($data);
         return view('counselor.matches', [
             'data' => $data,
