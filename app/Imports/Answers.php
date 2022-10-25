@@ -21,7 +21,7 @@ class Answers
 
         for ($q = 1; $q < $maxQuestionID; ++$q) {
             $answers = DB::connection($db)->select('
-                select q.question_id, q.question_content, q.student_id, a.response
+                select q.question_id, q.question_content, a.student_id, a.response
                 from answers_table as a
                 join questions_table as q on q.question_id = a.question_id
                 where a.imported = 0
