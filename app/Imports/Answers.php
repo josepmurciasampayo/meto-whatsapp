@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -18,23 +19,16 @@ class Answers
             select max(question_id) as "id" from answers_table;
         ')[0]->id;
 
-        $metoDBName = (App::environment('local')) ? "meto-test" : "meto-prod";
         for ($q = 1; $q < $maxQuestionID; ++$q) {
             $answers = DB::connection($db)->select('
-                select q.question_id, question_content, s.id as student_id, response
+                select q.question_id, q.question_content, q.student_id, a.response
                 from answers_table as a
                 join questions_table as q on q.question_id = a.question_id
-                join `' . $metoDBName .'`.meto_students as s on s.google_id = a.student_id
                 where a.imported = 0
                 and a.question_id = ' . $q . ';
             ');
 
             foreach ($answers as $answerDB) {
-                if (is_null($answerDB->student_id)) {
-                    Log::channel('import')->error('Student Google ID not found: ' . $answerDB->student_id);
-                    continue;
-                }
-
                 $question = Question::findByText($answerDB->question_content);
                 if (is_null($question)) {
                     Log::channel('import')->error('Question not found for: ' . $answerDB->question_content);
@@ -63,11 +57,16 @@ class Answers
 
     private static function import(\stdClass $answerDB, $question) :void
     {
+        $student = Student::getByGoogleID($answerDB->student_id);
+        if (is_null($student)) {
+            Log::channel('import')->error(('Student not found for google ID: ' . $answerDB->student_id));
+            return;
+        }
         $answer = new Answer();
-            $answer->question_id = $question->id;
-            $answer->student_id = $answerDB->student_id;
-            $answer->text = $answerDB->response;
-            $answer->save();
+        $answer->question_id = $question->id;
+        $answer->student_id = $answerDB->student_id;
+        $answer->text = $answerDB->response;
+        $answer->save();
     }
 
     private static function markImported(\stdClass $answerDB, string $db) :void
