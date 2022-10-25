@@ -94,4 +94,9 @@ class Student extends Model
             order by type, question_id;
         ');
     }
+
+    public static function getByGoogleId(int $google_id) :?Student
+    {
+        return Student::where('google_id', $google_id)->first();
+    }
 }
