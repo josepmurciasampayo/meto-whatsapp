@@ -20,92 +20,32 @@
         <?php } ?>
         </tbody>
     </table>
-    <x-dataTable :name="state"></x-dataTable>
+    <x-dataTable name="state"></x-dataTable>
 
-        <h3 class="my-2">All Login Events</h3>
-        <table id="data" class="table table-striped fs-6" style="width:100%">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Login Event</th>
-                <th>Login Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($data as $row) { ?>
-            <?php $time = new DateTime($row['event_time']); ?>
-            <tr>
-                <td><?php echo $row['name'] ?></td>
-                <td><?php echo $row['email'] ?></td>
-                <td><?php echo $row['role'] ?></td>
-                <td><?php echo $row['type'] ?></td>
-                <td><?php echo $time->format('D, M j g:ia') ?></td>
-            </tr>
-            <?php } ?>
-            </tbody>
-        </table>
+    <h3 class="my-2">All Login Events</h3>
+    <table id="dataTable" class="table table-striped bg-white">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Login Event</th>
+            <th>Login Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($data as $row) { ?>
+        <?php $time = new DateTime($row['event_time']); ?>
+        <tr>
+            <td><?php echo $row['name'] ?></td>
+            <td><?php echo $row['email'] ?></td>
+            <td><?php echo $row['role'] ?></td>
+            <td><?php echo $row['type'] ?></td>
+            <td><?php echo $time->format('D, M j g:ia') ?></td>
+        </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+    <x-dataTable></x-dataTable>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            var state = $('#state').DataTable({});
-
-            var table = $('#data').DataTable({
-                searching: false,
-                lengthMenu: [
-                    [25, 100, -1],
-                    [25, 100, 'All']
-                ],
-                orderCellsTop: true,
-                fixedHeader: true,
-
-                /*
-                initComplete: function() {
-                    var api = this.api();
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function (colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" placeholder="' + title + '" />');
-
-                            // On every keypress in this input
-                            $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
-                                .off('keyup change')
-                                .on('change', function (e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ? regexr.replace('{search}', '(((' + this.value + ')))') : '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function (e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
-                },
-                        */
-            });
-        });
-
-    </script>
 </x-app-layout>
