@@ -2,6 +2,7 @@
     <div class="p-6 bg-white border-b border-gray-200">
         <?php echo $school['name'] ?> - Administration
     </div>
+    <div class="mt-2 mb-4"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}">Invite counselor</a></div>
     <div class="p-6">
         <form  method="POST" action="{{ route('highschool.update') }}" name="highschool" id="highschool">
             @csrf
