@@ -8,6 +8,7 @@ use App\Imports\HistoricalStudents;
 use App\Imports\Institutions;
 use App\Imports\Matches;
 use App\Imports\Questions;
+use App\Imports\StudentHighSchools;
 use App\Imports\Students;
 use Database\Seeders\GoogleSeeder;
 use Illuminate\Console\Command;
@@ -49,5 +50,6 @@ class importFromGoogle extends Command
         Matches::importFromGoogle($db);
         Answers::importFromGoogle($db);
         HighSchools::importFromGoogle($db);
+        StudentHighSchools::importFromGoogle($db);
     }
 }

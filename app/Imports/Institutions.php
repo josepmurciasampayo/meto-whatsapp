@@ -17,12 +17,15 @@ class Institutions
     public static function importFromGoogle(string $db) :int
     {
         $institutions = DB::connection($db)->select('
-            select *
+            select *, i.institution_id as "real_institution_id"
             from institutions_table as i
-            join university_info as u on u.institution_id = i.institution_id
+            left outer join university_info as u on u.institution_id = i.institution_id
             where i.imported = 0;
         ');
         foreach ($institutions as $institution) {
+            if ($institution->inst_name == "Meto Demo") {
+                continue;
+            }
             if (self::checkDupe($institution)) {
                 self::markImported($institution, $db);
                 continue;
@@ -43,21 +46,17 @@ class Institutions
 
     private static function importInstitution(\stdClass $institutionDB) :void
     {
-        $institution = Institution::where('name', trim($institutionDB->inst_name));
-        if ($institution->count() > 0) { // check for duplicates
-            return; // just skip the second and later duplicates if found
-        }
-
         $institution = new Institution();
         $institution->name = trim($institutionDB->inst_name);
         $institution->type = match($institutionDB->inst_type) {
             " " => Type::SCHOLARSHIP(),
             "University or college that awards bachelor's degrees" => Type::UNIVERSITY(),
             "Vocational or skills-based program" => Type::VOCATIONAL(),
+            "Scholarship or access program" => Type::SCHOLARSHIP(),
             "Other" => Type::OTHER(),
         };
         $institution->created_at = $institutionDB->timestamp;
-        $institution->google_id = $institutionDB->institution_id;
+        $institution->google_id = $institutionDB->real_institution_id;
         $institution->nickname = $institutionDB->inst_nickname;
         $institution->url = $institutionDB->inst_home_url;
         $institution->city = $institutionDB->inst_city;
@@ -100,7 +99,8 @@ class Institutions
     private static function markImported(\stdClass $institution, string $db) :void
     {
         DB::connection($db)->update('
-            update institutions_table set imported = 1 where institution_id = ' . $institution->institution_id . ';
+            update institutions_table set imported = 1 where institution_id = ' . $institution->real_institution_id . ';
         ');
+
     }
 }

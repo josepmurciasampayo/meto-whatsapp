@@ -519,10 +519,7 @@ enum Country :int
 
     public static function lookup(?string $name) :int
     {
-        if (is_null($name)) {
-            return 0;
-        }
-        if (strlen($name) == 0) {
+        if (is_null($name) || $name = 'null' || strlen($name) == 0) {
             return 0;
         }
         $match = match($name) {
@@ -559,6 +556,7 @@ enum Country :int
             "Brazil" => 31,
             "British Indian Ocean Territory" => 32,
             "Brunei Darussalam" => 33,
+            "Brunei" => 33,
             "Bulgaria" => 34,
             "Burkina Faso" => 35,
             "Burundi" => 36,
@@ -576,16 +574,20 @@ enum Country :int
             "Colombia" => 48,
             "Comoros" => 49,
             "Congo" => 50,
+            "Congo (Congo-Brazzaville)" => 50,
             "Congo, Democratic Republic of the" => 51,
             "Democratic Republic of the Congo" => 51,
             "Cook Islands" => 52,
             "Costa Rica" => 53,
             "Côte d'Ivoire" => 54,
+            "Côte d''Ivoire" => 54,
+            "Côte dIvoire" => 54,
             "Croatia" => 55,
             "Cuba" => 56,
             "Curaçao" => 57,
             "Cyprus" => 58,
             "Czechia" => 59,
+            "Czechia (Czech Republic)" => 59,
             "Denmark" => 60,
             "Djibouti" => 61,
             "Dominica" => 62,
@@ -597,6 +599,7 @@ enum Country :int
             "Eritrea" => 68,
             "Estonia" => 69,
             "Eswatini" => 70,
+            'Eswatini (fmr. "Swaziland")' => 70,
             "Ethiopia" => 71,
             "Falkland Islands (Malvinas)" => 72,
             "Faroe Islands" => 73,
@@ -646,6 +649,8 @@ enum Country :int
             "Kiribati" => 117,
             "Korea (Democratic People's Republic of)" => 118,
             "Korea, Republic of" => 119,
+            "North Korea" => 118,
+            "South Korea" => 119,
             "Kuwait" => 120,
             "Kyrgyzstan" => 121,
             "Lao People's Democratic Republic" => 122,
@@ -671,6 +676,7 @@ enum Country :int
             "Mayotte" => 142,
             "Mexico" => 143,
             "Micronesia (Federated States of)" => 144,
+            "Micronesia" => 144,
             "Moldova, Republic of" => 145,
             "Monaco" => 146,
             "Mongolia" => 147,
@@ -679,6 +685,7 @@ enum Country :int
             "Morocco" => 150,
             "Mozambique" => 151,
             "Myanmar" => 152,
+            "Myanmar (formerly Burma)" => 152,
             "Namibia" => 153,
             "Nauru" => 154,
             "Nepal" => 155,
@@ -711,6 +718,7 @@ enum Country :int
             "Réunion" => 181,
             "Romania" => 182,
             "Russian Federation" => 183,
+            "Russia" => 183,
             "Rwanda" => 184,
             "Saint Barthélemy" => 185,
             "Saint Helena, Ascension and Tristan da Cunha" => 186,

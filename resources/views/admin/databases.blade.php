@@ -1,6 +1,6 @@
 <x-app-layout>
     <h2>Database Counts</h2>
-    <table class="table">
+    <table class="table bg-white">
         <thead>
         <tr>
             <th>Entity</th>
@@ -27,13 +27,19 @@
             <td>High Schools</td>
             <td>{{ $hs_local }}</td>
             <td>{{ $hs_google }}</td>
-            <td>{{ $hs_imported }}</td>
+            <td>-</td>
         </tr>
         <tr>
             <td>Matches</td>
             <td>{{ $match_local }}</td>
             <td>{{ $match_google }}</td>
             <td>{{ $match_imported }}</td>
+        </tr>
+        <tr>
+            <td>Questions</td>
+            <td>{{ $question_local }}</td>
+            <td>{{ $question_google }}</td>
+            <td>-</td>
         </tr>
         <tr>
             <td>Answers</td>

@@ -14,6 +14,7 @@ use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -117,18 +118,20 @@ class AdminController extends Controller
 
     public function databases() :View
     {
-        $unis = DB::connection('google-prod')->select('select count(*) as c from university_info')[0]->c;
-        $unis_other = DB::connection('google-prod')->select('select count(*) as c from non_uni_inst_info')[0]->c;
-        $unis_imported = DB::connection('google-prod')->select('select count(*) as c from university_info where imported = 1')[0]->c;
-        $unis_other_imported = DB::connection('google-prod')->select('select count(*) as c from non_uni_inst_info where imported = 1')[0]->c;
+        $google_db = (App::environment('prod')) ? 'google-prod' : 'google-local';
 
-        $hs = DB::connection('google-prod')->select('select count(*) as c from counselors_table')[0]->c;
-        $hs_answer = DB::connection('google-prod')->select('select count(distinct response) as c from answers_table where question_id in (2, 165, 517, 343, 435, 233)')[0]->c;
+        $unis = DB::connection($google_db)->select('select count(*) as c from university_info')[0]->c;
+        $unis_other = DB::connection($google_db)->select('select count(*) as c from non_uni_inst_info')[0]->c;
+        $unis_imported = DB::connection($google_db)->select('select count(*) as c from institutions_table where imported = 1')[0]->c;
+        $unis_other_imported = DB::connection($google_db)->select('select count(*) as c from non_uni_inst_info where imported = 1')[0]->c;
+
+        $hs = DB::connection($google_db)->select('select count(*) as c from counselors_table')[0]->c;
+        $hs_answer = DB::connection($google_db)->select('select count(distinct response) as c from answers_table where question_id in (2, 165, 517, 343, 435, 233)')[0]->c;
 
         return view('admin.databases', [
             'student_local' => DB::select('select count(*) as c from meto_students')[0]->c,
-            'student_google' => DB::connection('google-prod')->select('select count(*) as c from students_table')[0]->c,
-            'student_imported' => DB::connection('google-prod')->select('select count(*) as c from students_table where imported = 1')[0]->c,
+            'student_google' => DB::connection($google_db)->select('select count(*) as c from students_table')[0]->c,
+            'student_imported' => DB::connection($google_db)->select('select count(*) as c from students_table where imported = 1')[0]->c,
 
             'uni_local' => DB::select('select count(*) as c from meto_institutions')[0]->c,
             'uni_google' => $unis + $unis_other,
@@ -136,15 +139,17 @@ class AdminController extends Controller
 
             'hs_local' => DB::select('select count(*) as c from meto_high_schools')[0]->c,
             'hs_google' => $hs + $hs_answer,
-            'hs_imported' => '-',
 
             'match_local' => DB::select('select count(*) as c from meto_student_universities')[0]->c,
-            'match_google' => DB::connection('google-prod')->select('select count(*) as c from inst_student_relationships')[0]->c,
-            'match_imported' => DB::connection('google-prod')->select('select count(*) as c from inst_student_relationships where imported = 1')[0]->c,
+            'match_google' => DB::connection($google_db)->select('select count(*) as c from inst_student_relationships')[0]->c,
+            'match_imported' => DB::connection($google_db)->select('select count(*) as c from inst_student_relationships where imported = 1')[0]->c,
+
+            'question_local' => DB::select('select count(*) as c from meto_questions')[0]->c,
+            'question_google' => DB::connection($google_db)->select('select count(distinct question_content) as c from questions_table')[0]->c,
 
             'answer_local' => DB::select('select count(*) as c from meto_answers')[0]->c,
-            'answer_google' => DB::connection('google-prod')->select('select count(*) as c from answers_table')[0]->c,
-            'answer_imported' => DB::connection('google-prod')->select('select count(*) as c from answers_table where imported = 1')[0]->c,
+            'answer_google' => DB::connection($google_db)->select('select count(*) as c from answers_table')[0]->c,
+            'answer_imported' => DB::connection($google_db)->select('select count(*) as c from answers_table where imported = 1')[0]->c,
         ]);
     }
 }

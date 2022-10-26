@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Helpers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Student;
@@ -19,7 +20,9 @@ class Answers
             select max(question_id) as "id" from answers_table;
         ')[0]->id;
 
-        for ($q = 1; $q < $maxQuestionID; ++$q) {
+        $studentLookup = Student::getLookupByGoogleID();
+
+        for ($q = 1; $q <= $maxQuestionID; ++$q) {
             $answers = DB::connection($db)->select('
                 select q.question_id, q.question_content, a.student_id, a.response
                 from answers_table as a
@@ -27,53 +30,39 @@ class Answers
                 where a.imported = 0
                 and a.question_id = ' . $q . ';
             ');
+            if (!isset($answers[0])) {
+                // echo "\nSkipped question " . $q;
+                continue;
+            }
+
+            $question = Question::findByText($answers[0]->question_content);
+            if (is_null($question)) {
+                Log::channel('import')->error('Question not found for: ' . $answers[0]->question_content . ' (question ' . $q . ')');
+                continue;
+            }
+
+            $insertQuery = "insert into meto_answers (question_id, student_id, text) values ";
 
             foreach ($answers as $answerDB) {
-                $question = Question::findByText($answerDB->question_content);
-                if (is_null($question)) {
-                    Log::channel('import')->error('Question not found for: ' . $answerDB->question_content);
-                    continue;
-                }
-
-                if (self::checkDupe($answerDB)) {
-                    self::markImported($answerDB, $db);
-                    continue;
-                }
-                self::import($answerDB, $question);
-                self::markImported($answerDB, $db);
+                // don't need to check dupes - DB enforces unique student_id & question_id
+                $insertQuery .= '(' . $question->id . ',' . $studentLookup[$answerDB->student_id] . ', "' . addslashes($answerDB->response) . '"),';
             }
-            echo "\nImported answers for question " . $q . " (" . count($answers) . " answers)";
+
+            DB::insert(rtrim($insertQuery, ","));
+
+            DB::connection($db)->update("update answers_table set imported = 1 where question_id = " . $q);
+            // echo "\nImported answers for question " . $q . " (" . count($answers) . " answers)";
         }
         return 1;
     }
 
-    private static function checkDupe(\stdClass $answer) :bool
+    private static function import(\stdClass $answerDB, Question $question, array $studentLookup) :void
     {
-        $existing = DB::select('
-            select id from meto_answers where student_id = ' . $answer->student_id . ' and question_id = ' . $answer->question_id . ';
-        ');
-        return count($existing) > 0;
-    }
-
-    private static function import(\stdClass $answerDB, $question) :void
-    {
-        $student = Student::getByGoogleID($answerDB->student_id);
-        if (is_null($student)) {
-            Log::channel('import')->error(('Student not found for google ID: ' . $answerDB->student_id));
-            return;
-        }
         $answer = new Answer();
         $answer->question_id = $question->id;
-        $answer->student_id = $answerDB->student_id;
+        $answer->student_id = $studentLookup[$answerDB->student_id];
         $answer->text = $answerDB->response;
         $answer->save();
     }
 
-    private static function markImported(\stdClass $answerDB, string $db) :void
-    {
-        DB::connection($db)->update('
-            update answers_table set imported = 1
-            where question_id = ' . $answerDB->question_id . ' and student_id = ' . $answerDB->student_id . ';
-        ');
-    }
 }

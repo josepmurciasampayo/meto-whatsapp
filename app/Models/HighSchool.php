@@ -35,6 +35,11 @@ class HighSchool extends Model
         return HighSchool::find($id);
     }
 
+    public static function getByName(string $name) :?HighSchool
+    {
+        return HighSchool::where('name', $name)->first();
+    }
+
     public static function getByStudentID(int $student_id) :?HighSchool
     {
         $row = Helpers::dbQueryArray('

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('google_id')->nullable();
             $table->string('name');
-            $table->string('nickname');
+            $table->string('nickname')->nullable();
             $table->unsignedTinyInteger('type')->nullable()->comment(\App\Enums\Institution\Type::toString());
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('location')->nullable();
             $table->unsignedTinyInteger('size')->nullable()->comment(\App\Enums\Institution\Size::toString());
-            $table->unsignedSmallInteger('country');
+            $table->unsignedSmallInteger('country')->nullable();
             $table->string('url')->nullable();
             $table->boolean('is_public')->nullable();
             $table->string('known_for')->nullable();

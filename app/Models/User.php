@@ -49,7 +49,7 @@ class User extends Authenticatable
         'google_id',
     ];
 
-    public static function findFromPhone(string $phone) :?User
+    public static function getByPhone(string $phone) :?User
     {
         $phone = preg_replace('~\D~', '', $phone);
         $result = Helpers::dbQueryArray('
@@ -63,6 +63,11 @@ class User extends Authenticatable
         }
         $user_id = $result[0]['id'];
         return User::find($user_id);
+    }
+
+    public static function getByEmail(string $email) :?User
+    {
+        return User::where('email', $email)->first();
     }
 
     public function isAdmin() :bool

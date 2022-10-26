@@ -107,13 +107,15 @@ class Students
             'ugandan' => Curriculum::UGANDAN(),
             'uni_transfer' => Curriculum::TRANSFER(),
         };
-        $stu->birth_country = Country::lookup($studentDB->country_of_birth);
+        if (!is_null($studentDB->country_of_birth)) {
+            $stu->birth_country = Country::lookup($studentDB->country_of_birth);
+        }
         $stu->birth_city = $studentDB->city_of_birth;
         $stu->refugee = ($studentDB->refugee_status == 'Yes') ? Refugee::YES() : Refugee::NO();
         $stu->disability_raw = $studentDB->disability_status;
         $stu->active = $studentDB->actively_seeking_current_app_cycle;
 
-        if (strlen($studentDB->citizenships) > 0) {
+        if (!is_null($studentDB->citizenships) && strlen($studentDB->citizenships) > 0) {
             $citizenships = explode(",", $studentDB->citizenships);
             foreach ($citizenships as $citizenship) {
                 $tag = new StudentTag();
@@ -122,7 +124,7 @@ class Students
             }
         }
 
-        if (strlen($studentDB->family_in > 0)) {
+        if (!is_null($studentDB->family_in) && strlen($studentDB->family_in > 0)) {
             $family_in = explode(",", $studentDB->family_in);
             foreach ($family_in as $country) {
                 $tag = new StudentTag();
@@ -135,7 +137,8 @@ class Students
             'male' => Gender::MALE(),
             'female' => Gender::FEMALE(),
             'other / prefer not to say' => Gender::OTHER(),
-            };
+            default => null,
+        };
 
         $stu->save();
     }

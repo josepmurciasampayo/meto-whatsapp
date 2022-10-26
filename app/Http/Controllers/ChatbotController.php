@@ -91,7 +91,7 @@ class ChatbotController extends Controller
 
         try {
             // Find which user messaged, if we can't identify there's not much else to do
-            $user = User::findFromPhone($from);
+            $user = User::getByPhone($from);
             if (is_null($user)) {
                 Log::channel('chat')->error("Couldn't find user with phone " . $from . ". They WhatsApp'd: " . $body);
                 ChatbotController::sendWhatsAppMessage($from, "I'm sorry, I don't recognize your number: " . $from);

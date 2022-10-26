@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
+            $table->string('text', 600);
             $table->unsignedTinyInteger('type');
             $table->unsignedTinyInteger('order')->nullable();
             $table->unsignedTinyInteger(Curriculum::AMERICAN())->default(0)->comment('American');

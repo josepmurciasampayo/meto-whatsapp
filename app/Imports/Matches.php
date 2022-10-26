@@ -13,7 +13,7 @@ class Matches
     public static function importFromGoogle(string $db) :int
     {
         $matches = DB::connection($db)->select('
-            select * from inst_student_relationships where imported = 0;
+            select relationship_id, student_id, i.institution_id, inst_name from inst_student_relationships as i join institutions_table as u on i.institution_id = u.institution_id  where i.imported = 0;
         ');
         foreach ($matches as $match) {
             $student = Student::where('google_id', $match->student_id)->first();
@@ -21,7 +21,7 @@ class Matches
                 Log::channel('import')->error("Couldn't find student ID: " . $match->student_id);
                 continue;
             }
-            $institution = Institution::where('google_id', $match->institution_id)->first();
+            $institution = Institution::where('name', $match->inst_name)->first();
             if (is_null($institution)) {
                 Log::channel('import')->error("Couldn't find institution ID: " . $match->institution_id);
                 continue;
