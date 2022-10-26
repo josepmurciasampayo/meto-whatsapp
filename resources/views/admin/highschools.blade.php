@@ -23,10 +23,10 @@
         <tbody>
         <?php foreach ($data as $row) { ?>
         <tr>
-            <td><a href="{{ route('highschool', ['id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
+            <td><a href="{{ route('highschool', ['highschool_id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
             <td><?php echo $row['curriculum'] ?></td>
             <td><?php echo $row['country'] ?></td>
-            <td class="text-center"><a href="{{ route('students', ['id' => $row['id']]) }}"><?php echo $row['students'] ?></a></td>
+            <td class="text-center"><a href="{{ route('students', ['highschool_id' => $row['id']]) }}"><?php echo $row['students'] ?></a></td>
             <td class="text-center">TBD</td>
         </tr>
         <?php } ?>

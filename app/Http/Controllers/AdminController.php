@@ -36,7 +36,7 @@ class AdminController extends Controller
         return view('admin.whatsapp', [
             'data' => $data,
             'state' => $state,
-            ]);
+        ]);
     }
 
     public function universities() :View
@@ -94,8 +94,8 @@ class AdminController extends Controller
 
     public function matches(int $student_id) :View
     {
-        $matches = StudentUniversity::getByUserID();
-        return view('', ['data' => $matches]);
+        $matches = StudentUniversity::getByUserID($student_id);
+        return view('admin.match-data', ['data' => $matches]);
     }
 
     public function questions() :View
@@ -103,7 +103,7 @@ class AdminController extends Controller
         $data = Question::getAdminData();
         return view('admin.questions', [
             'data' => $data,
-            ]);
+        ]);
     }
 
     public function answers(int $question_id) :View
