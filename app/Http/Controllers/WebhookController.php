@@ -14,7 +14,7 @@ class WebhookController extends Controller
     public function deploy(Request $request)
     {
         $githubPayload = $request->getContent();
-        $githubHash = $request->header('X-Hub-Signature');
+        $githubHash = $request->header('X-Gitlab-Token');
         $localToken = config('app.gitlab_deploy_secret');
         $localHash = 'sha1=' . hash_hmac('sha1', $githubPayload, $localToken, false);
 
