@@ -72,6 +72,12 @@ return [
             'days' => 7,
         ],
 
+        'deploy' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/deploy.log'),
+            'days' => 7,
+        ],
+
         'db' => [
             'driver' => 'daily',
             'path' => storage_path('logs/db.log'),

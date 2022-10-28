@@ -12,16 +12,15 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TypeaheadController;
 
 // Unauthenticated routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
 Route::post('/form', '\App\Http\Controllers\UserFormController@update');
 Route::get('/thank-you', '\App\Http\Controllers\UserFormController@thankyou')->name('thankyou');
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])
-    ->name('password.reset');
-Route::post('reset-password', [NewPasswordController::class, 'store'])
-    ->name('password.update');
+Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
 Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy-policy');
+Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']);
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function() {
