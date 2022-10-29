@@ -23,8 +23,7 @@ class WebhookController extends Controller
 
             Mail::to('abraham@meto-intl.org')->send(new DeployNotice());
 
-            $root_path = base_path();
-            $process = new Process('cd ' . $root_path . '; ./deploy.sh');
+            $process = new Process('cd /var/www/meto-test;  ./deploy.sh');
             $process->run(function ($type, $buffer) {
                 echo $buffer;
             });
