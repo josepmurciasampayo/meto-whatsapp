@@ -19,7 +19,7 @@ class WebhookController extends Controller
         $localHash = 'sha1=' . hash_hmac('sha1', $githubPayload, $localToken, false);
 
         if (hash_equals($githubHash, $localHash)) {
-            Log::channel('deploy')->info('Code deployed to test: ' . Carbon::now());
+            Log::channel('deploy')->info('New push by ' . $request->user_username . '. Code deployed to test: ' . Carbon::now());
 
             Mail::to('abraham@meto-intl.org')->send(new DeployNotice());
 
