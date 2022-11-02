@@ -65,8 +65,6 @@ class EnumSeeder extends Seeder
         self::loadToTable(Verified::options(), EnumGroup::USER_VERIFIED, Verified::descriptions());
         self::loadToTable(Role::options(), EnumGroup::USER_ROLE, Role::descriptions());
         self::loadToTable(Status::options(), EnumGroup::USER_STATUS, Status::descriptions());
-
-
     }
 
     public static function loadToTable(array $values, EnumGroup $group, array $descriptions) :void

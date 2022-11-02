@@ -16,10 +16,15 @@ class UserController extends \Illuminate\Routing\Controller
     {
         // Viewing your own profile
         if (is_null($user_id)) {
+            if (Auth()->user()->isCounselor()) {
+                $join = UserHighSchool::getByCounselorUserID(Auth()->user()->id);
+            } else {
+                $join = null;
+            }
             return view('user.profile', [
                 'user' => Auth()->user(),
                 'countries' => Country::descriptions(),
-                'join' => UserHighSchool::getByCounselorUserID(Auth()->user()->id),
+                'join' => $join,
             ]);
         }
 

@@ -26,6 +26,7 @@ enum EnumGroup: int
     case GENERAL_SOCIALNETWORK = 11;
     case GENERAL_SUBJECT = 39;
     case GENERAL_TAGGROUP = 12;
+    case GENERAL_FILETYPE = 40;
 
     case HS_BOARDING = 28;
     case HS_CLASSSIZE = 29;
