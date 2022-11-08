@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class notes-counselor extends Component
+class NotesCounselor extends Component
 {
     /**
      * Create a new component instance.

@@ -18,3 +18,4 @@ nginx-meto
 /nbproject
 .DS_Store
 /public/.DS_Store
+/storage/.DS_Store

@@ -68,6 +68,11 @@ return [
         'name' => 'Meto',
     ],
 
+    'contact' => [
+        'address' => 'connections@meto-intl.org',
+        'name' => 'Meto Admins',
+    ],
+
     'markdown' => [
         'theme' => 'default',
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TypeaheadController;
+use App\Http\Controllers\ContactController;
 
 // Unauthenticated routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,9 +22,13 @@ Route::post('reset-password', [NewPasswordController::class, 'store'])->name('pa
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
 Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy-policy');
 Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']);
+Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
+Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');
+Route::get('contact-thankyou', [\App\Http\Controllers\StaticController::class, 'contactThanks'])->name('contact.thankyou');
+
 
 // Admin functionality
-Route::middleware(['auth', 'admin'])->group(function() {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
 
     Route::get('/campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
@@ -48,7 +53,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
 });
 
 // Counselor functionality
-Route::middleware(['auth', 'counselor', 'terms'])->group(function() {
+Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
     Route::get('/students/{highschool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::post('/student', [CounselorController::class, 'saveVerify'])->name('saveVerify');
@@ -66,18 +71,17 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function() {
 });
 
 // Student functionality
-Route::middleware(['auth', 'terms','student'])->group(function() {
+Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
 });
 
 // Institution functionality
-Route::middleware(['auth', 'terms', 'institution'])->group(function() {
-
+Route::middleware(['auth', 'terms', 'institution'])->group(function () {
 });
 
 // Redirects if already authenticated
 Route::middleware('guest')->group(function () {
-/*
+    /*
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
