@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('path');
             $table->string('disk')->default('local');
             $table->string('file_hash', 64)->unique();
-            $table->unsignedTinyInteger('type')->comment(\App\Enums\General\FileType::descriptions());
+            $table->unsignedTinyInteger('type')->comment(\App\Enums\General\FileType::toString());
             $table->timestamps();
         });
 
