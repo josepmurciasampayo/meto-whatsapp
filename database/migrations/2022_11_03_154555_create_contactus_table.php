@@ -1,14 +1,5 @@
 <?php
 
-
-/*
- * AB:
- * We could also get rid of both email and phone and just tell them that if they want a reply, to include a method to get in touch in their message.
-
- *
- * The other broad question to think about is whether contact us submissions should be in their own table all by themselves,
- * or should they be with anything else. We can debate this.
- */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
