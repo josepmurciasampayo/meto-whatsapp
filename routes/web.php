@@ -54,6 +54,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // Counselor functionality
 Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
+
+
     Route::get('/students/{highschool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::post('/student', [CounselorController::class, 'saveVerify'])->name('saveVerify');

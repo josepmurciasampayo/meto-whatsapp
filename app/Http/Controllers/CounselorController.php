@@ -28,16 +28,6 @@ use Illuminate\View\View;
 
 class CounselorController extends Controller
 {
-    public function home() :View
-    {
-        $school = HighSchool::getByCounselorID(Auth()->user()->id);
-        return view('counselor.home', [
-            'school' => $school,
-            'summaryCounts' => HighSchool::getSummaryCounts($school->id),
-            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
-        ]);
-    }
-
     public function highschool(int $highschool_id) :View
     {
         $school = HighSchool::find($highschool_id);

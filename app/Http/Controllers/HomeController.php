@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HighSchool;
+use App\Models\Joins\UserHighSchool;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -21,8 +22,14 @@ class HomeController extends Controller
             return redirect('terms');
         }
         if ($user->isCounselor()) {
-            $c = new CounselorController();
-            return $c->home();
+            $school = HighSchool::getByCounselorID(Auth()->user()->id);
+            $summaryCounts = HighSchool::getSummaryCounts($school->id);
+            $notes = UserHighSchool::getNotes(Auth()->user()->id);
+            return view('counselor.home', [
+                'school' => $school,
+                'summaryCounts' => $summaryCounts,
+                'notes' => $notes,
+            ]);
         }
         if ($user->isInstitution()) {
             return view('institution.home');

@@ -1,3 +1,4 @@
+@props(['notes' => ''])
 <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
 <form id="notes" name="notes" action="{{ route('saveNotes') }}" method="POST">
     @csrf
