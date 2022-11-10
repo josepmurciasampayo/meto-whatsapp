@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'watverify' => [
+        'key' => env('WATVERIFY_KEY'),
+        'url' => 'https://watverifyapi.live/verify'
+    ]
+
 ];

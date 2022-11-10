@@ -8,7 +8,8 @@
 
     <title>Meto</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Proza+Libre:wght@400;600;700&display=swap">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
     <script src="/js/bootstrap.bundle.min.js"></script>
