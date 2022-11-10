@@ -34,7 +34,6 @@ class verifyWhatsAppNumbers extends Command
         foreach ($students as $student) {
             $phone = preg_replace('/\D+/', '', $student->phone_raw);
             $result = ($this->fetch($phone)) ? 2 : 1;
-            echo $student->phone_raw . ": " . $result . "   ";
             DB::update('update meto_users set phone_whatsapp_valid = ' . $result . ' where id = ' . $student->id);
         }
         return Command::SUCCESS;
