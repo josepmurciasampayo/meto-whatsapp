@@ -11,6 +11,7 @@ use App\Models\Institution;
 use App\Models\User;
 use App\Models\Joins\UserInstitution;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Institutions
 {
@@ -33,6 +34,7 @@ class Institutions
             self::importInstitution($institution);
             self::markImported($institution, $db);
         }
+        Log::channel('import')->info('Imported ' . count($institutions) . ' new universities');
         return 1;
     }
 

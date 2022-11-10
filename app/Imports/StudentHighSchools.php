@@ -11,6 +11,7 @@ use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StudentHighSchools
 {
@@ -25,6 +26,7 @@ class StudentHighSchools
         foreach ($students as $student) {
             self::importStudent($student);
         }
+        Log::channel('import')->info('Imported ' . count($students) . ' new student/high school relationships');
     }
 
     public static function importStudent(\stdClass $student) :void

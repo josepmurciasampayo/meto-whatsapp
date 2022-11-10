@@ -11,6 +11,7 @@ use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HighSchools
 {
@@ -31,6 +32,7 @@ class HighSchools
             self::importOrg($org);
             self::markOrgImported($org, $db);
         }
+        Log::channel('import')->info('Imported ' . count($schools) + count($orgs) . ' new high schools and organizations');
     }
 
     private static function checkDupeSchool(\stdClass $school) :bool

@@ -37,6 +37,7 @@ class Matches
             // MessageState::queueCampaign($student->user_id, Campaign::ENDOFCYCLE, 3);
             self::markImported($match, $db);
         }
+        Log::channel('import')->info('Imported ' . count($matches) . ' new student/university matches');
         return 1;
     }
 

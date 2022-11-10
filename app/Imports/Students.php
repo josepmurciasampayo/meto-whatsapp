@@ -15,14 +15,13 @@ use App\Models\Student;
 use App\Models\StudentTag;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Students
 {
     public static function importFromGoogle(string $db) :int
     {
-        $query = '
-            select * from students_table where imported = 0;
-        ';
+        $query = 'select * from students_table where imported = 0;';
         $students = DB::connection($db)->select($query);
         foreach ($students as $student) {
             if (self::checkDupe($student)) {
@@ -32,6 +31,7 @@ class Students
             self::importStudent($student);
             self::markImported($student, $db);
         }
+        Log::channel('import')->info('Imported ' . count($students) . ' new students');
         return 1;
     }
 

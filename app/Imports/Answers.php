@@ -51,7 +51,7 @@ class Answers
             DB::insert(rtrim($insertQuery, ","));
 
             DB::connection($db)->update("update answers_table set imported = 1 where question_id = " . $q);
-            // echo "\nImported answers for question " . $q . " (" . count($answers) . " answers)";
+            Log::channel('import')->info("Imported " . count($answers) . " answers for question " . $q);
         }
         return 1;
     }
