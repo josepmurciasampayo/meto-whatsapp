@@ -49,6 +49,18 @@ class verifyWhatsAppNumbers extends Command
         } catch (\Exception) {
             return false;
         }
+
+        $status = $response->getStatusCode();
+        if ($status != 200) {
+            if ($status == 429) {
+                echo "Too many requests. Aborting.\n";
+                die();
+            }
+            if ($status == 503) {
+                echo "Application error. Aborting.\n";
+                die();
+            }
+        }
         $array = json_decode($response->body());
         return $array[0]->result == 'true';
     }

@@ -21,7 +21,7 @@ class StudentHighSchools
             select student_id, question_id, text, s.user_id
             from meto_answers as a
             join meto_students as s on student_id = s.id
-            where question_id in (118, 119, 164) and a.imported = 0;
+            where question_id in (118, 119, 164);
         ');
         foreach ($students as $student) {
             self::importStudent($student);
