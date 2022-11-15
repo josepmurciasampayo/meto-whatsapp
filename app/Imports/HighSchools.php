@@ -49,11 +49,14 @@ class HighSchools
         $hs->name = $school->high_school;
         $hs->save();
 
-        $user = new User();
-        $user->email = $school->counselor_email;
-        $user->role = Role::COUNSELOR();
-        $user->status = Status::ACTIVE();
-        $user->save();
+        $user = User::where('email', $school->counselor_email)->first();
+        if (is_null($user)) {
+            $user = new User();
+            $user->email = $school->counselor_email;
+            $user->role = Role::COUNSELOR();
+            $user->status = Status::ACTIVE();
+            $user->save();
+        }
 
         UserHighSchool::joinUserHighSchool($user->id, $hs->id, \App\Enums\HighSchool\Role::COUNSELOR);
     }
