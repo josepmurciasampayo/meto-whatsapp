@@ -46,21 +46,22 @@ class verifyWhatsAppNumbers extends Command
                 'api_key' => config('services.watverify.key'),
                 'phones' => $number,
             ])->throw();
-        } catch (\Exception) {
+        } catch (\Exception $e) {
+            if ($e->getCode() != 200) {
+                if ($e->getCode() == 429) {
+                    echo "Too many requests. Aborting.\n";
+                    die();
+                }
+                if ($e->getCode() == 503) {
+                    echo "Application error. Aborting.\n";
+                    die();
+                }
+            }
             return false;
         }
 
         $status = $response->getStatusCode();
-        if ($status != 200) {
-            if ($status == 429) {
-                echo "Too many requests. Aborting.\n";
-                die();
-            }
-            if ($status == 503) {
-                echo "Application error. Aborting.\n";
-                die();
-            }
-        }
+
         $array = json_decode($response->body());
         return $array[0]->result == 'true';
     }
