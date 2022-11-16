@@ -20,6 +20,7 @@ use Database\Seeders\ChatTestSeeder;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Twilio\Exceptions\TwilioException;
@@ -169,14 +170,16 @@ class ChatbotController extends Controller
 
     public static function reset() :void
     {
-        MessageState::truncate();
-        LogComms::truncate();
-        User::deleteByRole(Role::STUDENT);
-        UserForm::truncate();
-        Student::truncate();
-        StudentUniversity::truncate();
-        //Session::flush();
-        $seeder = new ChatTestSeeder();
-        $seeder->run();
+        if (App::environment('local')) {
+            MessageState::truncate();
+            LogComms::truncate();
+            User::deleteByRole(Role::STUDENT);
+            UserForm::truncate();
+            Student::truncate();
+            StudentUniversity::truncate();
+            //Session::flush();
+            $seeder = new ChatTestSeeder();
+            $seeder->run();
+        }
     }
 }
