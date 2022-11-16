@@ -70,6 +70,7 @@ class verifyWhatsAppNumbers extends Command
         }
 
         $array = json_decode($response->body(), true);
+        print_r($array);
 
         return ($array[0]['result'] == 'true') ? 2 : 1;
     }
