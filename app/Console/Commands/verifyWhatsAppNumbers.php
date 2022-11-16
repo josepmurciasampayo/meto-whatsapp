@@ -30,10 +30,14 @@ class verifyWhatsAppNumbers extends Command
      */
     public function handle()
     {
-        $students = DB::select('select id, phone_raw from meto_users where role = ' . Role::STUDENT() . ' and phone_whatsapp_valid = 0;');
+        $students = DB::select('select id, phone_raw from meto_users where role = ' . Role::STUDENT() . ' and phone_whatsapp_valid = 0 and phone_raw != "";');
         foreach ($students as $student) {
             $phone = preg_replace('/\D+/', '', $student->phone_raw);
-            $result = $this->fetch($phone);
+            if (strlen($phone) > 20) {
+                $result = 1;
+            } else {
+                $result = $this->fetch($phone);
+            }
             if ($result == 3) {
                 continue;
             } else {
@@ -70,7 +74,6 @@ class verifyWhatsAppNumbers extends Command
         }
 
         $array = json_decode($response->body(), true);
-        print_r($array);
 
         return ($array[0]['result'] == 'true') ? 2 : 1;
     }
