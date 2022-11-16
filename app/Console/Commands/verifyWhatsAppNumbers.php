@@ -33,13 +33,17 @@ class verifyWhatsAppNumbers extends Command
         $students = DB::select('select id, phone_raw from meto_users where role = ' . Role::STUDENT() . ' and phone_whatsapp_valid = 0;');
         foreach ($students as $student) {
             $phone = preg_replace('/\D+/', '', $student->phone_raw);
-            $result = ($this->fetch($phone)) ? 2 : 1;
-            DB::update('update meto_users set phone_whatsapp_valid = ' . $result . ' where id = ' . $student->id);
+            $result = $this->fetch($phone);
+            if ($result == 3) {
+                continue;
+            } else {
+                DB::update('update meto_users set phone_whatsapp_valid = ' . $result . ' where id = ' . $student->id);
+            }
         }
         return Command::SUCCESS;
     }
 
-    public function fetch(string $number) :bool
+    public function fetch(string $number) :int
     {
         try {
             $response = Http::timeout(45)->get(config('services.watverify.url'), [
@@ -57,12 +61,16 @@ class verifyWhatsAppNumbers extends Command
                     die();
                 }
             }
-            return false;
+            return 1;
         }
 
         $status = $response->getStatusCode();
+        if ($status != 200) {
+            return 3;
+        }
 
-        $array = json_decode($response->body());
-        return $array[0]->result == 'true';
+        $array = json_decode($response->body(), true);
+
+        return ($array[0]['result'] == 'true') ? 2 : 1;
     }
 }
