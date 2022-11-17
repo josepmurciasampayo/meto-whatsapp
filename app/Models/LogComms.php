@@ -23,20 +23,37 @@ class LogComms extends Model
 
     public static function getAdminData() :array
     {
-        return Helpers::dbQueryArray("
+        $from = Helpers::dbQueryArray("
             select
                 c.id as message_id,
                 c.from,
                 c.to,
                 body,
                 c.created_at,
-                coalesce(user_to.id, user_from.id) as user_id,
-                concat(coalesce(user_to.first, user_from.first), ' ', coalesce(user_to.last, user_from.last)) as 'name'
+                user.id as user_id,
+                concat(first, ' ', last) as 'name'
             from meto_log_comms as c
-            left outer join meto_users as user_to on c.to = user_to.phone_combined and user_to.role = " . Role::STUDENT() . "
-            left outer join meto_users as user_from on c.from = user_from.phone_combined and user_from.role = " . Role::STUDENT() . "
+            join meto_users as user on c.to = user.phone_combined and user.role = " . Role::STUDENT() . " and c.to != 'METO'
             where channel = " . Channel::WHATSAPP() . "
             order by c.created_at;
         ");
+
+        $to = Helpers::dbQueryArray("
+            select
+                c.id as message_id,
+                c.from,
+                c.to,
+                body,
+                c.created_at,
+                user.id as user_id,
+                concat(first, ' ', last) as 'name'
+            from meto_log_comms as c
+            join meto_users as user on c.from = user.phone_combined and user.role = " . Role::STUDENT() . " and c.from != 'METO'
+            where channel = " . Channel::WHATSAPP() . "
+            order by c.created_at;
+        ");
+
+        $toReturn = $to + $from;
+        return $toReturn;
     }
 }
