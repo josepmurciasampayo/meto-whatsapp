@@ -29,6 +29,6 @@ class startLoop extends Command
     public function handle()
     {
         ChatbotController::startLoop();
-        return 0;
+        return self::SUCCESS;
     }
 }
