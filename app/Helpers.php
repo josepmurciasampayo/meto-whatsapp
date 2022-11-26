@@ -53,12 +53,28 @@ class Helpers
 
 
         foreach ($array as $row) {
-            $row =  array_map("html_entity_decode", $row);
-            $toReturn[] = array_combine($fields, $row);
-            //$row = Helpers::clear_encoding_str($row);
+            if (count($fields) == count($row)) {
+                $row =  array_map("html_entity_decode", $row);
+                $toReturn[] = array_combine($fields, $row);
+                //$row = Helpers::clear_encoding_str($row);
+            }
         }
 
         return $toReturn;
+    }
+
+    public static function CSVfromArray(
+        array $source,
+        string $pathAndFilename,
+        string $delimiter = ',',
+        string $enclosure = '"'
+    ) :void
+    {
+        $handle = fopen($pathAndFilename, 'r+');
+        foreach ($source as $line) {
+            fputcsv($handle, $line, $delimiter, $enclosure);
+        }
+        fclose($handle);
     }
 
     /**
