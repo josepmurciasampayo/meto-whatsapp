@@ -31,9 +31,6 @@ class UserForm extends Model
 
     public static function createForm(int $user_id, Form $form) :?UserForm
     {
-        if (Student::countMatches($user_id) == 0) {
-            return null;
-        }
         $new = new UserForm([
             'user_id' => $user_id,
             'form_id' => $form(),

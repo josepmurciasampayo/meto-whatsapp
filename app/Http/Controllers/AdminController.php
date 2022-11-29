@@ -15,6 +15,7 @@ use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -114,6 +115,17 @@ class AdminController extends Controller
             'data' => $data,
             'question' => Question::find($question_id),
         ]);
+    }
+
+    public function commands() :View
+    {
+        return view('admin.commands');
+    }
+
+    public function startBatch() :View
+    {
+        Artisan::call('chat:batch 25 3');
+        return view('admin.commands');
     }
 
     public function databases() :View
