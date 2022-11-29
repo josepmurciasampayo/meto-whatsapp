@@ -3,6 +3,7 @@
 namespace App\Models\Joins;
 
 use App\Enums\HighSchool\Role;
+use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -43,4 +44,10 @@ class UserHighSchool extends Model
         return UserHighSchool::where('user_id', $user_id)->first();
     }
 
+    public static function updateRole(int $user_id, Role $role) :void
+    {
+        Helpers::dbUpdate('
+            update meto_user_high_schools set role = ' . $role() . ' where user_id = ' . $user_id . ';
+        ');
+    }
 }

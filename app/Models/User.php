@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\User\Role;
+use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
-use App\Traits\TableName;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -104,5 +104,15 @@ class User extends Authenticatable
     public function terms() :bool
     {
         return $this->isAdmin() || $this->terms;
+    }
+
+    public static function getCounselorsAtHS(int $highschool_id) :array
+    {
+        return Helpers::dbQueryArray('
+            select u.id as user_id, h.highschool_id, h.role, concat(u.first, " ", u.last) as name, u.email
+            from meto_users as u
+            join meto_user_high_schools as h on h.user_id = u.id and h.role in (' . HSRole::ADMIN() . ', ' . HSRole::COUNSELOR() . ')
+            where h.highschool_id = ' . $highschool_id .' ;
+        ');
     }
 }

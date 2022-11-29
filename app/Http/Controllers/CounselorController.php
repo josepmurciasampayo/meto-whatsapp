@@ -13,6 +13,7 @@ use App\Enums\HighSchool\Type;
 use App\Enums\Student\Curriculum;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
+use App\Helpers;
 use App\Mail\InviteCounselor;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
@@ -43,6 +44,7 @@ class CounselorController extends Controller
                 'exams' => Exam::descriptions(),
                 'months' => Month::descriptions(),
                 'boarding' => Boarding::descriptions(),
+                'counselors' => User::getCounselorsAtHS($highschool_id),
             ]);
         }
     }
@@ -192,37 +194,76 @@ class CounselorController extends Controller
         return redirect(route('counselor-student', ['student_id' => $request->student_id]));
     }
 
-    public function invite(int $highschool_id) :View
+    public function invite(int $highschool_id, int $user_id = null) :View
     {
-        return view('counselor.invite', ['highschool_id' => $highschool_id]);
+        if ($user_id) {
+            $result = Helpers::dbQueryArray('
+                select u.id as user_id, h.role
+                from meto_users as u
+                join meto_user_high_schools as h on h.user_id = u.id
+                where u.id = ' . $user_id . ';
+            ');
+
+            return view('counselor.invite', [
+                'highschool_id' => $highschool_id,
+                'user_id' => $user_id,
+                'role' => $result[0]['role'],
+                'user' => User::find($result[0]['user_id']),
+                'isInvite' => false,
+            ]);
+        } else {
+            return view('counselor.invite', [
+                'highschool_id' => $highschool_id,
+                'user_id' => '',
+                'role' => \App\Enums\HighSchool\Role::COUNSELOR(),
+                'isInvite' => true,
+            ]);
+        }
     }
 
     public function sendInvite(Request $request) :RedirectResponse
     {
-        $currentUser = Auth()->user();
+        if ($request->user_id) {
+            $user = User::find($request->user_id);
+            $user->first = $request->first;
+            $user->last = $request->last;
+            $user->email = $request->email;
+            $user->title = $request->title;
+            $user->save();
 
-        $user = new User();
-        $user->first = $request->first;
-        $user->last = $request->last;
-        $user->email = $request->email;
-        $user->title = $request->title;
-        if ($currentUser->isAdmin()) {
-            $user->role = $request->role;
+            $role = \App\Enums\HighSchool\Role::from($request->role);
+            UserHighSchool::updateRole($request->user_id, $role);
+
+            return redirect(route('invite', [
+                'highschool_id' => $request->highschool_id,
+                'user_id' => $user->id,
+            ]));
+        } else {
+            $currentUser = Auth()->user();
+
+            $user = new User();
+            $user->first = $request->first;
+            $user->last = $request->last;
+            $user->email = $request->email;
+            $user->title = $request->title;
+            if ($currentUser->isAdmin()) {
+                $user->role = $request->role;
+            }
+            $user->role = Role::COUNSELOR();
+            $user->status = Status::ACTIVE();
+            $user->password = bcrypt("afow84hfao8w3hflaow8u3ro8afh8a3f");
+            $user->save();
+
+            $join = new UserHighSchool();
+            $join->user_id = $user->id;
+            $join->highschool_id = $request->highschool_id;
+            $join->role = \App\Enums\HighSchool\Role::COUNSELOR();
+            $join->save();
+
+            Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser, HighSchool::find($request->highschool_id)));
+            Log::channel('email')->info($currentUser->first . ' sent counselor invite to ' . $user->first);
+
+            return redirect(route('home'));
         }
-        $user->role = Role::COUNSELOR();
-        $user->status = Status::ACTIVE();
-        $user->password = bcrypt("afow84hfao8w3hflaow8u3ro8afh8a3f");
-        $user->save();
-
-        $join = new UserHighSchool();
-        $join->user_id = $user->id;
-        $join->highschool_id = $request->highschool_id;
-        $join->role = \App\Enums\HighSchool\Role::COUNSELOR();
-        $join->save();
-
-        Mail::to($user)->cc($currentUser)->send(new InviteCounselor($user, $currentUser, HighSchool::find($request->highschool_id)));
-        Log::channel('email')->info($currentUser->first . ' sent counselor invite to ' . $user->first);
-
-        return redirect(route('home'));
     }
 }

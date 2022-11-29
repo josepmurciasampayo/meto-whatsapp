@@ -54,15 +54,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // Counselor functionality
 Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
-
-
     Route::get('/students/{highschool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::post('/student', [CounselorController::class, 'saveVerify'])->name('saveVerify');
 
     Route::post('/saveNotes', [CounselorController::class, 'saveNotes'])->name('saveNotes');
 
-    Route::get('/invite/{highschool_id}', [CounselorController::class, 'invite'])->name('invite');
+    Route::get('/invite/{highschool_id}/{user_id?}', [CounselorController::class, 'invite'])->name('invite');
     Route::post('/invite', [CounselorController::class, 'sendInvite'])->name('sendInvite');
 
     Route::get('/matches/{highschool_id}', [CounselorController::class, 'matches'])->name('counselor-matches');
