@@ -53,6 +53,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/startBatch', [AdminController::class, 'startBatch'])->name('startBatch');
 
     Route::get('/admin/databases', [AdminController::class, 'databases'])->name('databases');
+    Route::get('/admin/workRequest', [AdminController::class, 'workRequest'])->name('workRequest');
+    Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 });
 
 // Counselor functionality
