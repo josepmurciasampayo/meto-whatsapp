@@ -23,7 +23,7 @@ https://datatables.net/examples/basic_init/filter_only.html
 <script type="text/javascript">
     $(document).ready(function () {
         // Setup - add a text input to each footer cell
-        $('#{{ $name }} tfoot th').each( function () {
+        $('#{{ $name }} thead th').each( function () {
             var title = $('#{{ $name }} thead th').eq( $(this).index() ).text();
             $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
         } );
