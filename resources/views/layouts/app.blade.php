@@ -12,6 +12,12 @@
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
+<<<<<<< Updated upstream
+=======
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.slim.min.js"></script>
+    <script src="/js/lodash.core.min.js"></script>
+>>>>>>> Stashed changes
 
     <style>
         body {

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Student\Curriculum;
+<<<<<<< Updated upstream
+=======
+use App\Enums\Student\QuestionType;
+use App\Helpers;
+>>>>>>> Stashed changes
 use App\Models\Answer;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
@@ -17,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -47,9 +53,13 @@ class AdminController extends Controller
         return view('admin.universities', ['data' => $data]);
     }
 
-    public function students() :View
+    public function students(int $highschool_id = null) :View
     {
-        $data = Student::getAdminData();
+        if ($highschool_id) {
+            $data = Student::getStudentsAtSchool($highschool_id);
+        } else {
+            $data = Student::getAdminData();
+        }
         return view('admin.students', ['data' => $data]);
     }
 
@@ -117,6 +127,7 @@ class AdminController extends Controller
         ]);
     }
 
+<<<<<<< Updated upstream
     public function commands() :View
     {
         return view('admin.commands');
@@ -126,6 +137,54 @@ class AdminController extends Controller
     {
         Artisan::call('chat:batch 25 3');
         return view('admin.commands');
+=======
+    public function mergeHS(Request $request) :View
+    {
+        $IDs = explode(",", $request->input('IDs'));
+        $highschools = array();
+        foreach ($IDs as $id) {
+            $highschools[] = HighSchool::find($id);
+        }
+
+        return view('admin.highschools-merge', [
+            'IDs' => $request->input('IDs'),
+            'data' => $highschools,
+        ]);
+    }
+
+    public function mergeHSconfirm(Request $request) :RedirectResponse
+    {
+        $oldIDs = $request->input('IDs');
+        $IDarray = explode(",", $oldIDs);
+
+        if ($request->input('primary') == '') {
+            $primaryID = $IDarray[0];
+        } else {
+            $primaryID = $request->input('primary');
+        }
+
+        $highschools = array();
+        foreach ($IDarray as $id) {
+            $highschools[] = HighSchool::find($id);
+            if ($id == $primaryID) {
+                $new = HighSchool::find($id)->replicate();
+            }
+        }
+
+        $new->save();
+
+        Helpers::dbUpdate('
+            update meto_user_high_schools set highschool_id = ' . $new->id . ' where highschool_id in (' . $oldIDs . ');
+        ');
+
+        Helpers::dbUpdate('
+            delete from meto_high_schools where id in (' . $oldIDs . ');
+        ');
+
+        return redirect(route('highschool', [
+            'highschool_id' => $new->id,
+        ]));
+>>>>>>> Stashed changes
     }
 
     public function databases() :View

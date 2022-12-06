@@ -26,7 +26,6 @@ Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact']
 Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');
 Route::get('contact-thankyou', [\App\Http\Controllers\StaticController::class, 'contactThanks'])->name('contact.thankyou');
 
-
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
@@ -44,7 +43,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
-    Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
+    Route::post('/admin/mergeHS', [AdminController::class, 'mergeHS'])->name('mergeHS');
+    Route::post('/admin/mergeHSconfirm', [AdminController::class, 'mergeHSconfirm'])->name('mergeHSconfirm');
+    Route::get('/admin/students/{highschool_id?}', [AdminController::class, 'students'])->name('students');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
