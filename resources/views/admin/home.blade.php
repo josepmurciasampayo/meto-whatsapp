@@ -15,14 +15,8 @@
             <li><a href="{{ route('highschools') }}">High Schools and Access Programs</a></li>
             <br/>
             <li><a href="{{ route('databases') }}">Databases</a></li>
-<<<<<<< Updated upstream
-            <li><a href="{{ route('commands') }}">Commands</a></li>
-            <li><a href="{{ route('logins') }}">User logins</a></li>
-            <li><a href="{{ url('logs') }}">System logs</a></li>
-=======
             <li><a href="{{ route('logins') }}">User Logins</a></li>
             <li><a href="{{ url('logs') }}">System Logs</a></li>
->>>>>>> Stashed changes
         </ul>
     </div>
 </x-app-layout>
