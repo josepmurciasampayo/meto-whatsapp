@@ -41,7 +41,7 @@ https://datatables.net/examples/basic_init/filter_only.html
             });
 
         // Apply the filter
-        $("#{{ $name }} tfoot input").on( 'keyup change', function () {
+        $("#{{ $name }} thead input").on( 'keyup change', function () {
             table
                 .column( $(this).parent().index()+':visible' )
                 .search( this.value )

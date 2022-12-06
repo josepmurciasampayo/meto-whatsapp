@@ -38,7 +38,7 @@
         </div>             
 </div> <br>
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
-    <ul class="mb-5 ms-1">
+    <ul class="mb-5">
           <div>
             <?php if (Auth()->user()->isSchoolAdmin()) { ?>
                 <div class="mt-2 mb-2"><li><button class="btn btn-success w-25"><i class="fa-solid fa-school-flag"></i> <a href="{{ route('highschool', ['highschool_id' => $school->id]) }}">Institution profile</li></div>
