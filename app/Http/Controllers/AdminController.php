@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Student\Curriculum;
-<<<<<<< Updated upstream
-=======
-use App\Enums\Student\QuestionType;
 use App\Helpers;
->>>>>>> Stashed changes
 use App\Models\Answer;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
@@ -22,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -127,7 +121,6 @@ class AdminController extends Controller
         ]);
     }
 
-<<<<<<< Updated upstream
     public function commands() :View
     {
         return view('admin.commands');
@@ -137,7 +130,8 @@ class AdminController extends Controller
     {
         Artisan::call('chat:batch 25 3');
         return view('admin.commands');
-=======
+    }
+
     public function mergeHS(Request $request) :View
     {
         $IDs = explode(",", $request->input('IDs'));
@@ -184,7 +178,6 @@ class AdminController extends Controller
         return redirect(route('highschool', [
             'highschool_id' => $new->id,
         ]));
->>>>>>> Stashed changes
     }
 
     public function databases() :View

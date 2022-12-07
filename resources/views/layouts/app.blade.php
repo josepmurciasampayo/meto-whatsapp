@@ -12,12 +12,11 @@
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
-<<<<<<< Updated upstream
-=======
+
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.6.1.slim.min.js"></script>
     <script src="/js/lodash.core.min.js"></script>
->>>>>>> Stashed changes
+    <script src="/js/instantpage-5.1.1.js" type="module"></script>
 
     <style>
         body {
@@ -30,7 +29,6 @@
 
 </head>
 
-<script src="/js/instantpage-5.1.1.js" type="module"></script>
 
 <body class="font-sans antialiased">
     <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
@@ -67,8 +65,6 @@
         </ul>
     </footer>
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery-3.6.1.min.js"></script>
 </body>
 
 </html>
