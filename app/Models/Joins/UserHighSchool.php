@@ -4,6 +4,7 @@ namespace App\Models\Joins;
 
 use App\Enums\HighSchool\Role;
 use App\Helpers;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -49,5 +50,12 @@ class UserHighSchool extends Model
         Helpers::dbUpdate('
             update meto_user_high_schools set role = ' . $role() . ' where user_id = ' . $user_id . ';
         ');
+    }
+
+    public static function remove(int $student_id, int $highschool_id) :void
+    {
+        $user_id = User::getIDbyStudentID($student_id);
+
+        Helpers::dbUpdate('delete from meto_user_high_schools where user_id = ' . $user_id . ' and highschool_id = ' . $highschool_id . '; ');
     }
 }

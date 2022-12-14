@@ -15,6 +15,7 @@ class Answers
 {
     public static function importFromGoogle(string $db) :int
     {
+        $answerCount = 0;
         // need to paginate through each question
         $maxQuestionID = DB::connection($db)->select('
             select max(question_id) as "id" from answers_table;
@@ -46,13 +47,16 @@ class Answers
             foreach ($answers as $answerDB) {
                 // don't need to check dupes - DB enforces unique student_id & question_id
                 $insertQuery .= '(' . $question->id . ',' . $studentLookup[$answerDB->student_id] . ', "' . addslashes($answerDB->response) . '"),';
+                $answerCount++;
             }
 
             DB::insert(rtrim($insertQuery, ","));
 
             DB::connection($db)->update("update answers_table set imported = 1 where question_id = " . $q);
-            Log::channel('import')->info("Imported " . count($answers) . " answers for question " . $q);
         }
+
+        Log::channel('import')->info("Imported " . $answerCount);
+
         return 1;
     }
 

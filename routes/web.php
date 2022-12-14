@@ -72,6 +72,8 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
 
     Route::get('/highschool/{highschool_id}', [CounselorController::class, 'highschool'])->name('highschool');
     Route::post('/highschool', [CounselorController::class, 'updateHighschool'])->name('highschool.update');
+
+    Route::post('/remove/{student_id}', [CounselorController::class, 'remove'])->name('remove');
 });
 
 // Student functionality

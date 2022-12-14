@@ -14,6 +14,7 @@ use Database\Seeders\GoogleSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Opcodes\LogViewer\Log;
 
 class importFromGoogle extends Command
 {
@@ -45,7 +46,11 @@ class importFromGoogle extends Command
             $db = "google-prod";
         }
 
-        Students::importFromGoogle($db);
+        try {
+            Students::importFromGoogle($db);
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('');
+        }
         Institutions::importFromGoogle($db);
         Matches::importFromGoogle($db);
         Answers::importFromGoogle($db);

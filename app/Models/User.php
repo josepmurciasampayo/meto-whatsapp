@@ -128,4 +128,16 @@ class User extends Authenticatable
 
         return $row[0]['type'] == Type::ACCESS();
     }
+
+    public static function getIDbyStudentID(int $student_id) :int
+    {
+        $row = Helpers::dbQueryArray('
+            select u.id
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id
+            where s.id = ' . $student_id . ';
+        ');
+
+        return $row[0]['id'];
+    }
 }
