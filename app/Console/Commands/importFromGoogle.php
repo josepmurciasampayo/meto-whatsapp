@@ -14,7 +14,8 @@ use Database\Seeders\GoogleSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Opcodes\LogViewer\Log;
+use Illuminate\Support\Facades\Log;
+
 
 class importFromGoogle extends Command
 {
@@ -49,12 +50,37 @@ class importFromGoogle extends Command
         try {
             Students::importFromGoogle($db);
         } catch(\Exception $exception) {
-            Log::channel('import')->error('');
+            Log::channel('import')->error('Error importing students: ' . $exception);
         }
-        Institutions::importFromGoogle($db);
-        Matches::importFromGoogle($db);
-        Answers::importFromGoogle($db);
-        HighSchools::importFromGoogle($db);
-        StudentHighSchools::importFromGoogle($db);
+
+        try {
+            Institutions::importFromGoogle($db);
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('Error importing institutions: ' . $exception);
+        }
+
+        try {
+            Matches::importFromGoogle($db);
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('Error importing matches: ' . $exception);
+        }
+
+        try {
+            Answers::importFromGoogle($db);
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('Error importing answers: ' . $exception);
+        }
+
+        try {
+            HighSchools::importFromGoogle($db);
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('Error importing high schools: ' . $exception);
+        }
+
+        try {
+            StudentHighSchools::importFromGoogle();
+        } catch(\Exception $exception) {
+            Log::channel('import')->error('Error importing student/high schools: ' . $exception);
+        }
     }
 }
