@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\HighSchool;
+use App\Models\Student;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class CounselorViews
             return $next($request);
         }
         if (Auth()->user()->isCounselor()) {
+
             $params = $request->route()->parameters();
             if (isset($params['highschool_id'])) {
                 $this->checkSchool($params['highschool_id']);
@@ -31,6 +33,7 @@ class CounselorViews
             if (isset($params['student_id'])) {
                 $this->checkStudent($params['student_id']);
             }
+
             return $next($request);
         }
     }
@@ -45,15 +48,22 @@ class CounselorViews
 
     private function checkStudent(int $student_id) :void
     {
-        $studentSchool = HighSchool::getByStudentID($student_id);
-        $homeSchool = HighSchool::getByCounselorID(Auth()->user()->id);
+        if (Auth()->user()->isCounselorAtAP()) {
+            $ap_id = HighSchool::getByCounselorID(Auth()->user()->id)->id;
+            if (!HighSchool::isStudentEnrolled($student_id, $ap_id)) {
+                abort(403);
+            }
+        } else {
+            $studentSchool = HighSchool::getByStudentID($student_id);
+            $homeSchool = HighSchool::getByCounselorID(Auth()->user()->id);
 
-        if (is_null($studentSchool) || is_null($homeSchool)) {
-            abort(403);
-        }
+            if (is_null($studentSchool) || is_null($homeSchool)) {
+                abort(403);
+            }
 
-        if ($homeSchool->id != $studentSchool->id) {
-            abort(403);
+            if ($homeSchool->id != $studentSchool->id) {
+                abort(403);
+            }
         }
     }
 }
