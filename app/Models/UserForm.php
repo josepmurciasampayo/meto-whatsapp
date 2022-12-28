@@ -40,5 +40,4 @@ class UserForm extends Model
         $new->save();
         return $new;
     }
-
 }

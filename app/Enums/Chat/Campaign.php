@@ -14,6 +14,8 @@ enum Campaign :int
     case UNKNOWNMESSAGE = 4;
     case ENDOFCYCLE = 3;
     case GOODBYE = 2;
+    case POSTMATCHINTENT = 6;
+    case POSTMATCHHEARDOF = 7;
 
     public static function getText(self $value) :string
     {
@@ -24,6 +26,8 @@ enum Campaign :int
             self::ENDOFCYCLE => 'End of Application Cycle Survey',
             self::UNKNOWNMESSAGE => 'Unknown Message Response',
             self::GOODBYE => 'No problem. We won\'t message you anymore.',
+            self::POSTMATCHINTENT => 'Short survey post-match about intent to apply',
+            self::POSTMATCHHEARDOF => 'Short survey post-match about whether student had heard of institution',
         };
     }
 

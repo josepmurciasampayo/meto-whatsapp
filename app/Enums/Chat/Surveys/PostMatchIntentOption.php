@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Enums\General;
+namespace App\Enums\Chat\Surveys;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum Form :int
+enum PostMatchIntentOption :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 
-    case ENDOFCYCLE = 1;
-    case POSTMATCH = 2;
+    case YES = 1;
+    case NO = 2;
+    case NOTSURE = 3;
 
     public static function getText(self $value) :string
     {
         return match($value) {
-            self::ENDOFCYCLE => 'End of Application Cycle Survey',
-            self::POSTMATCH => 'Post-Match Intent Survey',
+            self::YES => "Yes",
+            self::NO => "No",
+            self::NOTSURE => "Not Sure",
         };
     }
 }

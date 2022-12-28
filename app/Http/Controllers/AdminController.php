@@ -126,9 +126,9 @@ class AdminController extends Controller
         return view('admin.commands');
     }
 
-    public function startBatch() :View
+    public function command() :View
     {
-        Artisan::call('chat:batch 25 3');
+        Artisan::call('chat:vanderbilt');
         return view('admin.commands');
     }
 

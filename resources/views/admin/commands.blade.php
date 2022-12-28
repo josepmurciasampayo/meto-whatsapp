@@ -5,7 +5,7 @@
                 <div class="ml-4 pt-6">
                     <h2>Commands</h2>
                     <ul>
-                        <li><a href="{{ route('startBatch') }}">Batch 50 end-of-cycle starts</a></li>
+                        <li><a href="{{ route('command') }}">Test Vanderbilt</a></li>
                     </ul>
                 </div>
 

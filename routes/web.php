@@ -51,7 +51,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
-    Route::get('/admin/startBatch', [AdminController::class, 'startBatch'])->name('startBatch');
+    Route::get('/admin/command', [AdminController::class, 'command'])->name('command');
 
     Route::get('/admin/databases', [AdminController::class, 'databases'])->name('databases');
 });
