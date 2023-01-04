@@ -57,8 +57,6 @@ class MessageState extends Model
                 (user_id, message_id, priority, state, created_at)
                 values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
-            Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
-
         }
 
         return true;

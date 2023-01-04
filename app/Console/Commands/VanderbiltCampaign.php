@@ -32,11 +32,8 @@ class VanderbiltCampaign extends Command
      */
     public function handle()
     {
-        MessageState::queueCampaign(1263, Campaign::POSTMATCHINTENT, 3);
-        ChatbotController::startLoop();
-
-        return;
-        $users = StudentUniversity::getMatchesByUniversityID(79);
+        $users = StudentUniversity::getMatchesByUniversityID(78);
+        Log::channel('chat')->info('Found ' . count($users) . ' users from Vanderbilt');
         foreach ($users as $user) {
             MessageState::queueCampaign($user['user_id'], Campaign::POSTMATCHINTENT, 3);
         }
