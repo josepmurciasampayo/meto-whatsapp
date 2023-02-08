@@ -12,7 +12,7 @@
                 <x-input name="email" label="Email Address"></x-input>
                 <x-input name="password" label="Password"></x-input>
 
-                <x-button>Submit</x-button>
+                <x-button type="submit">Submit</x-button>
             </form>
         </div>
     </div>

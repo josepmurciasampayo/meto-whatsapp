@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('meto_questions', function (Blueprint $table) {
+        Schema::table('questions', function (Blueprint $table) {
             $table->unsignedTinyInteger('format')->comment(\App\Enums\QuestionFormat::toString());
             $table->unsignedTinyInteger('status')->default(\App\Enums\QuestionStatus::ACTIVE())->comment(\App\Enums\QuestionStatus::toString());
         });

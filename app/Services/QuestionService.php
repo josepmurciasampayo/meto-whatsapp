@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Enums\QuestionStatus;
 use App\Enums\Student\QuestionType;
 use App\Models\Question;
-use Ramsey\Collection\Collection;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class QuestionService
 {
@@ -14,7 +15,7 @@ class QuestionService
         $questions = Question::
             where('type', $type())
             ->where('status', QuestionStatus::ACTIVE())
-            ->order('order', 'asc')
+            ->orderBy('order', 'asc')
             ->get();
         return $questions;
     }

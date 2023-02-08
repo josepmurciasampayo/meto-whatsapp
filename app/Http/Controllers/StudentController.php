@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\Page;
 use App\Enums\Student\QuestionType;
 use App\Models\Question;
+use App\Models\User;
+use App\Services\AnswerService;
 use App\Services\QuestionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,28 +29,40 @@ class StudentController extends Controller
         return view('student.home');
     }
 
+    public function intro() :View
+    {
+        return view('student.intro');
+    }
+
+    public function profile() :View
+    {
+        return view('student.profile', [
+            'user' => new User(),
+            'countries' => [],
+        ]);
+    }
+
     public function prep(QuestionService $questionService) :View
     {
         return view('student.form', [
-            'questions' => $questionService->get(QuestionType::),
+            'questions' => $questionService->get(),
             'page' => Page::DEMO(),
         ]);
     }
 
     public function demographic(QuestionService $questionService) :View
     {
-        $questions = Question::where('')->get();
-        return view('', [
+        return view('student.form', [
             'questions' => $questionService->get(QuestionType::DEMOGRAPHIC),
-            'page' => Page::DEMO(),
+            'page' => Page::DEMO,
         ]);
     }
 
     public function highschool(QuestionService $questionService) :View
     {
         return view('student.form', [
-            'questions' => $questionService->get(QuestionType::),
-            'page' => Page::DEMO(),
+            'questions' => $questionService->get(QuestionType::HIGHSCHOOL),
+            'page' => Page::HIGHSCHOOL,
         ]);
     }
 
@@ -56,7 +70,7 @@ class StudentController extends Controller
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::ACADEMIC),
-            'page' => Page::DEMO(),
+            'page' => Page::ACADEMIC,
         ]);
     }
 
@@ -64,7 +78,7 @@ class StudentController extends Controller
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::FINANCIAL),
-            'page' => Page::DEMO(),
+            'page' => Page::FINANCIAL,
         ]);
     }
 
@@ -72,7 +86,7 @@ class StudentController extends Controller
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::EXTRACURRICULAR),
-            'page' => Page::DEMO(),
+            'page' => Page::EXTRA,
         ]);
     }
 
@@ -80,7 +94,7 @@ class StudentController extends Controller
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::UNIVERSITY),
-            'page' => Page::DEMO(),
+            'page' => Page::UNIPLAN,
         ]);
     }
 
@@ -88,7 +102,7 @@ class StudentController extends Controller
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::TESTING),
-            'page' => Page::DEMO(),
+            'page' => Page::TESTING,
         ]);
     }
 
@@ -100,8 +114,9 @@ class StudentController extends Controller
         ]);
     }
 
-    public function hande(Request $request) :RedirectResponse
+    public function handle(Request $request, AnswerService $answerService) :RedirectResponse
     {
+        $answerService->store($request);
         return redirect(FlowController::next($request));
     }
 }

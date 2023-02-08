@@ -19,4 +19,5 @@ enum Page :int
     case TESTING = 10;
     case GENERAL = 11;
     case HOME = 12;
+    case INTRO = 13;
 }

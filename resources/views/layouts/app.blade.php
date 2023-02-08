@@ -36,9 +36,7 @@
             <div>
                 <a href="{{ route('home') }}"><img src="/img/meto-logo.webp" style="height: 36px;"></a>
             </div>
-            <div>
-                <x-button>Create An Account</x-button>
-            </div>
+
             <div>
                 <?php if (Auth()->user()) { ?>
                     <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>

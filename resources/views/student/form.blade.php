@@ -5,7 +5,7 @@
                 <input type="hidden" name="page" value="{{ $page() }}">
                 @csrf
 
-                @foreach ($questions as $question) {
+                @foreach ($questions as $question)
                     <x-question :question="$question"></x-question>
                 @endforeach
 

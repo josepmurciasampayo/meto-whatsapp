@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
 
-Route::middleware(['auth', 'terms', 'student'])->group(function () {
+//Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
     Route::get('/dashboard', [\App\Http\Controllers\StudentController::class, 'home'])->name('student.home');
-    Route::get('/prep', [\App\Http\Controllers\StudentController::class, 'prep'])->name('student.prep');
+    Route::get('/intro', [\App\Http\Controllers\StudentController::class, 'intro'])->name('student.intro');
+    Route::get('/student-profile', [\App\Http\Controllers\StudentController::class, 'profile'])->name('student.profile');
     Route::get('/demographic', [\App\Http\Controllers\StudentController::class, 'demographic'])->name('student.demographic');
     Route::get('/highschool', [\App\Http\Controllers\StudentController::class, 'highschool'])->name('student.highschool');
     Route::get('/academics', [\App\Http\Controllers\StudentController::class, 'academics'])->name('student.academics');
@@ -22,4 +23,4 @@ Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::get('/general', [\App\Http\Controllers\StudentController::class, 'general'])->name('student.general');
 
     Route::post('/handle', [\App\Http\Controllers\StudentController::class, 'handle'])->name('student.handle');
-});
+//});
