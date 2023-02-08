@@ -25,6 +25,10 @@ Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']
 Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
 Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');
 Route::get('contact-thankyou', [\App\Http\Controllers\StaticController::class, 'contactThanks'])->name('contact.thankyou');
+Route::get('/signup', [\App\Http\Controllers\SignupController::class, 'home'])->name('signup');
+Route::get('/signup-student', [\App\Http\Controllers\SignupController::class, 'student'])->name('signup.student');
+Route::get('/signup-counselor', [\App\Http\Controllers\SignupController::class, 'counselor'])->name('signup.counselor');
+Route::get('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uni'])->name('signup.uni');
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -76,10 +80,6 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
     Route::post('/remove/{student_id}', [CounselorController::class, 'remove'])->name('remove');
 });
 
-// Student functionality
-Route::middleware(['auth', 'terms', 'student'])->group(function () {
-    Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
-});
 
 // Institution functionality
 Route::middleware(['auth', 'terms', 'institution'])->group(function () {
@@ -131,3 +131,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('terms', [\App\Http\Controllers\StaticController::class, 'saveTerms'])->name('saveTerms');
 });
+
+require __DIR__.'/web-student.php';
+require __DIR__.'/web-counselor.php';
+require __DIR__.'/web-uni.php';
