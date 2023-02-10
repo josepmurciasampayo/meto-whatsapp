@@ -21,17 +21,17 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function index() :View
+    public function index(): View
     {
         return view('admin.home');
     }
 
-    public function info() :View
+    public function info(): View
     {
         return view('admin.info');
     }
 
-    public function commsLog() :View
+    public function commsLog(): View
     {
         $data = LogComms::getAdminData();
         $state = MessageState::getState();
@@ -41,7 +41,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function universities() :View
+    public function universities(): View
     {
         $data = Institution::getAdminData();
         return view('admin.universities', ['data' => $data]);
@@ -57,13 +57,23 @@ class AdminController extends Controller
         return view('admin.students', ['data' => $data]);
     }
 
-    public function highschools() :View
+    public function workRequest(): View
+    {
+        return view('admin.workRequest');
+    }
+
+    public function reports(): View
+    {
+        return view('admin.reports');
+    }
+
+    public function highschools(): View
     {
         $data = HighSchool::getAdminData();
         return view('admin.highschools', ['data' => $data]);
     }
 
-    public function logins() :View
+    public function logins(): View
     {
         $lastLogins = LoginEvents::getLatestLogins();
         $data = LoginEvents::getAdminData();
@@ -73,38 +83,38 @@ class AdminController extends Controller
         ]);
     }
 
-    public function matchData() :View
+    public function matchData(): View
     {
         $data = StudentUniversity::getMatchData();
         return view('admin.match-data', ['data' => $data]);
     }
 
-    public function sendMessage(Request $request) :RedirectResponse
+    public function sendMessage(Request $request): RedirectResponse
     {
         $request = $request->toArray();
         ChatbotController::sendWhatsAppMessage($request['to-phone'], $request['body']);
         return redirect('comms-log');
     }
 
-    public function startChatbot() :View
+    public function startChatbot(): View
     {
         ChatbotController::startLoop();
         return self::commsLog();
     }
 
-    public function resetChatbot() :View
+    public function resetChatbot(): View
     {
         ChatbotController::reset();
         return self::commsLog();
     }
 
-    public function matches(int $student_id) :View
+    public function matches(int $student_id): View
     {
         $matches = StudentUniversity::getByUserID($student_id);
         return view('admin.match-data', ['data' => $matches]);
     }
 
-    public function questions() :View
+    public function questions(): View
     {
         $data = Question::getAdminData();
         return view('admin.questions', [
@@ -112,7 +122,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function answers(int $question_id) :View
+    public function answers(int $question_id): View
     {
         $data = Answer::getByQuestionID($question_id);
         return view('admin.answers', [
@@ -121,7 +131,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function commands() :View
+    public function commands(): View
     {
         return view('admin.commands');
     }

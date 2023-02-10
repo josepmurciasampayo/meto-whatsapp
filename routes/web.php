@@ -58,6 +58,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/command', [AdminController::class, 'command'])->name('command');
 
     Route::get('/admin/databases', [AdminController::class, 'databases'])->name('databases');
+    Route::get('/admin/workRequest', [AdminController::class, 'workRequest'])->name('workRequest');
+    Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 });
 
 // Counselor functionality
@@ -93,14 +95,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 */
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 });
 
 // Any signed-in user
