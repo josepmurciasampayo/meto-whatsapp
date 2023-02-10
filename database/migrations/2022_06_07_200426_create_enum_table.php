@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedSmallInteger('enum_id');
             $table->string('enum_value');
             $table->string('enum_desc')->nullable();
-
             $table->index(['group_id', 'enum_id']);
         });
     }

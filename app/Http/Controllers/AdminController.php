@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Student\Curriculum;
+use App\Helpers;
 use App\Models\Answer;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
@@ -47,9 +47,13 @@ class AdminController extends Controller
         return view('admin.universities', ['data' => $data]);
     }
 
-    public function students(): View
+    public function students(int $highschool_id = null) :View
     {
-        $data = Student::getAdminData();
+        if ($highschool_id) {
+            $data = Student::getStudentsAtSchool($highschool_id);
+        } else {
+            $data = Student::getAdminData();
+        }
         return view('admin.students', ['data' => $data]);
     }
 
@@ -132,13 +136,61 @@ class AdminController extends Controller
         return view('admin.commands');
     }
 
-    public function startBatch(): View
+    public function command() :View
     {
-        Artisan::call('chat:batch 25 3');
+        Artisan::call('chat:vanderbilt');
         return view('admin.commands');
     }
 
-    public function databases(): View
+    public function mergeHS(Request $request) :View
+    {
+        $IDs = explode(",", $request->input('IDs'));
+        $highschools = array();
+        foreach ($IDs as $id) {
+            $highschools[] = HighSchool::find($id);
+        }
+
+        return view('admin.highschools-merge', [
+            'IDs' => $request->input('IDs'),
+            'data' => $highschools,
+        ]);
+    }
+
+    public function mergeHSconfirm(Request $request) :RedirectResponse
+    {
+        $oldIDs = $request->input('IDs');
+        $IDarray = explode(",", $oldIDs);
+
+        if ($request->input('primary') == '') {
+            $primaryID = $IDarray[0];
+        } else {
+            $primaryID = $request->input('primary');
+        }
+
+        $highschools = array();
+        foreach ($IDarray as $id) {
+            $highschools[] = HighSchool::find($id);
+            if ($id == $primaryID) {
+                $new = HighSchool::find($id)->replicate();
+            }
+        }
+
+        $new->save();
+
+        Helpers::dbUpdate('
+            update meto_user_high_schools set highschool_id = ' . $new->id . ' where highschool_id in (' . $oldIDs . ');
+        ');
+
+        Helpers::dbUpdate('
+            delete from meto_high_schools where id in (' . $oldIDs . ');
+        ');
+
+        return redirect(route('highschool', [
+            'highschool_id' => $new->id,
+        ]));
+    }
+
+    public function databases() :View
     {
         $google_db = (App::environment('prod')) ? 'google-prod' : 'google-local';
 

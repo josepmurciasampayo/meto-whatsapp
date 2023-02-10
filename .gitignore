@@ -19,3 +19,4 @@ nginx-meto
 .DS_Store
 /public/.DS_Store
 /storage/.DS_Store
+**/.DS_Store

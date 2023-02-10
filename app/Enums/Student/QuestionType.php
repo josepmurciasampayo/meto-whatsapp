@@ -15,6 +15,7 @@ enum QuestionType :int
     case UNIVERSITY = 5;
     case GENERAL = 6;
     case TESTING = 7;
+    case HIGHSCHOOL = 8;
 
     public static function getText(self $value) :string
     {

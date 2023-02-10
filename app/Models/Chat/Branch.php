@@ -39,12 +39,22 @@ class Branch extends Model
     public static function getBranchByMessageAndResponse(int $message_id, string $body) :?Branch
     {
         $query = "
-            select id from meto_branches where from_message_id = " . $message_id . " and response = '" . $body ."';
+            select id, response
+            from meto_branches
+            where from_message_id = " . $message_id . " ;
         ";
-        $result = DB::select($query);
-        if (count($result) == 0) {
+        $results = DB::select($query);
+        if (count($results) == 0) {
             return null;
         }
-        return Branch::find($result[0]->id);
+        if (count($results) == 1) {
+            return Branch::find($results[0]->id);
+        }
+        foreach ($results as $result) {
+            if ($body == $result['response']) {
+                return Branch::find($result['id']);
+            }
+        }
+        return null;
     }
 }

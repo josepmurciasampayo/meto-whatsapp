@@ -34,7 +34,10 @@ class UserController extends \Illuminate\Routing\Controller
         $profileUser = User::find($user_id);
         if (Auth()->user()->role == Role::ADMIN()) {
             return view('user.profile', [
-                'user' => $profileUser,
+                'user' => [
+                    '',
+                    '',
+                    ],
                 'countries' => Country::descriptions(),
             ]);
         }

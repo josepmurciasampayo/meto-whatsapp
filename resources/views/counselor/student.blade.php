@@ -1,5 +1,9 @@
 <x-app-layout>
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
+    <form method="POST" action="{{ route('remove', ['student_id' => $student_id]) }}">
+        @csrf
+        <x-button type="submit">Remove Student</x-button>
+    </form>
     <h2 class="my-2">Student Matches - {{ $data[0]['name'] }}</h2>
     <a class="ml-3" href="#raw"><p>Go to raw data</p></a>
     <form class="mb-5" id="submitMatches" method="POST" action="{{ route('saveStudentMatches') }}">

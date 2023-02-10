@@ -110,4 +110,39 @@ class StudentUniversity extends Model
         ');
     }
 
+    public static function getMatchesByUniversityID(int $university_id) :array
+    {
+        return Helpers::dbQueryArray('select
+                m.student_id,
+                u.id as "user_id",
+                m.intent,
+                m.heardOf
+            from meto_student_universities as m
+            join meto_students as s on s.id = m.student_id
+            join meto_users as u on s.user_id = u.id
+            where m.intent is null and
+            institution_id = ' . $university_id . ';'
+        );
+    }
+
+    public static function getIntentByUserAndUniversity(int $user_id, int $university_id) :?int
+    {
+        $toReturn = Helpers::dbQueryArray('
+            select
+            intent
+            from meto_student_universities as m
+            join meto_students as s on s.user_id = ' . $user_id . '
+            where m.student_id = s.id and m.institution_id = ' . $university_id . ';
+        ');
+        return $toReturn[0]['intent'];
+    }
+
+    public static function updateFactors(int $user_id, array $factors) :void
+    {
+        $factorString = implode(",", $factors);
+        $student_id = Student::where('user_id', $user_id)->first()->id;
+        Helpers::dbUpdate('
+            update meto_student_universities set factors = "' . $factorString . '" where student_id = ' . $student_id . ' and institution_id = 77
+        ');
+    }
 }

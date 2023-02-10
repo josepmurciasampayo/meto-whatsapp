@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class StudentHighSchools
 {
-    public static function importFromGoogle($db)
+    public static function importFromGoogle()
     {
         $students = DB::select('
             select student_id, question_id, text, s.user_id

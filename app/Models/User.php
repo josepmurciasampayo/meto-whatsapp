@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
@@ -114,5 +115,29 @@ class User extends Authenticatable
             join meto_user_high_schools as h on h.user_id = u.id and h.role in (' . HSRole::ADMIN() . ', ' . HSRole::COUNSELOR() . ')
             where h.highschool_id = ' . $highschool_id .' ;
         ');
+    }
+
+    public function isCounselorAtAP() :bool
+    {
+        $row = Helpers::dbQueryArray('
+        select h.type
+        from meto_user_high_schools as uh
+        join meto_high_schools as h on uh.highschool_id = h.id
+        where user_id= ' . $this->id . ';
+        ');
+
+        return $row[0]['type'] == Type::ACCESS();
+    }
+
+    public static function getIDbyStudentID(int $student_id) :int
+    {
+        $row = Helpers::dbQueryArray('
+            select u.id
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id
+            where s.id = ' . $student_id . ';
+        ');
+
+        return $row[0]['id'];
     }
 }

@@ -11,6 +11,7 @@ use App\Helpers;
 use App\Models\Chat\Branch;
 use App\Models\Chat\Message;
 use App\Models\Chat\MessageState;
+use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\StudentUniversity;
 use App\Models\Student;
@@ -37,10 +38,12 @@ class ChatbotController extends Controller
     {
         Log::channel('chat')->debug('Starting chat loop');
 
+        /*
         $users = MessageState::getEndOfApplicationCycles();
         foreach ($users as $user) {
             MessageState::queueCampaign($user['user_id'], Campaign::ENDOFCYCLE, 3);
         }
+        */
 
         $toSend = MessageState::getQueuedMessagesToSend();
         foreach ($toSend as $message) {
@@ -64,16 +67,27 @@ class ChatbotController extends Controller
                 $url = env('APP_URL') . "/form/" . $form->url;
                 $message = str_replace("{form_application_status}", $url, $message);
             }
+            if (str_contains($message, '{form_post_match}')) {
+                Log::channel('chat')->debug('Found form_post_match');
+                $form = UserForm::getForm($user_id, Form::POSTMATCH);
+                $url = env('APP_URL') . "/form/" . $form->url;
+                $message = str_replace("{form_post_match}", $url, $message);
+            }
             if (str_contains($message, '{first}')) {
                 $user = User::find($user_id);
                 $first = $user->first;
                 Log::channel('chat')->debug('Found first name: ' . $first . ' for user ID ' . $user_id);
                 $message = str_replace("{first}", $first, $message);
             }
-            return $message;
-        } else {
-            return $message;
+            if (str_contains($message, '{inst_name}')) {
+                // TODO: fix this before launching after every match
+                //$university = Institution::where($user_id);
+                //$first = $user->first;
+                Log::channel('chat')->debug('Found inst_name for user ID ' . $user_id);
+                $message = str_replace("{inst_name}", "Vanderbilt", $message);
+            }
         }
+        return $message;
     }
 
     /**
@@ -119,7 +133,7 @@ class ChatbotController extends Controller
                 return;
             }
 
-            MessageState::saveResponseInSchema($user->id, $currentState['state_id'], $branch);
+            MessageState::saveResponseInSchema($user->id, $currentState['student_id'], $currentState['state_id'], $branch, $body);
             MessageState::updateMessageStateByID($currentState['state_id'], State::REPLIED);
 
             MessageState::queueMessage($user->id, $branch->to_message_id);

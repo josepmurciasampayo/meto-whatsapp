@@ -266,4 +266,11 @@ class CounselorController extends Controller
             return redirect(route('home'));
         }
     }
+
+    public function remove(int $student_id) :RedirectResponse
+    {
+        $highschool_id = HighSchool::getByCounselorID(Auth()->user()->id)->id;
+        UserHighSchool::remove($student_id, $highschool_id);
+        return redirect(route('counselor-students', ['highschool_id' => $highschool_id]));
+    }
 }

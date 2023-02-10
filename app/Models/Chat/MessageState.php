@@ -3,6 +3,8 @@
 namespace App\Models\Chat;
 
 use App\Enums\Chat\Campaign;
+use App\Enums\Chat\Surveys\PostMatchHEardOfOption;
+use App\Enums\Chat\Surveys\PostMatchIntentOption;
 use App\Enums\EnumGroup;
 use App\Http\Controllers\ChatbotController;
 use Carbon\Carbon;
@@ -55,8 +57,6 @@ class MessageState extends Model
                 (user_id, message_id, priority, state, created_at)
                 values (" . $user_id .", " . $message_id . ", " . $priority . ", " . State::QUEUED() .", now());
             ");
-            Log::channel('chat')->debug("Queueing message " . $message_id . " for user " . $user_id);
-
         }
 
         return true;
@@ -167,7 +167,7 @@ class MessageState extends Model
         ');
         foreach ($toReturn as $student) {
             self::queueCampaign($student['user_id'], Campaign::CONFIRMPERMISSION, 2);
-            Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
+            // Log::channel('chat')->debug('Added user to confirm permission: ' . $student['user_id']);
         }
     }
 
@@ -211,7 +211,7 @@ class MessageState extends Model
         ');
         foreach ($toReturn as $student) {
             self::queueCampaign($student['user_id'], Campaign::CONFIRMIDENTITY, 1);
-            Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
+            // Log::channel('chat')->debug('Added user to verify identity: ' . $student['user_id']);
         }
     }
 
@@ -255,6 +255,7 @@ class MessageState extends Model
         $toReturn = Helpers::dbQueryArray('
             select
                 u.id as user_id,
+                stu.id as student_id,
                 concat(u.first, " ", u.last) as "name",
                 u.email,
                 m.id as message_id,
@@ -269,6 +270,7 @@ class MessageState extends Model
                 state.enum_desc as "state",
                 response
             from meto_users as u
+            join meto_students as stu on stu.user_id = u.id
             join meto_message_states as s on s.user_id = u.id
             join meto_messages as m on s.message_id = m.id
             join meto_enum as campaign on campaign.group_id = ' . EnumGroup::CHAT_CAMPAIGNS() .' and campaign.enum_id = message_id
@@ -322,7 +324,7 @@ class MessageState extends Model
      * @param int $state_id
      * @param Branch $branch
      */
-    public static function saveResponseInSchema(int $user_id, int $state_id, Branch $branch) :void
+    public static function saveResponseInSchema(int $user_id, int $student_id, int $state_id, Branch $branch, string $body = '') :void
     {
         // find appropriate campaign and save translated response in the schema
         // TODO: this is just bad all over the place
@@ -342,7 +344,27 @@ class MessageState extends Model
             case Campaign::ENDOFCYCLE:
                 // no response needed
                 return;
-
+            case Campaign::POSTMATCHINTENT:
+                // TODO: this has got to change for post-match surveying
+                $value = match($body) {
+                    'Y' => PostMatchIntentOption::YES(),
+                    'N' => PostMatchIntentOption::NO(),
+                    default => PostMatchIntentOption::NOTSURE(),
+                };
+                DB::update('
+                    update meto_student_universities set intent = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
+                ');
+                return;
+            case Campaign::POSTMATCHHEARDOF:
+                $value = match($body) {
+                    'Y' => PostMatchHEardOfOption::YES(),
+                    'N' => PostMatchHEardOfOption::NO(),
+                    default => -1,
+                };
+                DB::update('
+                    update meto_student_universities set heardOf = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
+                ');
+                return;
             default:
                 Log::channel('chat')->error('State ' . $state_id . ' could not find a campaign');
                 return;

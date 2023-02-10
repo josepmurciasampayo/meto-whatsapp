@@ -12,6 +12,7 @@
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
+
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.6.1.min.js"></script>
     <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
@@ -19,19 +20,21 @@
         body {
             font-size: 115%;
             line-height: 1.4;
+            font-family: 'Proza Libre', sans-serif;
+            background-color: rgb(249, 242, 240);
         }
     </style>
 
 </head>
 
-<script src="/js/instantpage-5.1.1.js" type="module"></script>
 
-<body class="font-sans antialiased" style="font-family: 'Proza Libre'; background-color: rgb(249, 242, 240)">
+<body class="font-sans antialiased">
     <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
         <div class="p-6 d-flex justify-content-between">
             <div>
                 <a href="{{ route('home') }}"><img src="/img/meto-logo.webp" style="height: 36px;"></a>
             </div>
+
             <div>
                 <?php if (Auth()->user()) { ?>
                     <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>

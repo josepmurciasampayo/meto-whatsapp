@@ -25,7 +25,10 @@ Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']
 Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
 Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');
 Route::get('contact-thankyou', [\App\Http\Controllers\StaticController::class, 'contactThanks'])->name('contact.thankyou');
-
+Route::get('/signup', [\App\Http\Controllers\SignupController::class, 'home'])->name('signup');
+Route::get('/signup-student', [\App\Http\Controllers\SignupController::class, 'student'])->name('signup.student');
+Route::get('/signup-counselor', [\App\Http\Controllers\SignupController::class, 'counselor'])->name('signup.counselor');
+Route::get('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uni'])->name('signup.uni');
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -44,13 +47,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
-    Route::get('/admin/students', [AdminController::class, 'students'])->name('students');
+    Route::post('/admin/mergeHS', [AdminController::class, 'mergeHS'])->name('mergeHS');
+    Route::post('/admin/mergeHSconfirm', [AdminController::class, 'mergeHSconfirm'])->name('mergeHSconfirm');
+    Route::get('/admin/students/{highschool_id?}', [AdminController::class, 'students'])->name('students');
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
-    Route::get('/admin/startBatch', [AdminController::class, 'startBatch'])->name('startBatch');
+    Route::get('/admin/command', [AdminController::class, 'command'])->name('command');
 
     Route::get('/admin/databases', [AdminController::class, 'databases'])->name('databases');
     Route::get('/admin/workRequest', [AdminController::class, 'workRequest'])->name('workRequest');
@@ -73,12 +78,10 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
 
     Route::get('/highschool/{highschool_id}', [CounselorController::class, 'highschool'])->name('highschool');
     Route::post('/highschool', [CounselorController::class, 'updateHighschool'])->name('highschool.update');
+
+    Route::post('/remove/{student_id}', [CounselorController::class, 'remove'])->name('remove');
 });
 
-// Student functionality
-Route::middleware(['auth', 'terms', 'student'])->group(function () {
-    Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
-});
 
 // Institution functionality
 Route::middleware(['auth', 'terms', 'institution'])->group(function () {
@@ -130,3 +133,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('terms', [\App\Http\Controllers\StaticController::class, 'saveTerms'])->name('saveTerms');
 });
+
+require __DIR__.'/web-student.php';
+require __DIR__.'/web-counselor.php';
+require __DIR__.'/web-uni.php';

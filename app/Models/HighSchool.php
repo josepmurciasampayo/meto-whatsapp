@@ -60,6 +60,18 @@ class HighSchool extends Model
         return null;
     }
 
+    public static function isStudentEnrolled(int $student_id, int $highschool_id) :bool
+    {
+        $row =  Helpers::dbQueryArray('
+        select s.id
+        from meto_students as s
+        join meto_users as u on s.user_id = u.id
+        join meto_user_high_schools as j on j.user_id = u.id and j.highschool_id = ' . $highschool_id . '
+        where s.id = ' . $student_id . ';
+        ');
+        return count($row) > 0;
+    }
+
     public static function getSummaryCounts(int $school_id) :array
     {
         return Helpers::dbQueryArray('

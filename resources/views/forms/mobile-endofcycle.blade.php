@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="p-3">
         <h4>Please let us know what you’ve decided for each of the <?php echo count($matches) ?> schools we’ve connected you with.</h4>
-        <p>This information is sent securely and will only used to help improve our services and will never be shared without your permission.</p>
+        <p>This information is sent securely and will only be used to help improve our services and will never be shared without your permission.</p>
         <form method="POST" action="/form">
             @csrf
             <input type="hidden" name="userform_url" id="userform_url" value="<?php echo $url ?>"?>

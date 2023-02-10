@@ -16,7 +16,7 @@
         <tbody>
         <?php foreach ($data as $row) { ?>
         <tr>
-            <td><a href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}"><?php echo $row['name'] ?></a></td>
+            <td><a target="_blank" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}"><?php echo $row['name'] ?></a></td>
             <td><?php echo $row['email'] ?></td>
             <td><?php echo $row['gender'] ?></td>
             <td><a href=""><?php echo $row['phone_raw'] ?></a></td>
