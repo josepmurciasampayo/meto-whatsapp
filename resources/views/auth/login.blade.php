@@ -5,7 +5,7 @@
 
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-            <form method="POST" action="{{ route('login.store') }}">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
 
                 <div>
@@ -16,9 +16,9 @@
                 <div class="mt-4">
                     <x-label for="password" :value="__('Password')" />
                     <x-input id="password" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password"
-                                    required autocomplete="current-password" />
+                             type="password"
+                             name="password"
+                             required autocomplete="current-password" />
                 </div>
 
                 <div class="block mt-4">
@@ -41,7 +41,11 @@
                 </div>
 
                 <div class="flex items-center justify-end mt-4">
-                    <a href="{{ route('signup') }}">Don't have a Meto account? Create an Account</a>
+                    <a href="https://meto-intl.typeform.com/signup">
+                        <x-button-secondary type="button" class="ml-3">
+                            Register as New Counselor
+                        </x-button-secondary>
+                    </a>
                 </div>
             </form>
         </div>

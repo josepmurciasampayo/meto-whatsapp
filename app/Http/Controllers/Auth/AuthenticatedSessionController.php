@@ -30,7 +30,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        dd($request);
         $request->authenticate();
 
         event(new LoginEvent(Auth()->user(), LoginEventType::LOGIN));
