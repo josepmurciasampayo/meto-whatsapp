@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 
     <title>Meto</title>
 
@@ -17,13 +18,14 @@
     <script src="/js/jquery-3.6.1.slim.min.js"></script>
     <script src="/js/lodash.core.min.js"></script>
     <script src="/js/instantpage-5.1.1.js" type="module"></script>
+    <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
 
     <style>
         body {
             font-size: 115%;
             line-height: 1.4;
             font-family: 'Proza Libre', sans-serif;
-            background-color: rgb(249, 242, 240);
+            background-color: white;
         }
     </style>
 
@@ -43,8 +45,7 @@
                     <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
                     <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
                 <?php } ?>
-            </div>
-        </div>
+                <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs">Create an Account</x-button-nav>        </div>
     </header>
 
     <main>

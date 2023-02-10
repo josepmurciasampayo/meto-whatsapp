@@ -1,10 +1,23 @@
 <x-app-layout>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <h3>Sign Up to Get Started</h3>
-            <a href="{{ route('signup.student') }}"><img src="/img/signup-student.svg"></a>
-            <a href="{{ route('signup.counselor') }}"><img src="/img/signup-counselor.jpeg"></a>
-            <a href="{{ route('signup.uni') }}"><img src="/img/signup-uni.svg"></a>
+        <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <h1 class="text-xl sm:text-2xl lg:text-5xl font-bold text-center">Sign Up to Get Started</h1>
+            <div class="flex flex-col sm:flex-row sm:-mx-2 mt-6">
+                <x-button-nav href="{{ route('signup.student') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
+                  <i class="fas fa-user-graduate"></i> I'm a student
+                </x-button-nav>
+                <x-button-nav href="{{ route('signup.counselor') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
+                  <i class="fas fa-chalkboard-teacher"></i> I'm a university advisor
+                </x-button-nav>
+                <x-button-nav href="{{ route('signup.uni') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
+                  <i class="fas fa-university"></i> I work for a University
+                </x-button-nav>
+            </div>
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+

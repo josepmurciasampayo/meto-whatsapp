@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -23,7 +24,7 @@
 
                 <div class="block mt-4">
                     <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-green-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
                         <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                     </label>
                 </div>
@@ -40,10 +41,14 @@
                     </x-button>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    <a href="{{ route('signup') }}">Don't have a Meto account? Create an Account</a>
+                <div class="flex align-items-center justify-center mt-6 text-sm">
+                    <p>Don't have a Meto account?</p>
+                    <span class="mx-2"></span>
+                    <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs">Create an Account</x-button-nav>
                 </div>
             </form>
         </div>
     </div>
 </x-app-layout>
+
+
