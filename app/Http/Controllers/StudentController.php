@@ -42,14 +42,6 @@ class StudentController extends Controller
         ]);
     }
 
-    public function prep(QuestionService $questionService) :View
-    {
-        return view('student.form', [
-            'questions' => $questionService->get(),
-            'page' => Page::DEMO(),
-        ]);
-    }
-
     public function demographic(QuestionService $questionService) :View
     {
         return view('student.form', [
