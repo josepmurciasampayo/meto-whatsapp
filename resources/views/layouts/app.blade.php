@@ -40,13 +40,17 @@
             </div>
 
             <div>
-                <?php if (Auth()->user()) { ?>
-                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>
-                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
-                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
-                <?php } ?>
-                <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs">Create an Account</x-button-nav>        </div>
-    </header>
+            
+                    <?php if (Auth()->user()) { ?>
+                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>
+                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
+                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
+                    <?php } else { ?> 
+                        <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs">Create an Account</x-button-nav>
+                    <?php } ?>
+                
+                
+                </header>
 
     <main>
         <div class="p-3">
