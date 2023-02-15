@@ -29,18 +29,19 @@
                             {{ __('Forgot your password?') }}
                         </a>
                     @endif
-                    <x-button class="ml-3">
+                    <x-button class="ml-3"><i class="fa fa-sign-in" aria-hidden="true"></i>
                         {{ __('Log in') }}
                     </x-button>
                 </div>
                 <div class="flex align-items-center justify-center mt-6 text-sm">
                     <p>Don't have a Meto account?</p>
                     <span class="mx-2"></span>
-                    <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs">Create an Account</x-button-nav>
+                    <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50"><i class="fas fa-user-plus"></i> Create an Account</x-button-nav>
+
                 </div>
             </form>
         </div>
-        <div class="hidden sm:block sm:w-1/2" style="width: 440px; height: auto; margin-left: 3rem;">
+        <div class="hidden sm:block sm:w-1/2" style="width: 440px; height: auto; margin-left: 5rem;">
             <img src="/img/Meto-background.webp" alt="">
         </div>
     </div>
