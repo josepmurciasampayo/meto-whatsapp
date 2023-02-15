@@ -1,7 +1,8 @@
 @props(['label', 'name', 'disabled' => false])
-<label for="{{ $name }}" class='block font-medium text-sm text-gray-700'>
-    <?php echo $label ?? $slot ?>
-</label>
+<label for="{{ $name }}" class="block font-bold text-l text-gray-700 mt-2">{{ $label ?? $slot }}</label>
 <input name="{{ $name }}" id="{{ $name }}" {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
-   'class' => 'block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+   'class' => 'block h-10 w-full mb-5 rounded-md shadow-sm border border-gray-400 focus:border-blue-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 bg-gray-100'
    ]) !!}>
+
+
+
