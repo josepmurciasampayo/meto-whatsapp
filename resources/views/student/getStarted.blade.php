@@ -24,9 +24,7 @@
                 <x-input name="password" label="Confirm Password"></x-input>
 
                 <div class="text-center my-4">
-                    <div class="flex justify-center items-center">
-                      <x-button type="submit">Next <i class="fa fa-chevron-right"></i></x-button>
-                    </div>
+                    <x-button-icon type="submit" icon="fa fa-chevron-right" text="Next" />
                   </div>
                   
             </form>
