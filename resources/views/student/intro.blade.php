@@ -1,4 +1,10 @@
 <x-app-layout>
+
+    <x-sidebar-menu :links="[    ['label' => 'Dashboard', 'icon' => 'fa fa-tachometer-alt', 'href' => route('login')],
+        ['label' => 'Users', 'icon' => 'fa fa-users', 'href' => route('login')],
+        ['label' => 'Settings', 'icon' => 'fa fa-cog', 'href' => route('login')],
+    ]" />
+    
     <h2>Welcome</h2>
     <h4>Welcome to Meto, the online ‘meeting place’ where you can connect efficiently with good-fit education opportunities.</h4>
     <p>
