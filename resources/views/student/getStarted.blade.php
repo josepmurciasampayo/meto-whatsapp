@@ -16,12 +16,12 @@
                 <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                 @csrf
                 <x-input name="first" label="First/Given Name"></x-input>
-                <x-input name="last" label="Last/Family Name"></x-input>
                 <x-input name="middle" label="Middle Name"></x-input>
-                <x-input name="country" label="Country"></x-input>
-                <x-input name="gender" label="Gender"></x-input>
+                <x-input name="last" label="Last/Family Name"></x-input>
                 <x-input name="email" label="Email Address"></x-input>
+                <x-input name="email" label="Confirm Email"></x-input>
                 <x-input name="password" label="Password"></x-input>
+                <x-input name="password" label="Confirm Password"></x-input>
 
                 <div class="text-center my-4">
                     <div class="flex justify-center items-center">

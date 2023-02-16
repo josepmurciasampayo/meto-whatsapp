@@ -7,4 +7,12 @@
     <a href="{{ route('student.profile') }}">
         <x-button>Let's Get Started!</x-button>
     </a>
+
+
+    <x-icon-link href="#" icon="fa fa-check" text="Task completed" :progress="75" />
+
+    <x-icon-link href="#" icon="fa fa-check" text="Task completed Task completed Task completed" :progress="75" />
+
+
+
 </x-app-layout>
