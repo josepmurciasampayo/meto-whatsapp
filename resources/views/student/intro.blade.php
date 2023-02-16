@@ -13,6 +13,8 @@
 
     <x-icon-link href="#" icon="fa fa-check" text="Task completed Task completed Task completed" :progress="75" />
 
+    <x-progress-bar  progress="50"/>
+
 
 
 </x-app-layout>
