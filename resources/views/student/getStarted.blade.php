@@ -1,6 +1,16 @@
 <x-app-layout>
+    <x-popup-notification 
+    title="Welcome back!" 
+    text="Please remember to update your EFC and grades to ensure you can get the best out of Meto." 
+    btn_text='Close' 
+    btn_class='popup-close'
+    icon="fa fa-times" />
 
 
+    <x-sidebar-menu :links="[    ['label' => 'Dashboard', 'icon' => 'fa fa-tachometer-alt', 'href' => route('login')],
+        ['label' => 'Users', 'icon' => 'fa fa-users', 'href' => route('login')],
+        ['label' => 'Settings', 'icon' => 'fa fa-cog', 'href' => route('login')],
+    ]" />
 
 
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
@@ -29,7 +39,7 @@
                   
             </form>
 
-            <div class="flex align-items-center justify-center mt-20 text-sm">
+            <div class="flex align-items-center justify-center mt-20 text-xs">
                 <p>Already have a Meto account?</p>
                 <span class="mx-2"></span>
                 <x-button-nav href="{{route('login') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-10"><i class="fa fa-sign-in"></i> Log In</x-button-nav>

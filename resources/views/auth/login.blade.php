@@ -1,4 +1,6 @@
 <x-app-layout>
+
+    <!-- TODO: To much space between the header - main - footer on mobile -->
     
     <div class="min-h-screen flex sm:flex-row sm:justify-center items-center pt-6 sm:pt-0">
         <div class="w-full sm:w-1/2 sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

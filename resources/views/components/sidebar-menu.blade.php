@@ -46,6 +46,12 @@
     color: rgb(5,23,21);
     font-size: 20px;
     cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-toggle.clicked i {
+  transform: scale(1.3);;
+  color: rgb(5,23,21);
 }
 
 .sidebar-toggle i {
@@ -68,13 +74,39 @@
 .nav-link i {
     margin-right: 10px;
 }
+
 </style>
 
 <script>
-const sidebar = document.querySelector('.sidebar');
-const toggleButton = document.querySelector('.sidebar-toggle');
-
-toggleButton.addEventListener('click', () => {
-    sidebar.classList.toggle('show');
-});
-</script>
+    const sidebar = document.querySelector('.sidebar');
+    const toggleButton = document.querySelector('.sidebar-toggle');
+  
+    toggleButton.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+  
+    window.addEventListener('scroll', () => {
+      if (sidebar.classList.contains('show')) {
+        sidebar.classList.toggle('show');
+      }
+    });
+  
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+  
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        sidebarToggle.style.display = 'none';
+      } else {
+        sidebarToggle.style.display = 'block';
+      }
+    });
+  
+    sidebarToggle.addEventListener('click', () => {
+      sidebarToggle.classList.add('clicked');
+      setTimeout(() => {
+        sidebarToggle.classList.remove('clicked');
+      }, 200); // Change 300 to match the transition duration (in milliseconds)
+    });
+  </script>
+  
+    
