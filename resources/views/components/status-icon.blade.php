@@ -1,14 +1,63 @@
 @props(['href', 'icon', 'text', 'progress'])
 
-<a href="{{ $href }}" class="inline-flex flex-col items-center w-48 h-48 bg-green-200 border-3x border-dotted border-gray-400 rounded-xl p-2 hover:bg-green-300 transition-colors">
-    <span class="text-4xl text-green-900 mb-2">
-        <i class="{{ $icon }}"></i>
-    </span>
-    <span class="text-base font-medium text-green-900 hover:text-green-600 mb-2">{{ $text }}</span>
-    <div class="progress w-full h-6 text-xxs">
-        <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100">{{ $progress }}%</div>
+<a href="{{ $href }}" class="button">
+    <span class="icon"><i class="{{ $icon }}"></i></span>
+    <div class="text">{{ $text }}</div>
+    <div class="progress">
+      <div class="progress-bar" style="width: {{ $progress }}%">{{ $progress }}%</div>
     </div>
-</a>
+  </a>
 
 
+  <style>
+  
+  .button {
+    display: inline-block;
+    width: 220px;
+    height: 160px;
+    margin: 10px;
+    background-color: rgb(216, 228, 227);
+    border: 1px dotted rgb(22, 66, 22);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: rgb(192,192,192);
+    color: #fff;
+  }
+  
+  .button .icon {
+    font-size: 3rem;
+    color: rgb(22, 66, 22);
+  }
+  
+  .button .text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(22, 66, 22);
+    margin-bottom: 1rem;
+  }
+  
+  .progress {
+    width: 100%;
+    height: 1rem;
+    background-color: #dee2e6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgb(22, 66, 22);
+    transition: width 0.3s ease;
+  }
 
+
+  </style>
+  
