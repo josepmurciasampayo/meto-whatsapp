@@ -1,13 +1,5 @@
 <x-app-layout>
 
-
-
-    <x-sidebar-menu :links="[    ['label' => 'Dashboard', 'icon' => 'fa fa-tachometer-alt', 'href' => route('login')],
-        ['label' => 'Users', 'icon' => 'fa fa-users', 'href' => route('login')],
-        ['label' => 'Settings', 'icon' => 'fa fa-cog', 'href' => route('login')],
-    ]" />
-
-
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
                <x-image-with-text
                                   image-src="/img/Meto-background.webp"

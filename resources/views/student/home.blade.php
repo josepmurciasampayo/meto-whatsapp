@@ -9,15 +9,21 @@
 
 <div class="min-h-screen"><div class="flex justify-between align-items-center">
     <div class="ml-auto w-50">
-      <x-progress-bar progress="16"/>
+      <x-progress-bar progress="{{ rand(1, 100) }}"/>
     </div>
 
     <div class="flex">
-      <x-sidebar-menu :links="[['label' => 'Dashboard', 'icon' => 'fa fa-tachometer-alt', 'href' => route('login')],
-        ['label' => 'Users', 'icon' => 'fa fa-users', 'href' => route('login')],
-        ['label' => 'Settings', 'icon' => 'fa fa-cog', 'href' => route('login')],
-      ]"/>
-
+        <x-sidebar-menu :links="[  ['label' => 'My Profile', 'icon' => 'fa fa-user', 'href' => '#'],
+            ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => '#'],
+            ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => '#'],
+            ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => '#'],
+            ['label' => 'Financial', 'icon' => 'fa fa-money-bill', 'href' => '#'],
+            ['label' => 'Extracurricular', 'icon' => 'fa fa-running', 'href' => '#'],
+            ['label' => 'University Plan', 'icon' => 'fa fa-university', 'href' => '#'],
+            ['label' => 'Testing', 'icon' => 'fas fa-clipboard-check', 'href' => '#'],
+            ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => '#'],
+          ]"/>
+          
       <x-icon-link href="{{ route('login') }}" icon="fa fa-user-plus" text="Invite Friends"/>
     </div>
   </div>

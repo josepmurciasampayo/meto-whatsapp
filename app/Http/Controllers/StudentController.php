@@ -14,27 +14,32 @@ use Illuminate\View\View;
 
 class StudentController extends Controller
 {
-    public function getStarted() :View
+    public function getStarted(): View
     {
         return view('student.getStarted');
     }
 
-    public function transfer() :View
+    public function transfer(): View
     {
         return view('student.transfer');
     }
 
-    public function home() :View
+    public function home(): View
     {
         return view('student.home');
     }
 
-    public function intro() :View
+    public function edit(): View
+    {
+        return view('student.edit-info');
+    }
+
+    public function intro(): View
     {
         return view('student.intro');
     }
 
-    public function profile() :View
+    public function profile(): View
     {
         return view('student.profile', [
             'user' => new User(),
@@ -42,7 +47,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function demographic(QuestionService $questionService) :View
+    public function demographic(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::DEMOGRAPHIC),
@@ -50,7 +55,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function highschool(QuestionService $questionService) :View
+    public function highschool(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::HIGHSCHOOL),
@@ -58,7 +63,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function academics(QuestionService $questionService) :View
+    public function academics(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::ACADEMIC),
@@ -66,7 +71,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function financial(QuestionService $questionService) :View
+    public function financial(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::FINANCIAL),
@@ -74,7 +79,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function extracurricular(QuestionService $questionService) :View
+    public function extracurricular(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::EXTRACURRICULAR),
@@ -82,7 +87,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function university(QuestionService $questionService) :View
+    public function university(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::UNIVERSITY),
@@ -90,7 +95,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function testing(QuestionService $questionService) :View
+    public function testing(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::TESTING),
@@ -98,7 +103,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function general(QuestionService $questionService) :View
+    public function general(QuestionService $questionService): View
     {
         return view('student.form', [
             'questions' => $questionService->get(QuestionType::GENERAL),
@@ -106,7 +111,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function handle(Request $request, AnswerService $answerService) :RedirectResponse
+    public function handle(Request $request, AnswerService $answerService): RedirectResponse
     {
         $answerService->store($request);
         return redirect(FlowController::next($request));

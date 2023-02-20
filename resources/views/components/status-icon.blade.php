@@ -13,8 +13,8 @@
   
   .button {
     display: inline-block;
-    width: 220px;
-    height: 160px;
+    width: 180px;
+    height: 150px;
     margin: 10px;
     background-color: rgb(216, 228, 227);
     border: 1px dotted rgb(22, 66, 22);
@@ -44,7 +44,7 @@
   .progress {
     width: 100%;
     height: 1rem;
-    background-color: #dee2e6;
+    background-color: #808b89;
     border-radius: 0.5rem;
     overflow: hidden;
   }
