@@ -59,5 +59,36 @@
   }
 
 
+
+  @media (max-width: 600px) {
+    .button {
+      width: 120px;
+      height: 100px;
+    }
+
+
+     .button .icon {
+    font-size: 1rem;
+
+  }
+  
+  .button .text {
+    font-size: .75rem;
+
+  }
+  
+  .progress {
+    width: 100%;
+    height: 1rem;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    font-size: 0.65rem;
+
+  }
+  }
+
+
   </style>
   
