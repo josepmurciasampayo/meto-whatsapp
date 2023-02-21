@@ -22,12 +22,19 @@
     position: fixed;
     top: 0;
     left: -250px;
-    height: 60vh;
+    height: 58vh;
     width: 250px;
     background-color: rgb(5,23,21);
     transition: all 0.3s ease-in-out;
     margin-top: 5.5rem;
 }
+
+@media (max-width: 600px) {
+.sidebar {
+   
+    height: 70vh;
+    
+}}
 
 
 .sidebar.show {
