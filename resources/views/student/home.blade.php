@@ -1,11 +1,5 @@
 <x-app-layout>
-  <x-popup-notification
-      title="Welcome back!"
-      text="Please remember to update your EFC and grades to ensure you can get the best out of Meto."
-      btn_text='Close'
-      btn_class='popup-close'
-      icon="fa fa-times"
-  />
+ 
 
   <div class="min-h-screen">
       <div class="flex justify-between align-items-center">
@@ -27,7 +21,9 @@
                   ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => '#'],
               ]"/>
 
-<x-invite-friend-button/>
+<x-invite-friend-popup/>
+
+
           </div>
       </div>
 

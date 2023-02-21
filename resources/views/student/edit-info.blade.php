@@ -18,7 +18,7 @@
     ]"/>
     
 
-    <x-icon-link href="{{ route('login') }}" icon="fa fa-user-plus" text="Invite Friends"/>
+    <x-invite-friend-popup/>
   </div>
 </div>
 
