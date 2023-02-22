@@ -57,7 +57,7 @@
         const popupClose = document.querySelector('.popup-close');
 
         const now = new Date();
-        const expirationTime = now.getTime() + 1 * 24 * 60 * 60 * 1000; // 1 days from now
+        const expirationTime = now.getTime() + 60 * 1000; // 10 sec from now
         const lastVisit = getCookie('lastVisit');
         if (!lastVisit || now.getTime() > parseInt(lastVisit)) {
             setCookie('lastVisit', expirationTime);

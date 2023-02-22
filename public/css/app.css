@@ -306,6 +306,11 @@ Removes the default spacing and border for appropriate elements.
   font-weight: bold;
 }
 
+.display-8 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 
 .display-8 {
   font-size: 1rem;
