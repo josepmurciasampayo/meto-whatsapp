@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionStatus;
 use App\Helpers;
 use App\Models\Answer;
 use App\Models\Chat\MessageState;
@@ -9,9 +10,11 @@ use App\Models\HighSchool;
 use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
+use App\Models\Response;
 use App\Models\StudentUniversity;
 use App\Models\Question;
 use App\Models\Student;
+use App\Services\QuestionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -120,6 +123,20 @@ class AdminController extends Controller
         return view('admin.questions', [
             'data' => $data,
         ]);
+    }
+
+    public function question(int $id) :View
+    {
+        return view('admin.question', [
+            'question' => Question::find($id),
+            'responses' => Response::where('question_id', $id)->get(),
+        ]);
+    }
+
+    public function questionStore(Request $request, QuestionService $questionService) :RedirectResponse
+    {
+        $question = $questionService->store($request);
+        return redirect(route('question', ['id' => $question->id]));
     }
 
     public function answers(int $question_id): View

@@ -27,6 +27,7 @@ enum QuestionType :int
             self::UNIVERSITY => "University",
             self::GENERAL => "General",
             self::TESTING => "Testing",
+            self::HIGHSCHOOL => "High School",
         };
     }
 }
