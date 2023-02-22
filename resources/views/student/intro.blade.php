@@ -1,16 +1,6 @@
 
 <x-app-layout>
 
-  <x-popup-redirect
-    title="Update Your Academic & Financial Information"
-    text="Please update your information to ensure that your records are up-to-date and you can get the best result from Meto."
-    btn_text="Update Now"
-    btn_href="/academics"
-    btn_icon="fa fa-arrow-right"
-/>
-
-
-
 
   
     <div class="min-h-screen">
