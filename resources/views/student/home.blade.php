@@ -1,5 +1,12 @@
 <x-app-layout>
  
+    <x-popup-redirect
+    title="Update Your Academic & Financial Information"
+    text="Please update your information to ensure that your records are up-to-date and you can get the best result from Meto."
+    btn_text="Update Now"
+    btn_href="/academics"
+    btn_icon="fas fa-cloud-upload-alt"
+/>
 
   <div class="min-h-screen">
       <div class="flex justify-between align-items-center">
@@ -10,15 +17,15 @@
 
           <div class="flex">
               <x-sidebar-menu :links="[
-                  ['label' => 'My Profile', 'icon' => 'fa fa-user', 'href' => '#'],
-                  ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => '#'],
-                  ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => '#'],
-                  ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => '#'],
-                  ['label' => 'Financial', 'icon' => 'fa fa-money-bill', 'href' => '#'],
-                  ['label' => 'Extracurricular', 'icon' => 'fa fa-running', 'href' => '#'],
-                  ['label' => 'University Plan', 'icon' => 'fa fa-university', 'href' => '#'],
-                  ['label' => 'Testing', 'icon' => 'fas fa-clipboard-check', 'href' => '#'],
-                  ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => '#'],
+                  ['label' => 'My Profile', 'icon' => 'fa fa-user', 'href' => route('student.profile')],
+                  ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => route('student.demographic')],
+                  ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => route('student.demographic')],
+                  ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => route('student.academics')],
+                  ['label' => 'Financial', 'icon' => 'fa fa-money-bill', 'href' => route('student.financial')],
+                  ['label' => 'Extracurricular', 'icon' => 'fa fa-running', 'href' => route('student.extracurricular')],
+                  ['label' => 'University Plan', 'icon' => 'fa fa-university', 'href' => route('student.university')],
+                  ['label' => 'Testing', 'icon' => 'fas fa-clipboard-check', 'href' => route('student.testing')],
+                  ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => route('student.general')],
               ]"/>
 
 <x-invite-friend-popup/>
