@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    public function hasResponses() :bool
+    {
+        return in_array($this->format, [\App\Enums\QuestionFormat::CHECKBOX(), \App\Enums\QuestionFormat::RADIO(), \App\Enums\QuestionFormat::SELECT()]);
+    }
+
     public static function findByText(string $text) :?Question
     {
         $existing = Question::where('text', $text);
@@ -24,10 +29,13 @@ class Question extends Model
         return Helpers::dbQueryArray('
             select
                 q.id,
-                text,
-                q_type.enum_desc as "type",
+                q.text,
+                q.type,
+                q.format,
+
+                q.required,
                 `order`,
-                if(isnull(u.question_id), "Y", "N") as in_use,
+                q.status,
                 q.' . Curriculum::TRANSFER() . ',
                 q.' . Curriculum::KENYAN() . ',
                 q.' . Curriculum::RWANDAN() . ',
@@ -38,8 +46,6 @@ class Question extends Model
                 q.' . Curriculum::AMERICAN() . ',
                 a.count
             from meto_questions as q
-            left outer join question_ids_in_use as u on u.question_id = q.id
-            left outer join meto_enum as q_type on enum_id = q.type and group_id = ' . EnumGroup::GENERAL_QUESTIONTYPE() . '
             left outer join (
                 select q.id, count(*) as "count"
                 from meto_questions as q

@@ -9,7 +9,11 @@
                 @csrf
 
                 @foreach ($questions as $question)
-                    <x-question :question="$question"></x-question>
+                    @if ($question->hasResponses())
+                        <x-question :question="$question" :responses="$responses[$question->id]"></x-question>
+                    @else
+                        <x-question :question="$question"></x-question>
+                    @endif
                 @endforeach
 
                 <x-button-icon type="submit" icon="fa fa-save" text="Save" />

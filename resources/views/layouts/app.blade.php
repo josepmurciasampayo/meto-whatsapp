@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
 
     <title>Meto</title>
 
@@ -31,7 +30,6 @@
 
 </head>
 
-
 <body class="font-sans antialiased">
     <header style="background-color: rgb(5,23,21); color: white; min-height: 80px; height: 80px;" class="min-h-screen">
         <div class="p-6 d-flex justify-content-between">
@@ -40,17 +38,16 @@
             </div>
 
             <div>
-            
-                    <?php if (Auth()->user()) { ?>
-                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>
-                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
-                        <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
-                    <?php } else { ?> 
-                        <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs"><i class="fas fa-user-plus"></i> Create an Account</x-button-nav>
-                    <?php } ?>
-                
-                
-                </header>
+                <?php if (Auth()->user()) { ?>
+                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('home') }}">Home</a>
+                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
+                    <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
+                <?php } else { ?>
+                    <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs"><i class="fas fa-user-plus"></i> Create an Account</x-button-nav>
+                <?php } ?>
+            </div>
+        </div>
+    </header>
 
     <main>
         <div class="p-3">
@@ -67,10 +64,8 @@
             <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
             <li><a href="{{ route('privacy-policy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
             <li><a href="{{ route('contact') }}" class="nav-link text-white mx-3">Contact Us</a></li>
-
         </ul>
     </footer>
 
 </body>
-
 </html>

@@ -10,4 +10,13 @@ enum QuestionStatus :int
 
     case ACTIVE = 1;
     case INACTIVE = 3;
+
+    public static function getText(self $value) :string
+    {
+        return match ($value) {
+            self::ACTIVE => 'Active',
+            self::INACTIVE => 'Inactive',
+            '' => 'Not set',
+        };
+    }
 }

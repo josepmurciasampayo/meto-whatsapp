@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('questions', function (Blueprint $table) {
             $table->unsignedTinyInteger('format')->comment(\App\Enums\QuestionFormat::toString());
             $table->unsignedTinyInteger('status')->default(\App\Enums\QuestionStatus::ACTIVE())->comment(\App\Enums\QuestionStatus::toString());
+            $table->unsignedTinyInteger('required')->comment(\App\Enums\General\YesNo::toString());
         });
     }
 

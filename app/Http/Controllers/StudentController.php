@@ -49,8 +49,11 @@ class StudentController extends Controller
 
     public function demographic(QuestionService $questionService): View
     {
+        $questions = $questionService->get(QuestionType::DEMOGRAPHIC);
+        $responses = $questionService->responses($questions);
         return view('student.form', [
-            'questions' => $questionService->get(QuestionType::DEMOGRAPHIC),
+            'questions' => $questions,
+            'responses' => $responses,
             'page' => Page::DEMO,
         ]);
     }
