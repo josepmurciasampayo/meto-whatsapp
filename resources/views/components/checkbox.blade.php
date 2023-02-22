@@ -2,10 +2,10 @@
 <div class="mt-4">
     <fieldset>
         <legend>{{ $label }}</legend>
-        @foreach ($options as $option)
+        @foreach ($options as $id => $option)
             <div>
-                <input type="checkbox" id="{{ $name . '[' . $option['id'] . ']' }}" name="{{ $name . '[' . $option['id'] . ']' }}">
-                <label for="{{ $name . '[' . $option['id'] . ']' }}">{{ $option['text'] }}</label>
+                <input type="checkbox" id="{{ $name . '[' . $id . ']' }}" name="{{ $name . '[' . $id . ']' }}">
+                <label for="{{ $name . '[' . $id . ']' }}">{{ $option }}</label>
             </div>
         @endforeach
     </fieldset>

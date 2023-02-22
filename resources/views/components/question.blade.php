@@ -1,4 +1,15 @@
 @props(['question', 'responses' => null])
+@php
+    // responses are sent in a different format for students than admin
+    // this converts the first to the second
+    if ($responses) {
+        $options = array();
+        foreach ($responses as $response) {
+            $options[$response['id']] = $response['text'];
+        }
+        $responses = $options;
+    }
+@endphp
 <div>
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
         <x-input name="{{ $question->id }}" label="{{ $question->text }}"></x-input>
