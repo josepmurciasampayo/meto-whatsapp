@@ -16,7 +16,9 @@
                     @endif
                 @endforeach
 
-                <x-button-icon type="submit" icon="fa fa-save" text="Save" />
+                
+
+
             </form>
         </div>
     </div>

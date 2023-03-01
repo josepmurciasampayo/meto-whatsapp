@@ -19,7 +19,7 @@
               <x-sidebar-menu :links="[
                   ['label' => 'My Profile', 'icon' => 'fa fa-user', 'href' => route('student.profile')],
                   ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => route('student.demographic')],
-                  ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => route('student.demographic')],
+                  ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => route('student.highschool')],
                   ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => route('student.academics')],
                   ['label' => 'Financial', 'icon' => 'fa fa-money-bill', 'href' => route('student.financial')],
                   ['label' => 'Extracurricular', 'icon' => 'fa fa-running', 'href' => route('student.extracurricular')],
@@ -39,7 +39,7 @@
       <div class="display-7" style="margin-top: 12px;">Welcome, Abraham!</div>
 
       <div class="flex justify-center" style="margin-top: 12px;margin-bottom: 12px;">
-          <x-status-icon-main href="#" icon="fa fa-edit" text="Edit Profile"/> 
+          <x-status-icon-main href="/edit-info" icon="fa fa-edit" text="Edit Profile"/> 
           <x-status-icon-main href="#" icon="fas fa-book" text="Resources"/> 
       </div>
 
