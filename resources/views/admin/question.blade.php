@@ -4,8 +4,12 @@
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
 
-    <h3>Editing Question</h3>
-    <a href="{{ route('questions') }}">Back to questions</a>
+    <h3 class="display-7 flex justify-center">Editing Question</h3> 
+    
+    <div class="flex justify-center mt-6 mb-6">
+        <x-button-nav href="{{ route('questions') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to questions <i class="fas fa-question-circle"></i></x-button-nav>
+    </div>
+
     <form method="POST" action="{{ route('question.store') }}">
         <input type="hidden" name="question_id" value="{{ $question->id }}">
         @csrf
