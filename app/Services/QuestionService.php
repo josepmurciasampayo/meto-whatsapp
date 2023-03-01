@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\General\YesNo;
+use App\Enums\QuestionFormat;
 use App\Enums\QuestionStatus;
 use App\Enums\Student\QuestionType;
 use App\Models\Question;
@@ -12,6 +13,15 @@ use Illuminate\Http\Request;
 
 class QuestionService
 {
+    public function create() :Question
+    {
+        $question = new Question();
+        $question->type = QuestionType::GENERAL();
+        $question->format = QuestionFormat::INPUT();
+        $question->save();
+
+        return $question;
+    }
     public function get(QuestionType $type) :array
     {
         $questions = Question::

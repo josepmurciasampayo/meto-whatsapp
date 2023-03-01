@@ -139,6 +139,12 @@ class AdminController extends Controller
         return redirect(route('question', ['id' => $question->id]));
     }
 
+    public function questionCreate(QuestionService $questionService) :RedirectResponse
+    {
+        $question = $questionService->create();
+        return redirect(route('question', ['id' => $question->id]));
+    }
+
     public function answers(int $question_id): View
     {
         $data = Answer::getByQuestionID($question_id);

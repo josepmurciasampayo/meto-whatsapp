@@ -55,6 +55,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
     Route::get('/admin/question/{id}', [AdminController::class, 'question'])->name('question');
     Route::post('/admin/question', [AdminController::class, 'questionStore'])->name('question.store');
+    Route::get('/admin/questionCreate', [AdminController::class, 'questionCreate'])->name('question.create');
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
