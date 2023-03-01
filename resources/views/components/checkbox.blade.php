@@ -1,4 +1,4 @@
-@props(['checked' => '', 'options', 'name', 'label', 'pickOne' => false])
+@props(['checked' => '', 'options', 'name', 'help' => false, 'label', 'pickOne' => false])
 <div class="mt-4">
     <fieldset>
         <legend>{{ $label }}</legend>
@@ -9,7 +9,7 @@
             </div>
         @endforeach
     </fieldset>
-    @if ($question->help)
-        <div>{{ $question->help }}</div>
+    @if ($help)
+        <div>{{ $help }}</div>
     @endif
 </div>

@@ -1,4 +1,4 @@
-@props(['options', 'name', 'saved' => '', 'label' => ''])
+@props(['options', 'name', 'help' => false, 'saved' => '', 'label' => ''])
 <fieldset>
     <legend>{{ $label }}</legend>
     @foreach ($options as $value => $option)
@@ -8,7 +8,7 @@
             <label for="{{ $name . '[' . $value . ']' }}">{{ $option }}</label>
         </div>
     @endforeach
-    @if ($question->help)
-        <div>{{ $question->help }}</div>
+    @if ($help)
+        <div>{{ $help }}</div>
     @endif
 </fieldset>

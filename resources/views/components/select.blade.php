@@ -1,4 +1,4 @@
-@props(['options', 'name', 'saved' => '', 'label' => ''])
+@props(['options', 'name', 'help' => false, 'saved' => '', 'label' => ''])
 <div class="my-4">
     <label for="{{ $name }}">{{ $label }}</label>
     <select id="{{ $name }}" name="{{ $name }}" label="{{ $label }}" value="{{ $saved }}">
@@ -7,7 +7,7 @@
         <option value="{{ $index }}" {{ $selected }}>{{ $value }}</option>
         <?php } ?>
     </select>
-    @if ($question->help)
-        <div>{{ $question->help }}</div>
+    @if ($help)
+        <div>{{ $help }}</div>
     @endif
 </div>

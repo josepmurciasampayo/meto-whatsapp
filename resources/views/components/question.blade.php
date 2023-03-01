@@ -12,18 +12,18 @@
 @endphp
 <div>
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
-        <x-input name="{{ $question->id }}" label="{{ $question->text }}"></x-input>
+        <x-input name="{{ $question->id }}" label="{{ $question->text }}" help="{{ $question->help }}"></x-input>
     @endif
     @if ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
-        <x-textarea name="{{ $question->id }}" label="{{ $question->text }}"></x-textarea>
+        <x-textarea name="{{ $question->id }}" label="{{ $question->text }}" help="{{ $question->help }}"></x-textarea>
     @endif
     @if ($question->format == \App\Enums\QuestionFormat::SELECT())
-        <x-select name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses"></x-select>
+        <x-select name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses" help="{{ $question->help }}"></x-select>
     @endif
     @if ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
-        <x-checkbox name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses"></x-checkbox>
+        <x-checkbox name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses" help="{{ $question->help }}"></x-checkbox>
     @endif
     @if ($question->format == \App\Enums\QuestionFormat::RADIO())
-        <x-radio name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses"></x-radio>
+        <x-radio name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses" help="{{ $question->help }}"></x-radio>
     @endif
 </div>
