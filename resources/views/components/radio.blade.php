@@ -8,4 +8,7 @@
             <label for="{{ $name . '[' . $value . ']' }}">{{ $option }}</label>
         </div>
     @endforeach
+    @if ($question->help)
+        <div>{{ $question->help }}</div>
+    @endif
 </fieldset>

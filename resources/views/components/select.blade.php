@@ -7,4 +7,7 @@
         <option value="{{ $index }}" {{ $selected }}>{{ $value }}</option>
         <?php } ?>
     </select>
+    @if ($question->help)
+        <div>{{ $question->help }}</div>
+    @endif
 </div>

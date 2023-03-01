@@ -9,4 +9,7 @@
             </div>
         @endforeach
     </fieldset>
+    @if ($question->help)
+        <div>{{ $question->help }}</div>
+    @endif
 </div>
