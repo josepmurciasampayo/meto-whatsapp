@@ -1,7 +1,7 @@
 <x-app-layout>
     <?php $format = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $yesNo = \App\Enums\General\YesNo::descriptions() ?>
-
+    <?php $type = \App\Enums\Student\QuestionType::descriptions() ?>
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr class="text-center">
@@ -46,7 +46,7 @@
         <tr class="text-center">
             <input type="hidden" name="id" id="id" value="{{ $row['id'] }}">
             <td><a href="{{ route('question', ['id' => $row['id']]) }}"><?php echo $row['text'] ?></a></td>
-            <td><?php echo $row['type'] ?></td>
+            <td><?php echo $type[$row['type']] ?></td>
             <td><?php echo $format[$row['format']] ?></td>
             <td><?php echo $yesNo[$row['status']] ?></td>
             <td><?php echo $yesNo[$row['required']] ?></td>

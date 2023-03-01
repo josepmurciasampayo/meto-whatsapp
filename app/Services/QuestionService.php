@@ -38,6 +38,8 @@ class QuestionService
         $question->text = $request->input('text');
         $question->format = $request->input('format');
         $question->type = $request->input('category');
+        $question->help = $request->input('help');
+        $question->screen = $request->input('screen');
         $question->order = $request->input('order');
         $question->required = match($request->input('required')) {
             'Yes' => YesNo::YES(),

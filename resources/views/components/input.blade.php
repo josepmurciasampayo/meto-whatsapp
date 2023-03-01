@@ -3,7 +3,3 @@
 <input name="{{ $name }}" id="{{ $name }}" {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
    'class' => 'block h-10 w-full mb-6 rounded-md shadow-sm border border-gray-400 focus:border-blue-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 bg-green-100 text-green-800'
    ]) !!}>
-
-
-
-

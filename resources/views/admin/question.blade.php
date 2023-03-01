@@ -14,7 +14,9 @@
         <x-select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-select>
         <x-radio label="Required" :options="$yes" name="required" saved="{{ $question->required }}"></x-radio>
         <x-radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-radio>
+        <x-input label="Help Text" name="help" value="{{ $question->help }}"></x-input>
         <x-input label="Order" name="order" value="{{ $question->order }}"></x-input>
+        <x-input label="Screen Number" name="screen" value="{{ $question->screen }}"></x-input>
 
         @if ($question->hasResponses())
             <input type="hidden" name="toDelete" id="toDelete" value="0">
