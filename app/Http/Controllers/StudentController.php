@@ -47,76 +47,73 @@ class StudentController extends Controller
         ]);
     }
 
-    public function demographic(QuestionService $questionService): View
+    public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService) :View
     {
-        $questions = $questionService->get(QuestionType::DEMOGRAPHIC);
+        $questions = $questionService->get($questionType);
         $responses = $questionService->responses($questions);
+        $answers = $questionService->answers($questions);
         return view('student.form', [
             'questions' => $questions,
             'responses' => $responses,
-            'page' => Page::DEMO,
+            'answers' => $answers,
+            'page' => $page,
         ]);
+    }
+
+    public function demographic(QuestionService $questionService): View
+    {
+        return $this->renderView(QuestionType::DEMOGRAPHIC, Page::DEMO, $questionService);
     }
 
     public function highschool(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::HIGHSCHOOL),
-            'page' => Page::HIGHSCHOOL,
-        ]);
+        return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
     }
 
     public function academics(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::ACADEMIC),
-            'page' => Page::ACADEMIC,
-        ]);
+        return $this->renderView(QuestionType::ACADEMIC, Page::ACADEMIC, $questionService);
     }
 
     public function financial(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::FINANCIAL),
-            'page' => Page::FINANCIAL,
-        ]);
+        return $this->renderView(QuestionType::FINANCIAL, Page::FINANCIAL, $questionService);
     }
 
     public function extracurricular(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::EXTRACURRICULAR),
-            'page' => Page::EXTRA,
-        ]);
+        return $this->renderView(QuestionType::EXTRACURRICULAR, Page::EXTRA, $questionService);
     }
 
     public function university(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::UNIVERSITY),
-            'page' => Page::UNIPLAN,
-        ]);
+        return $this->renderView(QuestionType::UNIVERSITY, Page::UNIPLAN, $questionService);
     }
 
     public function testing(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::TESTING),
-            'page' => Page::TESTING,
-        ]);
+        return $this->renderView(QuestionType::TESTING, Page::TESTING, $questionService);
     }
 
     public function general(QuestionService $questionService): View
     {
-        return view('student.form', [
-            'questions' => $questionService->get(QuestionType::GENERAL),
-            'page' => Page::GENERAL,
-        ]);
+        return $this->renderView(QuestionType::GENERAL, Page::GENERAL, $questionService);
     }
 
     public function handle(Request $request, AnswerService $answerService): RedirectResponse
     {
-        $answerService->store($request);
+        $questionIDs = array();
+        foreach ($request->all() as $index => $input) {
+            if (is_numeric($index)) {
+                $questionIDs[] = $index;
+            }
+        }
+        $questions = Question::whereIn('id', $questionIDs)->get();
+        foreach ($questions as $question) {
+            if ($request->input($question->id)) {
+                $answerService->store($question, $request->input($question->id));
+            }
+        }
         return redirect(FlowController::next($request));
     }
 }

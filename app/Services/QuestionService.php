@@ -6,6 +6,7 @@ use App\Enums\General\YesNo;
 use App\Enums\QuestionFormat;
 use App\Enums\QuestionStatus;
 use App\Enums\Student\QuestionType;
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Response;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class QuestionService
         $questions = Question::
             where('type', $type())
             ->where('status', QuestionStatus::ACTIVE())
+            ->whereNot('format', 0)
             ->orderBy('order', 'asc')
             ->get();
 
@@ -93,5 +95,19 @@ class QuestionService
             $responseArray[$response->question_id][] = $response;
         }
         return $responseArray;
+    }
+
+    public function answers(array $questions) :array
+    {
+        $question_ids = array();
+        foreach ($questions as $question) {
+            $question_ids[] = $question->id;
+        }
+        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', 7777)->get();
+        $answerArray = array();
+        foreach ($answers as $answer) {
+            $answerArray[$answer->question_id] = $answer->text;
+        }
+        return $answerArray;
     }
 }

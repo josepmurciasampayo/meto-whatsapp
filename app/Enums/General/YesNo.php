@@ -10,12 +10,14 @@ enum YesNo :int
 
     case YES = 1;
     case NO = 2;
+    case NOTSET = 0;
 
     public static function getText(self $value) :string
     {
         return match($value) {
             self::YES => 'Yes',
             self::NO => 'No',
+            self::NOTSET => 'Not Set',
         };
     }
 }
