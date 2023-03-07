@@ -9,6 +9,6 @@
         </div>
     @endforeach
     @if ($help)
-        <div>{{ $help }}</div>
+        <div class="help-text">{{ $help }}</div>
     @endif
 </fieldset>

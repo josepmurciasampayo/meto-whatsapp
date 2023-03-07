@@ -4,8 +4,8 @@
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
 
-    <h3 class="display-7 flex justify-center">Editing Question</h3> 
-    
+    <h3 class="display-7 flex justify-center">Editing Question</h3>
+
     <div class="flex justify-center mt-6 mb-6">
         <x-button-nav href="{{ route('questions') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to questions <i class="fas fa-question-circle"></i></x-button-nav>
     </div>
@@ -13,13 +13,13 @@
     <form method="POST" action="{{ route('question.store') }}">
         <input type="hidden" name="question_id" value="{{ $question->id }}">
         @csrf
-        <x-input label="Text" name="text" value="{{ $question->text }}"></x-input>
+        <x-input saved="{{ $question->text }}" label="Text" name="text"></x-input>
         <x-select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-select>
         <x-select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-select>
-        <x-radio label="Required" :options="$yes" name="required" saved="{{ $question->required }}"></x-radio>
-        <x-radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-radio>
-        <x-input label="Help Text" name="help" value="{{ $question->help }}"></x-input>
-        <x-input label="Order" name="order" value="{{ $question->order }}"></x-input>
+        <x-radio label="Required" :options="$yes" name="required" saved="{{ $yes[$question->required] }}"></x-radio>
+        <x-radio label="Active" :options="$active" name="active" saved="{{ $active[$question->status] }}"></x-radio>
+        <x-input label="Help Text" name="help" saved="{{ $question->help }}"></x-input>
+        <x-input label="Order" name="order" saved="{{ $question->order }}"></x-input>
         <x-input label="Screen Number" name="screen" value="{{ $question->screen }}"></x-input>
 
         @if ($question->hasResponses())
@@ -42,7 +42,7 @@
 
                 </div>
             @endforeach
-            <div class="my-5">Add <x-input style="max-width: 60px" name="responses"></x-input> responses</div>
+            <div class="my-5">Add <x-input style="max-width: 60px" label="" name="responses"></x-input> responses</div>
         @endif
 
         <x-button>Update</x-button>
