@@ -18,7 +18,8 @@
                     </div>
                 @endforeach
 
-                <x-button>Submit</x-button>
+            <x-button-navigation/>
+            
             </form>
         </div>
     </div>

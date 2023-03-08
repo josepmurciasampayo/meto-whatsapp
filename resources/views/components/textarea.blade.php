@@ -1,8 +1,9 @@
 @props(['label', 'name', 'help' => false, 'saved' => '', 'disabled' => false])
-<label for="{{ $name }}">{{ $label }}</label>
-<textarea id="{{ $name }}" name="{{ $name }}" row="4" {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
-   'class' => 'block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-   ]) !!}>{{ $saved }}</textarea>
-@if ($help)
-    <div>{{ $help }}</div>
-@endif
+
+<div class="my-4 p-4 bg-gray-100 rounded-md">
+    <legend class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</legend>
+    @if ($help)
+    <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
+    @endif
+    <textarea id="{{ $name }}" name="{{ $name }}" rows="4" class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focusring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-transparent" {{ $disabled ? 'disabled' : '' }}>{{ $saved }}</textarea>
+</div>
