@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <!-- TODO: To much space between the header - main - footer on mobile -->
-    
+
     <div class="min-h-screen flex sm:flex-row sm:justify-center items-center pt-6 sm:pt-0">
         <div class="w-full sm:w-1/2 sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -9,14 +9,13 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div>
-                    <x-label for="email" :value="__('Email')" />
-                    <x-input id="email" type="email" name="email" :value="old('email')" required autofocus />
+                    <x-input id="email" type="email" name="email" :value="old('email')" label="Email" required autofocus />
                 </div>
                 <div class="mt-4">
-                    <x-label for="password" :value="__('Password')" />
                     <x-input id="password" class="block mt-1 w-full"
                              type="password"
                              name="password"
+                             label="Password"
                              required autocomplete="current-password" />
                 </div>
                 <div class="block mt-4">

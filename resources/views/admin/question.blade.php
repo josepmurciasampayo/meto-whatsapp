@@ -34,7 +34,7 @@
             @foreach ($responses as $response)
                 <div class="row">
                     <div class="col">
-                        <x-input name="response[{{ $response->id }}]" value="{{ $response->text }}"></x-input>
+                        <x-input label="" name="response[{{ $response->id }}]" saved="{{ $response->text }}"></x-input>
                     </div>
                     <div class="col">
                         <x-button onclick="deleteResponse({{ $response->id }})">Delete</x-button>

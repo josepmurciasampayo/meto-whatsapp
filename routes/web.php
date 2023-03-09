@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TypeaheadController;
-use App\Http\Controllers\ContactController;
+
 
 // Unauthenticated routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -29,6 +29,7 @@ Route::get('/signup', [\App\Http\Controllers\SignupController::class, 'home'])->
 Route::get('/signup-student', [\App\Http\Controllers\SignupController::class, 'student'])->name('signup.student');
 Route::get('/signup-counselor', [\App\Http\Controllers\SignupController::class, 'counselor'])->name('signup.counselor');
 Route::get('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uni'])->name('signup.uni');
+Route::post('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uniStore'])->name('signup.uni.store');
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function () {
