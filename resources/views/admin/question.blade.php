@@ -13,14 +13,14 @@
     <form method="POST" action="{{ route('question.store') }}">
         <input type="hidden" name="question_id" value="{{ $question->id }}">
         @csrf
-        <x-input saved="{{ $question->text }}" label="Text" name="text"></x-input>
+        <x-input-text saved="{{ $question->text }}" label="Text" name="text"></x-input-text>
         <x-select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-select>
         <x-select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-select>
         <x-radio label="Required" :options="$yes" name="required" saved="{{ $yes[$question->required] }}"></x-radio>
         <x-radio label="Active" :options="$active" name="active" saved="{{ $active[$question->status] }}"></x-radio>
-        <x-input label="Help Text" name="help" saved="{{ $question->help }}"></x-input>
-        <x-input label="Order" name="order" saved="{{ $question->order }}"></x-input>
-        <x-input label="Screen Number" name="screen" value="{{ $question->screen }}"></x-input>
+        <x-input-text label="Help Text" name="help" saved="{{ $question->help }}"></x-input-text>
+        <x-input-text label="Order" name="order" saved="{{ $question->order }}"></x-input-text>
+        <x-input-text label="Screen Number" name="screen" value="{{ $question->screen }}"></x-input-text>
 
         @if ($question->hasResponses())
             <input type="hidden" name="toDelete" id="toDelete" value="0">
@@ -30,21 +30,26 @@
                     document.forms[0].submit();
                 }
             </script>
-            <h4>Answers</h4>
+            <div class="display-7">Answers <i class="fas fa-check-square"></i></div>
             @foreach ($responses as $response)
                 <div class="row">
                     <div class="col">
                         <x-input label="" name="response[{{ $response->id }}]" saved="{{ $response->text }}"></x-input>
                     </div>
-                    <div class="col">
-                        <x-button onclick="deleteResponse({{ $response->id }})">Delete</x-button>
+                    <div class="col flex justify-center items-center">
+                        <x-button onclick="deleteResponse({{ $response->id }})">
+                            <span class="mr-2">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            Delete
+                        </x-button>
                     </div>
 
                 </div>
             @endforeach
-            <div class="my-5">Add <x-input style="max-width: 60px" label="" name="responses"></x-input> responses</div>
+            <div class="display-7 my-5">Add <i class="far fa-plus-square"></i> <x-input-text style="max-width: 60px" label="" name="responses"></x-input-text> Responses <i class="fas fa-comment-dots"></i></div>
         @endif
 
-        <x-button>Update</x-button>
+        <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
     </form>
 </x-app-layout>

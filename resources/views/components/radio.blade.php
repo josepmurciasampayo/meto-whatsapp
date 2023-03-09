@@ -1,14 +1,22 @@
 @props(['options', 'name', 'help' => false, 'saved' => '', 'label' => ''])
-<fieldset>
-    <legend>{{ $label }}</legend>
-    @foreach ($options as $value => $option)
-            <?php $checked = ($option == $saved) ? 'checked' : '' ?>
-        <div>
-            <input type="radio" id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $option }}" {{ $checked }}>
-            <label for="{{ $name . '[' . $value . ']' }}">{{ $option }}</label>
-        </div>
-    @endforeach
+
+<fieldset class="my-4 bg-gray-100 p-4 rounded-md">
+    <legend class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</legend>
     @if ($help)
-        <div class="help-text">{{ $help }}</div>
+        <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
+    <div class="flex flex-col gap-2">
+        @foreach ($options as $value => $option)
+            <?php $checked = ($option == $saved) ? 'checked' : '' ?>
+            <label class="inline-flex items-center">
+                <input type="radio" class="form-radio h-4 w-4 text-green-600" id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $option }}" {{ $checked }}>
+                <span class="ml-2 text-sm">{{ $option }}</span>
+            </label>
+        @endforeach
+    </div>
 </fieldset>
+
+
+
+
+

@@ -13,7 +13,7 @@
 @endphp
 <div>
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
-        <x-input saved="{{ $answer }}" name="{{ $question->id }}" label="{{ $question->text }}" help="{{ $question->help }}"></x-input>
+        <x-input-text saved="{{ $answer }}" name="{{ $question->id }}" label="{{ $question->text }}" help="{{ $question->help }}"></x-input-text>
     @endif
     @if ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
         <x-textarea saved="{{ $answer }}" name="{{ $question->id }}" label="{{ $question->text }}" help="{{ $question->help }}"></x-textarea>
