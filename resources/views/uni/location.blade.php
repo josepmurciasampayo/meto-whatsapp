@@ -1,16 +1,22 @@
 <x-app-layout>
-    <form method="POST" action="{{ route('uni.location.store') }}" class="text-center">
+    <div class="min-h-screen items-center">
+        <x-image-with-text
+        image-src="/img/Meto-background.webp"
+        alt=""
+        text=""/>
+
+        <form method="POST" action="{{ route('uni.location.store') }}" class="text-center">
         @csrf
-        <x-input label="Country" name="country"></x-input>
-        <x-input label="State/Province (leave blank if not applicable)" name="state"></x-input>
-        <x-input label="City" name="city"></x-input>
-        <div class="row">
-            <div class="col">
-                <x-button>Back</x-button>
-            </div>
-            <div class="col">
-                <x-button type="submit">Next</x-button>
-            </div>
-        </div>
+        <h3 class="display-7 mb-4 mt-6">Country</h3>
+        <x-input-text name="country"></x-input-text>
+
+        <h3 class="display-7 mb-1 mt-6">State/Province</h3>
+        <p class="text-xm">leave blank if not applicable</p>
+        <x-input-text name="state"></x-input-text>
+
+        <h3 class="display-7 mb-4 mt-6">City</h3>
+        <x-input-text name="city"></x-input-text>
+
+        <x-button-navigation/>
     </form>
 </x-app-layout>

@@ -1,14 +1,14 @@
 <x-app-layout>
+    <div class="min-h-screen items-center">
+        <x-image-with-text
+        image-src="/img/Meto-background.webp"
+        alt=""
+        text=""/>
+
     <form method="POST" action="{{ route('uni.name.store') }}" class="text-center">
         @csrf
-        <x-input label="What is the name of your institution" name="institution"></x-input>
-        <div class="row">
-            <div class="col">
-                <x-button>Back</x-button>
-            </div>
-            <div class="col">
-                <x-button type="submit">Next</x-button>
-            </div>
-        </div>
+        <h3 class="display-7 mb-4 mt-6">What is the name of your institution?</h3>
+        <x-input-text name="institution"></x-input-text>
+        <x-button-navigation/>
     </form>
 </x-app-layout>

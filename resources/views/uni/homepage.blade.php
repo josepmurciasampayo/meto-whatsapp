@@ -1,14 +1,15 @@
+
 <x-app-layout>
-    <form method="POST" action="{{ route('uni.homepage.store') }}" class="text-center">
+    <div class="min-h-screen items-center">
+        <x-image-with-text
+        image-src="/img/Meto-background.webp"
+        alt=""
+        text=""/>
+
+        <form method="POST" action="{{ route('uni.homepage.store') }}" class="text-center">
         @csrf
-        <x-input label="What is the website URL that will lead students to your institution's homepage?" name="institution"></x-input>
-        <div class="row">
-            <div class="col">
-                <x-button>Back</x-button>
-            </div>
-            <div class="col">
-                <x-button type="submit">Next</x-button>
-            </div>
-        </div>
+        <h3 class="display-7 mb-4 mt-6">What is the website URL that will lead students to your institution's homepage?</h3>
+        <x-input-text name="institution"></x-input-text>
+        <x-button-navigation/>
     </form>
 </x-app-layout>
