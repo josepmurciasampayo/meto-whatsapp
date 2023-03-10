@@ -1,7 +1,7 @@
 @props(['label' => '', 'name', 'help' => false, 'disabled' => false, 'saved' => ""])
 
 <div class="my-4 bg-gray-100 rounded-md p-4">
-    <legend class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</legend>
+    <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</label>
     @if ($help)
     <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
