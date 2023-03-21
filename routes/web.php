@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, CounselorController, HomeController};
+use App\Http\Controllers\{AdminController, Auth\RegisteredUserController, CounselorController, HomeController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -98,8 +98,8 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
 */
+    Route::post('register', [RegisteredUserController::class, 'store'])->name('user.register');
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\QuestionFormat;
 use App\Models\Answer;
 use App\Models\Question;
+use Illuminate\Support\Facades\Auth;
 
 class AnswerService
 {
@@ -13,7 +14,7 @@ class AnswerService
         $existing = Answer::where('question_id', $question->id)->where('student_id', 7777)->first();
         if (!$existing) {
             $existing = new Answer();
-            $existing->student_id = 7777;
+            $existing->student_id = Auth::user();
             $existing->question_id = $question->id;
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Page;
+use App\Enums\Student\Curriculum;
 use Illuminate\Http\Request;
 
 class FlowController extends Controller
@@ -11,6 +12,7 @@ class FlowController extends Controller
     {
         $flow = [
             Page::GETSTARTED() => route('student.intro'),
+            Page::INTRO() => route('student.profile'),
             Page::PROFILE() => route('student.demographic'),
             Page::DEMO() => route('student.highschool'),
             Page::HIGHSCHOOL() => route('student.academics'),
@@ -25,5 +27,20 @@ class FlowController extends Controller
             return $flow[$request->input('page')];
         }
         return route('student.home');
+    }
+
+    public static function nextScreen() :int
+    {
+        switch ($curriculum) {
+            case Curriculum::AMERICAN():
+                return self::getAmericanNext($question);
+        }
+    }
+
+    public static function getNextAmerican($question)
+    {
+        switch ($question) {
+            case 
+        }
     }
 }

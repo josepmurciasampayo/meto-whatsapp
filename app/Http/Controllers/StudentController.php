@@ -10,6 +10,7 @@ use App\Services\AnswerService;
 use App\Services\QuestionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class StudentController extends Controller
@@ -36,13 +37,13 @@ class StudentController extends Controller
 
     public function intro(): View
     {
-        return view('student.intro');
+        return view('student.intro', ['user' => Auth::user()]);
     }
 
     public function profile(): View
     {
         return view('student.profile', [
-            'user' => new User(),
+            'user' => Auth::user(),
             'countries' => [],
         ]);
     }

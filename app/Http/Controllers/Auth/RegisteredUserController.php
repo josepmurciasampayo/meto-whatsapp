@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Page;
+use App\Enums\User\Role;
+use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FlowController;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -34,21 +38,26 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first' => ['required', 'string', 'max:255'],
+            'last' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'first' => $request->first,
+            'middle' => $request->middle,
+            'last' => $request->last,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => Role::STUDENT(),
+            'status' => Status::ACTIVE(),
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(FlowController::next($request));
     }
 }
