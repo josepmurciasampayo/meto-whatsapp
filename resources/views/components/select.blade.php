@@ -7,7 +7,7 @@
     @endif
     <div class="relative">
         <select id="{{ $name }}" name="{{ $name }}" class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
-            <option value=""></option>
+            <option value="">Select an option</option>
             @foreach ($options as $index => $value)
                 <?php $selected = ($index == $saved) ? 'selected' : '' ?>
                 <option value="{{ $index }}" {{ $selected }}>{{ $value }}</option>
@@ -17,6 +17,7 @@
         </div>
     </div>
 </div>
+
 
 
 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class FlowController extends Controller
 {
-    public static function next(Request $request) :string
+    public static function next(Request $request): string
     {
         $flow = [
             Page::GETSTARTED() => route('student.intro'),
@@ -29,18 +29,19 @@ class FlowController extends Controller
         return route('student.home');
     }
 
-    public static function nextScreen() :int
+    public static function nextScreen($curriculum): int
     {
         switch ($curriculum) {
             case Curriculum::AMERICAN():
-                return self::getAmericanNext($question);
+                // Add any required logic here or pass a parameter to `getNextAmerican()`
+                return self::getNextAmerican();
         }
     }
 
     public static function getNextAmerican($question)
     {
         switch ($question) {
-            case 
+                // Complete the case block with the required logic
         }
     }
 }

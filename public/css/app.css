@@ -1300,7 +1300,7 @@ select {
 }
 
 .text-sm {
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.25rem;
 }
 
@@ -1839,6 +1839,4 @@ select {
   color: rgba(128, 128, 128, 0.77);
 }
 
-.help-text {
-
-}
+.help-text {}

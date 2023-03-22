@@ -28,4 +28,25 @@
     @if ($question->format == \App\Enums\QuestionFormat::RADIO())
         <x-radio saved="{{ $answer }}" name="{{ $question->id }}" label="{{ $question->text }}" :options="$responses" help="{{ $question->help }}"></x-radio>
     @endif
+
+    @if ($question->format === App\Enums\QuestionFormat::DATE())
+    <x-date-input name="{{ $question->id }}" label="{{ $question->text }}" saved="{{ $answer }}" help="{{ $question->help }}" />
+    @endif
+
+   @if ($question->format === App\Enums\QuestionFormat::COUNTRY())
+  <x-country-input name="{{ $question->id }}" label="{{ $question->text }}" saved="{{ $answer }}" help="{{ $question->help }}" />
+  @endif
+
+   @if ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
+   <x-country-checkbox name="{{ $question->id }}" label="{{ $question->text }}" saved="{{ $answer }}" help="{{ $question->help }}" />
+   @endif
+
+   @if ($question->format === App\Enums\QuestionFormat::EMAIL())
+   <x-email-input label="Email" name="email" help="Enter email address"/>
+  @endif
+   
+  @if ($question->format === App\Enums\QuestionFormat::PHONE())
+  <x-phone-input label="{{ $question->text }}" name="{{ $question->id }}" saved="{{ $answer }}" help="{{ $question->help }}"/>
+   @endif
+ 
 </div>
