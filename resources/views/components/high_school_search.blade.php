@@ -9,22 +9,16 @@
 </div>
 
 @push('scripts')
-<script>
-    $(document).ready(function () {
-        // Initialize Typeahead.js
-        const highSchoolSearch = $('#{{ $name }}-search').typeahead({
-            minLength: 2,
-            highlight: true,
-        }, {
-            name: 'high-schools',
-            source: searchHighSchools,
-            display: 'name',
-        });
-
-        // Function to fetch high schools from the backend
-        function searchHighSchools(query, syncResults, asyncResults) {
-            $.get("{{ route('search-high-schools') }}", {query: query}, function (data) {
-                asyncResults(data);
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript">
+    var route = "{{ url('search-high-schools') }}";
+    $('#{{ $name }}-search').typeahead({
+        source: function (query, process) {
+            return $.get(route, {
+                query: query
+            }, function (data) {
+                return process(data);
             });
         }
     });

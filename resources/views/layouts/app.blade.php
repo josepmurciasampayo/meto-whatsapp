@@ -19,13 +19,10 @@
     <head>
         <!-- ... -->
         <script src="/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/jquery-3.6.1.slim.min.js"></script>
+    <script src="/js/jquery-3.6.1.slim.min.js"></script>
         <script src="/js/lodash.core.min.js"></script>
         <script src="/js/instantpage-5.1.1.js" type="module"></script>
         <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
-        <!-- Include jQuery and Typeahead.js from a CDN -->
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-        <!-- ... -->
     </head>
     <!-- ... -->
     </html>
