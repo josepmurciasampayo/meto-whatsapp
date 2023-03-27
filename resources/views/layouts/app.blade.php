@@ -13,11 +13,21 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!DOCTYPE html>
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    
+    <head>
+        <!-- ... -->
+        <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.6.1.slim.min.js"></script>
-    <script src="/js/lodash.core.min.js"></script>
-    <script src="/js/instantpage-5.1.1.js" type="module"></script>
-    <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
+        <script src="/js/lodash.core.min.js"></script>
+        <script src="/js/instantpage-5.1.1.js" type="module"></script>
+        <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
+    </head>
+    <!-- ... -->
+    </html>
+    
+  
 
     <style>
         body {

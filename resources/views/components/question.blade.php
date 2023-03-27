@@ -43,4 +43,25 @@
     @if ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-phone-input label="{{ $question->text }}" name="{{ $question->id }}" saved="{{ $answer }}" help="{{ $question->help }}"></x-phone-input>
     @endif
+    @if ($question->format === App\Enums\QuestionFormat::COUNTRY())
+        <x-country-input name="{{ $question->id }}" label="{{ $question->text }}" saved="{{ $answer }}" help="{{ $question->help }}" />
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
+        <x-country-checkbox name="{{ $question->id }}" label="{{ $question->text }}" saved="{{ $answer }}" help="{{ $question->help }}" />
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::EMAIL())
+        <x-email-input label="{{ $question->text }}" name="{{ $question->id }}" saved="{{ $answer }}" help="{{ $question->help }}"></x-email-input>
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::PHONE())
+        <x-phone-input label="{{ $question->text }}" name="{{ $question->id }}" saved="{{ $answer }}" help="{{ $question->help }}"/>
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::HIGHSCHOOL())
+        <x-high_school_search label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" saved="{{ $answer }}"/>
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::NUMBER())
+        <x-number-input label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" saved="{{ $answer }}"/>
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::DOLLAR())
+        <x-cash-value-input  label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" saved="{{ $answer }}"/>
+    @endif
 </div>

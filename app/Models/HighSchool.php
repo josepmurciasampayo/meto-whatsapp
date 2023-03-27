@@ -7,7 +7,7 @@ use \Illuminate\Database\Eloquent\Model;
 
 class HighSchool extends Model
 {
-    public static function getAdminData(int $id = null) :array
+    public static function getAdminData(int $id = null): array
     {
         $where = ($id) ? " where h.id = " . $id : '';
         $withCounselors = Helpers::dbQueryArray('
@@ -24,7 +24,7 @@ class HighSchool extends Model
         return $withCounselors;
     }
 
-    public static function getByCounselorID(int $user_id) :HighSchool
+    public static function getByCounselorID(int $user_id): HighSchool
     {
         $id = Helpers::dbQueryArray('
             select h.id
@@ -35,12 +35,19 @@ class HighSchool extends Model
         return HighSchool::find($id);
     }
 
-    public static function getByName(string $name) :?HighSchool
+    public static function getByName(string $name): ?HighSchool
     {
         return HighSchool::where('name', $name)->first();
     }
 
-    public static function getByStudentID(int $student_id) :?HighSchool
+    public static function searchByName(string $name)
+    {
+        return HighSchool::where('name', 'LIKE', '%' . $name . '%')->get();
+    }
+
+
+
+    public static function getByStudentID(int $student_id): ?HighSchool
     {
         $row = Helpers::dbQueryArray('
             select
@@ -60,7 +67,7 @@ class HighSchool extends Model
         return null;
     }
 
-    public static function isStudentEnrolled(int $student_id, int $highschool_id) :bool
+    public static function isStudentEnrolled(int $student_id, int $highschool_id): bool
     {
         $row =  Helpers::dbQueryArray('
         select s.id
@@ -72,7 +79,7 @@ class HighSchool extends Model
         return count($row) > 0;
     }
 
-    public static function getSummaryCounts(int $school_id) :array
+    public static function getSummaryCounts(int $school_id): array
     {
         return Helpers::dbQueryArray('
             select sum(active) as "active", count(*) as "total"

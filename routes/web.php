@@ -12,6 +12,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TypeaheadController;
 
 
+
+
+
+
 // Unauthenticated routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
@@ -30,6 +34,8 @@ Route::get('/signup-student', [\App\Http\Controllers\SignupController::class, 's
 Route::get('/signup-counselor', [\App\Http\Controllers\SignupController::class, 'counselor'])->name('signup.counselor');
 Route::get('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uni'])->name('signup.uni');
 Route::post('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uniStore'])->name('signup.uni.store');
+Route::get('search-high-schools', [TypeaheadController::class, 'autocompleteSearch'])->name('search-high-schools'); //added for highschool typeahead
+
 
 // Admin functionality
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -136,6 +142,6 @@ Route::middleware('auth')->group(function () {
     Route::post('terms', [\App\Http\Controllers\StaticController::class, 'saveTerms'])->name('saveTerms');
 });
 
-require __DIR__.'/web-student.php';
-require __DIR__.'/web-counselor.php';
-require __DIR__.'/web-uni.php';
+require __DIR__ . '/web-student.php';
+require __DIR__ . '/web-counselor.php';
+require __DIR__ . '/web-uni.php';

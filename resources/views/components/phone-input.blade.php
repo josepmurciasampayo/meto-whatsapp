@@ -1,7 +1,7 @@
-@props(['label' => '', 'Number', 'name' => 'phone', 'help' => false, 'saved' => ''])
+@props(['label' => 'Phone Number', 'name' => 'phone', 'help' => false, 'saved' => ''])
 
 @php
-   $countries = [
+  $countries = [
     '93' => 'Afghanistan (+93)',
     '355' => 'Albania (+355)',
     '213' => 'Algeria (+213)',
@@ -246,7 +246,6 @@
     '260' => 'Zambia (+260)',
     '263' => 'Zimbabwe (+263)'
 ];
-
     $default_code = '1'; // change this to the default country code
     $saved_code = $default_code;
     $saved_number = '';
@@ -273,7 +272,6 @@
     </div>
     <input type="hidden" name="{{ $name }}" id="{{ $name }}" value="{{ $saved_code }} {{ $saved_number }}">
 </div>
-
 
 
 @push('scripts')
