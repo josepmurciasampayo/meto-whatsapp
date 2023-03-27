@@ -99,12 +99,13 @@
                         <div class="col-lg-4">
                             @foreach ($curricula as $id => $curriculum)
                                 @if (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES())
+                                    @php $value = (isset($branches[$response->id][$id])) ? $branches[$response->id][$id] : null; @endphp
                                     <input
                                         style="width:100px"
                                         type="number"
                                         id="{{ $curriculum }}"
                                         name="responseBranch[{{$response->id}}][{{ $id }}]"
-                                        value="{{ $branches[$response->id][$id] }}"
+                                        value="{{ $value }}"
                                     >
                                     <label for="{{ $curriculum }}">{{ $curriculum }}</label><br/>
                                 @endif
@@ -114,6 +115,8 @@
                 </div>
             @endforeach
         @endif
-        <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
+        <div class="text-end">
+            <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
+        </div>
     </form>
 </x-app-layout>
