@@ -2,9 +2,10 @@
     <?php $formats = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $categories = \App\Enums\Student\QuestionType::descriptions() ?>
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
+    <?php $active[""] = ''; ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
+    <?php $yes[""] = ''; ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
-    <?php $branch[1] = 'Branch'; ?>
 
     <h3 class="display-7 flex justify-center">Editing Question</h3>
 

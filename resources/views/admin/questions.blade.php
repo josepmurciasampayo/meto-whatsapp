@@ -13,8 +13,6 @@
             <th>Format</th>
             <th>In Use</th>
             <th>Required</th>
-            <th>Screen</th>
-            <th>Is Branch</th>
             <th>Transfer</th>
             <th>Kenyan</th>
             <th>Rwandan</th>
@@ -34,8 +32,6 @@
             <th>Format</th>
             <th>In Use</th>
             <th>Required</th>
-            <th>Screen</th>
-            <th>Is Branch</th>
             <th>Transfer</th>
             <th>Kenyan</th>
             <th>Rwandan</th>
@@ -57,16 +53,14 @@
             <td><?php echo $format[$row['format']] ?></td>
             <td><?php echo $yesNo[$row['status']] ?></td>
             <td><?php echo $yesNo[$row['required']] ?></td>
-            <td></td>
-            <td></td>
-            <td><?php echo $row[7] ?></td>
-            <td><?php echo $row[1] ?></td>
-            <td><?php echo $row[3] ?></td>
-            <td><?php echo $row[5] ?></td>
-            <td><?php echo $row[8] ?></td>
-            <td><?php echo $row[6] ?></td>
-            <td><?php echo $row[2] ?></td>
-            <td><?php echo $row[4] ?></td>
+            <td><?php echo $yesNo[$row[7]] ?></td>
+            <td><?php echo $yesNo[$row[1]] ?></td>
+            <td><?php echo $yesNo[$row[3]] ?></td>
+            <td><?php echo $yesNo[$row[5]] ?></td>
+            <td><?php echo $yesNo[$row[8]] ?></td>
+            <td><?php echo $yesNo[$row[6]] ?></td>
+            <td><?php echo $yesNo[$row[2]] ?></td>
+            <td><?php echo $yesNo[$row[4]] ?></td>
             <td><a href="{{ route('answers', ['question_id' => $row['id']]) }}"><?php echo $row['count'] ?></a></td>
         </tr>
         <?php } ?>
