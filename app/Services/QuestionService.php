@@ -71,7 +71,7 @@ class QuestionService
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
 
         foreach (Curriculum::descriptions() as $index => $value) {
-            //$question->$index = YesNo::NO();
+            $question->curriculum($index, false);
         }
         $question->save();
 
@@ -81,7 +81,8 @@ class QuestionService
         if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC()) {
             if ($request->has('inUse')) {
                 foreach ($request->input('inUse') as $curriculum => $value) {
-                    $question->$curriculum = YesNo::YES();
+                    $question->curriculum($curriculum, true);
+
                     $questionScreen = new QuestionScreen();
                     $questionScreen->question_id = $question->id;
                     $questionScreen->curriculum = $curriculum;
