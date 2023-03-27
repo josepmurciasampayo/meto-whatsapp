@@ -13,6 +13,8 @@
             <th>Format</th>
             <th>In Use</th>
             <th>Required</th>
+            <th>Screen</th>
+            <th>Is Branch</th>
             <th>Transfer</th>
             <th>Kenyan</th>
             <th>Rwandan</th>
@@ -32,6 +34,8 @@
             <th>Format</th>
             <th>In Use</th>
             <th>Required</th>
+            <th>Screen</th>
+            <th>Is Branch</th>
             <th>Transfer</th>
             <th>Kenyan</th>
             <th>Rwandan</th>
@@ -48,11 +52,13 @@
         <?php foreach ($data as $row) { ?>
         <tr class="text-center">
             <input type="hidden" name="id" id="id" value="{{ $row['id'] }}">
-            <td><a href="{{ route('question', ['id' => $row['id']]) }}"><?php echo $row['text'] ?></a></td>
+            <td><a target="_blank" href="{{ route('question', ['id' => $row['id']]) }}"><?php echo $row['text'] ?></a></td>
             <td><?php echo $type[$row['type']] ?></td>
             <td><?php echo $format[$row['format']] ?></td>
             <td><?php echo $yesNo[$row['status']] ?></td>
             <td><?php echo $yesNo[$row['required']] ?></td>
+            <td></td>
+            <td></td>
             <td><?php echo $row[7] ?></td>
             <td><?php echo $row[1] ?></td>
             <td><?php echo $row[3] ?></td>

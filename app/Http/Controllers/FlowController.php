@@ -16,7 +16,7 @@ class FlowController extends Controller
             Page::PROFILE() => route('student.demographic'),
             Page::DEMO() => route('student.highschool'),
             Page::HIGHSCHOOL() => route('student.academics'),
-            Page::ACADEMIC() => route('student.financial'),
+            Page::ACADEMIC() => self::getNextAcademic($request),
             Page::FINANCIAL() => route('student.extracurricular'),
             Page::EXTRA() => route('student.university'),
             Page::UNIPLAN() => route('student.testing'),
@@ -29,19 +29,4 @@ class FlowController extends Controller
         return route('student.home');
     }
 
-    public static function nextScreen($curriculum): int
-    {
-        switch ($curriculum) {
-            case Curriculum::AMERICAN():
-                // Add any required logic here or pass a parameter to `getNextAmerican()`
-                return self::getNextAmerican();
-        }
-    }
-
-    public static function getNextAmerican($question)
-    {
-        switch ($question) {
-                // Complete the case block with the required logic
-        }
-    }
 }

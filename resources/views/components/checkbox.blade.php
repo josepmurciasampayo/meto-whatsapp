@@ -1,4 +1,4 @@
-@props(['saved' => '', 'options', 'name', 'help' => false, 'label', 'pickOne' => false])
+@props(['saved' => array(), 'options', 'name', 'help' => false, 'label', 'pickOne' => false])
 
 <div class="my-4 bg-gray-100 rounded-md p-4">
     <fieldset class="flex flex-col gap-2">

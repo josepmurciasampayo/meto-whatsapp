@@ -25,13 +25,16 @@ trait Strings
         return $toReturn;
     }
 
-    public static function descriptions() :array
+    public static function descriptions($includeBlank = false) :array
     {
         $cases = static::cases();
 
         $toReturn = array();
         foreach ($cases as $index => $value) {
             $toReturn[$value()] = self::getText($value);
+        }
+        if ($includeBlank) {
+            $toReturn[''] = '';
         }
 
         return $toReturn;

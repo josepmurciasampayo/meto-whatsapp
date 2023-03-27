@@ -17,9 +17,7 @@
          <x-input name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-input>
          <x-input name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-input>
          <x-input name="country" label="Country"></x-input>
-
          <x-input name="whatsapp" label="WhatsApp" saved="{{ $user->whatsapp }}"></x-input>
-
          <x-button-icon type="submit" icon="fa fa-save" text="Save" />
 
          <div class="mt-6 flex items-center justify-center">

@@ -3,12 +3,28 @@
 namespace App\Models;
 
 use App\Enums\EnumGroup;
+use App\Enums\General\YesNo;
 use App\Enums\Student\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    public function curriculum(Curriculum $curriculum, bool $inUse = null) :bool
+    {
+        $value = $curriculum();
+        if ($inUse) {
+            $this->$value = $inUse;
+        } else {
+            return $this->$value == YesNo::YES();
+        }
+    }
+
+    public function academicJoin(Curriculum $curriculum) :QuestionScreen
+    {
+        return QuestionScreen::where('question_id', $this->id)->where('curriculum', $curriculum())->first();
+    }
+
     public function hasResponses() :bool
     {
         return in_array($this->format, [\App\Enums\QuestionFormat::CHECKBOX(), \App\Enums\QuestionFormat::RADIO(), \App\Enums\QuestionFormat::SELECT()]);
@@ -32,7 +48,6 @@ class Question extends Model
                 q.text,
                 q.type,
                 q.format,
-
                 q.required,
                 `order`,
                 q.status,

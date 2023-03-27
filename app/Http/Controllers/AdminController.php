@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\QuestionStatus;
+use App\Enums\Student\QuestionType;
 use App\Helpers;
 use App\Models\Answer;
 use App\Models\Chat\MessageState;
@@ -10,7 +11,9 @@ use App\Models\HighSchool;
 use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
+use App\Models\QuestionScreen;
 use App\Models\Response;
+use App\Models\ResponseBranch;
 use App\Models\StudentUniversity;
 use App\Models\Question;
 use App\Models\Student;
@@ -20,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Fluent;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -125,23 +129,24 @@ class AdminController extends Controller
         ]);
     }
 
-    public function question(int $id) :View
+    public function question(int $id = null) :View
     {
+        $question = ($id) ? Question::find($id) : new Question();
+        $responses = ($id) ? Response::where('question_id', $id)->get() : null;
+        $screens = ($question->type == QuestionType::ACADEMIC()) ? QuestionScreen::get($id) : null;
+        $branches = ($question->type == QuestionType::ACADEMIC()) ? ResponseBranch::get($id) : null;
+
         return view('admin.question', [
-            'question' => Question::find($id),
-            'responses' => Response::where('question_id', $id)->get(),
+            'question' => $question,
+            'responses' => $responses,
+            'screens' => $screens,
+            'branches' => $branches,
         ]);
     }
 
     public function questionStore(Request $request, QuestionService $questionService) :RedirectResponse
     {
         $question = $questionService->store($request);
-        return redirect(route('question', ['id' => $question->id]));
-    }
-
-    public function questionCreate(QuestionService $questionService) :RedirectResponse
-    {
-        $question = $questionService->create();
         return redirect(route('question', ['id' => $question->id]));
     }
 
