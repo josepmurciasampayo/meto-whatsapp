@@ -3,7 +3,9 @@
         <x-image-with-text image-src="/img/Meto-background.webp"/>
         <div class="w-full lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form method="POST" action="{{ route('student.handle') }}">
-                <input type="hidden" name="page" value="{{ $page() }}">
+                <input type="hidden" name="page" value="{{ $page ?? null }}">
+                <input type="hidden" name="curriculum" value="{{ $curriculum ?? null }}">
+                <input type="hidden" name="screen" value="{{ $screen }}">
                 @csrf
 
                 @foreach ($questions as $question)
@@ -19,7 +21,7 @@
                 @endforeach
 
             <x-button-navigation/>
-            
+
             </form>
         </div>
     </div>

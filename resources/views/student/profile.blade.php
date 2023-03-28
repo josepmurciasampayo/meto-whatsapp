@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-image-with-text
-        image-src="/img/Meto-background.webp"
-        alt=""
-        text="Profile"/>
-
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
         <x-image-with-text
                            image-src="/img/Meto-background.webp"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Page;
 use App\Enums\Student\QuestionType;
 use App\Models\Question;
+use App\Models\QuestionScreen;
 use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
@@ -61,6 +62,21 @@ class StudentController extends Controller
         ]);
     }
 
+    public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService) :View
+    {
+        $questions = $questionService->getAcademic($curriculum, $screen);
+        $responses = $questionService->responses($questions);
+        $answers = $questionService->answers($questions);
+        return view('student.form', [
+            'questions' => $questions,
+            'responses' => $responses,
+            'answers' => $answers,
+            'page' => $page,
+            'curriculum' => $curriculum,
+            'screen' => $screen,
+        ]);
+    }
+
     public function demographic(QuestionService $questionService): View
     {
         return $this->renderView(QuestionType::DEMOGRAPHIC, Page::DEMO, $questionService);
@@ -71,9 +87,15 @@ class StudentController extends Controller
         return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
     }
 
-    public function academics(QuestionService $questionService): View
+    public function academics(int $screen = 0, int $curriculum = 0): View
     {
-        return $this->renderView(QuestionType::ACADEMIC, Page::ACADEMIC, $questionService);
+        if ($curriculum == 0) {
+            $questionService = new QuestionService();
+            $curriculum = $questionService->getCurriculum(Auth::user());
+            $screen = 1;
+        }
+
+        return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
     }
 
     public function financial(QuestionService $questionService): View

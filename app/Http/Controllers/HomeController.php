@@ -37,7 +37,7 @@ class HomeController extends Controller
         if ($user->isStudent()) {
             return view('student.home');
         }
-        Log::error("Home Controller with no home found");
 
+        Log::error("Home Controller with no home found");
     }
 }

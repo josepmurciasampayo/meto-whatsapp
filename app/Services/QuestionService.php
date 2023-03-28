@@ -12,7 +12,9 @@ use App\Models\Question;
 use App\Models\QuestionScreen;
 use App\Models\Response;
 use App\Models\ResponseBranch;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class QuestionService
@@ -26,6 +28,7 @@ class QuestionService
 
         return $question;
     }
+
     public function get(QuestionType $type) :array
     {
         $questions = Question::
@@ -40,6 +43,26 @@ class QuestionService
             $toReturn[$question->id] = $question;
         }
         return $toReturn;
+    }
+
+    public function getAcademic(int $curriculum, int $screen) :array
+    {
+
+    }
+
+    public function getAcademicNextScreen(int $curriculum, int $screen) :int
+    {
+
+    }
+
+    public function getCurriculum(User $user) :?Curriculum
+    {
+        $answer = Answer::where('question_id', 318)->where('user_id', $user->id)->first();
+        if ($answer) {
+            return Curriculum::from($answer);
+        } else {
+            return null;
+        }
     }
 
     public function store(Request $request) :Question
@@ -147,7 +170,7 @@ class QuestionService
         foreach ($questions as $question) {
             $question_ids[] = $question->id;
         }
-        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', 7777)->get();
+        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->id)->get();
         $answerArray = array();
         foreach ($answers as $answer) {
             $answerArray[$answer->question_id] = $answer->text;

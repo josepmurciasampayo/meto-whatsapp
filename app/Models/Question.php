@@ -62,7 +62,7 @@ class Question extends Model
                 q.' . Curriculum::UGANDAN() . ',
                 q.' . Curriculum::AMERICAN() . ',
                 q.status,
-                ifnull(a.count, 0)
+                ifnull(a.count, 0) as count
             from meto_questions as q
             left outer join (
                 select q.id, count(*) as "count"

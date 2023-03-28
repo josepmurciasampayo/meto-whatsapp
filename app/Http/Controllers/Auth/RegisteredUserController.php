@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\Page;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FlowController;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,11 +51,9 @@ class RegisteredUserController extends Controller
             'role' => Role::STUDENT(),
             'status' => Status::ACTIVE(),
         ]);
-
+        $user->save();
         event(new Registered($user));
-
         Auth::login($user);
-
         return redirect(FlowController::next($request));
     }
 }
