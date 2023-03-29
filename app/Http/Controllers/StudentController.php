@@ -95,7 +95,7 @@ class StudentController extends Controller
             $screen = 1;
         }
 
-        return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
+        return $this->renderAcademicView( Page::ACADEMIC, $curriculum, $screen, $questionService);
     }
 
     public function financial(QuestionService $questionService): View

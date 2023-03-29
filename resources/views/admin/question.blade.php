@@ -93,7 +93,7 @@
                         </x-button>
                     </div>
                     <div class="col">
-                        <x-input label="" name="response[{{ $response->id }}]" saved="{{ $response->text }}"></x-input>
+                        <x-input label="" name="response[{{ $response->id }}]" saved="{!! $response->text !!}"></x-input>
                     </div>
                     @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
                         <div class="col-lg-4">

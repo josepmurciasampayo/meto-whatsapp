@@ -15,6 +15,7 @@ use App\Models\ResponseBranch;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class QuestionService
@@ -47,12 +48,30 @@ class QuestionService
 
     public function getAcademic(int $curriculum, int $screen) :array
     {
-
+        $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
+        foreach ($questionIDs as $questionID) {
+            $ids[] = $questionID->question_id;
+        }
+        $toReturn = array();
+        $questions = Question::whereIn('id', $ids)->get();
+        foreach ($questions as $question) {
+            $toReturn[$question->id] = $question;
+        }
+        return $toReturn;
     }
 
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
-
+        $branchingQuestionID = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
+        $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->id)->first();
+        $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum', $curriculum)->get();
+        foreach ($responseBranches as $branch) {
+            if ($branch->response_id == $answer->response_id) {
+                return $branch->to_screen;
+            }
+        }
+        Log::error('Could not find screen for curriculum ' . $curriculum . ' and screen ' . $screen);
+        return 0;
     }
 
     public function getCurriculum(User $user) :?Curriculum
