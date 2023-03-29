@@ -27,7 +27,7 @@ class StaticController extends Controller
         $user = Auth()->user();
         $user->terms = $request->terms;
         $user->save();
-        return redirect(route('home'));
+        return redirect(route('student.intro'));
     }
 
     public function contact() :View

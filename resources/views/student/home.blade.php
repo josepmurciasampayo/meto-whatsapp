@@ -1,5 +1,5 @@
 <x-app-layout>
- 
+
     <x-popup-redirect
     title="Update Your Academic & Financial Information"
     text="Please update your information to ensure that your records are up-to-date and you can get the best result from Meto."
@@ -11,9 +11,8 @@
   <div class="min-h-screen">
       <div class="flex justify-between align-items-center">
           <div class="ml-auto w-50">
-              <x-progress-bar :progress="rand(1, 100)"/>
+              <!-- <x-progress-bar :progress="rand(1, 100)"/> -->
           </div>
-
 
           <div class="flex">
               <x-sidebar-menu :links="[
@@ -28,24 +27,21 @@
                   ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => route('student.general')],
               ]"/>
 
-<x-invite-friend-popup/>
-
+            <x-invite-friend-popup/>
 
           </div>
       </div>
 
-      
-
-      <div class="display-7" style="margin-top: 12px;">Welcome, Abraham!</div>
+      <div class="display-7" style="margin-top: 12px;">Welcome, {{ $user->first }}!</div>
 
       <div class="flex justify-center" style="margin-top: 12px;margin-bottom: 12px;">
-          <x-status-icon-main href="/edit-info" icon="fa fa-edit" text="Edit Profile"/> 
-          <x-status-icon-main href="#" icon="fas fa-book" text="Resources"/> 
+          <x-status-icon-main href="/edit-info" icon="fa fa-edit" text="Edit Profile"/>
+          <x-status-icon-main href="#" icon="fas fa-book" text="Resources"/>
       </div>
 
       <div class="flex justify-center ">
           <div class="w-50 my-10">
-              <x-connection-table/>
+              <!-- <x -connection-table/> -->
           </div>
       </div>
 

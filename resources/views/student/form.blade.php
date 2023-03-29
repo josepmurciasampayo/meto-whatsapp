@@ -5,7 +5,7 @@
             <form method="POST" action="{{ route('student.handle') }}">
                 <input type="hidden" name="page" value="{{ $page ?? null }}">
                 <input type="hidden" name="curriculum" value="{{ $curriculum ?? null }}">
-                <input type="hidden" name="screen" value="{{ $screen }}">
+                <input type="hidden" name="screen" value="{{ $screen ?? null }}">
                 @csrf
 
                 @foreach ($questions as $question)

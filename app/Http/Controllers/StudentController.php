@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Page;
+use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Models\Question;
 use App\Models\QuestionScreen;
@@ -26,19 +27,27 @@ class StudentController extends Controller
         return view('student.transfer');
     }
 
-    public function home(): View
+    public function edit(QuestionService $questionService): View
     {
-        return view('student.home');
-    }
-
-    public function edit(): View
-    {
-        return view('student.edit-info');
+        return view('student.edit-info', [
+            'user' => Auth::user(),
+            'profileProgress' => $questionService->getProgress(),
+            'demoProgress' => $questionService->getProgress(QuestionType::DEMOGRAPHIC),
+            'hsProgress' => $questionService->getProgress(QuestionType::HIGHSCHOOL),
+            'academicProgress' => $questionService->getProgress(QuestionType::ACADEMIC),
+            'financialProgress' => $questionService->getProgress(QuestionType::FINANCIAL),
+            'extraProgress' => $questionService->getProgress(QuestionType::EXTRACURRICULAR),
+            'uniProgress' => $questionService->getProgress(QuestionType::UNIVERSITY),
+            'testingProgress' => $questionService->getProgress(QuestionType::TESTING),
+            'generalProgress' => $questionService->getProgress(QuestionType::GENERAL),
+        ]);
     }
 
     public function intro(): View
     {
-        return view('student.intro', ['user' => Auth::user()]);
+        return view('student.intro', [
+            'user' => Auth::user(),
+        ]);
     }
 
     public function profile(): View
@@ -59,6 +68,7 @@ class StudentController extends Controller
             'responses' => $responses,
             'answers' => $answers,
             'page' => $page,
+            'curricula' => Curriculum::descriptions(),
         ]);
     }
 

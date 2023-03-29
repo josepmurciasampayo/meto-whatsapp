@@ -9,34 +9,15 @@
             <form method="POST" action="{{ route('user.register') }}">
                 <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                 @csrf
-                <x-input name="first" label="First/Given Name"></x-input>
-                <x-input name="middle" label="Middle Name"></x-input>
-                <x-input name="last" label="Last/Family Name"></x-input>
-                <x-input name="email" label="Email Address"></x-input>
-                <x-input name="emailConfirm" label="Confirm Email"></x-input>
-                <x-input name="password" type="password" label="Password"></x-input>
-                <x-input name="passwordConfirm" type="password" label="Confirm Password"></x-input>
+                <x-input name="first" label="First/Given Name" required></x-input>
+                <x-input name="middle" label="Middle Name" ></x-input>
+                <x-input name="last" label="Last/Family Name" required></x-input>
+                <x-input name="email" label="Email Address" required></x-input>
+                <x-input name="emailConfirm" label="Confirm Email" required></x-input>
+                <x-input name="password" type="password" label="Password" required></x-input>
+                <x-input name="passwordConfirm" type="password" label="Confirm Password" required></x-input>
 
                 <div class="text-center my-4">
-                    <script type="text/javascript">
-                        function validateAndSubmit() {
-                            let message = "";
-                            let hasError = false;
-                            if (document.getElementById('email').value !== document.getElementById('emailConfirm').value) {
-                                hasError = true;
-                                message += "Email addresses do not match";
-                            }
-                            if (document.getElementById('password').value !== document.getElementById('passwordConfirm').value) {
-                                hasError = true;
-                                message += "Passwords do not match";
-                            }
-                            if (hasError) {
-                                alert(message);
-                                return;
-                            }
-                            document.forms[0].submit();
-                        }
-                    </script>
                     <x-button-icon onclick="validateAndSubmit()" icon="fa fa-chevron-right" text="Next" />
                   </div>
             </form>

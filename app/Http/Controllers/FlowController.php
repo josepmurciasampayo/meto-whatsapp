@@ -11,6 +11,10 @@ class FlowController extends Controller
 {
     public static function next(Request $request): string
     {
+        if ($request->input('page') == Page::ACADEMIC()) {
+            self::nextAcademic($request);
+        }
+
         $flow = [
             Page::GETSTARTED() => route('student.intro'),
             Page::INTRO() => route('student.profile'),
@@ -22,14 +26,13 @@ class FlowController extends Controller
             Page::UNIPLAN() => route('student.testing'),
             Page::TESTING() => route('student.general'),
             Page::GENERAL() => route('student.home'),
-            Page::ACADEMIC() => self::nextAcademic($request),
         ];
 
         if (isset($flow[$request->input('page')])) {
             return $flow[$request->input('page')];
         }
 
-        return route('student.home');
+        return route('home');
     }
 
     public static function nextAcademic(Request $request) :string

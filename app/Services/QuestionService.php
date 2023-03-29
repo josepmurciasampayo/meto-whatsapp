@@ -196,4 +196,9 @@ class QuestionService
         }
         return $answerArray;
     }
+
+    public function getProgress(QuestionType $questionType = null) :int
+    {
+
+    }
 }

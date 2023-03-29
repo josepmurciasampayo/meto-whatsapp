@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -35,7 +36,9 @@ class HomeController extends Controller
             return view('institution.home');
         }
         if ($user->isStudent()) {
-            return view('student.home');
+            return view('student.home', [
+                'user' => Auth::user(),
+            ]);
         }
 
         Log::error("Home Controller with no home found");

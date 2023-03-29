@@ -10,7 +10,7 @@ Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transf
 
 //Route::middleware(['auth', 'terms', 'student'])->group(function () {
 Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
-Route::get('/dashboard', [\App\Http\Controllers\StudentController::class, 'home'])->name('student.home');
+Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
 Route::get('/edit-info', [\App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
 Route::get('/intro', [\App\Http\Controllers\StudentController::class, 'intro'])->name('student.intro');
 Route::get('/student-profile', [\App\Http\Controllers\StudentController::class, 'profile'])->name('student.profile');

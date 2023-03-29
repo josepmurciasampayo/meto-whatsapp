@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EnumGroup;
 use App\Enums\General\YesNo;
+use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +31,12 @@ class Question extends Model
 
     public function hasResponses() :bool
     {
-        return in_array($this->format, [\App\Enums\QuestionFormat::CHECKBOX(), \App\Enums\QuestionFormat::RADIO(), \App\Enums\QuestionFormat::SELECT()]);
+        return in_array($this->format, [
+            \App\Enums\QuestionFormat::CHECKBOX(),
+            \App\Enums\QuestionFormat::RADIO(),
+            \App\Enums\QuestionFormat::SELECT(),
+            QuestionFormat::SELECTWITHOTHER(),
+        ]);
     }
 
     public static function findByText(string $text) :?Question
