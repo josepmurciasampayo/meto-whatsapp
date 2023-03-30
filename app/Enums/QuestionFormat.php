@@ -24,6 +24,9 @@ enum QuestionFormat: int
     case NUMBER = 13; // Added this line for the Number input
     case DOLLAR = 14; // Added this line for the Dollar Value input
     case SELECTWITHOTHER = 15;
+    case IBSUBJECT = 16;
+    case GPA = 17;
+    case AP = 18;
 
     public static function getText(self $value): string
     {
@@ -43,6 +46,9 @@ enum QuestionFormat: int
             self::NUMBER => 'Number', // Added this line for the Number input
             self::DOLLAR => 'Dollar Value (USD)', // Added this line for the $ value input
             self::SELECTWITHOTHER => "Select with Other",
+            self::IBSUBJECT => "IB Subjects",
+            self::GPA => "US GPA",
+            self::AP => "AP Subjects",
         };
     }
 }
