@@ -60,6 +60,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/questionCreate', [AdminController::class, 'question'])->name('question.create');
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
+    Route::get('/admin/curricula', [AdminController::class, 'curricula'])->name('curricula');
+    Route::get('/admin/curriculum/{curriculum}', [AdminController::class, 'curriculum'])->name('curriculum');
+
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
     Route::get('/admin/command', [AdminController::class, 'command'])->name('command');
 
@@ -95,11 +98,6 @@ Route::middleware(['auth', 'terms', 'institution'])->group(function () {
 
 // Redirects if already authenticated
 Route::middleware('guest')->group(function () {
-    /*
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-
-*/
     Route::post('register', [RegisteredUserController::class, 'store'])->name('user.register');
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login.store');

@@ -96,11 +96,11 @@ class StudentController extends Controller
         return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
     }
 
-    public function academics(int $screen = 0, QuestionService $questionService): View
+    public function academics(int $screen, QuestionService $questionService): View
     {
         $curriculum = $questionService->getCurriculum(Auth::user());
         $screen = ($screen == 0) ? 1 : $screen;
-        return $this->renderAcademicView( Page::ACADEMIC, $curriculum, $screen, $questionService);
+        return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
     }
 
     public function financial(QuestionService $questionService): View

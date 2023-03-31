@@ -21,13 +21,28 @@ class AnswerService
         switch ($question->format) {
             case QuestionFormat::INPUT():
             case QuestionFormat::TEXTAREA():
+            case QuestionFormat::DATE():
+            case QuestionFormat::EMAIL():
+            case QuestionFormat::NUMBER():
+            case QuestionFormat::DOLLAR():
+            case QuestionFormat::PHONE():
+            case QuestionFormat::LOOKUP():
                 $existing->text = $input;
+                break;
+
                 break;
             case QuestionFormat::SELECT():
             case QuestionFormat::RADIO():
+            case QuestionFormat::COUNTRY():
+            case QuestionFormat::HIGHSCHOOL():
+            case QuestionFormat::SELECTWITHOTHER():
+            case QuestionFormat::IBSUBJECT():
+            case QuestionFormat::GPA():
+                $existing->response_id = $input;
                 $existing->text = $input; // or we can save the index
                 break;
             case QuestionFormat::CHECKBOX():
+            case QuestionFormat::COUNTRY_CHECKBOX():
                 $existing->text = implode(',', array_keys($input));
                 break;
         }

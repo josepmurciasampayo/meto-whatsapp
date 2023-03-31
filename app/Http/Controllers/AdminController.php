@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionFormat;
 use App\Enums\QuestionStatus;
+use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Helpers;
 use App\Models\Answer;
@@ -148,6 +150,47 @@ class AdminController extends Controller
     {
         $question = $questionService->store($request);
         return redirect(route('question', ['id' => $question->id]));
+    }
+
+    public function curricula() :View
+    {
+        return view('admin.curricula', [
+            'curricula' => Curriculum::descriptions(),
+        ]);
+    }
+
+    public function curriculum(int $curriculum, QuestionService $questionService) :View
+    {
+        $questions = $IDs = array();
+
+        $q = $questionService->getAcademic($curriculum);
+        foreach ($q as $question) {
+            $questions[$question->id]['text'] = $question->text;
+            $questions[$question->id]['format'] = QuestionFormat::descriptions()[$question->format];
+        }
+
+        $s = QuestionScreen::where('curriculum', $curriculum)->get();
+        foreach ($s as $screen) {
+            $questions[$screen->question_id]['screen'] = $screen->screen;
+            $questions[$screen->question_id]['order'] = $screen->order;
+            $questions[$screen->question_id]['branch'] = array();
+        }
+
+        $b = ResponseBranch::where('curriculum', $curriculum)->get();
+        foreach ($b as $branch) {
+            $questions[$branch->question_id]['branch'][] = $branch->to_screen;
+        }
+
+        foreach ($questions as $id => $question) {
+            if (isset($question['branch']) && is_array($question['branch'])) {
+                $branches = array_unique($question['branch']);
+                $questions[$id]['branch'] = implode(',', $branches);
+            }
+        }
+
+        return view('admin.curriculum', [
+            'questions' => $questions
+        ]);
     }
 
     public function answers(int $question_id): View

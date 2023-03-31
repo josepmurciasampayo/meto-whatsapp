@@ -7,6 +7,7 @@ use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FlowController;
 use App\Mail\Welcome;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -54,6 +55,11 @@ class RegisteredUserController extends Controller
             'status' => Status::ACTIVE(),
         ]);
         $user->save();
+
+        $student = new Student();
+        $student->user_id = $user->id;
+        $student->save();
+
         event(new Registered($user));
         Auth::login($user);
         Mail::to($user)->send(new Welcome($user));

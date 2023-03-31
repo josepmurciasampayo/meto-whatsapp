@@ -11,6 +11,7 @@
             <th>Question</th>
             <th>Type</th>
             <th>Format</th>
+            <th>Order</th>
             <th>In Use</th>
             <th>Required</th>
             <th>Transfer</th>
@@ -30,6 +31,7 @@
             <th>Question</th>
             <th>Type</th>
             <th>Format</th>
+            <th>Order</th>
             <th>In Use</th>
             <th>Required</th>
             <th>Transfer</th>
@@ -51,6 +53,7 @@
             <td><a target="_blank" href="{{ route('question', ['id' => $row['id']]) }}"><?php echo $row['text'] ?></a></td>
             <td><?php echo $type[$row['type']] ?></td>
             <td><?php echo $format[$row['format']] ?></td>
+            <td><?php echo $row['order'] ?></td>
             <td><?php echo $yesNo[$row['status']] ?></td>
             <td><?php echo $yesNo[$row['required']] ?></td>
             <td><?php echo $yesNo[$row[7]] ?></td>

@@ -7,6 +7,7 @@ use App\Enums\QuestionFormat;
 use App\Enums\QuestionStatus;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
+use App\Helpers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\QuestionScreen;
@@ -45,14 +46,19 @@ class QuestionService
         return $toReturn;
     }
 
-    public function getAcademic(int $curriculum, int $screen) :array
+    public function getAcademic(int $curriculum, int $screen = null) :array
     {
-        $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
-        foreach ($questionIDs as $questionID) {
-            $ids[] = $questionID->question_id;
+        if (is_null($screen)) {
+            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->get();
+        } else {
+            $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
+            foreach ($questionIDs as $questionID) {
+                $ids[] = $questionID->question_id;
+            }
+            $questions = Question::whereIn('id', $ids)->get();
         }
+
         $toReturn = array();
-        $questions = Question::whereIn('id', $ids)->get();
         foreach ($questions as $question) {
             $toReturn[$question->id] = $question;
         }
@@ -77,7 +83,16 @@ class QuestionService
     {
         $answer = Answer::where('question_id', 318)->where('student_id', $user->student_id())->first();
         if ($answer) {
-            return $answer->response_id;
+            // response IDs are coded, Curriculum IDs aren't used but should be?
+            return match($answer->response_id) {
+                46 => Curriculum::CAMBRIDGE,
+                47 => Curriculum::AMERICAN,
+                48 => Curriculum::IB,
+                49 => Curriculum::UGANDAN,
+                50 => Curriculum::KENYAN,
+                51 => Curriculum::RWANDAN,
+                52 => Curriculum::OTHER,
+            };
         } else {
             return null;
         }
