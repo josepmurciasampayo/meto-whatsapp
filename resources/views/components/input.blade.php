@@ -1,4 +1,4 @@
-@props(['label' => '', 'name', 'help' => false, 'disabled' => false, 'saved' => "", 'req'])
+@props(['label' => '', 'name', 'help' => false, 'disabled' => false, 'saved' => "", 'req' => false])
 @php $required = ($req) ? "*" : "" @endphp
 <label for="{{ $name }}" class="block font-bold text-l text-gray-700 mt-2">{{ htmlspecialchars($label) ?? $slot }} {{ $required }}</label>
 
