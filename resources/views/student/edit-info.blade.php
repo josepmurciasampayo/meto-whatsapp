@@ -23,7 +23,7 @@
             <x-status-icon href="/student-profile" icon="fa fa-user" text="My Profile" progress="{{ $profileProgress }}"/>
             <x-status-icon href="/demographic" icon="fa fa-user-friends" text="Demographic" progress="{{ $demoProgress }}"/>
             <x-status-icon href="/highschool" icon="fa fa-graduation-cap" text="High School" progress="{{ $hsProgress }}"/>
-            <x-status-icon href="/academics" icon="fa fa-book" text="Academic" progress="{{ $academicProgress }}"/>
+            <x-status-icon href="{{ route('student.academics', ['screen' => 0]) }}" icon="fa fa-book" text="Academic" progress="{{ $academicProgress }}"/>
             <x-status-icon href="/financial" icon="fa fa-dollar-sign" text="Financial" progress="{{ $financialProgress }}"/>
             <x-status-icon href="/extracurricular" icon="fa fa-volleyball-ball" text="Extracurricular" progress="{{ $extraProgress }}"/>
             <x-status-icon href="/university" icon="fa fa-university" text="University Plan" progress="{{ $uniProgress }}"/>

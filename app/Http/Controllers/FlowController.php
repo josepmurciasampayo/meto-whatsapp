@@ -12,7 +12,7 @@ class FlowController extends Controller
     public static function next(Request $request): string
     {
         if ($request->input('page') == Page::ACADEMIC()) {
-            self::nextAcademic($request);
+            return self::nextAcademic($request);
         }
 
         $flow = [
@@ -44,6 +44,6 @@ class FlowController extends Controller
         if ($nextScreen == 0) {
             return route('student.financial');
         }
-        else return route('student.academic', ['screen' => $screen, 'curriculum' => $curriculum]);
+        else return route('student.academics', ['screen' => $nextScreen]);
     }
 }
