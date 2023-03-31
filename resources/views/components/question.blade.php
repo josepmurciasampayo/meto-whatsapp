@@ -43,38 +43,26 @@
     @if ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-phone-input label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}"></x-phone-input>
     @endif
-    @if ($question->format === App\Enums\QuestionFormat::COUNTRY())
-        <x-country-input name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" />
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
-            <x-country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}"></x-country-checkbox>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::EMAIL())
-            <x-email-input label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}"></x-email-input>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::PHONE())
-            <x-phone-input label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}"></x-phone-input>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::HIGHSCHOOL())
+    @if ($question->format === App\Enums\QuestionFormat::HIGHSCHOOL())
             <x-high_school_search label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-high_school_search>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::NUMBER())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::NUMBER())
             <x-number-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-number-input>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::DOLLAR())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::DOLLAR())
             <x-cash-value-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-cash-value-input>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::IBSUBJECT())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::IBSUBJECT())
             <x-ib-subjects-inputs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-ib-subjects-inputs>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
             <x-select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-select-other>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::GPA())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::GPA())
             <x-gpa-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-gpa-input>
-            @endif
-            @if ($question->format === App\Enums\QuestionFormat::AP())
+    @endif
+    @if ($question->format === App\Enums\QuestionFormat::AP())
             <x-ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-ap-subjects>
-            @endif
+    @endif
             
-            </div>
+    </div>

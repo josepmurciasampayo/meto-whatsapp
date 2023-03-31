@@ -14,14 +14,14 @@
     </div>
 
     <form method="POST" action="{{ route('question.store') }}">
-        <input type="hidden" name="question_id" value="{{ $question->id }}">
+        <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
-        <x-input-text saved="{{ $question->text }}" label="Text" name="text"></x-input-text>
-        <x-select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-select>
-        <x-select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-select>
-        <x-radio label="Required" :options="$yes" name="required" saved="{{ $yes[$question->required] }}"></x-radio>
-        <x-radio label="Active" :options="$active" name="active" saved="{{ $active[$question->status] }}"></x-radio>
-        <x-input-text label="Help Text" name="help" saved="{{ $question->help }}"></x-input-text>
+        <x-input-text saved="{!! $question->text !!}" label="Text" name="text"></x-input-text>
+        <x-select label="Format" :options="$formats" name="format" saved="{!! $question->format !!}"></x-select>
+        <x-select label="Category" :options="$categories" name="category" saved="{!! $question->type !!}"></x-select>
+        <x-radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-radio>
+        <x-radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-radio>
+        <x-input-text label="Help Text" name="help" saved="{!! $question->help !!}"></x-input-text>
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
             <div class="row fw-bold border-bottom mb-4">
@@ -34,7 +34,7 @@
             @foreach ($curricula as $id => $curriculum)
                 <div class="row my-3 d-flex align-items-center">
                     <div class="col text-end">
-                        <p>{{ $curriculum }}</p>
+                        <p>{!! $curriculum !!}</p>
                     </div>
                     <div class="col text-center">
                         @php $checked = ($question->$id == \App\Enums\General\YesNo::YES()) ? "checked" : "" @endphp
@@ -46,16 +46,17 @@
                     </div>
                     <div class="col">
                         @php $value = isset($screens[$id]['screen']) ? $screens[$id]['screen'] : null; @endphp
-                        <input style="width:75px" name="screen[{{ $id }}]" value="{{ $value }}" type="number">
+                        <input style="width:75px" name="screen[{{ $id }}]" value="{!! $value !!}" type="number">
                     </div>
                     <div class="col">
                         @php $value = isset($screens[$id]['order']) ? $screens[$id]['order'] : null; @endphp
-                        <input style="width:75px" name="order[{{ $id }}]" value="{{ $value }}" type="number">
+                        <input style="width:75px" name="order[{{ $id }}]" value="{!! $value !!}" type="number">
                     </div>
                 </div>
             @endforeach
-        @else
-            <x-input-text label="Order" name="order" saved="{{ $question->order }}"></x-input-text>
+
+            @else
+            <x-input-text label="Order" name="order" saved="{!! $question->order !!}"></x-input-text>
         @endif
 
         @if ($question->hasResponses())
@@ -103,20 +104,23 @@
                                     <input
                                         style="width:100px"
                                         type="number"
-                                        id="{{ $curriculum }}"
-                                        name="responseBranch[{{$response->id}}][{{ $id }}]"
-                                        value="{{ $value }}"
-                                    >
-                                    <label for="{{ $curriculum }}">{{ $curriculum }}</label><br/>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-        @endif
-        <div class="text-end">
-            <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
-        </div>
-    </form>
-</x-app-layout>
+                                        id="{!! $curriculum !!}"
+                                        name="responseBranch[{{$response->id}}][{{ $id }}]"                                        value="{!! $value !!}"
+                                        >
+                                        <label for="{!! $curriculum !!}">{!! $curriculum !!}</label><br/>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            @endif
+            <div class="text-end">
+                <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
+            </div>
+        </form>
+    </x-app-layout>
+    
+                                       
+
+
