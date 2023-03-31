@@ -20,7 +20,7 @@ class FlowController extends Controller
             Page::INTRO() => route('student.profile'),
             Page::PROFILE() => route('student.demographic'),
             Page::DEMO() => route('student.highschool'),
-            Page::HIGHSCHOOL() => route('student.academics'),
+            Page::HIGHSCHOOL() => route('student.academics', ['screen' => 0]),
             Page::FINANCIAL() => route('student.extracurricular'),
             Page::EXTRA() => route('student.university'),
             Page::UNIPLAN() => route('student.testing'),

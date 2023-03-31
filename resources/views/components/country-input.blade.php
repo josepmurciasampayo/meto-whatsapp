@@ -1,11 +1,7 @@
-<!-- resources/views/components/country-select.blade.php -->
-
+<!-- resources/views/components/country-input.blade.php -->
 @props(['name', 'help' => false, 'saved' => '', 'label' => ''])
 
-@php
-use App\Models\EnumCountry;
-$countries = EnumCountry::orderBy('name', 'asc')->get();
-@endphp
+@php $countries = App\Models\EnumCountry::orderBy('name', 'asc')->get(); @endphp
 
 <div class="my-4 bg-gray-100 px-4 py-3 rounded-md">
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</label>

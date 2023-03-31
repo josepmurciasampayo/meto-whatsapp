@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Welcome extends Mailable
+class InviteStudent extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,7 +33,7 @@ class Welcome extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Welcome! You have started your Meto profile.',
+            subject: 'Join ' . $this->user->first . ' on Meto',
         );
     }
 
@@ -45,7 +45,7 @@ class Welcome extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.welcome',
+            view: 'mail.inviteStudent',
         );
     }
 

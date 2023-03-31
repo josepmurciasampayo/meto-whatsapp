@@ -83,6 +83,15 @@ class User extends Authenticatable
         return ($this->role == Role::STUDENT());
     }
 
+    public function student_id() :?int
+    {
+        $student = Student::where('user_id', $this->id)->first();
+        if ($student) {
+            return $student->id;
+        }
+        return null;
+    }
+
     public function isCounselor() :bool
     {
         return ($this->role == Role::COUNSELOR());

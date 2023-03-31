@@ -6,11 +6,13 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FlowController;
+use App\Mail\Welcome;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -54,6 +56,7 @@ class RegisteredUserController extends Controller
         $user->save();
         event(new Registered($user));
         Auth::login($user);
+        Mail::to($user)->send(new Welcome($user));
         return redirect(FlowController::next($request));
     }
 }
