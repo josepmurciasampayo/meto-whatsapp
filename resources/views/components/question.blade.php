@@ -49,5 +49,7 @@
         <x-ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-ap-subjects>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
         <x-inputs.text-lookup label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.text-lookup>
+    @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
+        <x-inputs.letter-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.letter-grades>
     @endif
 </div>

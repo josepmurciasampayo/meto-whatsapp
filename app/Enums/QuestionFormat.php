@@ -28,6 +28,7 @@ enum QuestionFormat: int
     case GPA = 17;
     case AP = 18;
     case LOOKUP = 19;
+    case LETTERGRADE = 20;
 
     public static function getText(self $value): string
     {
@@ -51,6 +52,7 @@ enum QuestionFormat: int
             self::GPA => "US GPA",
             self::AP => "AP Subjects",
             self::LOOKUP => "Text with Lookup",
+            self::LETTERGRADE => "Letter Grades",
         };
     }
 }
