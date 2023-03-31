@@ -76,5 +76,9 @@
             @if ($question->format === App\Enums\QuestionFormat::AP())
             <x-ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-ap-subjects>
             @endif
+
+            @if ($question->format === App\Enums\QuestionFormat::LETTERGRADE())
+            <x-letter-grades label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}"></x-letter-grades>
+            @endif
             
             </div>
