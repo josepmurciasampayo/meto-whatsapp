@@ -33,20 +33,18 @@
         <x-email-input label="{{ $question->text }}" name="email" help="{{ $question->help }}" req="{{ $question->required }}"></x-email-input>
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-phone-input label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-phone-input>
-    @elseif ($question->format === App\Enums\QuestionFormat::HIGHSCHOOL())
-        <x-high_school_search label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-high_school_search>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())
-        <x-number-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-number-input>
+        <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.number>
     @elseif ($question->format === App\Enums\QuestionFormat::DOLLAR())
-        <x-cash-value-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-cash-value-input>
+        <x-inputs.dollar label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.dollar>
     @elseif ($question->format === App\Enums\QuestionFormat::IBSUBJECT())
-        <x-ib-subjects-inputs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-ib-subjects-inputs>
+        <x-inputs.ib-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.ib-subjects>
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
-        <x-select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-select-other>
+        <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.select-other>
     @elseif ($question->format === App\Enums\QuestionFormat::GPA())
-        <x-gpa-input label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-gpa-input>
+        <x-inputs.gpa label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.gpa>
     @elseif ($question->format === App\Enums\QuestionFormat::AP())
-        <x-ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-ap-subjects>
+        <x-inputs.ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.ap-subjects>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
         <x-inputs.text-lookup label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.text-lookup>
     @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
