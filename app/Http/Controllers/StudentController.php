@@ -68,7 +68,6 @@ class StudentController extends Controller
             'responses' => $responses,
             'answers' => $answers,
             'page' => $page,
-            'curricula' => Curriculum::descriptions(),
         ]);
     }
 
@@ -97,14 +96,10 @@ class StudentController extends Controller
         return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
     }
 
-    public function academics(int $screen = 0, int $curriculum = 0): View
+    public function academics(int $screen = 0, QuestionService $questionService): View
     {
-        if ($curriculum == 0) {
-            $questionService = new QuestionService();
-            $curriculum = $questionService->getCurriculum(Auth::user());
-            $screen = 1;
-        }
-
+        $curriculum = $questionService->getCurriculum(Auth::user());
+        $screen = ($screen == 0) ? 1 : $screen;
         return $this->renderAcademicView( Page::ACADEMIC, $curriculum, $screen, $questionService);
     }
 

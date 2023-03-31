@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-
 class QuestionService
 {
     public function create() :Question
@@ -63,7 +62,7 @@ class QuestionService
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
         $branchingQuestionID = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
-        $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->id)->first();
+        $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
         $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum', $curriculum)->get();
         foreach ($responseBranches as $branch) {
             if ($branch->response_id == $answer->response_id) {
@@ -76,9 +75,9 @@ class QuestionService
 
     public function getCurriculum(User $user) :?Curriculum
     {
-        $answer = Answer::where('question_id', 318)->where('user_id', $user->id)->first();
+        $answer = Answer::where('question_id', 318)->where('student_id', $user->student_id())->first();
         if ($answer) {
-            return Curriculum::from($answer);
+            return $answer->response_id;
         } else {
             return null;
         }
@@ -189,7 +188,7 @@ class QuestionService
         foreach ($questions as $question) {
             $question_ids[] = $question->id;
         }
-        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->id)->get();
+        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
         $answerArray = array();
         foreach ($answers as $answer) {
             $answerArray[$answer->question_id] = $answer->text;
@@ -199,6 +198,6 @@ class QuestionService
 
     public function getProgress(QuestionType $questionType = null) :int
     {
-
+        return 15;
     }
 }

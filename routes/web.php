@@ -11,11 +11,6 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TypeaheadController;
 
-
-
-
-
-
 // Unauthenticated routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form/{url}', '\App\Http\Controllers\UserFormController@show');
