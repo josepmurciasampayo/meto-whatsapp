@@ -1,4 +1,4 @@
-<!-- resources/views/components/email-input.blade.php -->
+<!-- resources/views/components/email.blade.php -->
 @props(['label' => '', 'name', 'help' => false, 'disabled' => false, 'saved' => "", 'req' => false])
 
 <div class="my-4 bg-gray-100 rounded-md p-4">

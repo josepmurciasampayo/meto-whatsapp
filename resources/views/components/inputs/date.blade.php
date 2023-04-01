@@ -1,4 +1,4 @@
-<!-- date-input.blade.php -->
+<!-- date.blade.php -->
 @props(['name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false])
 
 <div class="my-4 bg-gray-100 px-4 py-3 rounded-md">

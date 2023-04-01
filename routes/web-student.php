@@ -9,6 +9,8 @@ Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'get
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
 
 Route::middleware(['auth', 'terms', 'student'])->group(function () {
+    Route::post('/hsLookup', [TypeaheadController::class, 'autocompleteSearch'])->name('hsLookup');
+
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
     Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
     Route::get('/edit-info', [\App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
@@ -22,6 +24,8 @@ Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::get('/university', [\App\Http\Controllers\StudentController::class, 'university'])->name('student.university');
     Route::get('/testing', [\App\Http\Controllers\StudentController::class, 'testing'])->name('student.testing');
     Route::get('/general', [\App\Http\Controllers\StudentController::class, 'general'])->name('student.general');
+
+    Route::post('/inviteFriends', [\App\Http\Controllers\StudentController::class, 'invite'])->name('inviteFriends');
 
     Route::post('/handle', [\App\Http\Controllers\StudentController::class, 'handle'])->name('student.handle');
 });

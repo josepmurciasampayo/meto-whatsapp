@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\General\YesNo;
 use App\Enums\Page;
-use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
+use App\Mail\InviteStudent;
 use App\Models\Question;
-use App\Models\QuestionScreen;
-use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class StudentController extends Controller
@@ -31,10 +31,10 @@ class StudentController extends Controller
     {
         return view('student.edit-info', [
             'user' => Auth::user(),
-            'profileProgress' => $questionService->getProgress(),
+            'profileProgress' => 0,
             'demoProgress' => $questionService->getProgress(QuestionType::DEMOGRAPHIC),
             'hsProgress' => $questionService->getProgress(QuestionType::HIGHSCHOOL),
-            'academicProgress' => $questionService->getProgress(QuestionType::ACADEMIC),
+            'academicProgress' => 0,
             'financialProgress' => $questionService->getProgress(QuestionType::FINANCIAL),
             'extraProgress' => $questionService->getProgress(QuestionType::EXTRACURRICULAR),
             'uniProgress' => $questionService->getProgress(QuestionType::UNIVERSITY),
@@ -98,6 +98,8 @@ class StudentController extends Controller
 
     public function academics(int $screen, QuestionService $questionService): View
     {
+        Auth::user()->reminder = YesNo::YES();
+        Auth::user()->save();
         $curriculum = $questionService->getCurriculum(Auth::user());
         $screen = ($screen == 0) ? 1 : $screen;
         return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
@@ -105,6 +107,8 @@ class StudentController extends Controller
 
     public function financial(QuestionService $questionService): View
     {
+        Auth::user()->reminder = YesNo::YES();
+        Auth::user()->save();
         return $this->renderView(QuestionType::FINANCIAL, Page::FINANCIAL, $questionService);
     }
 
@@ -143,5 +147,11 @@ class StudentController extends Controller
             }
         }
         return redirect(FlowController::next($request));
+    }
+
+    public function invite(Request $request) :RedirectResponse
+    {
+        Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
+        return redirect(route('home'));
     }
 }

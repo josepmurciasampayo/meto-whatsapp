@@ -24,15 +24,15 @@
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
         <x-radio saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
-        <x-date-input name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-date-input>
+        <x-inputs.date name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY())
         <x-country-input name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-country-input>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
         <x-country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-country-checkbox>
     @elseif ($question->format === App\Enums\QuestionFormat::EMAIL())
-        <x-email-input label="{{ $question->text }}" name="email" help="{{ $question->help }}" req="{{ $question->required }}"></x-email-input>
+        <x-inputs.email label="{{ $question->text }}" name="email" help="{{ $question->help }}" req="{{ $question->required }}"></x-inputs.email>
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
-        <x-phone-input label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-phone-input>
+        <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.phone>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())
         <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.number>
     @elseif ($question->format === App\Enums\QuestionFormat::DOLLAR())

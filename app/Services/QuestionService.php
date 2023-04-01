@@ -14,6 +14,7 @@ use App\Models\QuestionScreen;
 use App\Models\Response;
 use App\Models\ResponseBranch;
 use App\Models\User;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -211,8 +212,22 @@ class QuestionService
         return $answerArray;
     }
 
-    public function getProgress(QuestionType $questionType = null) :int
+    public function getProgress(QuestionType $questionType) :int
     {
-        return 15;
+        $questions = Question::where('type', $questionType)->where('required', YesNo::YES())->get();
+        if (count($questions) == 0) {
+            return 0;
+        }
+        foreach ($questions as $question) {
+            $IDs[] = $question->id;
+        }
+        $student_id = Auth::user()->student_id();
+        $answers = Answer::where('student_id', $student_id)->whereIn('question_id', $IDs)->whereNotNull('text')->get();
+
+        $q = $questions->toArray();
+        $a = $answers->toArray();
+        Debugbar::info(print_r(array_column($q, 'id'), true));
+        Debugbar::info(print_r(array_column($a, 'question_id'), true));
+        return round(count($answers) / count($questions) * 100);
     }
 }

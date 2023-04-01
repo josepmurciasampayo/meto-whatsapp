@@ -1,12 +1,13 @@
 <x-app-layout>
-
-    <x-popup-redirect
-    title="Update Your Academic & Financial Information"
-    text="Please update your information to ensure that your records are up-to-date and you can get the best result from Meto."
-    btn_text="Update Now"
-    btn_href="/academics"
-    btn_icon="fas fa-cloud-upload-alt"
-/>
+    @if ($user->reminder == \App\Enums\General\YesNo::NO())
+        <x-popup-redirect
+            title="Update Your Academic & Financial Information"
+            text="Please update your information to ensure that your records are up-to-date and you can get the best result from Meto."
+            btn_text="Update Now"
+            btn_href="{{ route('student.academics', ['screen' => 0]) }}"
+            btn_icon="fas fa-cloud-upload-alt"
+        />
+    @endif
 
   <div class="min-h-screen">
       <div class="flex justify-between align-items-center">
@@ -46,7 +47,9 @@
       </div>
 
       <div class="flex justify-center ">
-          <x-button-nav href="{{route('student.home') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50"><i class="fas fa-eye"></i> View all connections</x-button-nav>
+          <x-button-nav href="{{route('student.home') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">
+              <i class="fas fa-eye"></i> View all connections
+          </x-button-nav>
       </div>
   </div>
 </x-app-layout>

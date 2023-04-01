@@ -28,8 +28,21 @@ class FlowController extends Controller
             Page::GENERAL() => route('student.home'),
         ];
 
+        $reverseFlow = [
+            Page::GETSTARTED() => route('home'),
+            Page::INTRO() => route('home'),
+            Page::PROFILE() => route('student.intro'),
+            Page::DEMO() => route('student.profile'),
+            Page::HIGHSCHOOL() => route('student.demographic'),
+            Page::FINANCIAL() => route('student.academics', ['screen' => 0]),
+            Page::EXTRA() => route('student.financial'),
+            Page::UNIPLAN() => route('student.extracurricular'),
+            Page::TESTING() => route('student.university'),
+            Page::GENERAL() => route('student.testing'),
+        ];
+
         if (isset($flow[$request->input('page')])) {
-            return $flow[$request->input('page')];
+            return ($request->input('direction') > 0) ? $flow[$request->input('page')] : $reverseFlow[$request->input('page')];
         }
 
         return route('home');

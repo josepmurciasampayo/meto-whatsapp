@@ -16,12 +16,15 @@ class HomeController extends Controller
         if (is_null($user)) {
             return redirect('login');
         }
+
         if ($user->isAdmin()) {
             return view('admin.home');
         }
+
         if (!$user->terms) {
             return redirect('terms');
         }
+
         if ($user->isCounselor()) {
             $school = HighSchool::getByCounselorID(Auth()->user()->id);
             $summaryCounts = HighSchool::getSummaryCounts($school->id);
@@ -32,9 +35,11 @@ class HomeController extends Controller
                 'notes' => $notes,
             ]);
         }
+
         if ($user->isInstitution()) {
             return view('institution.home');
         }
+
         if ($user->isStudent()) {
             return view('student.home', [
                 'user' => Auth::user(),

@@ -17,8 +17,22 @@ class TypeaheadController extends Controller
 
     public function autocompleteSearch(Request $request)
     {
-        $query = $request->get('query');
-        $filterResult = HighSchool::where('name', 'LIKE', '%' . $query . '%')->get();
-        return response()->json($filterResult);
+        $search = $request->search;
+
+        if ($search == '') {
+            return;
+        } else {
+            $schools = HighSchool::orderby('name','asc')->select('id','name')->where('name', 'like', '%' .$search . '%')->limit(5)->get();
+        }
+
+        $response = array();
+        foreach ($schools as $school){
+            $response[] = array(
+                "value" => $school->id,
+                "label" => $school->name,
+            );
+        }
+
+        return response()->json($response);
     }
 }

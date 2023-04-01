@@ -20,7 +20,6 @@ enum QuestionFormat: int
     case COUNTRY_CHECKBOX = 9; // Added this line for the COUNTRY_CHECKBOX input
     case EMAIL = 10; // Added this line for the EMAIL input
     case PHONE = 11; // Added this line for the Phone input
-    case HIGHSCHOOL = 12; // Added this line for the HS input
     case NUMBER = 13; // Added this line for the Number input
     case DOLLAR = 14; // Added this line for the Dollar Value input
     case SELECTWITHOTHER = 15;
@@ -44,7 +43,6 @@ enum QuestionFormat: int
             self::COUNTRY_CHECKBOX => 'Country_Checkbox', // Added this line for the country checkbox input
             self::EMAIL => 'Email', // Added this line for the country checkbox input
             self::PHONE => 'Phone', // Added this line for the Phone input
-            self::HIGHSCHOOL => 'HighSchool', // Added this line for the HS input
             self::NUMBER => 'Number', // Added this line for the Number input
             self::DOLLAR => 'Dollar Value (USD)', // Added this line for the $ value input
             self::SELECTWITHOTHER => "Select with Other",
