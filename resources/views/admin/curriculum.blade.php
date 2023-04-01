@@ -1,4 +1,7 @@
 <x-app-layout>
+    <div class="my-4 text-end">
+        <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+    </div>
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr class="text-center">
