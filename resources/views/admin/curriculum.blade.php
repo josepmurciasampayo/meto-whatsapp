@@ -26,8 +26,8 @@
         <tbody>
         @foreach ($questions as $index => $question)
             <tr class="text-center">
-                <td>{{ $question['order'] ?? "" }}</td>
                 <td>{{ $question['screen'] ?? "" }}</td>
+                <td>{{ $question['order'] ?? "" }}</td>
                 <td>{{ $question['branch'] ?? "" }}</td>
                 <td>{{ $question['format'] ?? "" }}</td>
                 <td><a target="_blank" href="{{ route('question', ['id' => $index]) }}">{{ $question['text'] ?? "" }}</a></td>
