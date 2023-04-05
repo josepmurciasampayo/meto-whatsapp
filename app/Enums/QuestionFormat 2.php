@@ -20,18 +20,10 @@ enum QuestionFormat: int
     case COUNTRY_CHECKBOX = 9; // Added this line for the COUNTRY_CHECKBOX input
     case EMAIL = 10; // Added this line for the EMAIL input
     case PHONE = 11; // Added this line for the Phone input
+    case HIGHSCHOOL = 12; // Added this line for the HS input
     case NUMBER = 13; // Added this line for the Number input
     case DOLLAR = 14; // Added this line for the Dollar Value input
-    case SELECTWITHOTHER = 15;
-    case IBSUBJECT = 16;
-    case GPA = 17;
-    case AP = 18;
-    case LOOKUP = 19;
-    case LETTERGRADE = 20;
-    case ALEVEL = 21;
-    case ALEVELGRADE = 22;
-    case CAMSUBJECT = 23;
-    case IGCSEGRADE = 24;
+    case IBSUBJECTS = 15; // Added this line for the IB Subjects input
 
     public static function getText(self $value): string
     {
@@ -47,18 +39,10 @@ enum QuestionFormat: int
             self::COUNTRY_CHECKBOX => 'Country_Checkbox', // Added this line for the country checkbox input
             self::EMAIL => 'Email', // Added this line for the country checkbox input
             self::PHONE => 'Phone', // Added this line for the Phone input
+            self::HIGHSCHOOL => 'HighSchool', // Added this line for the HS input
             self::NUMBER => 'Number', // Added this line for the Number input
             self::DOLLAR => 'Dollar Value (USD)', // Added this line for the $ value input
-            self::SELECTWITHOTHER => "Select with Other",
-            self::IBSUBJECT => "IB Subjects",
-            self::GPA => "US GPA",
-            self::AP => "AP Subjects",
-            self::LOOKUP => "Text with Lookup",
-            self::LETTERGRADE => "Letter Grades",
-            self::CAMSUBJECT => "Cambridge subjects",
-            self::IGCSEGRADE => "IGCSE Grades",
-            self::ALEVEL => "A-Level Subjects",
-            self::ALEVELGRADE => "A-Level Grades",
+            self::IBSUBJECTS => 'IB Subjects', // Added this line for the IB Subjects input
         };
     }
 }

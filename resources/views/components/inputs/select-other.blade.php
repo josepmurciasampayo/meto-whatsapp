@@ -1,18 +1,36 @@
-<x-select> </x-select>
-    <div class="mt-2" id="{{ $name }}-other" style="{{ $saved === 'other' ? 'display: block;' : 'display: none;' }}">
-        <input type="text" name="{{ $name }}_other" id="{{ $name }}_other" class="block w-full pr-10 pl-3 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-white" placeholder="Please specify" value="{{ $saved === 'other' ? old($name.'_other') : '' }}">
+@props(['name', 'label', 'saved' => '', 'options', 'help' => false, 'req' => false])
+
+<div x-data="{ showOther: '{{ $saved }}' === 'Other' }" class="my-4 bg-gray-100 px-4 py-3 rounded-md">
+    @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "*" : ""  @endphp
+    <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
+    @if ($help)
+        <div class="text-sm text-gray-600 italic mb-4">{{ $help }}</div>
+    @endif
+    <div class="relative">
+        @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "required" : ""  @endphp
+        <select
+            id="{{ $name }}"
+            name="{{ $name }}"
+            x-on:change="showOther = $event.target.value === 'Other'"
+            {{ $required }}
+            class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm"
+        >
+            <option value="">Select an option</option>
+            {{ $options }}
+            <option value="Other">Other</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"></div>
+    </div>
+    <div x-show="showOther" class="mt-2">
+        <input
+            type="text"
+            id="{{ $name }}_other"
+            name="{{ $name }}_other"
+            value="{{ $saved == 'Other' ? old($name . '_other') : '' }}"
+            class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm"
+            placeholder="Enter the 'Other' value"
+        >
     </div>
 </div>
 
-@push('scripts')
-<script>
-    function toggleOtherInput(selectElement) {
-        const otherInput = document.getElementById(selectElement.id + '-other');
-        if (selectElement.value === 'other') {
-            otherInput.style.display = 'block';
-        } else {
-            otherInput.style.display = 'none';
-        }
-    }
-</script>
-@endpush
+

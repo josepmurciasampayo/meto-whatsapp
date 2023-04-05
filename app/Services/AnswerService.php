@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AnswerService
 {
-    public function store(Question $question, mixed $input) :Answer
+    public function store(Question $question, mixed $input): Answer
     {
         $existing = Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->first();
         if (!$existing) {
@@ -34,7 +34,6 @@ class AnswerService
             case QuestionFormat::SELECT():
             case QuestionFormat::RADIO():
             case QuestionFormat::COUNTRY():
-            case QuestionFormat::HIGHSCHOOL():
             case QuestionFormat::SELECTWITHOTHER():
             case QuestionFormat::IBSUBJECT():
             case QuestionFormat::GPA():

@@ -1,4 +1,4 @@
-@props(['name', 'label', 'saved' => '', 'req' => false)
+@props(['name', 'label', 'saved' => '', 'req' => false])
 
 <div>
     @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "*" : ""  @endphp

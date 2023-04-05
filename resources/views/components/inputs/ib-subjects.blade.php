@@ -1,17 +1,8 @@
 @props(['name', 'label', 'saved' => ''])
 
-<div x-data="{ showOther: false }">
-    <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }}</label>
-    <div class="relative">
-        <select
-            id="{{ $name }}"
-            name="{{ $name }}"
-            x-model="showOther"
-            x-on:change="showOther = $event.target.value === 'Other'"
-            class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm"
-        >
-            <option value="">Select an IB Subject</option>
-            <option value="Biology">Biology</option>
+<x-inputs.select-other :name="$name" :label="$label" :saved="$saved">
+    <x-slot name="options">
+<option value="Biology">Biology</option>
 <option value="Business Management">Business Management</option>
 <option value="Chemistry">Chemistry</option>
 <option value="Classical Languages">Classical Languages</option>
@@ -50,17 +41,8 @@
 <option value="Theatre">Theatre</option>
 <option value="World Religions">World Religions</option>
 <option value="Visual Arts">Visual Arts</option>
-<option value="Other">Other</option>
-        </select>
-    </div>
-    <div x-show="showOther" class="mt-2">
-        <input
-        type="text"
-        id="{{ $name }}_other"
-        name="{{ $name }}_other"
-        value="{{ $saved == 'Other' ? old($name . '_other') : '' }}"
-        class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm"
-        placeholder="If you selected 'Other', enter the IB Subject"
-        >
-    </div>
-</div>
+  
+</x-slot>
+</x-inputs.select-other>
+
+           

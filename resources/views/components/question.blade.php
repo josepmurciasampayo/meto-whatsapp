@@ -49,5 +49,17 @@
         <x-inputs.text-lookup label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.text-lookup>
     @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
         <x-inputs.letter-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.letter-grades>
-    @endif
+    
+    @elseif ($question->format == \App\Enums\QuestionFormat::CAMSUBJECT())
+    <x-inputs.cambridge-subject saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.cambridge-subject>
+
+@elseif ($question->format == \App\Enums\QuestionFormat::IGCSEGRADE())
+<x-inputs.igcse-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.igcse-grades>
+
+@elseif ($question->format == \App\Enums\QuestionFormat::ALEVEL())
+<x-inputs.alevel-subjects saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.cambridge-subjects>
+
+@elseif ($question->format == \App\Enums\QuestionFormat::ALEVELGRADE())
+<x-inputs.alevel-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.igcse-grades>
+@endif
 </div>
