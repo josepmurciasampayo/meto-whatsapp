@@ -104,7 +104,7 @@
         </div>
         <div class="mb-3">
             <x-label for="body">Message:</x-label>
-            <x-textarea id="body" name="body"></x-textarea>
+            <x-inputs.textarea id="body" name="body"></x-inputs.textarea>
         </div>
         <x-button>Send</x-button>
     </form>

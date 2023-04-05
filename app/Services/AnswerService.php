@@ -25,12 +25,14 @@ class AnswerService
             case QuestionFormat::EMAIL():
             case QuestionFormat::NUMBER():
             case QuestionFormat::DOLLAR():
-            case QuestionFormat::PHONE():
             case QuestionFormat::LOOKUP():
                 $existing->text = $input;
                 break;
 
+            case QuestionFormat::PHONE():
+                $existing->text = json_encode($input);
                 break;
+
             case QuestionFormat::SELECT():
             case QuestionFormat::RADIO():
             case QuestionFormat::COUNTRY():
@@ -38,12 +40,14 @@ class AnswerService
             case QuestionFormat::IBSUBJECT():
             case QuestionFormat::GPA():
                 $existing->response_id = $input;
+                $response = \App\Models\Response::find($existing->response_id);
                 $existing->text = $input; // or we can save the index
                 break;
             case QuestionFormat::CHECKBOX():
-            case QuestionFormat::COUNTRY_CHECKBOX():
                 $existing->text = implode(',', array_keys($input));
                 break;
+            case QuestionFormat::COUNTRY_CHECKBOX():
+                $existing->text = implode(',', $input);
         }
         $existing->save();
         return $existing;

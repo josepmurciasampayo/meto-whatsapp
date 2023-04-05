@@ -17,10 +17,10 @@
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
         <x-input-text saved="{!! $question->text !!}" label="Text" name="text"></x-input-text>
-        <x-select label="Format" :options="$formats" name="format" saved="{!! $question->format !!}"></x-select>
-        <x-select label="Category" :options="$categories" name="category" saved="{!! $question->type !!}"></x-select>
-        <x-radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-radio>
-        <x-radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-radio>
+        <x-inputs.select label="Format" :options="$formats" name="format" saved="{!! $question->format !!}"></x-inputs.select>
+        <x-inputs.select label="Category" :options="$categories" name="category" saved="{!! $question->type !!}"></x-inputs.select>
+        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-inputs.radio>
+        <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
         <x-input-text label="Help Text" name="help" saved="{!! $question->help !!}"></x-input-text>
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
@@ -120,7 +120,7 @@
             </div>
         </form>
     </x-app-layout>
-    
-                                       
+
+
 
 

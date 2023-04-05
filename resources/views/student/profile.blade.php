@@ -11,7 +11,7 @@
                  <x-input-text name="first" label="First/Given Name" saved="{{ $user->first }}"></x-input-text>
                  <x-input-text name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-input-text>
                  <x-input-text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-input-text>
-                 <x-country-input name="country" label="Country"></x-country-input>
+                 <x-inputs.country name="country" label="Country"></x-inputs.country>
                  <x-input-text name="whatsapp" label="WhatsApp" saved="{{ $user->whatsapp }}"></x-input-text>
                  <x-button-icon type="submit" icon="fa fa-save" text="Save" />
 

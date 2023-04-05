@@ -1,5 +1,4 @@
 <!-- resources/views/components/country-checkbox.blade.php -->
-
 @props(['label', 'name', 'help' => false, 'saved' => ''])
 
 @php
@@ -15,8 +14,8 @@
     <div class="bg-white px-2" style="max-height: 150px; overflow: auto">
         @foreach ($countries as $country)
             <div>
-                <input type="checkbox" id="{{ $name }}_{{ $country->id }}" name="{{ $name }}[]" value="{{ $country->id }}" {{ in_array($country->id, $savedCountries) ? 'checked' : '' }} class="rounded text-green-600">
-                <label for="{{ $name }}_{{ $country->id }}" class="ml-2">{{ $country->name }}</label>
+                <input type="checkbox" id="{{ $name }}[{{ $country->id }}]" name="{{ $name }}[{{ $country->id }}]" value="{{ $country->id }}" {{ in_array($country->id, $savedCountries) ? 'checked' : '' }} class="rounded text-green-600">
+                <label for="{{ $name }}[{{ $country->id }}]" class="ml-2">{{ $country->name }}</label>
             </div>
         @endforeach
     </div>

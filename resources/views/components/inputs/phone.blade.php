@@ -1,4 +1,5 @@
-@props(['label' => 'Phone Number', 'name' => 'phone', 'help' => false, 'saved' => '', 'req' => false])
+@props(['label', 'name', 'help' => false, 'saved' => '', 'req' => false])
+@php $array = json_decode($saved) @endphp
 
 @php
   $countries = [
@@ -246,15 +247,6 @@
     '260' => 'Zambia (+260)',
     '263' => 'Zimbabwe (+263)'
 ];
-    $default_code = '1'; // change this to the default country code
-    $saved_code = $default_code;
-    $saved_number = '';
-
-    if (!empty($saved)) {
-        $saved_parts = explode(' ', $saved, 2);
-        $saved_code = $saved_parts[0];
-        $saved_number = $saved_parts[1];
-    }
 @endphp
 
 <div class="my-4 bg-gray-100 rounded-md p-4">
@@ -265,28 +257,11 @@
     @endif
     <div class="flex flex-wrap items-center">
         @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "required" : ""  @endphp
-        <select name="{{ $name }}_code" id="{{ $name }}_code" class="block w-full sm:w-32 pr-2 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm" {{ $required }}>
-            @foreach ($countries as $code => $name)
-                <option value="{{ $code }}" {{ $code == $saved_code ? 'selected' : '' }}>{{ $name }}</option>
+        <select name="{{ $name }}[code]" id="{{ $name }}[code]" class="block w-full sm:w-32 pr-2 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm" {{ $required }}>
+            @foreach ($countries as $code => $country)
+                <option value="{{ $code }}" {{ $code == $array->code ? 'selected' : '' }}>{{ $country }}</option>
             @endforeach
         </select>
-        <input type="tel" name="{{ $name }}_number" id="{{ $name }}_number" value="{{ $saved_number }}" placeholder="Enter phone number" class="mt-2 sm:mt-0 flex-1 ml-0 sm:ml-2 block w-full pr-10 pl-3 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-white" pattern="\d{0,10}" maxlength="10" oninput="this.value = this.value.replace(/\D/g, '')">
+        <input type="tel" name="{{ $name }}[number]" id="{{ $name }}[number]" value="{{ $array->number }}" placeholder="Enter phone number" class="mt-2 sm:mt-0 flex-1 ml-0 sm:ml-2 block w-full pr-10 pl-3 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-white" pattern="\d{0,10}" maxlength="10" oninput="this.value = this.value.replace(/\D/g, '')">
     </div>
-    <input type="hidden" name="{{ $name }}" id="{{ $name }}" value="{{ $saved_code }} {{ $saved_number }}">
 </div>
-
-@push('scripts')
-    <script>
-        const codeSelect = document.getElementById('{{ $name }}_code');
-        const numberInput = document.getElementById('{{ $name }}_number');
-        const hiddenInput = document.getElementById('{{ $name }}');
-
-        // update the hidden input value when the code or number input changes
-        const updateHiddenValue = () => {
-            hiddenInput.value = codeSelect.value + ' ' + numberInput.value.replace(/[^0-9]/g, '');
-        };
-
-        codeSelect.addEventListener('change', updateHiddenValue);
-        numberInput.addEventListener('input', updateHiddenValue);
-    </script>
-@endpush

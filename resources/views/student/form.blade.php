@@ -6,6 +6,7 @@
                 <input type="hidden" name="page" value="{{ $page ?? null }}">
                 <input type="hidden" name="curriculum" value="{{ $curriculum ?? null }}">
                 <input type="hidden" name="screen" value="{{ $screen ?? null }}">
+                <input type="hidden" name="direction" id="direction" value="1">
                 @csrf
 
                 @foreach ($questions as $question)

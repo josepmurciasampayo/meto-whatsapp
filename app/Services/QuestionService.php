@@ -224,10 +224,8 @@ class QuestionService
         $student_id = Auth::user()->student_id();
         $answers = Answer::where('student_id', $student_id)->whereIn('question_id', $IDs)->whereNotNull('text')->get();
 
-        $q = $questions->toArray();
-        $a = $answers->toArray();
-        Debugbar::info(print_r(array_column($q, 'id'), true));
-        Debugbar::info(print_r(array_column($a, 'question_id'), true));
+        $type = QuestionType::descriptions()[$questionType()];
+        Debugbar::info($type . ": " . count($questions) . " questions, " . count($answers) . " answers");
         return round(count($answers) / count($questions) * 100);
     }
 }
