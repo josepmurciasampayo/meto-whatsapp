@@ -15,14 +15,14 @@
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
         <x-input-text saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-input-text>
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
-        <x-textarea saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-textarea>
+        <x-inputs.textarea saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.textarea>
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())
-        <x-select saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-select>
+        <x-inputs.select saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.select>
     @elseif ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
         @php $answer = explode(',', $answer->text) @endphp
-        <x-checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-checkbox>
+        <x-inputs.checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.checkbox>
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
-        <x-radio saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-radio>
+        <x-inputs.radio saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
         <x-inputs.date name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY())
