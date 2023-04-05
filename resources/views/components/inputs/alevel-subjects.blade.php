@@ -21,7 +21,6 @@
         <option value="Design & Textiles">Design & Textiles</option>
         <option value="Digital Media & Design">Digital Media & Design</option>
         <option value="Divinity (A Level only)">Divinity (A Level only)</option>
-        <option value="Divinity (AS Level only)">
         <option value="Drama">Drama</option>
         <option value="Economics">Economics</option>
         <option value="English - Language and Literature (AS Level only)">English - Language and Literature (AS Level only)</option>
