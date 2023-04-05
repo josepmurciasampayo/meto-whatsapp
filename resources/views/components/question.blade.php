@@ -61,5 +61,7 @@
 
 @elseif ($question->format == \App\Enums\QuestionFormat::ALEVELGRADE())
 <x-inputs.alevel-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.igcse-grades>
+@elseif ($question->format == \App\Enums\QuestionFormat::ALEVELGRADE())
+    <x-inputs.ib-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.ib-grades>
 @endif
 </div>

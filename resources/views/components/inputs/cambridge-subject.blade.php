@@ -4,6 +4,7 @@
 
      <x-inputs.select-other :name="$name" :label="$label" :saved="$saved">
          <x-slot name="options">
+        
             <option value="Accounting">Accounting</option>
     <option value="Accounting (9-1)">Accounting (9-1)</option>
     <option value="Afrikaans - Second Language">Afrikaans - Second Language</option>
@@ -107,6 +108,7 @@
     <option value="Urdu as a Second Language">Urdu as a Second Language</option>
     <option value="World Literature">World Literature</option>
     <option value="AP Spanish Language and Culture">AP Spanish Language and Culture</option>
+               
             
          </x-slot>
      </x-inputs.select-other>  

@@ -32,6 +32,7 @@ enum QuestionFormat: int
     case ALEVELGRADE = 22;
     case CAMSUBJECT = 23;
     case IGCSEGRADE = 24;
+    case IBGRADE = 25;
 
     public static function getText(self $value): string
     {
@@ -59,6 +60,7 @@ enum QuestionFormat: int
             self::IGCSEGRADE => "IGCSE Grades",
             self::ALEVEL => "A-Level Subjects",
             self::ALEVELGRADE => "A-Level Grades",
+            self::IBGRADE => "IB Grades",
         };
     }
 }
