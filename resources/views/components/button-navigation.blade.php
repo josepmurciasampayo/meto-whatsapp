@@ -1,5 +1,4 @@
 <div style="display: flex; justify-content: center; gap: 16px;">
-    <input type="hidden" name="direction" id="direction" value="1">
     <script type="text/javascript">
         function goBack() {
             document.getElementById('direction').value = -1;

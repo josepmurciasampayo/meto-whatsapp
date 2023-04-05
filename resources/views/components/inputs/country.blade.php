@@ -1,4 +1,4 @@
-<!-- resources/views/components/country-input.blade.php -->
+<!-- resources/views/components/country.blade.php -->
 @props(['name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false])
 
 @php $countries = App\Models\EnumCountry::orderBy('name', 'asc')->get(); @endphp
