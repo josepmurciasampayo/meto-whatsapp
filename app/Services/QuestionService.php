@@ -56,7 +56,8 @@ class QuestionService
             foreach ($questionIDs as $questionID) {
                 $ids[] = $questionID->question_id;
             }
-            $questions = Question::whereIn('id', $ids)->get();
+            $idString = implode(",", $ids);
+            $questions = Question::whereIn('id', $ids)->orderByRaw("FIELD(id, $idString)")->get();
         }
 
         $toReturn = array();
