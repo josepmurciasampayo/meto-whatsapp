@@ -1,6 +1,12 @@
 <x-app-layout>
-    <div class="my-4 text-end">
-        <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+    <div class="my-4">
+        <div class="text-start">
+            <h3>{{ $curriculum }}</h3>
+        </div>
+        <div class="text-end">
+            <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+        </div>
+        <a href="{{ route('curricula') }}">Back to Curricula</a>
     </div>
     <table id="dataTable" class="table table-striped bg-white">
         <thead>

@@ -127,6 +127,7 @@ class QuestionService
         $question->screen = (is_array($request->input('screen'))) ? null : $request->input('screen') ;
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
 
+
         foreach (Curriculum::descriptions() as $index => $value) {
             $question->curriculum($index, false);
         }
@@ -146,6 +147,7 @@ class QuestionService
                     $questionScreen->screen = $request->input('screen')[$curriculum];
                     $questionScreen->order = $request->input('order')[$curriculum];
                     $questionScreen->branch = isset($request->input('hasBranch')[$curriculum]) ? YesNo::YES() : YesNo::NO();
+                    $questionScreen->destination_screen = ($questionScreen->branch == YesNo::YES()) ? $request->input('destination')[$curriculum] : null;
                     $questionScreen->save();
                 }
             }

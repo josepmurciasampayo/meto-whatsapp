@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen">
+    <div class="min-h-screen mt-3">
         <x-image-with-text image-src="/img/Meto-background.webp"/>
         <div class="w-full lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form method="POST" action="{{ route('student.handle') }}">
@@ -21,7 +21,7 @@
                     </div>
                 @endforeach
 
-            <x-button-navigation/>
+                <x-button-navigation/>
 
             </form>
         </div>

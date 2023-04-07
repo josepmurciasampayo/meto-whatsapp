@@ -15,6 +15,7 @@ class QuestionScreen extends Model
             $toReturn[$screen->curriculum]['screen'] = $screen->screen;
             $toReturn[$screen->curriculum]['order'] = $screen->order;
             $toReturn[$screen->curriculum]['branch'] = $screen->branch;
+            $toReturn[$screen->curriculum]['destination_screen'] = $screen->destination_screen;
         }
 
         return $toReturn;

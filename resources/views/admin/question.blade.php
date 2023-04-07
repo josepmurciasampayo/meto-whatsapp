@@ -7,7 +7,7 @@
     <?php $yes[""] = ''; ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
-    <h3 class="display-7 flex justify-center">Editing Question</h3>
+    <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
 
     <div class="flex justify-center mt-6 mb-6">
         <x-button-nav href="{{ route('questions') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to questions <i class="fas fa-question-circle"></i></x-button-nav>
@@ -30,6 +30,9 @@
                 <div class="col text-center">Branching</div>
                 <div class="col text-center">Screen</div>
                 <div class="col text-center">Order</div>
+                @if (!$question->hasResponses())
+                    <div class="col text-center">Destination Screen</div>
+                @endif
             </div>
             @foreach ($curricula as $id => $curriculum)
                 <div class="row my-3 d-flex align-items-center">
@@ -44,18 +47,25 @@
                         @php $checked = (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES()) ? "checked" : "" @endphp
                         <input type="checkbox" name="hasBranch[{{$id}}]" {{ $checked }}>
                     </div>
-                    <div class="col">
+                    <div class="col text-center">
                         @php $value = isset($screens[$id]['screen']) ? $screens[$id]['screen'] : null; @endphp
                         <input style="width:75px" name="screen[{{ $id }}]" value="{!! $value !!}" type="number">
                     </div>
-                    <div class="col">
+                    <div class="col text-center">
                         @php $value = isset($screens[$id]['order']) ? $screens[$id]['order'] : null; @endphp
                         <input style="width:75px" name="order[{{ $id }}]" value="{!! $value !!}" type="number">
                     </div>
+                    @if (!$question->hasResponses())
+                        <div class="col text-center">
+                            @php $value = isset($screens[$id]['destination_screen']) ? $screens[$id]['destination_screen'] : null; @endphp
+                            @php $disabled = (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES()) ? "" : "disabled" @endphp
+                            <input style="width:75px" name="destination[{{ $id }}]" value="{!! $value !!}" type="number" {{ $disabled }}>
+                        </div>
+                    @endif
                 </div>
             @endforeach
 
-            @else
+        @else
             <x-input-text label="Order" name="order" saved="{!! $question->order !!}"></x-input-text>
         @endif
 
@@ -101,26 +111,20 @@
                             @foreach ($curricula as $id => $curriculum)
                                 @if (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES())
                                     @php $value = (isset($branches[$response->id][$id])) ? $branches[$response->id][$id] : null; @endphp
-                                    <input
-                                        style="width:100px"
-                                        type="number"
-                                        id="{!! $curriculum !!}"
-                                        name="responseBranch[{{$response->id}}][{{ $id }}]"                                        value="{!! $value !!}"
-                                        >
-                                        <label for="{!! $curriculum !!}">{!! $curriculum !!}</label><br/>
-                                    @endif
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
-            @endif
-            <div class="text-end">
-                <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
-            </div>
-        </form>
-    </x-app-layout>
+                                    <input style="width:100px" type="number" id="{!! $curriculum !!}" name="responseBranch[{{$response->id}}][{{ $id }}]" value="{!! $value !!}">
+                                    <label for="{!! $curriculum !!}">{!! $curriculum !!}</label><br/>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        @elseif (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES())
+            <x-input label="Destination Screen" name="dest_screen" saved=""></x-input>
+        @endif
 
-
-
-
+        <div class="text-end">
+            <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
+        </div>
+    </form>
+</x-app-layout>

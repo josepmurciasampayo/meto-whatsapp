@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\QuestionFormat;
-use App\Enums\QuestionStatus;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Helpers;
-use App\Models\Answer;
 use App\Models\Chat\MessageState;
 use App\Models\HighSchool;
 use App\Models\Institution;
@@ -25,7 +23,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Fluent;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -189,7 +186,8 @@ class AdminController extends Controller
         }
 
         return view('admin.curriculum', [
-            'questions' => $questions
+            'questions' => $questions,
+            'curriculum' => Curriculum::descriptions()[$curriculum],
         ]);
     }
 

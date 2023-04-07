@@ -8,9 +8,7 @@
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <div>
-                    <x-input id="email" type="email" name="email" :value="old('email')" label="Email" required autofocus />
-                </div>
+                <x-input id="email" type="email" name="email" :value="old('email')" label="Email" required autofocus />
                 <div class="mt-4">
                     <x-input id="password" class="block mt-1 w-full"
                              type="password"

@@ -19,7 +19,7 @@
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())
         <x-inputs.select saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.select>
     @elseif ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
-        @php $answer = explode(',', $answer->text) @endphp
+        @php $answer = (is_null($answer)) ? [] : explode(',', $answer) @endphp
         <x-inputs.checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.checkbox>
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
         <x-inputs.radio saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.radio>
@@ -30,7 +30,7 @@
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
         <x-inputs.country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.country-checkbox>
     @elseif ($question->format === App\Enums\QuestionFormat::EMAIL())
-        <x-inputs.email label="{{ $question->text }}" name="email" help="{{ $question->help }}" req="{{ $question->required }}"></x-inputs.email>
+        <x-inputs.email label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" req="{{ $question->required }}" saved="{{ $answer }}"></x-inputs.email>
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.phone>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())

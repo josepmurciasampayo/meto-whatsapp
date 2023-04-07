@@ -5,6 +5,6 @@
             document.forms[0].submit();
         }
     </script>
-  <x-button onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
+  <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
   <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
 </div>

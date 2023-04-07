@@ -12,6 +12,9 @@ class FlowController extends Controller
     public static function next(Request $request): string
     {
         if ($request->input('page') == Page::ACADEMIC()) {
+            if ($request->input('screen') == 1 && $request->input('direction') == -1) {
+                return route('student.highschool');
+            }
             return self::nextAcademic($request);
         }
 
