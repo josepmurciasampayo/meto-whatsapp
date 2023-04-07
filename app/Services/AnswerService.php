@@ -11,12 +11,13 @@ class AnswerService
 {
     public function store(Question $question, mixed $input): Answer
     {
-        $existing = Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->first();
+        $existing = Answer::where('question_id', $question->id)->where('student_id', Auth::id())->first();
         if (!$existing) {
             $existing = new Answer();
-            $existing->student_id = Auth::user()->student_id();
+            $existing->student_id = Auth::id();
             $existing->question_id = $question->id;
         }
+
 
         switch ($question->format) {
             case QuestionFormat::INPUT():
