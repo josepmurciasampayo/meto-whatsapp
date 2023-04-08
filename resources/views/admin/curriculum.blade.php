@@ -31,7 +31,12 @@
 
         <tbody>
         @foreach ($questions as $index => $question)
-            <tr class="text-center">
+            @if (isset($question['screen']))
+                @php $background = $screens[$question['screen']] ? "" : "#ff6961"; @endphp
+            @else
+                @php $background = ""; @endphp
+            @endif
+            <tr class="text-center" style="background-color: {{ $background }}">
                 <td>{{ $question['screen'] ?? "" }}</td>
                 <td>{{ $question['order'] ?? "" }}</td>
                 <td>{{ $question['branch'] ?? "" }}</td>

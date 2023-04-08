@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\General\YesNo;
 use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
@@ -158,7 +159,7 @@ class AdminController extends Controller
 
     public function curriculum(int $curriculum, QuestionService $questionService) :View
     {
-        $questions = $IDs = array();
+        $questions = $screens = array();
 
         $q = $questionService->getAcademic($curriculum);
         foreach ($q as $question) {
@@ -171,6 +172,11 @@ class AdminController extends Controller
             $questions[$screen->question_id]['screen'] = $screen->screen;
             $questions[$screen->question_id]['order'] = $screen->order;
             $questions[$screen->question_id]['branch'] = array();
+
+            if (!isset($screens[$screen->screen]['destination'])) {
+                $screens[$screen->screen] = false;
+            }
+            $screens[$screen->screen] = $screens[$screen->screen] || ($screen->branch == YesNo::YES()) || $screen->destination_screen;
         }
 
         $b = ResponseBranch::where('curriculum', $curriculum)->get();
@@ -188,6 +194,7 @@ class AdminController extends Controller
         return view('admin.curriculum', [
             'questions' => $questions,
             'curriculum' => Curriculum::descriptions()[$curriculum],
+            'screens' => $screens,
         ]);
     }
 

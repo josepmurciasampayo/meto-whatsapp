@@ -70,6 +70,10 @@ class QuestionService
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
         $branchingQuestionID = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
+        if (is_null($branchingQuestionID)) {
+            $destination = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
+            return $destination->destination_screen;
+        }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
         $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum', $curriculum)->get();
         foreach ($responseBranches as $branch) {
