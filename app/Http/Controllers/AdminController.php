@@ -162,9 +162,9 @@ class AdminController extends Controller
         $questions = $screens = array();
 
         $q = $questionService->getAcademic($curriculum);
-        foreach ($q as $question) {
-            $questions[$question->id]['text'] = $question->text;
-            $questions[$question->id]['format'] = QuestionFormat::descriptions()[$question->format];
+        foreach ($q as $id => $question) {
+            $questions[$id]['text'] = $question['text'];
+            $questions[$id]['format'] = QuestionFormat::descriptions()[$question['format']];
         }
 
         $s = QuestionScreen::where('curriculum', $curriculum)->get();

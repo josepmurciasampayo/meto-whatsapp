@@ -6,6 +6,7 @@ use App\Enums\General\Channel;
 use App\Models\LogComms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Fluent;
 
 /**
  *
@@ -27,7 +28,7 @@ class Helpers
         if ($elapsed > 50) {
             Log::channel('db')->debug('Query took ' . $elapsed . ' ms: ' . $query . "\n\n");
         }
-        return $toReturn;
+        return ($toReturn);
     }
 
     public static function dbUpdate($query) :void

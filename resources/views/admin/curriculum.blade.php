@@ -30,7 +30,7 @@
         </tfoot>
 
         <tbody>
-        @foreach ($questions as $index => $question)
+        @foreach ($questions as $id => $question)
             @if (isset($question['screen']))
                 @php $background = $screens[$question['screen']] ? "" : "#ff6961"; @endphp
             @else
@@ -41,7 +41,7 @@
                 <td>{{ $question['order'] ?? "" }}</td>
                 <td>{{ $question['branch'] ?? "" }}</td>
                 <td>{{ $question['format'] ?? "" }}</td>
-                <td><a target="_blank" href="{{ route('question', ['id' => $index]) }}">{{ $question['text'] ?? "" }}</a></td>
+                <td><a target="_blank" href="{{ route('question', ['id' => $id]) }}">{{ $question['text'] ?? "" }}</a></td>
             </tr>
         @endforeach
         </tbody>

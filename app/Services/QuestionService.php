@@ -18,6 +18,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Fluent;
 
 class QuestionService
 {
@@ -50,7 +51,10 @@ class QuestionService
     public function getAcademic(int $curriculum, int $screen = null) :array
     {
         if (is_null($screen)) {
-            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->whereNotin('format', [null, 0])->get();
+            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->whereNot('format', 0)->orderBy('order')->get();
+            $questions = Helpers::dbQueryArray('
+                select * from view_questions where type = ' . QuestionType::ACADEMIC() . ' and curriculum = ' . $curriculum . ' and format != 0 order by screen, `order`
+            ');
         } else {
             $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
             foreach ($questionIDs as $questionID) {
@@ -61,10 +65,10 @@ class QuestionService
         }
 
         $toReturn = array();
-        foreach ($questions as $question) {
-            $toReturn[$question->id] = $question;
+        foreach ($questions as $index => $question) {
+            $toReturn[$question['question_id']] = $question;
         }
-        return $toReturn;
+        return ($toReturn);
     }
 
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
@@ -153,7 +157,7 @@ class QuestionService
                     $questionScreen->screen = $request->input('screen')[$curriculum];
                     $questionScreen->order = $request->input('order')[$curriculum];
                     $questionScreen->branch = isset($request->input('hasBranch')[$curriculum]) ? YesNo::YES() : YesNo::NO();
-                    if ($questionScreen->branch == YesNo::YES() && $request->has('destination')) {
+                    if ($questionScreen->branch == YesNo::YES() && $request->has('destination') && isset($request->input('destination')[$curriculum])) {
                         $questionScreen->destination_screen = $request->input('destination')[$curriculum];
                     } else {
                         $questionScreen->destination_screen = null;

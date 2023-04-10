@@ -96,11 +96,14 @@ class StudentController extends Controller
         return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
     }
 
-    public function academics(int $screen, QuestionService $questionService): View
+    public function academics(int $screen, QuestionService $questionService): View|RedirectResponse
     {
         Auth::user()->reminder = YesNo::YES();
         Auth::user()->save();
         $curriculum = $questionService->getCurriculum(Auth::user());
+        if (is_null($curriculum)) {
+            return redirect(route('student.highschool'));
+        }
         $screen = ($screen == 0) ? 1 : $screen;
         return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
     }
