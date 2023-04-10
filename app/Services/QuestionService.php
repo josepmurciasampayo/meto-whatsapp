@@ -50,7 +50,7 @@ class QuestionService
     public function getAcademic(int $curriculum, int $screen = null) :array
     {
         if (is_null($screen)) {
-            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->get();
+            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->whereNotin('format', [null, 0])->get();
         } else {
             $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
             foreach ($questionIDs as $questionID) {
@@ -139,10 +139,11 @@ class QuestionService
         $question->save();
 
         // reset all info before saving just-submitted info
-        QuestionScreen::where('question_id', $question->id)->delete();
+        $q = QuestionScreen::where('question_id', $question->id)->get();
 
         if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC()) {
             if ($request->has('inUse')) {
+
                 foreach ($request->input('inUse') as $curriculum => $value) {
                     $question->curriculum($curriculum, true);
 

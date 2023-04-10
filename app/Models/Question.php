@@ -14,7 +14,7 @@ class Question extends Model
 {
     public function curriculum(int $curriculum, bool $inUse = null) :bool
     {
-        if ($inUse) {
+        if (!is_null($inUse) && $curriculum < 9) {
             $value = ($inUse) ? YesNo::YES() : YesNo::NO();
             $update = "update meto_questions set `" . $curriculum . "` = " . $value . " where id = " . $this->id . ';';
             DB::update($update);
