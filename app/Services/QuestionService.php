@@ -152,7 +152,11 @@ class QuestionService
                     $questionScreen->screen = $request->input('screen')[$curriculum];
                     $questionScreen->order = $request->input('order')[$curriculum];
                     $questionScreen->branch = isset($request->input('hasBranch')[$curriculum]) ? YesNo::YES() : YesNo::NO();
-                    $questionScreen->destination_screen = ($questionScreen->branch == YesNo::YES()) ? $request->input('destination')[$curriculum] : null;
+                    if ($questionScreen->branch == YesNo::YES() && $request->has('destination')) {
+                        $questionScreen->destination_screen = $request->input('destination')[$curriculum];
+                    } else {
+                        $questionScreen->destination_screen = null;
+                    }
                     $questionScreen->save();
                 }
             }
