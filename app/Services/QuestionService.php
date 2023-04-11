@@ -43,7 +43,7 @@ class QuestionService
 
         $toReturn = array();
         foreach ($questions as $question) {
-            $toReturn[$question->id] = $question;
+            $toReturn[$question->id] = new Fluent($question->toArray());
         }
         return $toReturn;
     }
@@ -62,8 +62,8 @@ class QuestionService
         }
 
         $toReturn = array();
-        foreach ($questions as $index => $question) {
-            $toReturn[$question['question_id']] = $question;
+        foreach ($questions as $question) {
+            $toReturn[$question['question_id']] = new Fluent($question->toArray());
         }
         return ($toReturn);
     }

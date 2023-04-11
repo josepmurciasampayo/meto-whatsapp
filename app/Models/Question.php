@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\EnumGroup;
 use App\Enums\General\YesNo;
 use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
@@ -23,6 +22,11 @@ class Question extends Model
         } else {
             return $this->$curriculum == YesNo::YES();
         }
+    }
+
+    public static function hasResponses(Fluent $question) :bool
+    {
+        return in_array($question->format, QuestionFormat::hasResponses());
     }
 
     public function academicJoin(Curriculum $curriculum) :QuestionScreen
