@@ -51,17 +51,14 @@ class QuestionService
     public function getAcademic(int $curriculum, int $screen = null) :array
     {
         if (is_null($screen)) {
-            $questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->whereNot('format', 0)->orderBy('order')->get();
+            //$questions = Question::where('type', QuestionType::ACADEMIC())->where($curriculum,YesNo::YES())->whereNot('format', 0)->orderBy('order')->get();
             $questions = Helpers::dbQueryArray('
                 select * from view_questions where type = ' . QuestionType::ACADEMIC() . ' and curriculum = ' . $curriculum . ' and format != 0 order by screen, `order`
             ');
         } else {
-            $questionIDs = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->orderBy('order')->get();
-            foreach ($questionIDs as $questionID) {
-                $ids[] = $questionID->question_id;
-            }
-            $idString = implode(",", $ids);
-            $questions = Question::whereIn('id', $ids)->orderByRaw("FIELD(id, $idString)")->get();
+            $questions = Helpers::dbQueryArray('
+                select * from view_questions where type = ' . QuestionType::ACADEMIC() . ' and curriculum = ' . $curriculum . ' and screen = ' . $screen . ' and format != 0 order by `order`
+            ');
         }
 
         $toReturn = array();
@@ -203,8 +200,8 @@ class QuestionService
     public function responses(array $questions) :array
     {
         $question_ids = array();
-        foreach ($questions as $question) {
-            $question_ids[] = $question->id;
+        foreach ($questions as $id => $question) {
+            $question_ids[] = $id;
         }
         $responses = Response::whereIn('question_id', $question_ids)->get();
         $responseArray = array();
@@ -217,8 +214,8 @@ class QuestionService
     public function answers(array $questions) :array
     {
         $question_ids = array();
-        foreach ($questions as $question) {
-            $question_ids[] = $question->id;
+        foreach ($questions as $id => $question) {
+            $question_ids[] = $id;
         }
         $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
         $answerArray = array();

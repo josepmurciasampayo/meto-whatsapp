@@ -6,6 +6,7 @@
         @if ($help)
         <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
         @endif
+
         @foreach ($options as $id => $option)
             @php $checked = (in_array($id, $saved)) ? 'checked' : '' @endphp
             <label class="inline-flex items-center">
@@ -16,5 +17,6 @@
                 @break
             @endif
         @endforeach
+
     </fieldset>
 </div>

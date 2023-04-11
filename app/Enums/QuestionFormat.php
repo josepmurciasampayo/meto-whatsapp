@@ -34,6 +34,25 @@ enum QuestionFormat: int
     case IGCSEGRADE = 24;
     case IBGRADE = 25;
 
+    public static function hasResponses() {
+        return
+            [
+                self::CHECKBOX(),
+                self::RADIO(),
+                self::SELECT(),
+                self::SELECTWITHOTHER(),
+                self::IBSUBJECT(),
+                self::GPA(),
+                self::AP(),
+                self::LETTERGRADE(),
+                self::ALEVEL(),
+                self::ALEVELGRADE(),
+                self::CAMSUBJECT(),
+                self::IGCSEGRADE(),
+                self::IBGRADE(),
+            ];
+    }
+
     public static function getText(self $value): string
     {
         return match ($value) {

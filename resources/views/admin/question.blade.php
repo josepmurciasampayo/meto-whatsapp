@@ -30,7 +30,7 @@
                 <div class="col text-center">Branching</div>
                 <div class="col text-center">Screen</div>
                 <div class="col text-center">Order</div>
-                @if (!$question->hasResponses())
+                @if (!in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
                     <div class="col text-center">Destination Screen</div>
                 @endif
             </div>
@@ -55,7 +55,7 @@
                         @php $value = isset($screens[$id]['order']) ? $screens[$id]['order'] : null; @endphp
                         <input style="width:75px" name="order[{{ $id }}]" value="{!! $value !!}" type="number">
                     </div>
-                    @if (!$question->hasResponses())
+                    @if (!in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
                         <div class="col text-center">
                             @php $value = isset($screens[$id]['destination_screen']) ? $screens[$id]['destination_screen'] : null; @endphp
                             @php $disabled = (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES()) ? "" : "disabled" @endphp
@@ -69,7 +69,7 @@
             <x-input-text label="Order" name="order" saved="{!! $question->order !!}"></x-input-text>
         @endif
 
-        @if ($question->hasResponses())
+        @if (in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
             <input type="hidden" name="toDelete" id="toDelete" value="0">
             <script type="text/javascript">
                 function deleteResponse(id) {

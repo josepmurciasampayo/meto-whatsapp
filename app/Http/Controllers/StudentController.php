@@ -63,6 +63,7 @@ class StudentController extends Controller
         $questions = $questionService->get($questionType);
         $responses = $questionService->responses($questions);
         $answers = $questionService->answers($questions);
+
         return view('student.form', [
             'questions' => $questions,
             'responses' => $responses,

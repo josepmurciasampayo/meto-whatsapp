@@ -9,6 +9,7 @@ use App\Enums\Student\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Fluent;
 
 class Question extends Model
 {
@@ -27,16 +28,6 @@ class Question extends Model
     public function academicJoin(Curriculum $curriculum) :QuestionScreen
     {
         return QuestionScreen::where('question_id', $this->id)->where('curriculum', $curriculum())->first();
-    }
-
-    public function hasResponses() :bool
-    {
-        return in_array($this->format, [
-            \App\Enums\QuestionFormat::CHECKBOX(),
-            \App\Enums\QuestionFormat::RADIO(),
-            \App\Enums\QuestionFormat::SELECT(),
-            QuestionFormat::SELECTWITHOTHER(),
-        ]);
     }
 
     public static function findByText(string $text) :?Question

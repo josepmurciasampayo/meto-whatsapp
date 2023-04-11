@@ -9,11 +9,11 @@
                 <input type="hidden" name="direction" id="direction" value="1">
                 @csrf
 
-                @foreach ($questions as $question)
+                @foreach ($questions as $id => $question)
                     <div class="my-3">
-                    <?php $a = isset($answers[$question->id]) ? $answers[$question->id] : null ?>
-                    @if ($question->hasResponses())
-                        <?php $r = isset($responses[$question->id]) ? $responses[$question->id] : null ?>
+                    <?php $a = isset($answers[$id]) ? $answers[$id] : null ?>
+                    @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
+                        <?php $r = isset($responses[$id]) ? $responses[$id] : null ?>
                         <x-question :question="$question" :answer="$a" :responses="$r"></x-question>
                     @else
                         <x-question :question="$question" :answer="$a"></x-question>

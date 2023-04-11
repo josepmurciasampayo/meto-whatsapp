@@ -11,10 +11,12 @@
         @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "required" : ""  @endphp
         <select id="{{ $name }}" {{ $required }} name="{{ $name }}" class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
             <option value="">Select an option</option>
+
             @foreach ($options as $index => $value)
                 <?php $selected = ($index == $saved) ? 'selected' : '' ?>
                 <option value="{{ $index }}" {{ $selected }}>{!! $value !!}</option>
             @endforeach
+            
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
         </div>
