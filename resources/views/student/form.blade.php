@@ -12,7 +12,8 @@
                 @foreach ($questions as $id => $question)
                     <div class="my-3">
                     <?php $a = isset($answers[$id]) ? $answers[$id] : null ?>
-                    @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
+                    @if (in_array($question['format'], \App\Enums\QuestionFormat::hasResponses()))
+                        @php $question = new \Illuminate\Support\Fluent($question) @endphp
                         <?php $r = isset($responses[$id]) ? $responses[$id] : null ?>
                         <x-question :question="$question" :answer="$a" :responses="$r"></x-question>
                     @else
