@@ -28,10 +28,13 @@
                   ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => route('student.general')],
               ]"/>
 
-            <x-invite-friend-popup/>
-
+           
+         <div class="mt-5 mr-2"><x-invite-friend-popup/></div>
           </div>
+           
       </div>
+
+      
 
       <div class="display-7" style="margin-top: 12px;">Welcome, {{ $user->first }}!</div>
 

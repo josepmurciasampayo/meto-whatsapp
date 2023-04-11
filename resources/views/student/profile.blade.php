@@ -11,8 +11,9 @@
                  <x-input-text name="first" label="First/Given Name" saved="{{ $user->first }}"></x-input-text>
                  <x-input-text name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-input-text>
                  <x-input-text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-input-text>
+                 <x-inputs.email name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
                  <x-inputs.country name="country" label="Country"></x-inputs.country>
-                 <x-input-text name="whatsapp" label="WhatsApp" saved="{{ $user->whatsapp }}"></x-input-text>
+                 <x-inputs.phone name="whatsapp" label="WhatsApp" saved="{{ $user->whatsapp }}"></x-inputs.phone>
                  <x-button-icon type="submit" icon="fa fa-save" text="Save" />
 
                  <div class="mt-6 flex items-center justify-center">
