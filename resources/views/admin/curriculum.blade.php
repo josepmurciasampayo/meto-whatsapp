@@ -19,16 +19,6 @@
         </tr>
         </thead>
 
-        <tfoot>
-        <tr>
-            <th>Screen</th>
-            <th>Order</th>
-            <th>Branches</th>
-            <th>Format</th>
-            <th>Question</th>
-        </tr>
-        </tfoot>
-
         <tbody>
         @foreach ($questions as $id => $question)
             @if (isset($question['screen']))
@@ -46,5 +36,5 @@
         @endforeach
         </tbody>
     </table>
-    <x-dataTable></x-dataTable>
+
 </x-app-layout>
