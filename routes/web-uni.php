@@ -24,8 +24,8 @@ Route::get('/uni-mingrade', [\App\Http\Controllers\UniController::class, 'mingra
 Route::post('/uni-mingrade', [\App\Http\Controllers\UniController::class, 'mingradeStore'])->name('uni.mingrade.store');
 Route::get('/uni-myprofile', [\App\Http\Controllers\UniController::class, 'myProfile'])->name('uni.myprofile');
 Route::post('/uni-myprofile', [\App\Http\Controllers\UniController::class, 'myProfileStore'])->name('uni.myprofile.store');
-Route::get('/uniprofile', [\App\Http\Controllers\UniController::class, 'uniProfile'])->name('uni.uniprofile');
-Route::post('/uniprofile', [\App\Http\Controllers\UniController::class, 'uniProfileStore'])->name('uni.uniprofile.store');
+Route::get('/uni-profile', [\App\Http\Controllers\UniController::class, 'uniProfile'])->name('uni.uniprofile');
+Route::post('/uni-profile', [\App\Http\Controllers\UniController::class, 'uniProfileStore'])->name('uni.uniprofile.store');
 Route::get('/uni-connections', [\App\Http\Controllers\UniController::class, 'connections'])->name('uni.connections');
 
 Route::get('/uni-efcgrades', [\App\Http\Controllers\UniController::class, 'efcGrades'])->name('uni.efcgrades');
