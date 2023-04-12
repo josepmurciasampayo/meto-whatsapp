@@ -9,7 +9,6 @@
         }
         $responses = $options;
     }
-    dd($question);
 @endphp
 
 <div>
