@@ -7,7 +7,7 @@
         <x-input-text name="email" label="Email" />
         <x-input-text name="title" label="Job Title" />
 
-        
+
         <x-button>Send Invite</x-button>
     </form>
 </x-app-layout>

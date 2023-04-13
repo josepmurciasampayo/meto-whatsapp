@@ -69,7 +69,7 @@
             <x-input-text label="Order" name="order" saved="{!! $question->order !!}"></x-input-text>
         @endif
 
-        @if (in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
+        @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
             <input type="hidden" name="toDelete" id="toDelete" value="0">
             <script type="text/javascript">
                 function deleteResponse(id) {
