@@ -20,10 +20,12 @@
     </div>
 </div>
 
-<div class="inline-flex items-center bg-green-200 border border-dashed border-gray-400 rounded-xl p-2 hover:bg-green-400 transition-colors" onclick="openInvitePopup()">
-    <i class="fa fa-user-plus text-2xl text-green-900 mr-2"></i>
-    <span class="text-base font-medium text-green-900">Invite Friends</span>
-</div>
+<a href="#" class="btn btn-secondary d-flex align-items-center justify-content-center rounded" onclick="openInvitePopup()" style="border-radius: 999px !important;">
+    <i class="fa fa-user-plus mr-2"></i>
+    <span>Invite Friends</span>
+</a>
+
+
 
 <style>
 .invite-popup-box {
@@ -50,6 +52,7 @@
     border-radius: 5px;
     text-align: center;
 }
+
 
 .invite-popup-title {
     margin-top: 20px;
