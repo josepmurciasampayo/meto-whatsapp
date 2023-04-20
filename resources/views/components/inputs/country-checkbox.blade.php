@@ -14,7 +14,7 @@
     @endif
     <div class="bg-white px-2" style="max-height: 150px; overflow: auto">
         @foreach ($countries as $country)
-            @if ($checkedCount < 3)
+            @if ($checkedCount < 5)
                 <div>
                     <input type="checkbox" id="{{ $name }}[{{ $country->id }}]" name="{{ $name }}[{{ $country->id }}]" value="{{ $country->id }}" {{ in_array($country->id, $savedCountries) ? 'checked' : '' }} class="rounded text-green-600" onclick="checkLimit(this)">
                     <label for="{{ $name }}[{{ $country->id }}]" class="ml-2">{{ $country->name }}</label>
@@ -32,9 +32,9 @@
 <script>
     function checkLimit(checkbox) {
         if (checkbox.checked) {
-            if ($('input[type=checkbox]:checked').length > 3) {
+            if ($('input[type=checkbox]:checked').length > 5) {
                 checkbox.checked = false;
-                alert('You can only select up to 3 options.');
+                alert('You can only select up to 5 options.');
             } else {
                 $checkedCount++;
             }

@@ -9,7 +9,7 @@
         <select id="{{ $name }}" name="{{ $name }}" class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
             <option value="">Select an option</option>
             @php
-                $options = range(0, 100000, 500);
+                $options = range(0, 75000, 500);
                 $options = array_combine($options, $options);
             @endphp
             @foreach ($options as $index => $value)
