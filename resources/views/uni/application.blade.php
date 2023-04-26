@@ -9,7 +9,7 @@
         <form method="POST" action="{{ route('uni.application.store') }}" class="text-center">
         @csrf
         <h3 class="display-7 mb-4 mt-6">What is the website URL that will lead students to your institution's undergraduate application?</h3>
-        <x-input-text name="institution"></x-input-text>
+        <x-inputs.text name="institution"></x-inputs.text>
         <x-button-navigation/>
     </form>
 </x-app-layout>

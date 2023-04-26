@@ -50,6 +50,8 @@ class RegisteredUserController extends Controller
             'middle' => $request->middle,
             'last' => $request->last,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'whatsapp' => false,
             'password' => Hash::make($request->password),
             'role' => Role::STUDENT(),
             'status' => Status::ACTIVE(),

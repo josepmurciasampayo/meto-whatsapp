@@ -18,13 +18,15 @@
             <form method="POST" action="{{ route('user.register') }}">
                 <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                 @csrf
-                <x-input name="first" label="First/Given Name" required req="true"></x-input>
-                <x-input name="middle" label="Middle Name" ></x-input>
-                <x-input name="last" label="Last/Family Name" required req="true"></x-input>
-                <x-input name="email" label="Email Address" required req="true"></x-input>
-                <x-input name="emailConfirm" label="Confirm Email" required req="true"></x-input>
-                <x-input name="password" type="password" label="Password" required req="true"></x-input>
-                <x-input name="passwordConfirm" type="password" label="Confirm Password" required req="true"></x-input>
+                <x-inputs.text name="first" label="First/Given Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text name="middle" label="Middle Name" ></x-inputs.text>
+                <x-inputs.text name="last" label="Last/Family Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.phone name="phone" label="Phone Number" required req="{{ \App\Enums\General\YesNo::YES }}" />
+                <x-inputs.select name="owner" lbael="Who does this number belong to?" :options="" />
+                <x-inputs.text name="email" label="Email Address" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text name="emailConfirm" label="Confirm Email" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text name="password" type="password" label="Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text name="passwordConfirm" type="password" label="Confirm Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
 
                 <div class="text-center my-4">
                     <x-button-icon onclick="validateAndSubmit()" icon="fa fa-chevron-right" text="Next" />

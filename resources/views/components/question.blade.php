@@ -13,7 +13,7 @@
 
 <div>
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
-        <x-input-text saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-input-text>
+        <x-inputs.text saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.text>
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
         <x-inputs.textarea saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.textarea>
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())

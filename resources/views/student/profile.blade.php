@@ -8,9 +8,9 @@
             <form method="POST" action="{{ route('student.handle') }}">
                  <input-text type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                  @csrf
-                 <x-input-text name="first" label="First/Given Name" saved="{{ $user->first }}"></x-input-text>
-                 <x-input-text name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-input-text>
-                 <x-input-text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-input-text>
+                 <x-inputs.text name="first" label="First/Given Name" saved="{{ $user->first }}"></x-inputs.text>
+                 <x-inputs.text name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-inputs.text>
+                 <x-inputs.text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-inputs.text>
                  <x-inputs.email name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
                  <x-inputs.country name="country" label="Country"></x-inputs.country>
                  <x-inputs.phone name="whatsapp" label="WhatsApp" saved="{{ $user->whatsapp }}"></x-inputs.phone>

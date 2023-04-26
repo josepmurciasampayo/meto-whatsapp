@@ -8,14 +8,14 @@
         <form method="POST" action="{{ route('uni.location.store') }}" class="text-center">
         @csrf
         <h3 class="display-7 mb-4 mt-6">Country</h3>
-        <x-input-text name="country"></x-input-text>
+        <x-inputs.text name="country"></x-inputs.text>
 
         <h3 class="display-7 mb-1 mt-6">State/Province</h3>
         <p class="text-xm">leave blank if not applicable</p>
-        <x-input-text name="state"></x-input-text>
+        <x-inputs.text name="state"></x-inputs.text>
 
         <h3 class="display-7 mb-4 mt-6">City</h3>
-        <x-input-text name="city"></x-input-text>
+        <x-inputs.text name="city"></x-inputs.text>
 
         <x-button-navigation/>
     </form>

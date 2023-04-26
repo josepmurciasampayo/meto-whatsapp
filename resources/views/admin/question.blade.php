@@ -16,12 +16,12 @@
     <form method="POST" action="{{ route('question.store') }}">
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
-        <x-input-text saved="{!! $question->text !!}" label="Text" name="text"></x-input-text>
+        <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
         <x-inputs.select label="Format" :options="$formats" name="format" saved="{!! $question->format !!}"></x-inputs.select>
         <x-inputs.select label="Category" :options="$categories" name="category" saved="{!! $question->type !!}"></x-inputs.select>
         <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-inputs.radio>
         <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
-        <x-input-text label="Help Text" name="help" saved="{!! $question->help !!}"></x-input-text>
+        <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
             <div class="row fw-bold border-bottom mb-4">
@@ -58,7 +58,6 @@
                     @if (!in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
                         <div class="col text-center">
                             @php $value = isset($screens[$id]['destination_screen']) ? $screens[$id]['destination_screen'] : null; @endphp
-                            @php $disabled = (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES()) ? "" : "disabled" @endphp
                             <input style="width:75px" name="destination[{{ $id }}]" value="{!! $value !!}" type="number" {{ $disabled }}>
                         </div>
                     @endif
@@ -66,7 +65,7 @@
             @endforeach
 
         @else
-            <x-input-text label="Order" name="order" saved="{!! $question->order !!}"></x-input-text>
+            <x-inputs.text label="Order" name="order" saved="{!! $question->order !!}"></x-inputs.text>
         @endif
 
         @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
@@ -80,7 +79,7 @@
             <div class="display-7">Responses <i class="fas fa-check-square"></i></div>
             <div class="row">
                 <div class="col">
-                    <x-input-text label="Add # blank responses" name="responses"></x-input-text>
+                    <x-inputs.text label="Add # blank responses" name="responses"></x-inputs.text>
                 </div>
                 <div class="col">
                     <x-button class="my-4 p-4">Add</x-button>
