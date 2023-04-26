@@ -132,7 +132,7 @@ class QuestionService
 
         $question->screen = (is_array($request->input('screen'))) ? null : $request->input('screen') ;
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
-
+        $question->save();
 
         foreach (Curriculum::descriptions() as $index => $value) {
             $question->curriculum($index, false);

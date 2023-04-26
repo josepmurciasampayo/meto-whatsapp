@@ -168,7 +168,7 @@ class AdminController extends Controller
         }
 
         $s = QuestionScreen::where('curriculum', $curriculum)->get(); // get all
-        //dd($s);
+
         foreach ($s as $screen) {
             $questions[$screen->question_id]['screen'] = $screen->screen;
             $questions[$screen->question_id]['order'] = $screen->order;
