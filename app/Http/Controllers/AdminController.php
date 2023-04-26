@@ -159,48 +159,40 @@ class AdminController extends Controller
 
     public function curriculum(int $curriculum, QuestionService $questionService) :View
     {
-        $questions = $screens = array();
+        $questions = $screens = array(); // arrays to be filled and sent to the view
 
-        $q = $questionService->getAcademic($curriculum);
+        $q = $questionService->getAcademic($curriculum); // get all questions for curriculum and fill in text, format
         foreach ($q as $id => $question) {
             $questions[$id]['text'] = $question['text'];
             $questions[$id]['format'] = QuestionFormat::descriptions()[$question['format']];
         }
 
-        $s = QuestionScreen::where('curriculum', $curriculum)->get();
-        // dd($s);
+        $s = QuestionScreen::where('curriculum', $curriculum)->get(); // get all
+        //dd($s);
         foreach ($s as $screen) {
             $questions[$screen->question_id]['screen'] = $screen->screen;
             $questions[$screen->question_id]['order'] = $screen->order;
-            $questions[$screen->question_id]['destination'] = $screen->destination_screen;
+            $questions[$screen->question_id]['destination'] = $screen->destination_screen ?? false;
 
-            if (!isset($screens[$screen->screen]['destination'])) {
-                $screens[$screen->screen] = false;
-            }
-            $screens[$screen->screen] = $screens[$screen->screen] || ($screen->branch == YesNo::YES()) || $screen->destination_screen;
-        }
+            $screens[$screen->screen] = ($screen->branch == YesNo::YES()) || $screen->destination_screen || (isset($screens[$screen->screen]) && $screens[$screen->screen]);
 
-        $b = ResponseBranch::where('curriculum', $curriculum)->get();
-        if (count($b) > 0) {
-            $questions[$screen->question_id]['branch'] = array();
-            foreach ($b as $branch) {
-                $questions[$branch->question_id]['branch'][] = $branch->to_screen;
-            }
-        } else {
-            $questions[$screen->question_id]['branch'] = null;
-        }
-
-        foreach ($questions as $id => $question) {
-            if (isset($question['branch']) && is_array($question['branch'])) {
-                $branches = array_unique($question['branch']);
-                $questions[$id]['branch'] = implode(',', $branches);
+            $b = ResponseBranch::where('curriculum', $curriculum)->where('question_id', $screen->question_id)->get();
+            if (count($b) > 0) {
+                $questions[$screen->question_id]['branch'] = array();
+                foreach ($b as $branch) {
+                    $questions[$branch->question_id]['branch'][] = $branch->to_screen;
+                }
+                $branches = array_unique($questions[$branch->question_id]['branch']);
+                $questions[$branch->question_id]['branch'] = implode(',', $branches);
+            } else {
+                $questions[$screen->question_id]['branch'] = null;
             }
         }
 
         return view('admin.curriculum', [
             'questions' => $questions,
-            'curriculum' => Curriculum::descriptions()[$curriculum],
             'screens' => $screens,
+            'curriculum' => Curriculum::descriptions()[$curriculum],
         ]);
     }
 
