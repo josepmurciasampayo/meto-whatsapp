@@ -29,7 +29,7 @@
             <tr class="text-center" style="background-color: {{ $background }}">
                 <td>{{ $question['screen'] ?? "" }}</td>
                 <td>{{ $question['order'] ?? "" }}</td>
-                <td>{{ $question['branch'] ?? "" }}</td>
+                <td>{{ $question['branch'] ?? $question['destination'] ?? "" }}</td>
                 <td>{{ $question['format'] ?? "" }}</td>
                 <td><a target="_blank" href="{{ route('question', ['id' => $id]) }}">{{ $question['text'] ?? "" }}</a></td>
             </tr>

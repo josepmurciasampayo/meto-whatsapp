@@ -168,10 +168,11 @@ class AdminController extends Controller
         }
 
         $s = QuestionScreen::where('curriculum', $curriculum)->get();
+        // dd($s);
         foreach ($s as $screen) {
             $questions[$screen->question_id]['screen'] = $screen->screen;
             $questions[$screen->question_id]['order'] = $screen->order;
-            $questions[$screen->question_id]['branch'] = array();
+            $questions[$screen->question_id]['destination'] = $screen->destination_screen;
 
             if (!isset($screens[$screen->screen]['destination'])) {
                 $screens[$screen->screen] = false;
@@ -180,8 +181,13 @@ class AdminController extends Controller
         }
 
         $b = ResponseBranch::where('curriculum', $curriculum)->get();
-        foreach ($b as $branch) {
-            $questions[$branch->question_id]['branch'][] = $branch->to_screen;
+        if (count($b) > 0) {
+            $questions[$screen->question_id]['branch'] = array();
+            foreach ($b as $branch) {
+                $questions[$branch->question_id]['branch'][] = $branch->to_screen;
+            }
+        } else {
+            $questions[$screen->question_id]['branch'] = null;
         }
 
         foreach ($questions as $id => $question) {
