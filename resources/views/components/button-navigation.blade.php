@@ -11,7 +11,7 @@
             document.forms[0].submit();
         }
     </script>
-    <div class="container">
+    <div class="container text-center">
         <div class="row">
             <div class="col">
             @if ($page && $page() == \App\Enums\Page::ACADEMIC())
@@ -26,7 +26,7 @@
         </div>
         <div class="row mt-3">
             <div class="col text-center">
-            <x-button type="button" onclick="goHome()" id="save">Save and Return Home <i class="fas fa-chevron-right"></i></x-button>
+            <x-button type="button" onclick="goHome()" id="save">Save and Return Home <i class="fas fa-home"></i></x-button>
             </div>
         </div>
     </div>
