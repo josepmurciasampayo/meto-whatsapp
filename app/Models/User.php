@@ -35,6 +35,7 @@ class User extends Authenticatable
         'phone_local',
         'phone_combined',
         'phone_verified',
+        'whatsapp_used',
         'whatsapp_consent',
     ];
 

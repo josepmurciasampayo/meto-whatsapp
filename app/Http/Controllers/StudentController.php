@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\YesNo;
 use App\Enums\Page;
+use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
 use App\Mail\InviteStudent;
 use App\Models\Question;
@@ -19,7 +20,9 @@ class StudentController extends Controller
 {
     public function getStarted(): View
     {
-        return view('student.getStarted');
+        return view('student.getStarted', [
+            'owners' => PhoneOwner::descriptions(),
+        ]);
     }
 
     public function transfer(): View

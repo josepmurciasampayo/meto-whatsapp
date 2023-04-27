@@ -6,11 +6,28 @@
             document.getElementById('direction').value = -1;
             document.forms[0].submit();
         }
+        function goHome() {
+            document.getElementById('direction').value = -3;
+            document.forms[0].submit();
+        }
     </script>
-    @if ($page && $page() == \App\Enums\Page::ACADEMIC())
-        <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
-    @elseif ($page && $page() != \App\Enums\Page::DEMO())
-        <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
-    @endif
-  <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            @if ($page && $page() == \App\Enums\Page::ACADEMIC())
+                <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
+            @elseif ($page && $page() != \App\Enums\Page::DEMO())
+                <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
+            @endif
+            </div>
+            <div class="col">
+            <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col text-center">
+            <x-button type="button" onclick="goHome()" id="save">Save and Return Home <i class="fas fa-chevron-right"></i></x-button>
+            </div>
+        </div>
+    </div>
 </div>

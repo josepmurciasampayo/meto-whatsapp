@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\General\YesNo;
+use App\Enums\User\Consent;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
@@ -38,6 +40,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'first' => ['required', 'string', 'max:255'],
             'last' => ['required', 'string', 'max:255'],
@@ -50,8 +53,12 @@ class RegisteredUserController extends Controller
             'middle' => $request->middle,
             'last' => $request->last,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'whatsapp' => false,
+            'phone_country' => $request->input('phone')['code'],
+            'phone_local' => $request->input('phone')['number'],
+            'phone_combined' => $request->input('phone')['code'] . $request->input('phone')['number'],
+            'phone_owner' => $request->input('owner'),
+            'whatsapp_used' => ($request->has('whatsapp')) ? YesNo::YES() : YesNo::NO(),
+            'whatsapp_consent' => ($request->has('consent')) ? Consent::CONSENT() : Consent::NOCONSENT(),
             'password' => Hash::make($request->password),
             'role' => Role::STUDENT(),
             'status' => Status::ACTIVE(),

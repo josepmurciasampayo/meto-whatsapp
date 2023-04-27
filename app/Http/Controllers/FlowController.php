@@ -45,7 +45,11 @@ class FlowController extends Controller
         ];
 
         if (isset($flow[$request->input('page')])) {
-            return ($request->input('direction') > 0) ? $flow[$request->input('page')] : $reverseFlow[$request->input('page')];
+            switch($request->input('direction')) {
+                case 1: return $flow[$request->input('page')];
+                case -1: return $reverseFlow[$request->input('page')];
+                case -3: return route('home');
+            };
         }
 
         return route('home');
