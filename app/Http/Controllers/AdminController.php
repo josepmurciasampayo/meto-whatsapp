@@ -238,7 +238,6 @@ class AdminController extends Controller
         }
 
         if ($request->input('IDs')) {
-            dd($request);
             $IDs = explode(",", $request->input('IDs'));
             $highschools = array();
             foreach ($IDs as $id) {
