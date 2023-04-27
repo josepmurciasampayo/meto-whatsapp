@@ -57,8 +57,7 @@
                     </div>
                     @if (!in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
                         <div class="col text-center">
-                            @php $value = isset($screens[$id]['destination_screen']) ? $screens[$id]['destination_screen'] : null; @endphp
-                            <input style="width:75px" name="destination[{{ $id }}]" value="{!! $value !!}" type="number">
+                            <input style="width:75px" name="destination[{{ $id }}]" value="{!! $screens[$id]['destination_screen'] ?? null !!}" type="number">
                         </div>
                     @endif
                 </div>

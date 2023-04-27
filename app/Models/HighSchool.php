@@ -12,7 +12,7 @@ class HighSchool extends Model
         $where = ($id) ? " where h.id = " . $id : '';
         $withCounselors = Helpers::dbQueryArray('
             select
-                h.id, h.name, h.curriculum, h.country, h.city, h.type, count(*) as "students"
+                h.id, h.name, h.verified, h.curriculum, h.country, h.city, h.type, count(*) as "students"
             from meto_high_schools as h
             join meto_user_high_schools as c on h.id = c.highschool_id
             ' . $where . '

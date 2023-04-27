@@ -228,18 +228,30 @@ class AdminController extends Controller
         return view('admin.commands');
     }
 
-    public function mergeHS(Request $request) :View
+    public function mergeHS(Request $request) :View|RedirectResponse
     {
-        $IDs = explode(",", $request->input('IDs'));
-        $highschools = array();
-        foreach ($IDs as $id) {
-            $highschools[] = HighSchool::find($id);
+        $verifyIDs = explode(",", $request->input('verifyIDs'));
+        foreach ($verifyIDs as $id) {
+            $hs = HighSchool::find($id);
+            $hs->verified = YesNo::YES();
+            $hs->save();
         }
 
-        return view('admin.highschools-merge', [
-            'IDs' => $request->input('IDs'),
-            'data' => $highschools,
-        ]);
+        if ($request->input('IDs')) {
+            dd($request);
+            $IDs = explode(",", $request->input('IDs'));
+            $highschools = array();
+            foreach ($IDs as $id) {
+                $highschools[] = HighSchool::find($id);
+            }
+
+            return view('admin.highschools-merge', [
+                'IDs' => $request->input('IDs'),
+                'data' => $highschools,
+            ]);
+        }
+
+        return redirect(route('highschools'));
     }
 
     public function mergeHSconfirm(Request $request) :RedirectResponse
