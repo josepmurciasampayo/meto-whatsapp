@@ -4,7 +4,7 @@
             <div class="ml-auto w-50"></div>
             <div class="flex">
                 <x-sidebar-menu :links="[
-                    ['label' => 'My Profile', 'icon' => 'fa fa-user', 'href' => route('student.profile')],
+                    ['label' => 'Basic Information', 'icon' => 'fa fa-user', 'href' => route('student.profile')],
                     ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => route('student.demographic')],
                     ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => route('student.highschool')],
                     ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => route('student.academics')],
