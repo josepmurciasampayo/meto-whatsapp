@@ -24,9 +24,15 @@
                 <x-inputs.phone name="phone" label="Phone Number" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.phone>
                 <x-inputs.select name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
                 @php $w = [1 => "I use this number for WhatsApp"] @endphp
-                <x-inputs.checkbox name="whatsapp" label="" :options="$w"></x-inputs.checkbox>
+                <div class="form-group checkbox-container">
+                    <x-inputs.checkbox name="whatsapp" label="" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
+                    <label for="whatsapp" class="whatsapp-label checkbox-label"></label>
+                </div>
                 @php $c = [1 => "I give consent to be contacted on WhatsApp"] @endphp
-                <x-inputs.checkbox name="consent" label="" :options="$c"></x-inputs.checkbox>
+                <div class="form-group checkbox-container">
+                    <x-inputs.checkbox name="consent" label="" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
+                    <label for="consent" class="consent-label checkbox-label"></label>
+                </div>
                 <x-inputs.text name="email" label="Email Address" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
                 <x-inputs.text name="emailConfirm" label="Confirm Email" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
                 <x-inputs.text-masked name="password" type="password" label="Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text-masked>
