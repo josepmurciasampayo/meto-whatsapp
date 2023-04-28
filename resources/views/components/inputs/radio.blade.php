@@ -5,12 +5,12 @@
     @if ($help)
         <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 bg-white p-2">
         @foreach ($options as $value => $option)
             <?php $checked = ($option == $saved) ? 'checked' : '' ?>
             <label class="inline-flex items-center">
                 <input type="radio" class="form-radio h-4 w-4 text-green-600" id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $option }}" {{ $checked }}>
-                <span class="ml-2 text-sm">{{ $option }}</span>
+                <span class="ml-2 text-m">{{ $option }}</span>
             </label>
         @endforeach
     </div>
