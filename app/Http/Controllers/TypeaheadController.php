@@ -24,10 +24,11 @@ class TypeaheadController extends Controller
         if ($search == '') {
             return;
         } else {
-            $schools = HighSchool::orderby('name','asc')->select('id','name')->
+            $schools = HighSchool::select('id','name')->
                 where('name', 'like', '%' .$search . '%')->
                 whereNot('type', Type::ACCESS())->
                 where('verified', YesNo::YES())->
+                orderby('name','asc')->
                 limit(5)->get();
         }
 
