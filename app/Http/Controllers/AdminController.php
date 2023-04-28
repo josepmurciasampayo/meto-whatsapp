@@ -174,7 +174,7 @@ class AdminController extends Controller
             $questions[$screen->question_id]['order'] = $screen->order;
             $questions[$screen->question_id]['destination'] = $screen->destination_screen ?? false;
 
-            $screens[$screen->screen] = ($screen->branch == YesNo::YES()) || $screen->destination_screen || (isset($screens[$screen->screen]) && $screens[$screen->screen]);
+            $screens[$screen->screen] = ($screen->branch == YesNo::YES()) || !is_null($screen->destination_screen) || (isset($screens[$screen->screen]) && $screens[$screen->screen]);
 
             $b = ResponseBranch::where('curriculum', $curriculum)->where('question_id', $screen->question_id)->get();
             if (count($b) > 0) {

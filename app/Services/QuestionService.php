@@ -71,11 +71,13 @@ class QuestionService
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
         $branchingQuestionID = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
+        
         if (is_null($branchingQuestionID)) {
             $destination = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
             return $destination->destination_screen;
         }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
+
         $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum', $curriculum)->get();
         foreach ($responseBranches as $branch) {
             if ($branch->response_id == $answer->response_id) {
@@ -140,11 +142,10 @@ class QuestionService
         $question->save();
 
         // reset all info before saving just-submitted info
-        $q = QuestionScreen::where('question_id', $question->id)->get();
+        QuestionScreen::where('question_id', $question->id)->delete();
 
         if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC()) {
             if ($request->has('inUse')) {
-
                 foreach ($request->input('inUse') as $curriculum => $value) {
                     $question->curriculum($curriculum, true);
 
@@ -154,7 +155,7 @@ class QuestionService
                     $questionScreen->screen = $request->input('screen')[$curriculum];
                     $questionScreen->order = $request->input('order')[$curriculum];
                     $questionScreen->branch = isset($request->input('hasBranch')[$curriculum]) ? YesNo::YES() : YesNo::NO();
-                    if ($questionScreen->branch == YesNo::YES() && $request->has('destination') && isset($request->input('destination')[$curriculum])) {
+                    if ($request->has('destination') && isset($request->input('destination')[$curriculum])) {
                         $questionScreen->destination_screen = $request->input('destination')[$curriculum];
                     } else {
                         $questionScreen->destination_screen = null;
