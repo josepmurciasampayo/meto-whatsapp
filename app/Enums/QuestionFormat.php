@@ -26,13 +26,13 @@ enum QuestionFormat: int
     case IBSUBJECT = 16;
     case GPA = 17;
     case AP = 18;
-    case LOOKUP = 19;
     case LETTERGRADE = 20;
     case ALEVEL = 21;
     case ALEVELGRADE = 22;
     case CAMSUBJECT = 23;
     case IGCSEGRADE = 24;
     case IBGRADE = 25;
+    case LOOKUP = 19;
     case LOOKUPORG = 26;
 
     public static function hasResponses() {

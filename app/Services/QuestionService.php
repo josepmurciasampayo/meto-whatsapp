@@ -77,7 +77,6 @@ class QuestionService
             return $destination->destination_screen;
         }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
-
         $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum', $curriculum)->get();
         foreach ($responseBranches as $branch) {
             if ($branch->response_id == $answer->response_id) {

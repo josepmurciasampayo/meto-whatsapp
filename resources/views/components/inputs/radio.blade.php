@@ -9,7 +9,7 @@
         @foreach ($options as $value => $option)
             <?php $checked = ($option == $saved) ? 'checked' : '' ?>
             <label class="inline-flex items-center">
-                <input type="radio" class="form-radio h-4 w-4 text-green-600" id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $option }}" {{ $checked }}>
+                <input type="radio" class="form-radio h-4 w-4 text-green-600" id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $value }}" {{ $checked }}>
                 <span class="ml-2 text-m">{{ $option }}</span>
             </label>
         @endforeach

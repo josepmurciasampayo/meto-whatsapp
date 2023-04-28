@@ -41,7 +41,7 @@ class AnswerService
             case QuestionFormat::GPA():
                 $existing->response_id = $input;
                 $response = \App\Models\Response::find($existing->response_id);
-                $existing->text = $input; // or we can save the index
+                $existing->text = $response->text; // or we can save the index
                 break;
             case QuestionFormat::CHECKBOX():
                 $existing->text = implode(',', array_keys($input));
