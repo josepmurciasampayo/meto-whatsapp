@@ -46,7 +46,9 @@
     @elseif ($question->format === App\Enums\QuestionFormat::AP())
         <x-inputs.ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.ap-subjects>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
-        <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.lookup-hs>
+        <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.lookup-hs>@elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
+    @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUPORG())
+        <x-inputs.lookup-org label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.lookup-org>
     @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
         <x-inputs.letter-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.letter-grades>
     @elseif ($question->format == \App\Enums\QuestionFormat::CAMSUBJECT())

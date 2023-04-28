@@ -33,7 +33,7 @@ enum QuestionFormat: int
     case CAMSUBJECT = 23;
     case IGCSEGRADE = 24;
     case IBGRADE = 25;
-
+    case LOOKUPORG = 26;
 
     public static function hasResponses() {
         return
@@ -74,13 +74,14 @@ enum QuestionFormat: int
             self::IBSUBJECT => "IB Subjects",
             self::GPA => "US GPA",
             self::AP => "AP Subjects",
-            self::LOOKUP => "Text with Lookup",
             self::LETTERGRADE => "Letter Grades",
             self::CAMSUBJECT => "Cambridge subjects",
             self::IGCSEGRADE => "IGCSE Grades",
             self::ALEVEL => "A-Level Subjects",
             self::ALEVELGRADE => "A-Level Grades",
             self::IBGRADE => "IB Grades",
+            self::LOOKUP => "High School Lookup",
+            self::LOOKUPORG => "Organization Lookup",
         };
     }
 }
