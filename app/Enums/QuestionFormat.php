@@ -34,6 +34,7 @@ enum QuestionFormat: int
     case IGCSEGRADE = 24;
     case IBGRADE = 25;
 
+
     public static function hasResponses() {
         return
             [

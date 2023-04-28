@@ -46,7 +46,7 @@
     @elseif ($question->format === App\Enums\QuestionFormat::AP())
         <x-inputs.ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.ap-subjects>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
-        <x-inputs.text-lookup label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.text-lookup>
+        <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required }}"></x-inputs.lookup-hs>
     @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
         <x-inputs.letter-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required }}"></x-inputs.letter-grades>
     @elseif ($question->format == \App\Enums\QuestionFormat::CAMSUBJECT())

@@ -12,6 +12,7 @@ enum Type :int
     case PRIVATE = 2;
     case ACCESS = 3;
     case OTHER = 4;
+    case UNKNOWN = 5;
 
     public static function getText(self $value) :string
     {
@@ -20,6 +21,7 @@ enum Type :int
             self::PRIVATE => 'Private',
             self::ACCESS => 'College Access Program',
             self::OTHER => 'Other',
+            self::UNKNOWN => 'Unknown',
         };
     }
 }

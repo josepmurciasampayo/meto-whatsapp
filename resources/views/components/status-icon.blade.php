@@ -1,16 +1,18 @@
-@props(['href', 'icon', 'text', 'progress'])
+@props(['href', 'icon', 'text', 'progress' => false])
 
 <a href="{{ $href }}" class="button">
     <span class="icon"><i class="{{ $icon }}"></i></span>
     <div class="text">{{ $text }}</div>
-    <div class="progress">
-      <div class="progress-bar" style="width: {{ $progress }}%">{{ $progress }}%</div>
-    </div>
+    @if ($progress !== false)
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ $progress }}%">{{ $progress }}%</div>
+        </div>
+    @endif
   </a>
 
 
   <style>
-  
+
   .button {
     display: inline-block;
     width: 180px;
@@ -23,24 +25,24 @@
     text-align: center;
     transition: background-color 0.3s ease;
   }
-  
+
   .button:hover {
     background-color: rgb(192,192,192);
     color: #fff;
   }
-  
+
   .button .icon {
     font-size: 3rem;
     color: rgb(22, 66, 22);
   }
-  
+
   .button .text {
     font-size: 1rem;
     font-weight: bold;
     color: rgb(22, 66, 22);
     margin-bottom: 1rem;
   }
-  
+
   .progress {
     width: 100%;
     height: 1rem;
@@ -48,7 +50,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
   }
-  
+
   .progress-bar {
     height: 100%;
     font-size: 0.75rem;
@@ -71,17 +73,17 @@
     font-size: 1rem;
 
   }
-  
+
   .button .text {
     font-size: .75rem;
 
   }
-  
+
   .progress {
     width: 100%;
     height: 1rem;
   }
-  
+
   .progress-bar {
     height: 100%;
     font-size: 0.65rem;
@@ -91,4 +93,3 @@
 
 
   </style>
-  

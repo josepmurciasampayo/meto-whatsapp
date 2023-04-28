@@ -10,6 +10,7 @@ Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transf
 
 Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::post('/hsLookup', [TypeaheadController::class, 'autocompleteSearch'])->name('hsLookup');
+    Route::post('/orgLookup', [TypeaheadController::class, 'autocompleteOrgSearch'])->name('orgLookup');
 
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
     Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
