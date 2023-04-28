@@ -12,7 +12,7 @@
                 <?php $selected = (number_format($i, 1) == $saved) ? 'selected' : '' ?>
                 <option value="{{ number_format($i, 1) }}" {{ $selected }}>{{ number_format($i, 1) }}</option>
             @endfor
+            <option value="not_in_american_curriculum">I was not in the American curriculum in this grade</option>
         </select>
     </div>
 </div>
-    
