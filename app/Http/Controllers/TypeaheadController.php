@@ -53,7 +53,7 @@ class TypeaheadController extends Controller
             $schools = HighSchool::select('id','name')->
             where('name', 'like', '%' .$search . '%')->
             where('type', Type::ACCESS())->
-            //where('verified', YesNo::YES())->
+            where('verified', YesNo::YES())->
             orderby('name','asc')->
             limit(5)->get();
         }
