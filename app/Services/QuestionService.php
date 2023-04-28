@@ -122,14 +122,8 @@ class QuestionService
         $question->format = $request->input('format');
         $question->type = $request->input('category');
         $question->help = $request->input('help');
-        $question->required = match($request->input('required')) {
-            'Yes' => YesNo::YES(),
-            'No' => YesNo::NO(),
-        };
-        $question->status = match($request->input('active')) {
-            'Active' => QuestionStatus::ACTIVE(),
-            'Inactive' => QuestionStatus::INACTIVE(),
-        };
+        $question->required = $request->input('required');
+        $question->status = $request->input('active');
 
         $question->screen = (is_array($request->input('screen'))) ? null : $request->input('screen') ;
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
