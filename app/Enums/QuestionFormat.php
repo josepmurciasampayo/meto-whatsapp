@@ -10,30 +10,30 @@ enum QuestionFormat: int
     use InvokableCases, Options, Values, Names, Strings;
 
     case NOTSET = 0;
-    case INPUT = 1;
-    case SELECT = 3;
-    case RADIO = 4;
-    case TEXTAREA = 5;
-    case CHECKBOX = 6;
-    case DATE = 7; // Added this line for the date input
-    case COUNTRY = 8; // Added this line for the COUNTRY input
-    case COUNTRY_CHECKBOX = 9; // Added this line for the COUNTRY_CHECKBOX input
-    case EMAIL = 10; // Added this line for the EMAIL input
-    case PHONE = 11; // Added this line for the Phone input
-    case NUMBER = 13; // Added this line for the Number input
-    case DOLLAR = 14; // Added this line for the Dollar Value input
-    case SELECTWITHOTHER = 15;
-    case IBSUBJECT = 16;
-    case GPA = 17;
-    case AP = 18;
-    case LETTERGRADE = 20;
-    case ALEVEL = 21;
-    case ALEVELGRADE = 22;
-    case CAMSUBJECT = 23;
-    case IGCSEGRADE = 24;
-    case IBGRADE = 25;
-    case LOOKUP = 19;
-    case LOOKUPORG = 26;
+    case INPUT = 1; // text
+    case SELECT = 3; // ID
+    case RADIO = 4; // ID
+    case TEXTAREA = 5; // text
+    case CHECKBOX = 6; // text
+    case DATE = 7; // text
+    case COUNTRY = 8; // ID
+    case COUNTRY_CHECKBOX = 9; // text
+    case EMAIL = 10; // text
+    case PHONE = 11; // text
+    case NUMBER = 13; // text
+    case DOLLAR = 14; // text
+    case SELECTWITHOTHER = 15; // MESS
+    case IBSUBJECT = 16; // text
+    case GPA = 17; // text
+    case AP = 18; // text
+    case LETTERGRADE = 20; // text
+    case ALEVEL = 21; // text
+    case ALEVELGRADE = 22; // text
+    case CAMSUBJECT = 23; // text
+    case IGCSEGRADE = 24; // text
+    case IBGRADE = 25; // text
+    case LOOKUP = 19; // text
+    case LOOKUPORG = 26; // text
 
     public static function hasResponses() {
         return

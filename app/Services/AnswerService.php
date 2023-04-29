@@ -26,6 +26,16 @@ class AnswerService
             case QuestionFormat::NUMBER():
             case QuestionFormat::DOLLAR():
             case QuestionFormat::LOOKUP():
+            case QuestionFormat::LOOKUPORG():
+            case QuestionFormat::AP():
+            case QuestionFormat::IBSUBJECT():
+            case QuestionFormat::GPA():
+            case QuestionFormat::LETTERGRADE():
+            case QuestionFormat::ALEVEL():
+            case QuestionFormat::ALEVELGRADE():
+            case QuestionFormat::CAMSUBJECT():
+            case QuestionFormat::IGCSEGRADE():
+            case QuestionFormat::IBGRADE():
                 $existing->text = $input;
                 break;
 
@@ -37,8 +47,6 @@ class AnswerService
             case QuestionFormat::RADIO():
             case QuestionFormat::COUNTRY():
             case QuestionFormat::SELECTWITHOTHER():
-            case QuestionFormat::IBSUBJECT():
-            case QuestionFormat::GPA():
                 $existing->response_id = $input;
                 $response = \App\Models\Response::find($existing->response_id);
                 $existing->text = $response->text; // or we can save the index
@@ -48,6 +56,7 @@ class AnswerService
                 break;
             case QuestionFormat::COUNTRY_CHECKBOX():
                 $existing->text = implode(',', $input);
+                break;
         }
         $existing->save();
         return $existing;
