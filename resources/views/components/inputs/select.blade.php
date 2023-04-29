@@ -13,7 +13,7 @@
             <option value="">Select an option</option>
 
             @foreach ($options as $index => $value)
-                <?php $selected = ($value == $saved) ? 'selected' : '' ?>
+                @php $selected = ($value == $saved) ? 'selected' : '' @endphp
                 <option value="{{ $index }}" {{ $selected }}>{!! $value !!}</option>
             @endforeach
 

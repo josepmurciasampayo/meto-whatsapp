@@ -17,8 +17,8 @@
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
         <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
-        <x-inputs.select label="Format" :options="$formats" name="format" saved="{!! $question->format !!}"></x-inputs.select>
-        <x-inputs.select label="Category" :options="$categories" name="category" saved="{!! $question->type !!}"></x-inputs.select>
+        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $formats[$question->format] }}"></x-inputs.select>
+        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $categories[$question->type] }}"></x-inputs.select>
         <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-inputs.radio>
         <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
         <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>

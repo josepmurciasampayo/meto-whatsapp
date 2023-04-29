@@ -124,8 +124,6 @@ class QuestionService
         $question->help = $request->input('help');
         $question->required = $request->input('required');
         $question->status = $request->input('active');
-
-        $question->screen = (is_array($request->input('screen'))) ? null : $request->input('screen') ;
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
         $question->save();
 
@@ -216,7 +214,7 @@ class QuestionService
         foreach ($answers as $answer) {
             $answerArray[$answer->question_id] = $answer->text;
         }
-        
+
         return $answerArray;
     }
 

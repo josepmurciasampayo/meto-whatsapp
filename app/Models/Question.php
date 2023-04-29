@@ -12,6 +12,18 @@ use Illuminate\Support\Fluent;
 
 class Question extends Model
 {
+    /*
+     * id
+     * text
+     * type
+     * order
+     * format
+     * status
+     * required
+     * help
+     * a column for each curriculum
+     */
+
     public function curriculum(int $curriculum, bool $inUse = null) :bool
     {
         if (!is_null($inUse) && $curriculum < 9) {
