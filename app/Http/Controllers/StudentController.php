@@ -61,7 +61,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService) :View
+    public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService): View
     {
         $questions = $questionService->get($questionType);
         $responses = $questionService->responses($questions);
@@ -75,7 +75,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService) :View
+    public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService): View
     {
         $questions = $questionService->getAcademic($curriculum, $screen);
         $responses = $questionService->responses($questions);
@@ -109,7 +109,7 @@ class StudentController extends Controller
             return redirect(route('student.highschool'));
         }
         $screen = ($screen == 0) ? 1 : $screen;
-        return $this->renderAcademicView( Page::ACADEMIC, $curriculum(), $screen, $questionService);
+        return $this->renderAcademicView(Page::ACADEMIC, $curriculum(), $screen, $questionService);
     }
 
     public function financial(QuestionService $questionService): View
@@ -156,9 +156,44 @@ class StudentController extends Controller
         return redirect(FlowController::next($request));
     }
 
-    public function invite(Request $request) :RedirectResponse
+    public function invite(Request $request): RedirectResponse
     {
         Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
         return redirect(route('home'));
+    }
+
+
+    public function storeTransfer(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'first' => 'required',
+            'middle' => 'nullable',
+            'last' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'gender' => 'required',
+            'country' => 'required',
+            //'role' => \App\Enums\User\Role::STUDENT,
+            'interest' => 'required|in:transfer_opportunities,graduate_opportunities',
+        ]);
+
+        // Create a new user with the given data
+        $user = new \App\Models\User([
+            'first' => $request->input('first'),
+            'middle' => $request->input('middle'),
+            'last' => $request->input('last'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'gender' => $request->input('gender'),
+            'country' => $request->input('country'),
+            'interest' => $request->input('interest'),
+        ]);
+
+        // Save the new user
+        $user->save();
+
+        // Return a JSON response
+        return response()->json(['message' => 'Data saved successfully!']);
     }
 }

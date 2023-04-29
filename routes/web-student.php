@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 // Unathenticated routes
 Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
+Route::post('/transfer', [\App\Http\Controllers\StudentController::class, 'storeTransfer'])->name('student.transfer');
+
 
 Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::post('/hsLookup', [TypeaheadController::class, 'autocompleteSearch'])->name('hsLookup');
