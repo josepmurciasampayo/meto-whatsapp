@@ -37,6 +37,7 @@ class User extends Authenticatable
         'phone_verified',
         'whatsapp_used',
         'whatsapp_consent',
+        'interest',
     ];
 
     /**
@@ -53,7 +54,7 @@ class User extends Authenticatable
         'google_id',
     ];
 
-    public static function getByPhone(string $phone) :?User
+    public static function getByPhone(string $phone): ?User
     {
         $phone = preg_replace('~\D~', '', $phone);
         $result = Helpers::dbQueryArray('
@@ -69,22 +70,22 @@ class User extends Authenticatable
         return User::find($user_id);
     }
 
-    public static function getByEmail(string $email) :?User
+    public static function getByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
     }
 
-    public function isAdmin() :bool
+    public function isAdmin(): bool
     {
         return ($this->role == Role::ADMIN());
     }
 
-    public function isStudent() :bool
+    public function isStudent(): bool
     {
         return ($this->role == Role::STUDENT());
     }
 
-    public function student_id() :?int
+    public function student_id(): ?int
     {
         $student = Student::where('user_id', $this->id)->first();
         if ($student) {
@@ -93,43 +94,43 @@ class User extends Authenticatable
         return null;
     }
 
-    public function isCounselor() :bool
+    public function isCounselor(): bool
     {
         return ($this->role == Role::COUNSELOR());
     }
 
-    public function isSchoolAdmin() :bool
+    public function isSchoolAdmin(): bool
     {
         $hsRole = DB::select('select role from meto_user_high_schools where user_id = ' . $this->id)[0]->role;
         return ($hsRole == \App\Enums\HighSchool\Role::ADMIN() || $this->role == Role::ADMIN);
     }
 
-    public function isInstitution() :bool
+    public function isInstitution(): bool
     {
         return ($this->role == Role::INSTITUTION() || $this->role == Role::ADMIN());
     }
 
-    public static function deleteByRole(Role $role) :void
+    public static function deleteByRole(Role $role): void
     {
         User::where('role', $role())->delete();
     }
 
-    public function terms() :bool
+    public function terms(): bool
     {
         return $this->isAdmin() || $this->terms;
     }
 
-    public static function getCounselorsAtHS(int $highschool_id) :array
+    public static function getCounselorsAtHS(int $highschool_id): array
     {
         return Helpers::dbQueryArray('
             select u.id as user_id, h.highschool_id, h.role, concat(u.first, " ", u.last) as name, u.email
             from meto_users as u
             join meto_user_high_schools as h on h.user_id = u.id and h.role in (' . HSRole::ADMIN() . ', ' . HSRole::COUNSELOR() . ')
-            where h.highschool_id = ' . $highschool_id .' ;
+            where h.highschool_id = ' . $highschool_id . ' ;
         ');
     }
 
-    public function isCounselorAtAP() :bool
+    public function isCounselorAtAP(): bool
     {
         $row = Helpers::dbQueryArray('
         select h.type
@@ -141,7 +142,7 @@ class User extends Authenticatable
         return $row[0]['type'] == Type::ACCESS();
     }
 
-    public static function getIDbyStudentID(int $student_id) :int
+    public static function getIDbyStudentID(int $student_id): int
     {
         $row = Helpers::dbQueryArray('
             select u.id
