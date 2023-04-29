@@ -104,6 +104,5 @@
         <option value="Turkish - First Language">Turkish - First Language</option>
         <option value="Urdu as a Second Language">Urdu as a Second Language</option>
         <option value="World Literature">World Literature</option>
-        <option value="AP Spanish Language and Culture">AP Spanish Language and Culture</option>
      </x-slot>
  </x-inputs.select-other>
