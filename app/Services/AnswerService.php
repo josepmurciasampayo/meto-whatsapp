@@ -36,6 +36,7 @@ class AnswerService
             case QuestionFormat::CAMSUBJECT():
             case QuestionFormat::IGCSEGRADE():
             case QuestionFormat::IBGRADE():
+            case QuestionFormat::COUNTRY():
                 $existing->text = $input;
                 break;
 
@@ -45,7 +46,6 @@ class AnswerService
 
             case QuestionFormat::SELECT():
             case QuestionFormat::RADIO():
-            case QuestionFormat::COUNTRY():
             case QuestionFormat::SELECTWITHOTHER():
                 $existing->response_id = $input;
                 $response = \App\Models\Response::find($existing->response_id);

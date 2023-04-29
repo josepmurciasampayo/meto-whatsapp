@@ -15,7 +15,7 @@
                 class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
             <option value="">Select a country</option>
             @foreach ($countries as $country)
-                <option value="{{ $country->id }}" {{ $saved == $country->id ? 'selected' : '' }}>{{ $country->name }} </option>
+                <option value="{{ $country->name }}" {{ $saved == $country->name ? 'selected' : '' }}>{{ $country->name }} </option>
             @endforeach
         </select>
     </div>

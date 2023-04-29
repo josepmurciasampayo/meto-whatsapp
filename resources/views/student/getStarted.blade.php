@@ -18,11 +18,12 @@
             <form method="POST" action="{{ route('user.register') }}">
                 <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                 @csrf
-                <x-inputs.text name="first" label="First/Given Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
-                <x-inputs.text name="middle" label="Middle Name" ></x-inputs.text>
-                <x-inputs.text name="last" label="Last/Family Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
-                <x-inputs.phone name="phone" label="Phone Number" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.phone>
-                <x-inputs.select name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
+                <x-inputs.text value="{{ old('first') }}" name="first" label="First/Given Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text value="{{ old('middle') }}" name="middle" label="Middle Name" ></x-inputs.text>
+                <x-inputs.text value="{{ old('last') }}" name="last" label="Last/Family Name" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.phone value="{{ old('phone') }}" name="phone" label="Phone Number" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.phone>
+                <x-inputs.select value="{{ old('owner') }}" name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
+
                 @php $w = [1 => "I use this number for WhatsApp"] @endphp
                 <div class="form-group checkbox-container">
                     <x-inputs.checkbox name="whatsapp" label="" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
@@ -33,10 +34,10 @@
                     <x-inputs.checkbox name="consent" label="" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
                     <label for="consent" class="consent-label checkbox-label"></label>
                 </div>
-                <x-inputs.text name="email" label="Email Address" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
-                <x-inputs.text name="emailConfirm" label="Confirm Email" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
-                <x-inputs.text-masked name="password" type="password" label="Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text-masked>
-                <x-inputs.text-masked name="passwordConfirm" type="password" label="Confirm Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text-masked>
+                <x-inputs.text saved="{{ old('email') }}" name="email" label="Email Address" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text saved="{{ old('emailConfirm') }}" name="emailConfirm" label="Confirm Email" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text>
+                <x-inputs.text-masked saved="{{ old('password') }}" name="password" type="password" label="Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text-masked>
+                <x-inputs.text-masked saved="{{ old('passwordConfirm') }}" name="passwordConfirm" type="password" label="Confirm Password" required req="{{ \App\Enums\General\YesNo::YES }}"></x-inputs.text-masked>
 
                 <div class="text-center my-4">
                     <x-button-icon onclick="validateAndSubmit()" icon="fa fa-chevron-right" text="Next" />
@@ -51,5 +52,3 @@
         </div>
     </div>
 </x-app-layout>
-
-

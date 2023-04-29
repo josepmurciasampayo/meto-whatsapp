@@ -216,6 +216,7 @@ class QuestionService
         foreach ($answers as $answer) {
             $answerArray[$answer->question_id] = $answer->text;
         }
+        
         return $answerArray;
     }
 
