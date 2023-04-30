@@ -180,7 +180,7 @@ class StudentController extends Controller
             'interest' => 'required|in:transfer_opportunities,graduate_opportunities',
         ]);
 
-        (new \App\Models\User([
+        $user = new \App\Models\User([
             'first' => $request->input('first'),
             'middle' => $request->input('middle'),
             'last' => $request->input('last'),
@@ -191,7 +191,8 @@ class StudentController extends Controller
             'phone_combined' => $request->input('phone')['code'] . $request->input('phone')['number'],
             'gender' => $request->input('gender'),
             'interest' => $request->input('interest'),
-        ]))->save();
+        ]);
+        $user->save();
 
         return view('student.transferThankyou');
     }

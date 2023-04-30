@@ -1,7 +1,8 @@
-@props(['label', 'name', 'help' => false, 'saved' => '', 'disabled' => false])
+@props(['label', 'name', 'help' => false, 'saved' => '', 'disabled' => false, 'req' => false])
 
 <div class="my-4 p-4 bg-gray-100 rounded-md">
-    <label for="{{ $name }}" class="block text-lg font-medium text-gray-800 mb-2">{{ $label }}</label>
+    @php $required = ($req) ? "*" : ""  @endphp
+    <label for="{{ $name }}" class="block text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
     @if ($help)
     <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
