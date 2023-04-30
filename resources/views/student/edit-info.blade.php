@@ -20,7 +20,7 @@
         </div>
 
         <div class="flex flex-wrap justify-center" style="margin-top: 12px;margin-bottom: 12px;">
-            <x-status-icon href="/student-profile" icon="fa fa-user" text="Basic Information" progress="{{ $profileProgress }}"/>
+            <x-status-icon href="/student-profile" icon="fa fa-user" text="Basic Information" />
             <x-status-icon href="/demographic" icon="fa fa-user-friends" text="Demographic" progress="{{ $demoProgress }}"/>
             <x-status-icon href="/highschool" icon="fa fa-graduation-cap" text="High School" progress="{{ $hsProgress }}"/>
             <x-status-icon href="{{ route('student.academics', ['screen' => 0]) }}" icon="fa fa-book" text="Academic" />
