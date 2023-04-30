@@ -1,7 +1,7 @@
 @props(['name', 'label', 'saved' => '', 'options', 'help' => false, 'req' => false])
 
 <div x-data="{ showOther: '{{ $saved }}' === 'Other' }" class="my-4 bg-gray-100 px-4 py-3 rounded-md">
-    @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "*" : ""  @endphp
+    @php $required = ($req) ? "*" : ""  @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
     @if ($help)
         <div class="text-sm text-gray-600 italic mb-4">{{ $help }}</div>

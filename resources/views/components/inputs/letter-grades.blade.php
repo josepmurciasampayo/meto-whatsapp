@@ -1,10 +1,10 @@
 @props(['name', 'label', 'saved' => '', 'req' => false])
 
 <div>
-    @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "*" : ""  @endphp
+    @php $required = ($req) ? "*" : ""  @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
     <div class="relative">
-        @php $required = ($req == \App\Enums\General\YesNo::YES()) ? "required" : ""  @endphp
+        @php $required = ($req) ? "required" : ""  @endphp
         <select id="{{ $name }}" name="{{ $name }}" {{ $required }}
             class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
             <option value="">Select a Grade</option>

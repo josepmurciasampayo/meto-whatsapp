@@ -56,6 +56,11 @@ class Question extends Model
         }
     }
 
+    public function required(): bool
+    {
+        return $this->required == YesNo::YES();
+    }
+
     public static function getAdminData() :array
     {
         return Helpers::dbQueryArray('
