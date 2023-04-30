@@ -57,7 +57,7 @@ class StudentController extends Controller
     {
         return view('student.profile', [
             'user' => Auth::user(),
-            'countries' => [],
+            'owners' => PhoneOwner::descriptions(),
         ]);
     }
 

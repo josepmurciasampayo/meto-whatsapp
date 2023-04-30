@@ -12,6 +12,7 @@ use App\Mail\Welcome;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -40,7 +41,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'first' => ['required', 'string', 'max:255'],
             'last' => ['required', 'string', 'max:255'],
@@ -55,6 +55,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'phone_country' => $request->input('phone')['code'],
             'phone_local' => $request->input('phone')['number'],
+            'phone_array' => json_encode($request->input('phone')),
             'phone_combined' => $request->input('phone')['code'] . $request->input('phone')['number'],
             'phone_owner' => $request->input('owner'),
             'whatsapp_used' => ($request->has('whatsapp')) ? YesNo::YES() : YesNo::NO(),
@@ -73,5 +74,24 @@ class RegisteredUserController extends Controller
         Auth::login($user);
         Mail::to($user)->send(new Welcome($user));
         return redirect(FlowController::next($request));
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        $user->first = $request->first;
+        $user->middle = $request->middle;
+        $user->last = $request->last;
+        $user->email = $request->email;
+        $user->phone_array = json_encode($request->input('phone'));
+        $user->phone_country = $request->input('phone')['code'];
+        $user->phone_local = $request->input('phone')['number'];
+        $user->phone_combined = $request->input('phone')['code'] . $request->input('phone')['number'];
+        $user->phone_owner = $request->input('owner');
+        $user->whatsapp_used = ($request->has('whatsapp')) ? YesNo::YES() : YesNo::NO();
+        $user->whatsapp_consent = ($request->has('consent')) ? Consent::CONSENT() : Consent::NOCONSENT();
+
+        $user->save();
+        return redirect(route('home'));
     }
 }
