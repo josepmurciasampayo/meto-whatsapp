@@ -21,9 +21,9 @@
                  <x-inputs.checkbox name="whatsapp" label="" :saved="$answer" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
                  <label for="whatsapp" class="whatsapp-label checkbox-label"></label>
              </div>
-             @php $c = [1 => "I give consent to be contacted on WhatsApp"] @endphp
              <div class="form-group checkbox-container">
-                 @php $answer = (is_null($user->whatsapp_consent)) ? [] : explode(',', $user->whatsapp_consent) @endphp
+                @php $c = [1 => "I give consent to be contacted on WhatsApp"] @endphp
+                 @php $answer = ($user->whatsapp_consent == \App\Enums\User\Consent::CONSENT()) ? [1] : [] @endphp
                  <x-inputs.checkbox name="consent" label="" :saved="$answer" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
                  <label for="consent" class="consent-label checkbox-label"></label>
              </div>

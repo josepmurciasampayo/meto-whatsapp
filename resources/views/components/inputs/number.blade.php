@@ -1,5 +1,5 @@
 @props(['label', 'name', 'help' => false, 'saved' => '', 'req' => false])
-
+@php dd($req) @endphp
 <div class="my-4 bg-gray-100 rounded-md p-4">
     @php $required = ($req) ? "*" : ""  @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
