@@ -14,7 +14,7 @@
              <x-inputs.text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-inputs.text>
              <x-inputs.email name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
              <x-inputs.phone name="phone" saved="{!! $user->phone_array !!}" label="Phone Number" req="true"></x-inputs.phone>
-             <x-inputs.select name="owner" saved="{{ $owners[$user->phone_owner]}}" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
+             <x-inputs.select name="owner" saved="{{ $owners[$user->phone_owner] ?? '' }}" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
              @php $w = [1 => "I use this number for WhatsApp"] @endphp
              <div class="form-group checkbox-container">
                  @php $answer = (is_null($user->whatsapp_used)) ? [] : explode(',', $user->whatsapp_used) @endphp
