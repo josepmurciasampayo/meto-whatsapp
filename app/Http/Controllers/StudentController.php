@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\YesNo;
 use App\Enums\Page;
+use App\Enums\Student\Gender;
 use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
 use App\Mail\InviteStudent;
@@ -27,7 +28,9 @@ class StudentController extends Controller
 
     public function transfer(): View
     {
-        return view('student.transfer');
+        return view('student.transfer', [
+            'genders' => Gender::descriptions(),
+        ]);
     }
 
     public function edit(QuestionService $questionService): View
@@ -163,9 +166,8 @@ class StudentController extends Controller
     }
 
 
-    public function storeTransfer(Request $request)
+    public function storeTransfer(Request $request): View
     {
-        // Validate the request data
         $request->validate([
             'first' => 'required',
             'middle' => 'nullable',
@@ -178,22 +180,19 @@ class StudentController extends Controller
             'interest' => 'required|in:transfer_opportunities,graduate_opportunities',
         ]);
 
-        // Create a new user with the given data
-        $user = new \App\Models\User([
+        (new \App\Models\User([
             'first' => $request->input('first'),
             'middle' => $request->input('middle'),
             'last' => $request->input('last'),
             'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
+            'phone_country' => $request->input('phone')['code'],
+            'phone_local' => $request->input('phone')['number'],
+            'phone_array' => json_encode($request->input('phone')),
+            'phone_combined' => $request->input('phone')['code'] . $request->input('phone')['number'],
             'gender' => $request->input('gender'),
-            'country' => $request->input('country'),
             'interest' => $request->input('interest'),
-        ]);
+        ]))->save();
 
-        // Save the new user
-        $user->save();
-
-        // Return a JSON response
-        return response()->json(['message' => 'Data saved successfully!']);
+        return view('student.transferThankyou');
     }
 }
