@@ -56,9 +56,9 @@ class Question extends Model
         }
     }
 
-    public function required(): bool
+    public function required(): string
     {
-        return $this->required == YesNo::YES();
+        return ($this->required == YesNo::YES()) ? "true" : "false";
     }
 
     public static function getAdminData() :array
