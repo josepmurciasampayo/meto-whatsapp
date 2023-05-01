@@ -56,8 +56,11 @@ class Question extends Model
         }
     }
 
-    public function required(): string
+    public function requiredString(): string
     {
+        if (!$this->exists) { // for admin creating a question
+            return false;
+        }
         return ($this->required == YesNo::YES()) ? "true" : "false";
     }
 

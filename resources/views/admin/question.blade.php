@@ -5,6 +5,8 @@
     <?php $active[""] = ''; ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
     <?php $yes[""] = ''; ?>
+    <?php $formats[""] = ''; ?>
+    <?php $categories[""] = ''; ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
     <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
@@ -19,7 +21,7 @@
         <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
         <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $formats[$question->format] }}"></x-inputs.select>
         <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $categories[$question->type] }}"></x-inputs.select>
-        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-inputs.radio>
+        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
         <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
         <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
 
