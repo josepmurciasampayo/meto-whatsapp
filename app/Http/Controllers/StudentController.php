@@ -158,8 +158,8 @@ class StudentController extends Controller
             if ($request->input($question->id)) {
                 if ($question->id == 130){
 
-                $answerService->store($question, $request->input($question->id));
                 }
+                $answerService->store($question, $request->input($question->id));
             }
         }
         return redirect(FlowController::next($request));

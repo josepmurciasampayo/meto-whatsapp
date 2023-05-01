@@ -135,7 +135,7 @@ class AdminController extends Controller
         $responses = ($id) ? Response::where('question_id', $id)->get() : null;
         $screens = ($question->type == QuestionType::ACADEMIC()) ? QuestionScreen::get($id) : null;
         $branches = ($question->type == QuestionType::ACADEMIC()) ? ResponseBranch::get($id) : null;
-        
+
         return view('admin.question', [
             'question' => $question,
             'responses' => $responses,
