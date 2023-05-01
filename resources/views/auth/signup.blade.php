@@ -6,7 +6,8 @@
                 <x-button-nav href="{{ route('signup.student') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
                   <i class="fas fa-user-graduate"></i> I'm a student
                 </x-button-nav>
-                <x-button-nav href="{{ route('signup.counselor') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
+                <x-button-nav href="https://meto-intl.typeform.com/signup"
+                class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
                   <i class="fas fa-chalkboard-teacher"></i> I'm a university advisor
                 </x-button-nav>
                 <x-button-nav href="{{ route('signup.uni') }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 sm:mx-2 px-3 py-2">
