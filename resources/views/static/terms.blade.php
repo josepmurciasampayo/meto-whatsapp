@@ -45,7 +45,7 @@
     <form action="{{ route('saveTerms') }}" method="POST">
         @csrf
         <input type="hidden" name="terms" id="terms" value="1">
-        <div class="text-end">
+        <div class="text-center">
             <x-button>I Agree</x-button>
         </div>
     </form>
