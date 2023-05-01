@@ -1,5 +1,4 @@
 @props(['name', 'label', 'saved' => '', 'options', 'help' => false, 'req' => false])
-@php dd($saved); @endphp
 @php
     $array = json_decode($saved);
     if ($array === null) {
