@@ -3,6 +3,7 @@
     <?php $categories = \App\Enums\Student\QuestionType::descriptions() ?>
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
     <?php $active[""] = ''; ?>
+    <?php $active[0] = ''; ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
     <?php $yes[""] = ''; ?>
     <?php $formats[""] = ''; ?>
@@ -69,6 +70,8 @@
             <x-inputs.text label="Order" name="order" saved="{!! $question->order !!}"></x-inputs.text>
         @endif
 
+        <x-inputs.textarea label="Notes" name="notes" saved="{!! $question->notes !!}" />
+
         @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
             <input type="hidden" name="toDelete" id="toDelete" value="0">
             <script type="text/javascript">
@@ -83,9 +86,12 @@
                     <x-inputs.text label="Add # blank responses" name="responses"></x-inputs.text>
                 </div>
                 <div class="col">
-                    <x-button class="my-4 p-4">Add</x-button>
+                    <x-inputs.textarea label="Paste a list of responses" name="responsesList" />
                 </div>
             </div>
+        <div class="row">
+                    <x-button class="my-4 p-4">Add</x-button>
+        </div>
             <div class="row">
                 <div class="col col-lg-2"></div>
                 <div class="col text-center">Response Text</div>

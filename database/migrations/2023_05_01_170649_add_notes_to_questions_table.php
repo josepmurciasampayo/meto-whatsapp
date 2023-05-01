@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->unsignedTinyInteger('required')->default(\App\Enums\General\YesNo::YES())->comment(\App\Enums\General\YesNo::toString());
+            $table->string('notes', 2500)->nullable();
         });
     }
 
