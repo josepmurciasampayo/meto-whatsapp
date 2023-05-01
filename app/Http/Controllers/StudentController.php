@@ -156,7 +156,10 @@ class StudentController extends Controller
         $questions = Question::whereIn('id', $questionIDs)->get();
         foreach ($questions as $question) {
             if ($request->input($question->id)) {
+                if ($question->id == 130){
+
                 $answerService->store($question, $request->input($question->id));
+                }
             }
         }
         return redirect(FlowController::next($request));
