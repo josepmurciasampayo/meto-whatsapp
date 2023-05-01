@@ -14,7 +14,6 @@
                 <x-inputs.text name="middle" label="Middle Name"></x-inputs.text>
                 <x-inputs.text name="last" label="Last/Family Name"></x-inputs.text>
                 <x-inputs.email name="email" label="Email Address"></x-inputs.email>
-                <x-inputs.radio name="gender" label="Gender" :options="$genders"></x-inputs.radio>
                 <x-inputs.phone name="phone" label="Phone Number"></x-inputs.phone>
                 <x-inputs.radio name="interest" label="Interested in:" :options="[1 => 'Transfer opportunities', 2 => 'Graduate opportunities']"></x-inputs.radio>
                 <x-button-icon type="submit" icon="fa fa-share-square" text="Submit" />

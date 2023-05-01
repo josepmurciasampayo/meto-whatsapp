@@ -7,14 +7,17 @@ use App\Enums\Page;
 use App\Enums\Student\Gender;
 use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
+use App\Enums\User\Status;
 use App\Mail\InviteStudent;
 use App\Models\Question;
+use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class StudentController extends Controller
@@ -170,28 +173,24 @@ class StudentController extends Controller
     {
         $request->validate([
             'first' => 'required',
-            'middle' => 'nullable',
             'last' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
-            'gender' => 'required',
-            'country' => 'required',
-            //'role' => \App\Enums\User\Role::STUDENT,
-            'interest' => 'required|in:transfer_opportunities,graduate_opportunities',
         ]);
 
-        $user = new \App\Models\User([
-            'first' => $request->input('first'),
-            'middle' => $request->input('middle'),
-            'last' => $request->input('last'),
-            'email' => $request->input('email'),
-            'phone_country' => $request->input('phone')['code'],
-            'phone_local' => $request->input('phone')['number'],
-            'phone_array' => json_encode($request->input('phone')),
-            'phone_combined' => $request->input('phone')['code'] . $request->input('phone')['number'],
-            'gender' => $request->input('gender'),
-            'interest' => $request->input('interest'),
-        ]);
+        $user = new User();
+
+        $user->first = $request->input('first');
+        $user->middle = $request->input('middle');
+        $user->last = $request->input('last');
+        $user->email = $request->input('email');
+        $user->phone_country = $request->input('phone')['code'];
+        $user->phone_local = $request->input('phone')['number'];
+        $user->phone_array = json_encode($request->input('phone'));
+        $user->phone_combined = $request->input('phone')['code'] . $request->input('phone')['number'];
+        $user->interest = $request->input('interest');
+        $user->role = \App\Enums\User\Role::STUDENT();
+        $user->status = Status::INACTIVE();
+        $user->password = bcrypt(Str::random(12));
         $user->save();
 
         return view('student.transferThankyou');
