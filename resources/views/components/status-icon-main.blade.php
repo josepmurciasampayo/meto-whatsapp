@@ -1,6 +1,6 @@
 @props(['href', 'icon', 'text'])
 
-<a href="{{ $href }}" class="button">
+<a href="{{ $href }}" target="_blank" class="button">
     <div class="icon"><i class="{{ $icon }}"></i></div>
     <div class="text">{{ $text }}</div>
   </a>
