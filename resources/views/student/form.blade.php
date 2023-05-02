@@ -10,9 +10,8 @@
                 @csrf
 
                 @foreach ($questions as $id => $question)
-
                     <div class="my-3">
-                    @php $a = isset($answers[$id]) ? $answers[$id] : null @endphp
+                    @php $a = $answers[$id] ?? null @endphp
 
                     @if (\App\Models\Question::hasResponses($question))
                         <?php $r = isset($responses[$id]) ? $responses[$id] : null ?>

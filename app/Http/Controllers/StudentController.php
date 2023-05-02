@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
 use App\Services\ResponseService;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,6 +74,8 @@ class StudentController extends Controller
         $questions = $questionService->get($questionType);
         $responses = $responseService->getForQuestionArray($questions);;
         $answers = $answerService->getForQuestionArray($questions);
+        //Debugbar::info(print_r($questions, true));
+        //Debugbar::info(print_r($answers, true));
 
         return view('student.form', [
             'questions' => $questions,
@@ -97,17 +100,17 @@ class StudentController extends Controller
         ]);
     }
 
-    public function demographic(QuestionService $questionService): View
+    public function demographic(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::DEMOGRAPHIC, Page::DEMO, $questionService);
+        return $this->renderView(QuestionType::DEMOGRAPHIC, Page::DEMO, $questionService, $responseService, $answerService);
     }
 
-    public function highschool(QuestionService $questionService): View
+    public function highschool(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService);
+        return $this->renderView(QuestionType::HIGHSCHOOL, Page::HIGHSCHOOL, $questionService, $responseService, $answerService);
     }
 
-    public function academics(int $screen, QuestionService $questionService): View|RedirectResponse
+    public function academics(int $screen, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View|RedirectResponse
     {
         Auth::user()->reminder = YesNo::YES();
         Auth::user()->save();
@@ -116,34 +119,34 @@ class StudentController extends Controller
             return redirect(route('student.highschool'));
         }
         $screen = ($screen == 0) ? 1 : $screen;
-        return $this->renderAcademicView(Page::ACADEMIC, $curriculum(), $screen, $questionService);
+        return $this->renderAcademicView(Page::ACADEMIC, $curriculum(), $screen, $questionService, $responseService, $answerService);
     }
 
-    public function financial(QuestionService $questionService): View
+    public function financial(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
         Auth::user()->reminder = YesNo::YES();
         Auth::user()->save();
-        return $this->renderView(QuestionType::FINANCIAL, Page::FINANCIAL, $questionService);
+        return $this->renderView(QuestionType::FINANCIAL, Page::FINANCIAL, $questionService, $responseService, $answerService);
     }
 
-    public function extracurricular(QuestionService $questionService): View
+    public function extracurricular(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::EXTRACURRICULAR, Page::EXTRA, $questionService);
+        return $this->renderView(QuestionType::EXTRACURRICULAR, Page::EXTRA, $questionService, $responseService, $answerService);
     }
 
-    public function university(QuestionService $questionService): View
+    public function university(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::UNIVERSITY, Page::UNIPLAN, $questionService);
+        return $this->renderView(QuestionType::UNIVERSITY, Page::UNIPLAN, $questionService, $responseService, $answerService);
     }
 
-    public function testing(QuestionService $questionService): View
+    public function testing(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::TESTING, Page::TESTING, $questionService);
+        return $this->renderView(QuestionType::TESTING, Page::TESTING, $questionService, $responseService, $answerService);
     }
 
-    public function general(QuestionService $questionService): View
+    public function general(QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        return $this->renderView(QuestionType::GENERAL, Page::GENERAL, $questionService);
+        return $this->renderView(QuestionType::GENERAL, Page::GENERAL, $questionService, $responseService, $answerService);
     }
 
     public function handle(Request $request, AnswerService $answerService): RedirectResponse
@@ -157,9 +160,6 @@ class StudentController extends Controller
         $questions = Question::whereIn('id', $questionIDs)->get();
         foreach ($questions as $question) {
             if ($request->input($question->id)) {
-                if ($question->id == 130){
-
-                }
                 $answerService->store($question, $request->input($question->id));
             }
         }

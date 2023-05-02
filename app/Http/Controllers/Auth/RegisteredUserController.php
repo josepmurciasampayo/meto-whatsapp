@@ -79,10 +79,6 @@ class RegisteredUserController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $user = Auth::user();
-        $user->first = $request->first;
-        $user->middle = $request->middle;
-        $user->last = $request->last;
-        $user->email = $request->email;
         $user->phone_array = json_encode($request->input('phone'));
         $user->phone_country = $request->input('phone')['code'];
         $user->phone_local = $request->input('phone')['number'];

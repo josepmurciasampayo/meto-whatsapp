@@ -1,10 +1,10 @@
 @props(['href', 'icon', 'text'])
 
-<a href="{{ $href }}" target="_blank" class="button">
+<a href="{{ $href }}" class="button">
     <div class="icon"><i class="{{ $icon }}"></i></div>
     <div class="text">{{ $text }}</div>
   </a>
-  
+
   <style>
   .button {
     display: inline-block;
@@ -18,23 +18,22 @@
     transition: background-color 0.3s ease;
     padding: .5rem;
   }
-  
+
   .button:hover {
     background-color: rgb(192,192,192);
     color: #fff;
   }
-  
+
   .button .icon {
     font-size: 3rem;
     color: rgb(22, 66, 22);
     margin-bottom: .5rem;
   }
-  
+
   .button .text {
     font-size: 1.2rem;
     font-weight: bold;
     color: rgb(22, 66, 22);
   }
-  
+
   </style>
-  

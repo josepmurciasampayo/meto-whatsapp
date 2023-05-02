@@ -13,51 +13,31 @@
 
 <div>
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
-        <x-inputs.text saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1  }}"></x-inputs.text>
+        <x-inputs.text saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1  }}"></x-inputs.text>
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
-        <x-inputs.textarea saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.textarea>
+        <x-inputs.textarea saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.textarea>
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())
-        <x-inputs.select saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
+        <x-inputs.select :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
     @elseif ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
-        @php $answer = (is_null($answer)) ? [] : explode(',', $answer) @endphp
+        @php $answer = (is_null($answer)) ? [] : explode(',', $answer->text) @endphp
         <x-inputs.checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.checkbox>
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
-        <x-inputs.radio saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
+        <x-inputs.radio :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
-        <x-inputs.date name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
-    @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY())
-        <x-inputs.country name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.country>
+        <x-inputs.date saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
-        <x-inputs.country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.country-checkbox>
+        <x-inputs.country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer?->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.country-checkbox>
     @elseif ($question->format === App\Enums\QuestionFormat::EMAIL())
-        <x-inputs.email label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" req="{{ $question->required == 1 }}" saved="{{ $answer }}"></x-inputs.email>
+        <x-inputs.email saved="{{ $answer?->text }}" label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" req="{{ $question->required == 1 }}"></x-inputs.email>
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.phone>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())
-        <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.number>
-    @elseif ($question->format === App\Enums\QuestionFormat::DOLLAR())
-        <x-inputs.dollar label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.dollar>
-    @elseif ($question->format === App\Enums\QuestionFormat::IBSUBJECT())
-        <x-inputs.ib-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.ib-subjects>
+        <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.number>
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
-        <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.select-other>
-    @elseif ($question->format === App\Enums\QuestionFormat::GPA())
-        <x-inputs.gpa label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.gpa>
-    @elseif ($question->format === App\Enums\QuestionFormat::AP())
-        <x-inputs.ap-subjects label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.ap-subjects>
+        <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" :saved="$answer" req="{{ $question->required == 1 }}"></x-inputs.select-other>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
         <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-hs>@elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUPORG())
         <x-inputs.lookup-org label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-org>
-    @elseif ($question->format == \App\Enums\QuestionFormat::LETTERGRADE())
-        <x-inputs.letter-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.letter-grades>
-    @elseif ($question->format == \App\Enums\QuestionFormat::CAMSUBJECT())
-        <x-inputs.cambridge-subject saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.cambridge-subject>
-    @elseif ($question->format == \App\Enums\QuestionFormat::IGCSEGRADE())
-        <x-inputs.igcse-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.igcse-grades>
-    @elseif ($question->format == \App\Enums\QuestionFormat::ALEVEL())
-        <x-inputs.alevel-subjects saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.alevel-subjects>
-    @elseif ($question->format == \App\Enums\QuestionFormat::ALEVELGRADE())
-        <x-inputs.alevel-grades saved="{!! $answer !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.alevel-grades>
     @endif
 </div>

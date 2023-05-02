@@ -27,20 +27,12 @@ class AnswerService
             case QuestionFormat::DOLLAR():
             case QuestionFormat::LOOKUP():
             case QuestionFormat::LOOKUPORG():
-            case QuestionFormat::GPA():
-            case QuestionFormat::LETTERGRADE():
             case QuestionFormat::COUNTRY():
+                //dd($input);
                 $existing->text = $input;
                 break;
             case QuestionFormat::PHONE():
-            case QuestionFormat::IGCSEGRADE():
-            case QuestionFormat::AP():
-            case QuestionFormat::CAMSUBJECT():
-            case QuestionFormat::IBSUBJECT():
-            case QuestionFormat::ALEVELGRADE():
             case QuestionFormat::SELECTWITHOTHER():
-            case QuestionFormat::IBGRADE():
-            case QuestionFormat::ALEVEL():
                 $existing->text = json_encode($input);
                 break;
             case QuestionFormat::SELECT():
@@ -71,7 +63,7 @@ class AnswerService
         $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
         $answerArray = array();
         foreach ($answers as $answer) {
-            $answerArray[$answer->question_id] = $answer->text;
+            $answerArray[$answer->question_id] = $answer;
         }
 
         return $answerArray;
