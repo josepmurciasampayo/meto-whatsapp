@@ -17,12 +17,12 @@
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
         <x-inputs.textarea saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.textarea>
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())
-        <x-inputs.select :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
+        <x-inputs.select saved="{{ $answer?->id }}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
     @elseif ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
         @php $answer = (is_null($answer)) ? [] : explode(',', $answer->text) @endphp
         <x-inputs.checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.checkbox>
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
-        <x-inputs.radio :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
+        <x-inputs.radio saved="{{ $answer?->id }}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
         <x-inputs.date saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
