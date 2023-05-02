@@ -53,4 +53,14 @@ class ResponseService
         }
     }
 
+    public function getAllAsString(Question $question) : string
+    {
+        $toReturn = array();
+        $responses = Response::where('question_id', $question->id);
+        foreach ($responses as $response) {
+            $toReturn[] = $response->text;
+        }
+        return implode('\n', $toReturn);
+    }
+
 }
