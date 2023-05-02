@@ -41,54 +41,11 @@ class Question extends Model
         return in_array($question->format, QuestionFormat::hasResponses());
     }
 
-    public function academicJoin(Curriculum $curriculum) :QuestionScreen
+    public function requiredString(): string
     {
-        return QuestionScreen::where('question_id', $this->id)->where('curriculum', $curriculum())->first();
-    }
-
-    public static function findByText(string $text) :?Question
-    {
-        $existing = Question::where('text', $text);
-        if ($existing->count() == 0) {
-            return null;
-        } else {
-            return $existing->first();
+        if (!$this->exists) { // for admin creating a question
+            return false;
         }
-    }
-
-    public function required(): string
-    {
         return ($this->required == YesNo::YES()) ? "true" : "false";
-    }
-
-    public static function getAdminData() :array
-    {
-        return Helpers::dbQueryArray('
-            select
-                q.id,
-                q.text,
-                q.type,
-                q.format,
-                q.required,
-                `order`,
-                q.' . Curriculum::TRANSFER() . ',
-                q.' . Curriculum::KENYAN() . ',
-                q.' . Curriculum::RWANDAN() . ',
-                q.' . Curriculum::IB() . ',
-                q.' . Curriculum::OTHER() . ',
-                q.' . Curriculum::CAMBRIDGE() . ',
-                q.' . Curriculum::UGANDAN() . ',
-                q.' . Curriculum::AMERICAN() . ',
-                q.status,
-                ifnull(a.count, 0) as count
-            from meto_questions as q
-            left outer join (
-                select q.id, count(*) as "count"
-                from meto_questions as q
-                join meto_answers as a on q.id = a.question_id
-                group by q.id
-            ) as a on a.id = q.id
-            order by q.id;
-        ');
     }
 }

@@ -2,9 +2,7 @@
     <?php $formats = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $categories = \App\Enums\Student\QuestionType::descriptions() ?>
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
-    <?php $active[""] = ''; ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
-    <?php $yes[""] = ''; ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
     <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
@@ -17,10 +15,10 @@
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
         <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
-        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $formats[$question->format] }}"></x-inputs.select>
-        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $categories[$question->type] }}"></x-inputs.select>
-        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $yes[$question->required] !!}"></x-inputs.radio>
-        <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
+        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
+        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
+        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
+        <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
         <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
@@ -67,6 +65,8 @@
             <x-inputs.text label="Order" name="order" saved="{!! $question->order !!}"></x-inputs.text>
         @endif
 
+        <x-inputs.textarea label="Notes" name="notes" saved="{!! $question->notes !!}" />
+
         @if (in_array($question->format, \App\Enums\QuestionFormat::hasResponses()))
             <input type="hidden" name="toDelete" id="toDelete" value="0">
             <script type="text/javascript">
@@ -81,9 +81,12 @@
                     <x-inputs.text label="Add # blank responses" name="responses"></x-inputs.text>
                 </div>
                 <div class="col">
-                    <x-button class="my-4 p-4">Add</x-button>
+                    <x-inputs.textarea label="Paste a list of responses" name="responsesList" />
                 </div>
             </div>
+        <div class="row">
+                    <x-button class="my-4 p-4">Add</x-button>
+        </div>
             <div class="row">
                 <div class="col col-lg-2"></div>
                 <div class="col text-center">Response Text</div>

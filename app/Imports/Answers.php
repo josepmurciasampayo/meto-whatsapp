@@ -36,7 +36,7 @@ class Answers
                 continue;
             }
 
-            $question = Question::findByText($answers[0]->question_content);
+            $question = Question::where('text', $answers[0]->question_content)->first();
             if (is_null($question)) {
                 Log::channel('import')->error('Question not found for: ' . $answers[0]->question_content . ' (question ' . $q . ')');
                 continue;

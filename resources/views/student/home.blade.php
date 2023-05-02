@@ -40,8 +40,8 @@
 
       <div class="flex justify-center" style="margin-top: 12px;margin-bottom: 12px;">
           <x-status-icon-main href="/edit-info" icon="fa fa-edit" text="Edit Profile"/>
-          <x-status-icon-main href="#" icon="fas fa-book" text="Resources"/>
-      </div>
+          <x-status-icon-main href="https://sites.google.com/meto-intl.org/meto-resources?usp=sharing" icon="fas fa-book" text="Resources"/>
+        </div>
 
       <div class="flex justify-center ">
           <div class="w-50 my-10">
