@@ -61,4 +61,19 @@ class AnswerService
         $existing->save();
         return $existing;
     }
+
+    public function getForQuestionArray(array $questions) :array
+    {
+        $question_ids = array();
+        foreach ($questions as $id => $question) {
+            $question_ids[] = $id;
+        }
+        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
+        $answerArray = array();
+        foreach ($answers as $answer) {
+            $answerArray[$answer->question_id] = $answer->text;
+        }
+
+        return $answerArray;
+    }
 }

@@ -106,6 +106,37 @@ class QuestionService
         }
     }
 
+    public function getAdminData() :array
+    {
+        return Helpers::dbQueryArray('
+            select
+                q.id,
+                q.text,
+                q.type,
+                q.format,
+                q.required,
+                `order`,
+                q.' . Curriculum::TRANSFER() . ',
+                q.' . Curriculum::KENYAN() . ',
+                q.' . Curriculum::RWANDAN() . ',
+                q.' . Curriculum::IB() . ',
+                q.' . Curriculum::OTHER() . ',
+                q.' . Curriculum::CAMBRIDGE() . ',
+                q.' . Curriculum::UGANDAN() . ',
+                q.' . Curriculum::AMERICAN() . ',
+                q.status,
+                ifnull(a.count, 0) as count
+            from meto_questions as q
+            left outer join (
+                select q.id, count(*) as "count"
+                from meto_questions as q
+                join meto_answers as a on q.id = a.question_id
+                group by q.id
+            ) as a on a.id = q.id
+            order by q.id;
+        ');
+    }
+
     public function store(Request $request) :Question
     {
         if ($request->input('toDelete') > 0) {
@@ -160,35 +191,6 @@ class QuestionService
         (new ResponseService())->create($question, $request);
 
         return $question;
-    }
-
-    public function responses(array $questions) :array
-    {
-        $question_ids = array();
-        foreach ($questions as $id => $question) {
-            $question_ids[] = $id;
-        }
-        $responses = Response::whereIn('question_id', $question_ids)->get();
-        $responseArray = array();
-        foreach ($responses as $response) {
-            $responseArray[$response->question_id][] = $response;
-        }
-        return $responseArray;
-    }
-
-    public function answers(array $questions) :array
-    {
-        $question_ids = array();
-        foreach ($questions as $id => $question) {
-            $question_ids[] = $id;
-        }
-        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
-        $answerArray = array();
-        foreach ($answers as $answer) {
-            $answerArray[$answer->question_id] = $answer->text;
-        }
-
-        return $answerArray;
     }
 
     public function getProgress(QuestionType $questionType) :int

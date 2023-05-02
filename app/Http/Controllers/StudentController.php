@@ -13,6 +13,7 @@ use App\Models\Question;
 use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
+use App\Services\ResponseService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,11 +68,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService): View
+    public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
         $questions = $questionService->get($questionType);
-        $responses = $questionService->responses($questions);
-        $answers = $questionService->answers($questions);
+        $responses = $responseService->getForQuestionArray($questions);;
+        $answers = $answerService->getForQuestionArray($questions);
 
         return view('student.form', [
             'questions' => $questions,
@@ -81,11 +82,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService): View
+    public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
         $questions = $questionService->getAcademic($curriculum, $screen);
-        $responses = $questionService->responses($questions);
-        $answers = $questionService->answers($questions);
+        $responses = $responseService->getForQuestionArray($questions);
+        $answers = $answerService->getForQuestionArray($questions);
         return view('student.form', [
             'questions' => $questions,
             'responses' => $responses,

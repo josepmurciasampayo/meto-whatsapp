@@ -76,8 +76,7 @@ class AdminController extends Controller
 
     public function highschools(): View
     {
-        $data = HighSchool::getAdminData();
-        return view('admin.highschools', ['data' => $data]);
+        return view('admin.highschools', ['data' => HighSchool::getAdminData()]);
     }
 
     public function logins(): View
@@ -123,9 +122,8 @@ class AdminController extends Controller
 
     public function questions(): View
     {
-        $data = Question::getAdminData();
         return view('admin.questions', [
-            'data' => $data,
+            'data' => (new QuestionService())->getAdminData(),
         ]);
     }
 

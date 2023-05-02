@@ -2,12 +2,7 @@
     <?php $formats = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $categories = \App\Enums\Student\QuestionType::descriptions() ?>
     <?php $active = \App\Enums\QuestionStatus::descriptions() ?>
-    <?php $active[""] = ''; ?>
-    <?php $active[0] = ''; ?>
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
-    <?php $yes[""] = ''; ?>
-    <?php $formats[""] = ''; ?>
-    <?php $categories[""] = ''; ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
     <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
@@ -20,10 +15,10 @@
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
         <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
-        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $formats[$question->format] }}"></x-inputs.select>
-        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $categories[$question->type] }}"></x-inputs.select>
+        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
+        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
         <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
-        <x-inputs.radio label="Active" :options="$active" name="active" saved="{!! $active[$question->status] !!}"></x-inputs.radio>
+        <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
         <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())

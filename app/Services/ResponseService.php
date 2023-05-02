@@ -53,6 +53,20 @@ class ResponseService
         }
     }
 
+    public function getForQuestionArray(array $questions) :array
+    {
+        $question_ids = array();
+        foreach ($questions as $id => $question) {
+            $question_ids[] = $id;
+        }
+        $responses = Response::whereIn('question_id', $question_ids)->get();
+        $responseArray = array();
+        foreach ($responses as $response) {
+            $responseArray[$response->question_id][] = $response;
+        }
+        return $responseArray;
+    }
+
     public function getAllAsString(Question $question) : string
     {
         $toReturn = array();
