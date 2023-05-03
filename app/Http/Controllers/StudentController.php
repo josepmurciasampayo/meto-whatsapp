@@ -9,6 +9,7 @@ use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
 use App\Enums\User\Status;
 use App\Mail\InviteStudent;
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 use App\Services\AnswerService;
@@ -161,6 +162,8 @@ class StudentController extends Controller
         foreach ($questions as $question) {
             if ($request->input($question->id)) {
                 $answerService->store($question, $request->input($question->id));
+            } else {
+                Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->delete();
             }
         }
         return redirect(FlowController::next($request));
