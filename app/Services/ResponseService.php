@@ -11,6 +11,7 @@ class ResponseService
 {
     public function create(Question $question, Request $request): void
     {
+        // first, check if we are creating a number of blank responses
         if ($request->input('responses')) { // number of responses to create
             $responses = $request->input('responses');
             for ($i = 0; $i < $responses; ++$i) {
@@ -18,9 +19,14 @@ class ResponseService
                 $response->question_id = $question->id;
                 $response->save();
             }
+            return;
         }
 
+        // second, check if we are creating set responses from the textarea
         if ($request->input('responsesList')) {
+            if ($request->input('deleteResponses')) {
+                Response::where('question_id', $question->id)->delete();
+            }
             $responses = preg_split("/\r\n|\n|\r/", $request->input('responsesList'));
             foreach ($responses as $response) {
                 $r = new Response();
@@ -28,16 +34,20 @@ class ResponseService
                 $r->text = $response;
                 $r->save();
             }
+            return;
         }
 
+        // finally, review each submitted response
         if ($request->input('response')) { // text for existing responses
-            ResponseBranch::where('question_id', $question->id)->delete();
+            ResponseBranch::where('question_id', $question->id)->delete(); // remove all existing branches in order to add whatever is submitted
 
             $responses = $request->input('response');
             foreach ($responses as $id => $r) {
                 $response = Response::find($id);
-                $response->text = $r;
-                $response->save();
+                if ($response) {
+                    $response->text = $r;
+                    $response->save();
+                }
 
                 if ($request->input('responseBranch') && $request->input('responseBranch')[$id]) {
                     foreach ($request->input('responseBranch')[$id] as $curriculum => $value) {

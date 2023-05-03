@@ -82,6 +82,7 @@
                 </div>
                 <div class="col">
                     <x-inputs.textarea label="Paste a list of responses" name="responsesList" />
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600" name="deleteResponses"> Delete existing responses
                 </div>
             </div>
         <div class="row">

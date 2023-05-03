@@ -9,6 +9,7 @@
         }
         $responses = $options;
     }
+
 @endphp
 
 <div>
@@ -17,12 +18,12 @@
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
         <x-inputs.textarea saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.textarea>
     @elseif ($question->format == \App\Enums\QuestionFormat::SELECT())
-        <x-inputs.select :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
+        <x-inputs.select saved="{{ $answer?->response_id }}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.select>
     @elseif ($question->format == \App\Enums\QuestionFormat::CHECKBOX())
         @php $answer = (is_null($answer)) ? [] : explode(',', $answer->text) @endphp
         <x-inputs.checkbox :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.checkbox>
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
-        <x-inputs.radio :saved="$answer" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
+        <x-inputs.radio saved="{{ $answer?->response_id }}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
         <x-inputs.date saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
@@ -36,8 +37,9 @@
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
         <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" :saved="$answer" req="{{ $question->required == 1 }}"></x-inputs.select-other>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
-        <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-hs>@elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
+
+        <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-hs>@elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUPORG())
-        <x-inputs.lookup-org label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-org>
+        <x-inputs.lookup-org label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-org>
     @endif
 </div>

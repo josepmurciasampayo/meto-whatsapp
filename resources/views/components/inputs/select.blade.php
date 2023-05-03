@@ -1,6 +1,6 @@
 <!-- select.blade.php -->
 @props(['options', 'name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false])
-@php  //dd($saved) @endphp
+
 <div class="my-4 bg-gray-100 px-4 py-3 rounded-md">
     @php $required = ($req) ? "*" : ""  @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
@@ -13,15 +13,11 @@
             <option value="">Select an option</option>
 
             @foreach ($options as $index => $value)
-                @if ($saved)
-                    @php $selected = ($index == ($saved->response_id)) ? 'selected' : '' @endphp
-                    <option value="{{ $index }}" {{ $selected }}>{!! $value !!}</option>
-                @endif
-                <option value="{{ $index }}">{!! $value !!}</option>
+                @php $selected = ($index == $saved) ? 'selected' : '' @endphp
+                <option value="{{ $index }}" {{ $selected }}>{!! $value !!}</option>
             @endforeach
 
         </select>
-        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"></div>
     </div>
 </div>

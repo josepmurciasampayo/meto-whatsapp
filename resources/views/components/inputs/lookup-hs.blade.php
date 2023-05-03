@@ -1,4 +1,5 @@
 @props(['label' => '', 'name', 'help' => false, 'disabled' => false, 'saved' => "", 'req' => false])
+
 <div class="my-4 bg-gray-100 rounded-md p-4">
     @php $required = ($req) ? "*" : ""  @endphp
     <label for="{{ $name }}" class="text-lg font-medium text-gray-800 mb-2">{!! $label ?? $slot !!} {{ $required }}</label>
