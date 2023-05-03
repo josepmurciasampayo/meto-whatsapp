@@ -41,7 +41,7 @@ class convertQuestionsToSelects extends Command
             QuestionFormat::LETTERGRADE(),
             QuestionFormat::DOLLAR(),
             QuestionFormat::COUNTRY(),
-            QuestionFormat::GPA(),  
+            QuestionFormat::GPA(),
         ])->get();
 
         $responses = array();
