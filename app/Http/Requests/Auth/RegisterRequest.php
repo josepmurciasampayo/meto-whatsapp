@@ -42,11 +42,11 @@ class RegisterRequest extends FormRequest
             ],
 
             'phone.code' => [
-                'required', 'numeric', 'max:3'
+                'required', 'string', 'max:5'
             ],
 
             'phone.number' => [
-                'required', 'numeric', 'max:20'
+                'required', 'string', 'max:20'
             ],
 
             'password' => [
@@ -64,11 +64,11 @@ class RegisterRequest extends FormRequest
         return [
             'phone.code.required' => 'The phone number code field is required.',
             'phone.code.numeric' => 'The phone number code field should be numeric.',
-            'phone.code.max' => 'The phone number code field should have a max of 3 characters.',
+            'phone.code.digits' => 'The phone number code field should have a max of 5 characters.',
 
             'phone.number.required' => 'The phone number field is required.',
             'phone.number.numeric' => 'The phone number field should be numeric.',
-            'phone.number.max' => 'The phone number field should have a max of 20 characters.',
+            'phone.number.digits' => 'The phone number field should have a max of 20 characters.',
         ];
     }
 }
