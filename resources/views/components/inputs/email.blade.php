@@ -9,8 +9,8 @@
         <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
 
-    @php $requiredText = ($req) ? "required" : "" @endphp
-    <input value="{{ $saved }}" name="{{ $name }}" id="{{ $name }}" type="email" pattern="[^@]+@[^@]+\.[^@]{2,}" {{ $disabled ? 'disabled' : '' }} class="block w-full pr-10 pl-3 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-white" {{ $required }}>
+    @php $required = ($req) ? "required" : "" @endphp
+    <input value="{{ $saved }}" name="{{ $name }}" id="{{ $name }}" type="email" inputmode="email" pattern="[^@]+@[^@]+\.[^@]{2,}" {{ $disabled ? 'disabled' : '' }} class="block w-full pr-10 pl-3 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm bg-white" {{ $required }}>
     <div class="text-sm text-red-600 mt-1 hidden" id="{{ $name }}_error">Please enter a valid email address.</div>
 </div>
 
