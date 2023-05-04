@@ -195,7 +195,11 @@ class QuestionService
 
     public function getProgress(QuestionType $questionType) :int
     {
-        $questions = Question::where('type', $questionType)->where('required', YesNo::YES())->get();
+        $questions = Question::where('type', $questionType)
+            ->where('status', QuestionStatus::ACTIVE())
+            ->whereNot('format', 0)
+            ->where('required', YesNo::YES())
+            ->get();
         if (count($questions) == 0) {
             return 0;
         }

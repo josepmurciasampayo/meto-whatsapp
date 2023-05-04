@@ -72,6 +72,7 @@ class StudentController extends Controller
 
     public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
+
         $questions = $questionService->get($questionType);
         $responses = $responseService->getForQuestionArray($questions);;
         $answers = $answerService->getForQuestionArray($questions);

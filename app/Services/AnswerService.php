@@ -11,7 +11,6 @@ class AnswerService
 {
     public function store(Question $question, mixed $input): Answer
     {
-        dd($input);
         $existing = Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->first();
         if (!$existing) {
             $existing = new Answer();
