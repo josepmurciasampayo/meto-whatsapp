@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="p-6 bg-white border-b border-gray-200">
+    <div class="p-6 bg-white border-b border-gray-200 display-7">
         <?php echo $school['name'] ?> - Administration
     </div>
-    <div class="mt-2 mb-4"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}"><button class="btn btn-info">Invite counselor</button></a></div>
+    <div class="mt-4 mb-4 text-end"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}"><x-button class="btn btn-info"><i class="fas fa-user-plus"></i> Invite Counselor</x-button></a></div>
     <?php if (Auth::user()->isAdmin() && count($counselors) > 0) { ?>
     <div class="mt-2 mb-4">
         <div class="ml-3">
-            <h4>Existing Counselors</h4>
+            <h3>Existing Counselors</h3>
             <ul>
             <?php foreach ($counselors as $counselor) { ?>
                 <li>

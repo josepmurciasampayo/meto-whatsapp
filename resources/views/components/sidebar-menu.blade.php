@@ -18,11 +18,11 @@
 
 <style>
     
-.sidebar {
+    .sidebar {
     position: fixed;
     top: 0;
     left: -250px;
-    height: 58vh;
+    max-height: 100%;
     width: 250px;
     background-color: rgb(5,23,21);
     transition: all 0.3s ease-in-out;
@@ -32,9 +32,10 @@
 @media (max-width: 600px) {
 .sidebar {
    
-    height: 70vh;
+    height: 100vh;
     
 }}
+
 
 
 .sidebar.show {

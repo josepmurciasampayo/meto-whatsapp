@@ -1,4 +1,7 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2 w-full">
+    <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
+
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr>
@@ -27,4 +30,5 @@
         </tbody>
     </table>
     <x-dataTable></x-dataTable>
+    </div>
 </x-app-layout>

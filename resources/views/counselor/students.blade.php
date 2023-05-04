@@ -1,6 +1,11 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2">
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
-    <h3 class="my-2">Student Data</h3>
+    <h3 class="my-2 display-7">Student Data</h3>
+
+    <div class="table-container" style="height: 400px; overflow-y: scroll;">
+
+    <x-dataTable></x-dataTable>
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr>
@@ -27,15 +32,16 @@
         <tbody>
         <?php foreach ($data as $row) { ?>
             <tr>
-                <td><a class="underline" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}">{{ $row['name'] }}</a></td>
+                <td><a class="my-link" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}">{{ $row['name'] }}</a></td>
                 <td>{{ $row['gender'] }}</td>
                 <td>{{ $row['email'] }}</td>
                 <td>{{ $row['phone'] }}</td>
                 <td>{{ $row['active'] }}</td>
-                <td><a class="underline" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}">{{ $row['matches'] }}</a></td>
+                <td><a class="my-link" href="{{ route('counselor-student', ['student_id' => $row['student_id']]) }}">{{ $row['matches'] }}</a></td>
             </tr>
         <?php } ?>
         </tbody>
     </table>
-<x-dataTable></x-dataTable>
+
+</div>
 </x-app-layout>

@@ -1,54 +1,30 @@
 <x-app-layout>
-    <header>
-        <style>
-          /* Default height for small devices */
-          #intro-example {
-            height: 400px;
-          }
+  <div class="min-h-screen mt-5 mx-2">
+    <div class="bg-gray-100 m-2 p-2">
+      <h1 class="display-7 text-center">
+      Welcome, {{ Auth::user()->first }}. You are a Counselor at {{ $school->name }}.
+  </h1>
+  <p class="my-2 text-center">
+      Actively Applying: {{ $summaryCounts['active'] }} of {{ $summaryCounts['total'] }} Total Students
+  </p></div>
       
-          /* Height for devices larger than 992px */
-          @media (min-width: 992px) {
-            #intro-example {
-              height: 600px;
-            }
-          }
-        </style>
       
-        <div class="p-0 text-center"
-          style="">
-          <div class="mask" style="background-color: rgba(26, 74, 51, 0.7);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white">
-                <h1 class="mb-3"><div class="p-6 border-gray-200"><strong>Welcome, {{ Auth::user()->first }}. You are a Counselor at {{ $school->name }}.</strong>
-                    <p class="my-2">Actively Applying: {{ $summaryCounts['active'] }} of {{ $summaryCounts['total'] }} Total Students</p>
-                </div></h1>
-            
-            <a class="btn btn-outline-light btn-lg" href="{{ route('counselor-students', ['highschool_id' => $school->id] ) }}"
-                  role="button" rel="nofollow"><i class="fa-solid fa-graduation-cap"></i> My students</a>
-            <a class="btn btn-outline-light btn-lg m-2" href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}"
-                    role="button" rel="nofollow"><i class="fa-solid fa-handshake"></i> Review Matches</a>
-              </div>
-            </div>
+      <div class="flex justify-center" style="margin-top: 12px;margin-bottom: 12px;">
+              <x-status-icon-main href="{{ route('counselor-students', ['highschool_id' => $school->id] ) }}" icon="fa-solid fa-graduation-cap" text="My students"/>
+              <x-status-icon-main href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}" icon="fa-solid fa-handshake" text="View Matches"/>
           </div>
-        </div>
-      </header>
-
-    <div class="container-md">
-        <div class="row">
-        </div>             
-</div> <br>
-    <x-notes-counselor :notes="$notes"></x-notes-counselor>
-    <ul class="mb-5">
-          <div>
-            <?php if (Auth()->user()->isSchoolAdmin()) { ?>
-                <div class="mt-2 mb-2"><li><button class="btn btn-success w-25"><i class="fa-solid fa-school-flag"></i> <a href="{{ route('highschool', ['highschool_id' => $school->id]) }}">Institution profile</li></div>
-                <div class="mt-2 mb-2"><li><button class="btn btn-success w-25"><i class="fa-solid fa-user-plus"></i> <a href="{{ route('invite', ['highschool_id' => $school->id]) }}">Invite new counselors</a></li></div>
-            <?php } ?>
-            
-            </div>  
-        </ul>
-
-</div>
-</div>
-
+          <x-notes-counselor :notes="$notes"></x-notes-counselor>
+          <?php if (Auth()->user()->isSchoolAdmin()) { ?>
+            <div class="flex justify-center gap-4" style="margin-top: 12px; margin-bottom: 12px;">
+              <x-button-nav href="{{ route('highschool', ['highschool_id' => $school->id]) }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 px-3 py-2">
+                  <i class="fa-solid fa-school-flag"></i> Institution profile
+              </x-button-nav>
+              <x-button-nav href="{{ route('invite', ['highschool_id' => $school->id]) }}" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 px-3 py-2">
+                  <i class="fa-solid fa-user-plus"></i> Invite new counselors
+              </x-button-nav>
+          </div>
+          <?php } ?>
+      </div>
+  </div>
 </x-app-layout>
+

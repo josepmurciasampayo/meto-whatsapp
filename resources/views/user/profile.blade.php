@@ -1,9 +1,10 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="justify-center min-h-screen mt-2 mx-2 w-full">
+    <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="max-width: 70%">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    Profile - <?php echo $user->first . ' ' . $user->last ?>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200 display-7">
+                   <?php echo $user->first . ' ' . $user->last ?>
                 </div>
                 <div class="p-6">
                     <form  method="POST" action="{{ route('profile.update') }}" name="profile" id="profile">

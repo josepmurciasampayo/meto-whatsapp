@@ -1,5 +1,7 @@
 <x-app-layout>
-    <h2 class="my-3">{{ $question->text }}</h2>
+    <div class="min-h-screen mt-5 mx-2"> 
+    <h2 class="my-3 display-7">{{ $question->text }}</h2>
+    <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white" >
         <thead>
         <tr>

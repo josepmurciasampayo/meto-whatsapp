@@ -1,5 +1,9 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2 w-full">
+        <h1 class="display-7 my-5">High Schools & Access Programs</h1>
+        <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white">
+        <x-dataTable></x-dataTable>
         <thead>
         <tr>
             <th>Selected</th>
@@ -27,7 +31,7 @@
         <tr>
             <td class="text-center"><input class="listen" id="{{ $row['id'] }}" value="{{ $row['id'] }}" type="checkbox"></td>
             <td class="text-center"><input id="{{ $row['id'] }}" {{ ($row['verified'] == \App\Enums\General\YesNo::YES()) ? "checked" : "" }} type="checkbox"></td>
-            <td><a href="{{ route('highschool', ['highschool_id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
+            <td><a class="my-link" href="{{ route('highschool', ['highschool_id' => $row['id']]) }}"><?php echo $row['name'] ?></a></td>
             <td><?php echo $row['curriculum'] ?></td>
             <td><?php echo $row['country'] ?></td>
             <td class="text-center"><a href="{{ route('students', ['highschool_id' => $row['id']]) }}"><?php echo $row['students'] ?></a></td>
@@ -35,13 +39,15 @@
         <?php } ?>
         </tbody>
     </table>
-    <x-dataTable></x-dataTable>
+    
+</div>
     <form method="POST" action="{{ route('mergeHS') }}">
         <input type="hidden" name="IDs" id="IDs" value="">
         <input type="hidden" name="verifyIDs" id="verifyIDs" value="">
         @csrf
-        <x-button>Merge</x-button>
-        <x-button type="submit">Verify</x-button>
+        <x-button><i class="fas fa-code-branch"></i> Merge</x-button>
+        <x-button type="submit"><i class="fas fa-user-check"></i> Verify</x-button>
+        
     </form>
     <script type="text/javascript">
         var countHS = new Set();
