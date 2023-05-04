@@ -50,6 +50,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        \App\Providers\ViewServiceProvider::class,
 
         /*
          * Package Service Providers...
