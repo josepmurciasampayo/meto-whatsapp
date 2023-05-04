@@ -1,6 +1,8 @@
 @php
-    $inviteText = 'Abraham is inviting you to join them on Meto. Get started here: www.app.meto-intl.org';
+    $inviteText = Auth::user()->first . ' is inviting you to join them on Meto. Get started here: www.app.meto-intl.org';
 @endphp
+
+
 
 <div class="invite-popup-box" style="display:none">
     <div class="invite-popup">
