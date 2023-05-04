@@ -21,7 +21,9 @@ class Institution extends Model
         'state',
         'postal_code',
         'country',
+        'url',
         'google_id',
+        'efc'
     ];
 
     public static function getAdminData() :array
