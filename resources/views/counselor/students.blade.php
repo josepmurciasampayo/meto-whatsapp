@@ -3,7 +3,7 @@
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
     <h3 class="my-2 display-7">Student Data</h3>
 
-    <div class="table-container" style="height: 400px; overflow-y: scroll;">
+    <div class="table-container" style="height: 50vh; overflow-y: scroll;">
 
     <x-dataTable></x-dataTable>
     <table id="dataTable" class="table table-striped bg-white">

@@ -1,4 +1,5 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2 w-full">
     <h2 class="display-7 font-semibold text-center my-2">{{ $isInvite ? 'Counselor Invitation' : 'Counselor Profile' }}</h2>
 
     @if ($isInvite)
