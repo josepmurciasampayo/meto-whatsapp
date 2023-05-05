@@ -1,15 +1,24 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2">
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
     <form method="POST" action="{{ route('remove', ['student_id' => $student_id]) }}">
         @csrf
-        <x-button type="submit">Remove Student</x-button>
+     <div class="my-4"><x-button type="submit"><i class="fas fa-trash-alt"></i> Remove Student</x-button></div>
+        
+        
     </form>
-    <h2 class="my-2">Student Matches - {{ $data[0]['name'] }}</h2>
-    <a class="ml-3" href="#raw"><p>Go to raw data</p></a>
-    <form class="mb-5" id="submitMatches" method="POST" action="{{ route('saveStudentMatches') }}">
+    <h2 class="my-2 display-7">Matches: {{ $data[0]['name'] }}</h2>
+    <x-button-nav href="#raw" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 px-3 py-2">
+        <i class="fa fa-arrow-down"></i> Jump to Summary Data <i class="fas fa-chart-pie"></i>
+    </x-button-nav>
+
+    <form class="mb-2" id="submitMatches" method="POST" action="{{ route('saveStudentMatches') }}">
         @csrf
         <input type="hidden" id="student_id" name="student_id" value="{{ $student_id }}">
 
+        <div class="table-container" style="height: 400px; overflow-y: scroll;">
+
+            <x-dataTable></x-dataTable>
         <table id="matches" class="table bg-white ">
             <thead>
                 <tr>
@@ -36,50 +45,84 @@
         <div class="text-end">
             <x-button>Submit Updates</x-button>
         </div>
+        </div>
     </form>
 
-    <h2 id="raw" class="my-2">Student Data - {{ $data[0]['name'] }}</h2>
-    <div class="bg-white p-3">
-    <?php foreach ($data as $row) { ?>
-        <div class="py-3">
-            <!-- question ID: <?php echo $row['question_id'] ?> -->
-            <x-label value="{{ $row['question'] }}" />
-            <p><?php echo $row['answer'] ?></p>
+    <h2 id="raw" class="my-2 display-7">Summary Data: {{ $data[0]['name'] }}</h2>
+    <div class="bg-gray-100 p-4 rounded-lg shadow-lg my-5">
+      <?php foreach ($data as $row) { ?>
+        <div class="py-4 border-b border-gray-300">
+          <div class="row">
+            <div class="col-md-3">
+              <x-label value="{{ $row['question'] }}" />
+            </div>
+            <div class="col-md-9">
+              <p><?php echo $row['answer'] ?></p>
+            </div>
+          </div>
         </div>
-    <?php } ?>
+      <?php } ?>
     </div>
     <form id="verify" name="verify" action="{{ route('saveVerify') }}" method="POST">
-
-        @csrf
-
-        <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
-
-        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
+    
+      @csrf
+    
+      <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
+    
+      <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="my-4">
-            <x-label for="verify" value="Does all of the above information look correct?" />
-            <div class="btn-group" role="group" aria-label="Data verification">
+          <div class="row">
+            <div class="col-md-3">
+              <x-label for="verify" value="Data Verification" />
+              <p class="text-xs">Is the data submitted accurate?.
+
+            </div>
+            <div class="col-md-9">
+              <div class="btn-group" role="group" aria-label="Data verification">
                 <?php $on_checked = ($data[0]['verify'] == 1) ? "checked" : ""; ?>
                 <?php $off_checked = ($data[0]['verify'] == 0) ? "checked" : ""; ?>
                 <input type="radio" class="btn-check" name="verify" id="verify_on" autocomplete="off" {{ $on_checked }}>
                 <label class="btn btn-outline-success" for="verify_on">Verified</label>
-
+    
                 <input type="radio" class="btn-check" name="verify" id="verify_off" autocomplete="off" {{ $off_checked }}>
                 <label class="btn btn-outline-success" for="verify_off">Not Verified Yet</label>
+              </div>
             </div>
+          </div>
         </div>
-        <?php } ?>
-
-        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
-        <x-label for="notes" value="Please make a few notes about what needs correction (if anything). Meto staff will be able to view this." />
-        <?php } else { ?>
-        <div class="my-4"><x-label for="notes" value="Counselor notes" /></div>
-        <?php } ?>
-        <textarea class="form-control" id="verify_notes" name="verify_notes" rows="4">{{ $data[0]['verify_notes'] }}</textarea>
-        <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
+      <?php } ?>
+    
+      <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
+        <div class="my-4">
+          <div class="row">
+            <div class="col-md-3">
+              <x-label for="notes" value="Notes" />
+              <p class="text-xs">Add notes for corrections. Meto staff can view them.
+            </p>
+            </div>
+            <div class="col-md-9">
+              <textarea class="form-control" id="verify_notes" name="verify_notes" rows="4">{{ $data[0]['verify_notes'] }}</textarea>
+            </div>
+          </div>
+        </div>
+      <?php } else { ?>
+        <div class="my-4">
+          <div class="row">
+            <div class="col-md-3">
+              <x-label for="notes" value="Counselor notes" />
+            </div>
+            <div class="col-md-9">
+              <textarea class="form-control" id="verify_notes" name="verify_notes" rows="4" disabled>{{ $data[0]['verify_notes'] }}</textarea>
+            </div>
+          </div>
+        </div>
+      <?php } ?>
+    
+      <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="text-end p-3">
-            <x-button>Update Notes</x-button>
+          <x-button>Submit Request to Meto</x-button>
         </div>
-        <?php } ?>
-    </form>
+      <?php } ?>
+    
 
 </x-app-layout>

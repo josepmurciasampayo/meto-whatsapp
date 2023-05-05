@@ -1,10 +1,12 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2 w-full">
     <?php $format = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $yesNo = \App\Enums\General\YesNo::descriptions() ?>
     <?php $type = \App\Enums\Student\QuestionType::descriptions() ?>
     <div class="my-4 text-end">
         <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
     </div>
+    <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr class="text-center">
@@ -47,4 +49,5 @@
         </tbody>
     </table>
     <x-dataTable></x-dataTable>
+    </div>
 </x-app-layout>

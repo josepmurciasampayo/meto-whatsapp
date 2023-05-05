@@ -1,5 +1,7 @@
 <x-app-layout>
-    <h3 class="my-2">Raw Student Data</h3>
+    <div class="min-h-screen mt-5 mx-2 w-full">
+    <h3 class="my-2 display-7">Raw Student Data</h3>
+    <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white">
         <thead>
         <tr class="text-center">
@@ -29,4 +31,5 @@
         </tbody>
     </table>
     <x-dataTable></x-dataTable>
+    </div>
 </x-app-layout>

@@ -21,7 +21,7 @@
                 <x-inputs.text value="{{ old('first') }}" name="first" label="First/Given Name"  req="true"></x-inputs.text>
                 <x-inputs.text value="{{ old('middle') }}" name="middle" label="Middle Name" ></x-inputs.text>
                 <x-inputs.text value="{{ old('last') }}" name="last" label="Last/Family Name"  req="true"></x-inputs.text>
-                <x-inputs.phone value="{{ old('phone') }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
+                <x-inputs.phone value="{{ old('phone.number') }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
                 <x-inputs.select value="{{ old('owner') }}" name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
 
                 @php $w = [1 => "I use this number for WhatsApp"] @endphp
@@ -35,9 +35,9 @@
                     <label for="consent" class="consent-label checkbox-label"></label>
                 </div>
                 <x-inputs.text saved="{{ old('email') }}" name="email" label="Email Address"  req="true"></x-inputs.text>
-                <x-inputs.text saved="{{ old('emailConfirm') }}" name="emailConfirm" label="Confirm Email"  req="true"></x-inputs.text>
+                <x-inputs.text saved="{{ old('email_confirmation') }}" name="email_confirmation" label="Confirm Email"  req="true"></x-inputs.text>
                 <x-inputs.text-masked saved="{{ old('password') }}" name="password" type="password" label="Password"  req="true"></x-inputs.text-masked>
-                <x-inputs.text-masked saved="{{ old('passwordConfirm') }}" name="passwordConfirm" type="password" label="Confirm Password" required req="true"></x-inputs.text-masked>
+                <x-inputs.text-masked saved="{{ old('password_confirmation') }}" name="password_confirmation" type="password" label="Confirm Password" required req="true"></x-inputs.text-masked>
 
                 <div class="text-center my-4">
                     <x-button-icon onclick="validateAndSubmit()" icon="fa fa-chevron-right" text="Next" />

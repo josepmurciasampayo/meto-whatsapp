@@ -1,10 +1,12 @@
 <x-app-layout>
-    <?php $title = ($isInvite) ? "Counselor Invitation" : "Counselor Profile" ?>
-    <div class="p-6 bg-white border-b border-gray-200">{{ $title }}</div>
-    <?php if ($isInvite) { ?>
-    <h3>Please share the information for the person you would like to invite. This person will have access to the same information that you do. Note: You may not invite anyone who does not work for the institution</h3>
-    <?php } ?>
-    <div class="p-6">
+    <div class="min-h-screen mt-5 mx-2 w-full">
+    <h2 class="display-7 font-semibold text-center my-2">{{ $isInvite ? 'Counselor Invitation' : 'Counselor Profile' }}</h2>
+
+    @if ($isInvite)
+        <p class="text-center">Please share the information for the person you would like to invite. This person will have access to the same information that you do. Note: You may not invite anyone who does not work for the institution</p>
+    @endif
+
+    <div class="mt-6">
         <form id="invite" name="invite" action="{{ route('sendInvite') }}" method="POST">
             @csrf
 

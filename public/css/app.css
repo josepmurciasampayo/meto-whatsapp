@@ -1873,5 +1873,40 @@ select {
 
 .whatsapp-checkbox:checked+.whatsapp-label,
 .consent-checkbox:checked+.consent-label {
-  color: #007bff;
+  color: rgb(16, 135, 101);
+}
+
+.my-link {
+  text-decoration: none;
+  color: rgb(16, 135, 101);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.my-link:hover {
+  text-decoration: underline;
+}
+
+/* Style the table headings */
+table.dataTable thead th {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Style the table rows */
+table.dataTable tbody td {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Style the links in the table */
+table.dataTable tbody a {
+  color: rgb(16, 135, 101);
+  text-decoration: none;
+}
+
+table.dataTable tbody a:hover {
+  text-decoration: underline;
 }

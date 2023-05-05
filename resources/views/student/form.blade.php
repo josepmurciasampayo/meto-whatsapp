@@ -8,7 +8,6 @@
                 <input type="hidden" name="screen" value="{{ $screen ?? null }}">
                 <input type="hidden" name="direction" id="direction" value="1">
                 @csrf
-
                 @foreach ($questions as $id => $question)
                     <div class="my-3">
                     @php $a = $answers[$id] ?? null @endphp

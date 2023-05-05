@@ -1,5 +1,7 @@
 <x-app-layout>
+    <div class="min-h-screen mt-5 mx-2 w-full">
     <h3 class="my-2">Last Login by User</h3>
+    <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="state" class="table table-striped bg-white">
         <thead>
         <tr>
