@@ -8,6 +8,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FlowController;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\Welcome;
 use App\Models\Student;
 use App\Models\User;
@@ -39,15 +40,8 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $request->validate([
-            'first' => ['required', 'string', 'max:255'],
-            'last' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required'],
-        ]);
-
         $user = User::create([
             'first' => $request->first,
             'middle' => $request->middle,

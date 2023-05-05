@@ -9,7 +9,6 @@
         }
         $responses = $options;
     }
-
 @endphp
 
 <div>
@@ -37,7 +36,6 @@
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
         <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" :saved="$answer" req="{{ $question->required == 1 }}"></x-inputs.select-other>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
-
         <x-inputs.lookup-hs label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-hs>@elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUPORG())
         <x-inputs.lookup-org label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.lookup-org>

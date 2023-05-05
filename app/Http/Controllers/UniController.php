@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Uni\UniApplicationRequest;
+use App\Http\Requests\Uni\UniEfcRequest;
+use App\Http\Requests\Uni\UniLocationRequest;
+use App\Models\Institution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +43,15 @@ class UniController extends Controller
         return view('uni.application');
     }
 
-    public function applicationStore(): RedirectResponse
+    public function applicationStore(UniApplicationRequest $request): RedirectResponse
     {
+        // TODO: Make sure that this is the right object
+        $institution = Institution::first();
+
+        $institution->update([
+            'url' => $request->get('institution')
+        ]);
+
         return redirect(route('uni.location'));
     }
 
@@ -49,8 +60,16 @@ class UniController extends Controller
         return view('uni.location');
     }
 
-    public function locationStore(): RedirectResponse
+    public function locationStore(UniLocationRequest $request): RedirectResponse
     {
+        $institution = Institution::first();
+
+        $institution->update([
+            'country' => $request->get('country'),
+            'state' => $request->get('state'),
+            'city' => $request->get('city')
+        ]);
+
         return redirect(route('uni.efc'));
     }
 
@@ -59,8 +78,14 @@ class UniController extends Controller
         return view('uni.efc');
     }
 
-    public function efcStore(): RedirectResponse
+    public function efcStore(UniEfcRequest $request): RedirectResponse
     {
+        $institution = Institution::first();
+
+        $institution->update([
+            'efc' => $request->get('efc')
+        ]);
+
         return redirect(route('uni.efc'));
     }
 

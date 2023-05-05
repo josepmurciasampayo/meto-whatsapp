@@ -8,8 +8,7 @@
         <div>{{ $help }}</div>
     @endif
 
-    @php $required = ($req) ? "*" : ""  @endphp
-    <input value="{{ $saved }}" name="{{ $name }}" id="{{ $name }}" {{ $disabled ? 'disabled' : '' }} {{ $required }} {!! $attributes->merge([
+    <input value="{{ $saved }}" name="{{ $name }}" id="{{ $name }}" {{ $disabled ? 'disabled' : '' }} {{ $required ? 'required' : null }} {!! $attributes->merge([
 'class' => 'block h-10 w-full mb-6 rounded-md shadow-sm border border-gray-400 focus:border-blue-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 bg-green-100 text-green-800'
 ]) !!}>
     <input type="hidden" id="lookupID" name="lookupID" value="">
