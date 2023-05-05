@@ -53,8 +53,8 @@
                 }
             }
             if (hasError) {
-                alert(message);
-                return;
+                // alert(message);
+                // return;
             }
             document.forms[0].submit();
         }
