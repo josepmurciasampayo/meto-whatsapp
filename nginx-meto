@@ -1,4 +1,4 @@
-server {
+jserver {
     listen 80;
     server_name app.meto-intl.org;
     root /var/www/meto/public;

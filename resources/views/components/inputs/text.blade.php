@@ -6,7 +6,6 @@
     @if ($help)
     <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
-    @php $required = ($req) ? "*" : ""  @endphp
     <input
         value="{{ $saved }}"
         name="{{ $name }}"
