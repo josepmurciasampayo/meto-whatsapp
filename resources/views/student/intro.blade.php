@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="min-h-screen">
-        <div class="flex flex-col justify-center items-center">
+        <div class="flex flex-col justify-center items-center mx-4">
           <h2 class="display-7  my-3">Hello, {{ $user->first }}!</h2>
           <h4 class="my-2 display-8">Welcome to Meto, the online ‘meeting place’ where you can connect efficiently with good-fit education opportunities.</h4>
           <div class="text-center">
