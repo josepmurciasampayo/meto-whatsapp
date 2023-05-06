@@ -10,5 +10,5 @@
         <x-inputs.text name="whatsapp" label="WhatsApp Number" />
         <x-button name="submit">Update</x-button>
     </form>
-    <a href="">Reset Password</a>
+    <a href="{{ __('Reset Password') }}">Reset Password</a>
 </x-app-layout>

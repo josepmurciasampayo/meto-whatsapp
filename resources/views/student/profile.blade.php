@@ -33,7 +33,7 @@
              </div>
 
              <div class="mt-6 flex items-center justify-center">
-                 <x-icon-link href="{{ route('password.request') }}" icon="fa fa-sync-alt" text="Reset Password"/>
+                 <x-icon-link href="{{ action([\App\Http\Controllers\Auth\getPasswordResetView::class]) }}" icon="fa fa-sync-alt" text="Reset Password"/>
              </div>
 
              </form>

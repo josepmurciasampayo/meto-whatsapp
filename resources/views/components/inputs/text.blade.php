@@ -7,7 +7,7 @@
     <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
     @endif
     <input
-        value="{{ $saved }}"
+        value="{!! $saved !!}"
         name="{{ $name }}"
         id="{{ $name }}"
         type="text"
