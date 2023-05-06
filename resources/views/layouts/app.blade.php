@@ -12,7 +12,7 @@
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
-    <link rel="stylesheet" href="/css/public.css" type="text/css">
+    <link rel="stylesheet/less" type="text/css" href="/css/public.css" />
 
 
     <script src="/js/bootstrap.bundle.min.js"></script>
@@ -23,14 +23,12 @@
     <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <style>
-        body {
-            font-size: 115%;
-            line-height: 1.4;
-            font-family: 'Proza Libre', sans-serif;
-            background-color: white;
-        }
-    </style>
+    <!-- LESS -->
+    <script src="https://cdn.jsdelivr.net/npm/less"></script>
+
+    <!-- Bootstrap date picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <script type="text/javascript">
         function validateAndSubmit() {
@@ -43,16 +41,17 @@
                 }
             });
             if (document.getElementById('email') && document.getElementById('password')) {
-                if (document.getElementById('email').value !== document.getElementById('emailConfirm').value) {
+                if (document.getElementById('email').value !== document.getElementById('email_confirmation').value) {
                     hasError = true;
                     message += (message.length == 0) ? "Email addresses do not match" : "\nEmail addresses do not match";
                 }
-                if (document.getElementById('password').value !== document.getElementById('passwordConfirm').value) {
+                if (document.getElementById('password').value !== document.getElementById('password_confirmation').value) {
                     hasError = true;
                     message += (message.length == 0) ? "Passwords do not match" : "\nPasswords do not match";
                 }
             }
             if (hasError) {
+                // TODO: Uncomment those lines when we are finished
                 // alert(message);
                 // return;
             }
@@ -97,6 +96,17 @@
             <li><a href="{{ route('contact') }}" class="nav-link text-white mx-3">Contact Us</a></li>
         </ul>
     </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $('.datepicker').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -1,5 +1,30 @@
+:root {
+    --main: #26403d;
+}
+
+body {
+    font-size: 115%;
+    line-height: 1.4;
+    font-family: 'Proza Libre', sans-serif;
+    background-color: white;
+}
+
 /** Start of Utilities */
 input[disabled] {
     background: rgba(128, 128, 128, 0.15) !important;
 }
 /** End of Utilities */
+
+
+.drp-buttons .applyBtn {
+    color: var(--main) !important;
+    border: 1px solid var(--main);
+    border-radius: 3px !important;
+
+    &:hover {
+        color: white !important;
+    }
+}
+.active.start-date {
+    background: var(--main) !important;
+}
