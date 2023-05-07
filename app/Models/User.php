@@ -38,6 +38,8 @@ class User extends Authenticatable
         'whatsapp_used',
         'whatsapp_consent',
         'interest',
+        'phone_array',
+        'phone_owner'
     ];
 
     /**
