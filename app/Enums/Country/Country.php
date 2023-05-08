@@ -519,7 +519,7 @@ enum Country :int
 
     public static function lookup(?string $name) :int
     {
-        if (is_null($name) || $name = 'null' || strlen($name) == 0) {
+        if (is_null($name) || $name == 'null' || strlen($name) == 0) {
             return 0;
         }
         $match = match($name) {
