@@ -13,7 +13,6 @@ Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::post('/orgLookup', [TypeaheadController::class, 'autocompleteOrgSearch'])->name('orgLookup');
 
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
-    Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
     Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
     Route::get('/edit-info', [\App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
     Route::get('/intro', [\App\Http\Controllers\StudentController::class, 'intro'])->name('student.intro');
