@@ -24,7 +24,6 @@ class AnswerService
             case QuestionFormat::DATE():
             case QuestionFormat::EMAIL():
             case QuestionFormat::NUMBER():
-            case QuestionFormat::DOLLAR():
             case QuestionFormat::LOOKUP():
             case QuestionFormat::LOOKUPORG():
             case QuestionFormat::COUNTRY():
