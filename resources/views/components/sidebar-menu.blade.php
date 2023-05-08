@@ -17,7 +17,6 @@
 </aside>
 
 <style>
-    
     .sidebar {
     position: fixed;
     top: 0;
@@ -30,13 +29,11 @@
 }
 
 @media (max-width: 600px) {
-.sidebar {
-   
+
+    .sidebar {
     height: 100vh;
-    
+
 }}
-
-
 
 .sidebar.show {
     left: 0;
@@ -88,19 +85,19 @@
 <script>
     const sidebar = document.querySelector('.sidebar');
     const toggleButton = document.querySelector('.sidebar-toggle');
-  
+
     toggleButton.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
-  
+
     window.addEventListener('scroll', () => {
       if (sidebar.classList.contains('show')) {
         sidebar.classList.toggle('show');
       }
     });
-  
+
     const sidebarToggle = document.querySelector('.sidebar-toggle');
-  
+
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
         sidebarToggle.style.display = 'none';
@@ -108,13 +105,13 @@
         sidebarToggle.style.display = 'block';
       }
     });
-  
+
     sidebarToggle.addEventListener('click', () => {
       sidebarToggle.classList.add('clicked');
       setTimeout(() => {
         sidebarToggle.classList.remove('clicked');
       }, 200); // Change 300 to match the transition duration (in milliseconds)
     });
-  </script>
-  
-    
+</script>
+
+

@@ -5,7 +5,6 @@ use App\Http\Controllers\TypeaheadController;
 use Illuminate\Support\Facades\Route;
 
 // Unathenticated routes
-Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
 Route::post('/transfer', [\App\Http\Controllers\StudentController::class, 'storeTransfer'])->name('student.transfer');
 
@@ -14,6 +13,7 @@ Route::middleware(['auth', 'terms', 'student'])->group(function () {
     Route::post('/orgLookup', [TypeaheadController::class, 'autocompleteOrgSearch'])->name('orgLookup');
 
     Route::get('/autocomplete-search', [TypeaheadController::class, 'autocompleteSearch']);
+    Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
     Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
     Route::get('/edit-info', [\App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
     Route::get('/intro', [\App\Http\Controllers\StudentController::class, 'intro'])->name('student.intro');

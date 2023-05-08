@@ -18,11 +18,11 @@
             <form method="POST" action="{{ route('user.register') }}">
                 <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
                 @csrf
-                <x-inputs.text value="{{ old('first') }}" name="first" label="First/Given Name"  req="true"></x-inputs.text>
-                <x-inputs.text value="{{ old('middle') }}" name="middle" label="Middle Name" ></x-inputs.text>
-                <x-inputs.text value="{{ old('last') }}" name="last" label="Last/Family Name"  req="true"></x-inputs.text>
-                <x-inputs.phone value="{{ old('phone.number') }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
-                <x-inputs.select value="{{ old('owner') }}" name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
+                <x-inputs.text saved="{{ old('first') }}" name="first" label="First/Given Name"  req="true"></x-inputs.text>
+                <x-inputs.text saved="{{ old('middle') }}" name="middle" label="Middle Name" ></x-inputs.text>
+                <x-inputs.text saved="{{ old('last') }}" name="last" label="Last/Family Name"  req="true"></x-inputs.text>
+                <x-inputs.phone saved="{{ old('phone.number') }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
+                <x-inputs.select saved="{{ old('owner') }}" name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
 
                 @php $w = [1 => "I use this number for WhatsApp"] @endphp
                 <div class="form-group checkbox-container">
