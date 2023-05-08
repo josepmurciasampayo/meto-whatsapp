@@ -49,8 +49,8 @@
                 <select class="form-select" id="country" name="country">
                     <option value=""></option>
                     <?php foreach ($countries as $country) { ?>
-                        <?php $selected = ($country['id'] == $school['country']) ? "selected" : "" ?>
-                        <option value="{{ $country['id'] }}" {{ $selected }}>{{ $country['name'] }}</option>
+                        <?php $selected = (($countryId = \App\Enums\Country\Country::lookup($country)) == $school['country']) ? "selected" : "" ?>
+                        <option value="{{ $countryId }}" {{ $selected }}>{{ $country }}</option>
                     <?php } ?>
                 </select>
             </div>
