@@ -51,9 +51,8 @@
                 }
             }
             if (hasError) {
-                // TODO: Uncomment those lines when we are finished
-                // alert(message);
-                // return;
+                alert(message);
+                return;
             }
             document.forms[0].submit();
         }
