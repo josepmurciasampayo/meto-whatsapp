@@ -49,10 +49,11 @@
           </div>
       </div>
 
-      <div class="flex justify-center ">
+    <!-- <div class="flex justify-center ">
           <x-button-nav href="{{route('student.home') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">
               <i class="fas fa-eye"></i> View all connections
           </x-button-nav>
-      </div>
+      </div> -->
+
   </div>
 </x-app-layout>
