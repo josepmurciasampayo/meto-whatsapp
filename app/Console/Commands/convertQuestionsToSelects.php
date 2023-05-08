@@ -39,7 +39,6 @@ class convertQuestionsToSelects extends Command
             QuestionFormat::IBSUBJECT(),
             QuestionFormat::IGCSEGRADE(),
             QuestionFormat::LETTERGRADE(),
-            QuestionFormat::DOLLAR(),
             QuestionFormat::COUNTRY(),
             QuestionFormat::GPA(),
         ])->get();
