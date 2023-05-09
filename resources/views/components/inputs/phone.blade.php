@@ -1,11 +1,10 @@
 @props(['label', 'name', 'help' => false, 'saved' => '', 'req' => false])
 @php
-    $array = json_decode($saved);
-    if ($array === null) {
-        $array = new stdClass();
-        $array->code = '';
-        $array->number = '';
-    }
+    $saved = explode(',', $saved);
+    
+    $array = new stdClass();
+    $array->code = $saved[0];
+    $array->number = $saved[1];
 @endphp
 
 @php
