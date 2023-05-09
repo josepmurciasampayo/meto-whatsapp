@@ -193,7 +193,7 @@ class QuestionService
         return $question;
     }
 
-    public function getProgress(QuestionType $questionType) :int
+    public function getProgress(QuestionType $questionType, int $student_id) :int
     {
         $questions = Question::where('type', $questionType)
             ->where('status', QuestionStatus::ACTIVE())
@@ -206,11 +206,29 @@ class QuestionService
         foreach ($questions as $question) {
             $IDs[] = $question->id;
         }
-        $student_id = Auth::user()->student_id();
         $answers = Answer::where('student_id', $student_id)->whereIn('question_id', $IDs)->whereNotNull('text')->get();
 
-        $type = QuestionType::descriptions()[$questionType()];
-        Debugbar::info($type . ": " . count($questions) . " questions, " . count($answers) . " answers");
+        //$type = QuestionType::descriptions()[$questionType()];
+        //Debugbar::info($type . ": " . count($questions) . " questions, " . count($answers) . " answers");
         return round(count($answers) / count($questions) * 100);
+    }
+
+    public function getAllProgress(int $student_id) :bool
+    {
+        $types = [
+            QuestionType::HIGHSCHOOL,
+            QuestionType::GENERAL,
+            QuestionType::TESTING,
+            QuestionType::UNIVERSITY,
+            QuestionType::EXTRACURRICULAR,
+            QuestionType::FINANCIAL,
+            QuestionType::DEMOGRAPHIC,
+        ];
+        foreach ($types as $type) {
+            if ($this->getProgress($type, $student_id) != 100) {
+                return false;
+            }
+        }
+        return true;
     }
 }

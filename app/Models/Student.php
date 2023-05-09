@@ -5,10 +5,16 @@ namespace App\Models;
 use App\Enums\EnumGroup;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function countMatches(int $user_id) :int
     {
         $toReturn = DB::select('
