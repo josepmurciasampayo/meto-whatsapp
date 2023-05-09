@@ -2,8 +2,6 @@
     $inviteText = Auth::user()->first . ' is inviting you to join them on Meto. Get started here: www.app.meto-intl.org';
 @endphp
 
-
-
 <div class="invite-popup-box" style="display:none">
     <div class="invite-popup">
         <h2 class="invite-popup-title display-8"><i class="fas fa-user-plus"></i> INVITE FRIENDS</h2>
@@ -26,7 +24,6 @@
     <i class="fa fa-user-plus mr-2"></i>
     <span>Invite Friends</span>
 </a>
-
 
 
 <style>
@@ -118,15 +115,15 @@
 
 
 <script>
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
-}
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+    }
 
-function closePopup() {
-    document.querySelector('.invite-popup-box').style.display = 'none';
-}
+    function closePopup() {
+        document.querySelector('.invite-popup-box').style.display = 'none';
+    }
 
-function openInvitePopup() {
-    document.querySelector('.invite-popup-box').style.display = 'flex';
-}
+    function openInvitePopup() {
+        document.querySelector('.invite-popup-box').style.display = 'flex';
+    }
 </script>
