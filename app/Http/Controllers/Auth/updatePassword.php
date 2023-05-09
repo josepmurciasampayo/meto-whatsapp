@@ -19,11 +19,8 @@ class updatePassword extends Controller
     public function __invoke(Request $request): RedirectResponse
     {
         $user = Auth::user();
-        if (Hash::check($request->input('existing_password'), $user->password)) {
-            $user->password = Hash::make($request->input('new_password'));
-            $user->save();
-            return redirect(route('student.profile'));
-        }
-        return back()->with('error', 'Your existing password did not match');
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+        return redirect(route('student.profile'));
     }
 }

@@ -16,6 +16,6 @@ class getPasswordResetView extends Controller
      */
     public function __invoke(Request $request): View
     {
-        return view('auth.reset-password');
+        return view('auth.reset-password-web');
     }
 }

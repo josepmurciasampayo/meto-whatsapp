@@ -122,7 +122,7 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::get('reset-password', \App\Http\Controllers\Auth\getPasswordResetView::class)->name('reset-password');
+    Route::get('reset-pw', \App\Http\Controllers\Auth\getPasswordResetView::class);
     Route::post('reset-password', \App\Http\Controllers\Auth\updatePassword::class);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
