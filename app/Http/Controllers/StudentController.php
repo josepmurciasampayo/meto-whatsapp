@@ -8,9 +8,11 @@ use App\Enums\Student\Gender;
 use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
 use App\Enums\User\Status;
+use App\Mail\Submitted;
 use App\Mail\InviteStudent;
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Student;
 use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
@@ -41,17 +43,18 @@ class StudentController extends Controller
 
     public function edit(QuestionService $questionService): View
     {
+        $student_id = Auth::user()->student_id();
         return view('student.edit-info', [
             'user' => Auth::user(),
             'profileProgress' => 0,
-            'demoProgress' => $questionService->getProgress(QuestionType::DEMOGRAPHIC),
-            'hsProgress' => $questionService->getProgress(QuestionType::HIGHSCHOOL),
+            'demoProgress' => $questionService->getProgress(QuestionType::DEMOGRAPHIC, $student_id),
+            'hsProgress' => $questionService->getProgress(QuestionType::HIGHSCHOOL, $student_id),
             'academicProgress' => 0,
-            'financialProgress' => $questionService->getProgress(QuestionType::FINANCIAL),
-            'extraProgress' => $questionService->getProgress(QuestionType::EXTRACURRICULAR),
-            'uniProgress' => $questionService->getProgress(QuestionType::UNIVERSITY),
-            'testingProgress' => $questionService->getProgress(QuestionType::TESTING),
-            'generalProgress' => $questionService->getProgress(QuestionType::GENERAL),
+            'financialProgress' => $questionService->getProgress(QuestionType::FINANCIAL, $student_id),
+            'extraProgress' => $questionService->getProgress(QuestionType::EXTRACURRICULAR, $student_id),
+            'uniProgress' => $questionService->getProgress(QuestionType::UNIVERSITY, $student_id),
+            'testingProgress' => $questionService->getProgress(QuestionType::TESTING, $student_id),
+            'generalProgress' => $questionService->getProgress(QuestionType::GENERAL, $student_id),
         ]);
     }
 
@@ -167,12 +170,26 @@ class StudentController extends Controller
                 Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->delete();
             }
         }
+
+        $this->checkStudentCompleteAndEmail(Student::find(Auth::user()->student_id()));
+
         return redirect(FlowController::next($request));
+    }
+
+    public function checkStudentCompleteAndEmail(Student $student): void
+    {
+        if ($student->hasCompletedForm == YesNo::YES()) {
+            return;
+        }
+        if ((new QuestionService())->getAllProgress($student->id))
+            Mail::to($student->user)->send(new Submitted($student->user));
     }
 
     public function invite(Request $request): RedirectResponse
     {
-        Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
+        if ($request->input('inviteEmail')) {
+            Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
+        }
         return redirect(route('home'));
     }
 

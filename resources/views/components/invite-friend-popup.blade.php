@@ -1,21 +1,16 @@
-@php
-    $inviteText = Auth::user()->first . ' is inviting you to join them on Meto. Get started here: www.app.meto-intl.org';
-@endphp
-
-
-
 <div class="invite-popup-box" style="display:none">
     <div class="invite-popup">
         <h2 class="invite-popup-title display-8"><i class="fas fa-user-plus"></i> INVITE FRIENDS</h2>
         <p>Click the button to copy the invitation:</p>
+        @php $inviteText = Auth::user()->first . ' is inviting you to join them on Meto. Get started here: www.app.meto-intl.org'; @endphp
         <button class="invite-popup-copy-btn" onclick="copyToClipboard('{{ $inviteText }}')">Copy <i class="fa fa-copy"></i></button>
         <hr>
         <h3 class="invite-popup-title display-8"><i class="fa fa-envelope-open-text"></i> SEND EMAIL INVITATION</h3>
-        <form method="POST" action="{{ route('inviteFriends') }}">
+        <form id="inviteFriends" method="POST" action="{{ route('inviteFriends') }}">
             @csrf
             <div class="input-group">
-                <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
-                <button class="invite-popup-btn" onclick="inviteUser(event, '{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
+                <input id="inviteEmail" type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
+                <button type="button" class="invite-popup-btn" onclick="inviteUser()">Invite <i class="fa fa-paper-plane"></i></button>
             </div>
         </form>
         <button class="invite-popup-close" onclick="closePopup()">Close <i class="far fa-window-close"></i></button>
@@ -26,7 +21,6 @@
     <i class="fa fa-user-plus mr-2"></i>
     <span>Invite Friends</span>
 </a>
-
 
 
 <style>
@@ -118,29 +112,25 @@
 
 
 <script>
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
-}
-
-function closePopup() {
-    document.querySelector('.invite-popup-box').style.display = 'none';
-}
-
-function openInvitePopup() {
-    document.querySelector('.invite-popup-box').style.display = 'flex';
-}
-
-function inviteUser(inviteText) {
-    event.preventDefault();
-
-    const emailInput = document.querySelector('.invite-popup-input');
-    const email = emailInput.value.trim();
-
-    if (email === '') {
-        alert('Please enter an email address before inviting.');
-    } else {
-        const form = document.querySelector('form[action="{{ route('inviteFriends') }}"]');
-        form.submit();
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
     }
-}
+
+    function closePopup() {
+        document.querySelector('.invite-popup-box').style.display = 'none';
+    }
+
+    function openInvitePopup() {
+        document.querySelector('.invite-popup-box').style.display = 'flex';
+    }
+
+    function inviteUser() {
+        const email = document.getElementById('inviteEmail').value.trim();
+
+        if (email === '') {
+            alert('Please enter an email address before inviting.');
+        } else {
+            document.getElementById('inviteFriends').submit();
+        }
+    }
 </script>
