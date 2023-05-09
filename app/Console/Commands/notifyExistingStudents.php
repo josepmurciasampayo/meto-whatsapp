@@ -2,7 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\User\Role;
+use App\Mail\StudentNewPassword;
+use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class notifyExistingStudents extends Command
 {
@@ -27,6 +33,13 @@ class notifyExistingStudents extends Command
      */
     public function handle()
     {
+        $students = User::where('role', Role::STUDENT());
+        foreach ($students as $student) {
+            $newPass = Str::random(8);
+            $student->password = Hash::make($newPass);
+            $student->save();
+            Mail::to($student)->send(new StudentNewPassword($newPass, $student));
+        }
         return Command::SUCCESS;
     }
 }
