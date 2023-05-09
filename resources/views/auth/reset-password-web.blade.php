@@ -22,7 +22,7 @@
                 <div class="flex items-center justify-end mt-4">
                     <script type="text/javascript">
                         function verify() {
-                            if (document.getElementById('new_password').value !== document.getElementById('password_confirmation')) {
+                            if (document.getElementById('new_password').value !== document.getElementById('password_confirmation').value) {
                                 alert('Passwords do not match');
                             } else {
                                 document.forms[0].submit();
