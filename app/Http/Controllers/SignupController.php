@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UniSignup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class SignupController extends Controller
@@ -25,7 +27,13 @@ class SignupController extends Controller
 
     public function uniStore(Request $request) :View
     {
-        // send email, create draft account
+        Mail::to('abraham@meto-intl.org')->send(new UniSignup(
+            $request->input('name'),
+            $request->input('institution'),
+            $request->input('email'),
+            $request->input('title'),
+            $request->input('how')
+        ));
         return view('uni.thankyou');
     }
 
