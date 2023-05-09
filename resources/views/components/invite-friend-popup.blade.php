@@ -13,7 +13,7 @@
         <h3 class="invite-popup-title display-8"><i class="fa fa-envelope-open-text"></i> SEND EMAIL INVITATION</h3>
         <form method="POST" action="{{ route('inviteFriends') }}">
             @csrf
-            <div class="input-group">
+            <div class="input-group invite-form">
                 <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
                 <button class="invite-popup-btn" onclick="inviteUser('{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
             </div>

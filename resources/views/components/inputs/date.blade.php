@@ -10,7 +10,7 @@
     <div class="text-sm text-gray-600 italic mb-4">You can also type the date as dd/mm/yyyy</div>
     <div class="relative">
         @php $required = ($req) ? "required" : ""  @endphp
-        <input type="date" id="{{ $name }}" name="{{ $name }}" value="{{ $saved }}" {{ $required }}
+        <input id="{{ $name }}" name="{{ $name }}" value="{{ $saved }}" {{ $required }}
                class="datepicker block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
     </div>
 </div>

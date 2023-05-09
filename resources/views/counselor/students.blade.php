@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="min-h-screen mt-5 mx-2">
     <x-notes-counselor :notes="$notes"></x-notes-counselor>
-    <h3 class="my-2 display-7">Student Data</h3>
+    <h3 class="mt-5 mb-2 display-7">Student Data</h3>
 
     <div class="table-container" style="height: 50vh; overflow-y: scroll;">
 
