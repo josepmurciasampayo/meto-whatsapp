@@ -103,6 +103,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+    Route::get('/get-started', [\App\Http\Controllers\StudentController::class, 'getStarted'])->name('student.getStarted');
 });
 
 // Any signed-in user
@@ -120,7 +122,7 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::get('reset-password', \App\Http\Controllers\Auth\getPasswordResetView::class)->name('reset-password');
+    Route::get('reset-pw', \App\Http\Controllers\Auth\getPasswordResetView::class);
     Route::post('reset-password', \App\Http\Controllers\Auth\updatePassword::class);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])

@@ -36,7 +36,10 @@
 
 }}
 
+    .sidebar {
+    height: 100vh;
 
+}}
 
 .sidebar.show {
     left: 0;

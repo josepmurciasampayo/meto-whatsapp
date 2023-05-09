@@ -1,4 +1,4 @@
-@props(['page' => false])
+@props(['page' => false, 'answers' => []])
 
 <div style="display: flex; justify-content: center; gap: 16px;">
     <script type="text/javascript">
@@ -21,13 +21,16 @@
             @endif
             </div>
             <div class="col">
-            <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
+                <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col text-center">
-            <x-button type="button" onclick="goHome()" id="save">Save and Return Home <i class="fas fa-home"></i></x-button>
+
+        @if (count($answers) > 0)
+            <div class="row mt-3">
+                <div class="col text-center">
+                    <x-button type="button" onclick="goHome()" id="save">Save and Return Home <i class="fas fa-home"></i></x-button>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 </div>

@@ -7,14 +7,6 @@
             <form method="POST" action="{{ action([\App\Http\Controllers\Auth\updatePassword::class]) }}">
                 @csrf
 
-                @if (is_null(Auth::user()))
-                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
-                    <div>
-                        <x-label for="email" :value="__('Email')" />
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-                    </div>
-                @endif
-
                 <div class="mt-4">
                     <x-label for="new_password" value="New Password" />
                     <x-input id="new_password" class="block mt-1 w-full" type="password" name="new_password" required />
@@ -23,12 +15,21 @@
                 <div class="mt-4">
                     <x-label for="password_confirmation" :value="__('Confirm Password')" />
                     <x-input id="password_confirmation" class="block mt-1 w-full"
-                                        type="password"
-                                        name="password_confirmation" required />
+                             type="password"
+                             name="password_confirmation" required />
                 </div>
 
                 <div class="flex items-center justify-end mt-4">
-                    <x-button>Reset Password</x-button>
+                    <script type="text/javascript">
+                        function verify() {
+                            if (document.getElementById('new_password').value !== document.getElementById('password_confirmation').value) {
+                                alert('Passwords do not match');
+                            } else {
+                                document.forms[0].submit();
+                            }
+                        }
+                    </script>
+                    <x-button type="button" onclick="verify()">Reset Password</x-button>
                 </div>
             </form>
         </div>

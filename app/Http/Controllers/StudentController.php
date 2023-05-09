@@ -172,7 +172,9 @@ class StudentController extends Controller
 
     public function invite(Request $request): RedirectResponse
     {
-        Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
+        if ($request->input('inviteEmail')) {
+            Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
+        }
         return redirect(route('home'));
     }
 
