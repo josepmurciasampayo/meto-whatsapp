@@ -15,7 +15,7 @@
             @csrf
             <div class="input-group">
                 <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
-                <button class="invite-popup-btn" onclick="inviteUser('{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
+                <button class="invite-popup-btn" onclick="inviteUser(event, '{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
             </div>
         </form>
         <button class="invite-popup-close" onclick="closePopup()">Close <i class="far fa-window-close"></i></button>
@@ -128,5 +128,19 @@ function closePopup() {
 
 function openInvitePopup() {
     document.querySelector('.invite-popup-box').style.display = 'flex';
+}
+
+function inviteUser(inviteText) {
+    event.preventDefault();
+
+    const emailInput = document.querySelector('.invite-popup-input');
+    const email = emailInput.value.trim();
+
+    if (email === '') {
+        alert('Please enter an email address before inviting.');
+    } else {
+        const form = document.querySelector('form[action="{{ route('inviteFriends') }}"]');
+        form.submit();
+    }
 }
 </script>
