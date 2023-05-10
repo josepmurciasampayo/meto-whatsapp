@@ -8,9 +8,9 @@
         <h3 class="invite-popup-title display-8"><i class="fa fa-envelope-open-text"></i> SEND EMAIL INVITATION</h3>
         <form id="inviteFriends" method="POST" action="{{ route('inviteFriends') }}">
             @csrf
-            <div class="input-group">
-                <input id="inviteEmail" type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
-                <button type="button" class="invite-popup-btn" onclick="inviteUser()">Invite <i class="fa fa-paper-plane"></i></button>
+            <div class="input-group invite-form">
+                <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
+                <button class="invite-popup-btn" onclick="inviteUser('{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
             </div>
         </form>
         <button class="invite-popup-close" onclick="closePopup()">Close <i class="far fa-window-close"></i></button>

@@ -17,6 +17,7 @@
 </aside>
 
 <style>
+
     .sidebar {
     position: fixed;
     top: 0;
@@ -29,6 +30,11 @@
 }
 
 @media (max-width: 600px) {
+.sidebar {
+
+    height: 100vh;
+
+}}
 
     .sidebar {
     height: 100vh;
@@ -99,7 +105,7 @@
     const sidebarToggle = document.querySelector('.sidebar-toggle');
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 9) {
         sidebarToggle.style.display = 'none';
       } else {
         sidebarToggle.style.display = 'block';
@@ -112,6 +118,6 @@
         sidebarToggle.classList.remove('clicked');
       }, 200); // Change 300 to match the transition duration (in milliseconds)
     });
-</script>
+  </script>
 
 
