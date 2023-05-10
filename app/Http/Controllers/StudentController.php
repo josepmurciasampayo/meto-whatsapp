@@ -181,8 +181,11 @@ class StudentController extends Controller
         if ($student->hasCompletedForm == YesNo::YES()) {
             return;
         }
-        if ((new QuestionService())->getAllProgress($student->id))
+        if ((new QuestionService())->getAllProgress($student->id)) {
             Mail::to($student->user)->send(new Submitted($student->user));
+            $student->hasCompletedForm = YesNo::YES();
+            $student->save();
+        }
     }
 
     public function invite(Request $request): RedirectResponse
