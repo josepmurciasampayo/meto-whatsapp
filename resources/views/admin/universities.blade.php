@@ -22,9 +22,9 @@
         <tbody>
         <?php foreach ($data['universities'] as $row) { ?>
         <tr>
-            <td><?php echo $row['name'] ?></td>
-            <td><?php echo $row['country'] ?></td>
-            <td><?php echo isset($data['counts'][$row['id']]) ? $data['counts'][$row['id']] : '-' ?></td>
+            <td><a href="{{ action([\App\Http\Controllers\Admin\getUni::class]) }}">{{ $row['name'] }}</a></td>
+            <td>{{ $row['country'] }}</td>
+            <td>{{ $data['counts'][$row['id']] ?? '-' }}</td>
         </tr>
         <?php } ?>
         </tbody>

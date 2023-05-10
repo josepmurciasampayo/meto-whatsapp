@@ -53,13 +53,13 @@ class AnswerService
         return $existing;
     }
 
-    public function getForQuestionArray(array $questions) :array
+    public function getForQuestionArray(array $questions, int $student_id) :array
     {
         $question_ids = array();
         foreach ($questions as $id => $question) {
             $question_ids[] = $id;
         }
-        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', Auth::user()->student_id())->get();
+        $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', $student_id)->get();
         $answerArray = array();
         foreach ($answers as $answer) {
             $answerArray[$answer->question_id] = $answer;

@@ -19,6 +19,7 @@ use App\Models\StudentUniversity;
 use App\Models\Question;
 use App\Models\Student;
 use App\Services\QuestionService;
+use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -50,7 +51,7 @@ class AdminController extends Controller
 
     public function universities(): View
     {
-        $data = Institution::getAdminData();
+        $data = (new UniService())->getAdminData();
         return view('admin.universities', ['data' => $data]);
     }
 

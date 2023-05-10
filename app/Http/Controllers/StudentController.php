@@ -78,7 +78,7 @@ class StudentController extends Controller
 
         $questions = $questionService->get($questionType);
         $responses = $responseService->getForQuestionArray($questions);;
-        $answers = $answerService->getForQuestionArray($questions);
+        $answers = $answerService->getForQuestionArray($questions, Auth::user()->student_id());
         //Debugbar::info(print_r($questions, true));
         //Debugbar::info(print_r($answers, true));
 
@@ -94,7 +94,7 @@ class StudentController extends Controller
     {
         $questions = $questionService->getAcademic($curriculum, $screen);
         $responses = $responseService->getForQuestionArray($questions);
-        $answers = $answerService->getForQuestionArray($questions);
+        $answers = $answerService->getForQuestionArray($questions, Auth::user()->student_id());
         return view('student.form', [
             'questions' => $questions,
             'responses' => $responses,
