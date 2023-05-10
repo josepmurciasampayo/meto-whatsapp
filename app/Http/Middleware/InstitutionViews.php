@@ -16,7 +16,7 @@ class InstitutionViews
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth()->user()->isInstitution()) {
+        if (auth()->user()->isInstitution()) {
             return $next($request);
         }
         return redirect(route('home'));
