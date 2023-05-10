@@ -46,7 +46,6 @@ class UserController extends \Illuminate\Routing\Controller
 
     public function update(Request $request) :RedirectResponse
     {
-        dd($request);
         if (Auth()->user()->id != $request->id) {
             if (Auth()->user()->role != Role::ADMIN())
             abort(403);

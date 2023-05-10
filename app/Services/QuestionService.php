@@ -226,11 +226,9 @@ class QuestionService
         ];
         foreach ($types as $type) {
             if ($this->getProgress($type, $student_id) != 100) {
-                dd('failed' . $type());
                 return false;
             }
         }
-        dd('scored');
         return true;
     }
 }
