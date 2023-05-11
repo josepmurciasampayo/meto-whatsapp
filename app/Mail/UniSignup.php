@@ -41,7 +41,7 @@ class UniSignup extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Uni Signup',
+            subject: 'New University Web Request',
         );
     }
 
@@ -53,7 +53,7 @@ class UniSignup extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.uniSignup',
         );
     }
 
