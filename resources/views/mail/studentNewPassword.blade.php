@@ -1,7 +1,15 @@
 Dear {{ $user->first }},<br/>
 <br/> Greetings from Meto!<br/>
-<br/> We've upgraded our tech platform since you created your Meto profile. Your new profile looks fantastic, and we encourage you to check it out. Please log in to verify your info and complete your profile, considering updated questions. Rest assured, we retained most of your information.<br/>
-<br/> To keep your Meto profile up-to-date for universities, use the new portal instead of the old Google Form. Access the portal by following these steps:<br/>
+<br/> In the past, you created a Meto profile. Since then, we upgraded our tech platform, and our hope (and expectation) is that it will improve your experience.<br/>
+<br/>
+NEXT STEPS:
+<ul>
+    <li>Log in and verify the accuracy of your information.</li>
+    <li>Complete your profile.</li>
+    <li>To update basic details like your WhatsApp number and change your password, please visit your basic information page.</li>    
+    </ul>
+<br/>
+GET STARTED: 
 <ul>
     <li>Visit <a href="https://app.meto-intl.org">https://app.meto-intl.org</a>
 
