@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Institution;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,16 +16,17 @@ class UniInvite extends Mailable
     use Queueable, SerializesModels;
 
     public User $user;
-    public int $connections;
+    public Institution $uni;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, int $connections)
+    public function __construct(User $user, Institution $uni)
     {
         $this->user = $user;
-        $this->connections = $connections;
+        $this->uni = $uni;
     }
 
     /**
@@ -47,7 +49,7 @@ class UniInvite extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.uniInvite',
         );
     }
 

@@ -6,6 +6,7 @@ use App\Enums\User\Role;
 use App\Http\Requests\Uni\UniApplicationRequest;
 use App\Http\Requests\Uni\UniEfcRequest;
 use App\Http\Requests\Uni\UniLocationRequest;
+use App\Mail\UniInvite;
 use App\Models\Institution;
 use App\Models\Joins\UserInstitution;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -179,6 +181,7 @@ class UniController extends Controller
         $uni = new Institution();
         $uni->name = $request->input('uniName');
         $uni->type = $request->input('type');
+        $uni->efc = $request->input('efc');
         $uni->connections = $request->input('connections');
         $uni->save();
 
@@ -195,6 +198,8 @@ class UniController extends Controller
         $join->institution_id = $uni->id;
         $join->save();
 
+        Mail::to($request->input('email'))->send(new UniInvite(Auth::user(), $uni));
+
         return redirect(route('universities'));
     }
 
@@ -205,6 +210,7 @@ class UniController extends Controller
                 $uni = Institution::find($request->input('uni_id'));
                 $uni->name = $request->input('uniName');
                 $uni->type = $request->input('type');
+                $uni->efc = $request->input('efc');
                 $uni->connections = $request->input('connections');
                 $uni->save();
 

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('institutions', function (Blueprint $table) {
-            $table->after('country', fn () => $table->integer('efc')->default(0));
+            $table->after('country', fn () => $table->unsignedMediumInteger('efc')->nullable());
         });
     }
 

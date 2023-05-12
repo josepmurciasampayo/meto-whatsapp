@@ -7,6 +7,7 @@
         @csrf
         <x-inputs.text saved="{{ $uni->name }}" label="University Name" name="uniName"></x-inputs.text>
         <x-inputs.select saved="{{ $uni->type }}" label="Type" name="type" :options="\App\Enums\Institution\Type::descriptions()"></x-inputs.select>
+        <x-inputs.text saved="{{ $uni->efc }}" label="Minimum EFC" name="efc"></x-inputs.text>
         <x-inputs.text saved="{{ $uni->connections }}" label="Connection Count" name="connections"></x-inputs.text>
 
         <hr class="my-5">
