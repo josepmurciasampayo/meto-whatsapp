@@ -18,9 +18,11 @@ use App\Mail\InviteCounselor;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use App\Models\Question;
 use App\Models\StudentUniversity;
 use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -264,6 +266,54 @@ class CounselorController extends Controller
             Log::channel('email')->info($currentUser->first . ' sent counselor invite to ' . $user->first);
 
             return redirect(route('home'));
+        }
+    }
+
+    public function fetchStudent(Request $request, Student $student)
+    {
+        $student->age = Carbon::parse($student->dob)->diffInYears();
+        $questionIds = [119, 164, 102, 104, 281, 271, 275, 120, 63, 2, 69, 72, 67, 73, 70, 14, 267, 257, 99, 114, 292, 285, 308];
+        $answers = \App\Models\Answer::where('student_id', $student->id)->whereIn('question_id', $questionIds)->get();
+
+        foreach ($answers as $answer) {
+            $question = Question::find($answer->question_id);
+            $answer->question = $question;
+        }
+
+        return response([
+            'student' => $student,
+            'user' => User::find($student->user_id),
+            'qas' => $answers
+        ]);
+    }
+
+    // TODO: Move this method to the uni routes
+    public function decide(Request $request)
+    {
+        $items = $request->all();
+
+        $decisions = [];
+
+        foreach ($items as $key => $value) {
+            if (str_starts_with($key, 'student_')) {
+                $decisions[trim($key, 'student_')] = $value;
+            }
+        }
+        dd($decisions);
+        foreach ($decisions as $studentId => $decision) {
+            $student = Student::find($studentId);
+            // Do the logic
+
+            // Connect
+            $admin = 'abraham@meto-intl.org';
+            // Create a new row in the table with the status Request
+
+            // Maybe
+            // Create a new row in the table with the status Maybe
+
+            // No
+            // Create a new row in the table with the status Archived
+            // Those ones will not be shown in the main students datatable
         }
     }
 

@@ -88,7 +88,12 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
     Route::get('/highschool/{highschool_id}', [CounselorController::class, 'highschool'])->name('highschool');
     Route::post('/highschool', [CounselorController::class, 'updateHighschool'])->name('highschool.update');
 
+    Route::get('/student/fetch/{student}', [CounselorController::class, 'fetchStudent'])->name('student.fetch');
+
     Route::post('/remove/{student_id}', [CounselorController::class, 'remove'])->name('remove');
+
+    // TODO: Move this route to the uni routes
+    Route::post('connection/decide', [CounselorController::class, 'decide'])->name('student.connection.decide');
 });
 
 // Institution functionality
