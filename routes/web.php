@@ -48,6 +48,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/startChatbot', [AdminController::class, 'startChatbot'])->name('startChatbot');
 
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
+    Route::get('/admin/uni/{id}', [\App\Http\Controllers\UniController::class, 'get'])->name('uni');
+    Route::get('/admin/new-uni', [\App\Http\Controllers\UniController::class, 'create'])->name('uni.create');
+    Route::post('/admin/new-uni', [\App\Http\Controllers\UniController::class, 'store'])->name('uni.store');
+    Route::post('/admin/uni-update', [\App\Http\Controllers\UniController::class, 'update'])->name('uni.update');
+
     Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
     Route::post('/admin/mergeHS', [AdminController::class, 'mergeHS'])->name('mergeHS');
     Route::post('/admin/mergeHSconfirm', [AdminController::class, 'mergeHSconfirm'])->name('mergeHSconfirm');

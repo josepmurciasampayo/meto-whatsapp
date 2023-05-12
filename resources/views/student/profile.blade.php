@@ -5,7 +5,7 @@
                            alt=""
                            text="Basic Information"/>
 
-     <div class="w-75 lg:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+     <div class="w-75 w-100-sm lg:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
          <form method="POST" action="{{ route('user.update') }}">
              <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
              @csrf
