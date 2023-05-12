@@ -17,6 +17,9 @@ enum MatchStudentInstitution :int
     case UNKNOWN = 7;
     case NOTINTERESTED = 8;
     case WAITLISTED = 9;
+    case REQUEST = 10;
+    case MAYBE = 11;
+    case ARCHIVED = 12;
 
     public static function getStudentChoices() :array
     {
@@ -55,6 +58,9 @@ enum MatchStudentInstitution :int
             self::UNKNOWN => 'Unknown',
             self::NOTINTERESTED => 'Not Interested',
             self::WAITLISTED => 'Waitlisted',
+            self::REQUEST => 'Request',
+            self::MAYBE => 'Maybe',
+            self::ARCHIVED => 'Archived'
         };
     }
 }

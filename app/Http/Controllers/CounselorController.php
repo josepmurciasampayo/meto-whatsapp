@@ -15,6 +15,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
 use App\Mail\InviteCounselor;
+use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
@@ -28,6 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use App\Jobs\SendConnectionRequestToAdmin as SendConnectionRequestToAdminJob;
 
 class CounselorController extends Controller
 {
@@ -292,29 +294,48 @@ class CounselorController extends Controller
     {
         $items = $request->all();
 
-        $decisions = [];
+        $decisions = [
+            'connect' => [],
+            'maybe' => [],
+            'archive' => []
+        ];
 
         foreach ($items as $key => $value) {
             if (str_starts_with($key, 'student_')) {
-                $decisions[trim($key, 'student_')] = $value;
+                $decisions[$value][] = trim($key, 'student_');
             }
         }
-        dd($decisions);
-        foreach ($decisions as $studentId => $decision) {
-            $student = Student::find($studentId);
-            // Do the logic
 
-            // Connect
-            $admin = 'abraham@meto-intl.org';
-            // Create a new row in the table with the status Request
+        foreach ($decisions as $action => $studentIds) {
+            foreach ($studentIds as $id) {
+                $student = Student::find($id);
+                // Create a new connection
+                if ($action === 'connect') {
+                    $connection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
+                    // Send a request email to the admin
+                    $admin = 'abraham@meto-intl.org';
+                    SendConnectionRequestToAdminJob::dispatch($admin, $student, $connection)
+                        ->delay(now()->addMinutes());
 
-            // Maybe
-            // Create a new row in the table with the status Maybe
-
-            // No
-            // Create a new row in the table with the status Archived
-            // Those ones will not be shown in the main students datatable
+                } else if ($action === 'maybe') {
+                    $this->createConnection($student, MatchStudentInstitution::MAYBE);
+                } else if ($action === 'archive') {
+                    $this->createConnection($student, MatchStudentInstitution::ARCHIVED);
+                }
+            }
         }
+
+        return back()->with('response', 'Changes were made successfully.');
+    }
+
+    // TODO: Move this method to the uni routes
+    public function createConnection($student, $status, $insitutionId = null)
+    {
+        return StudentUniversity::create([
+            'student_id' => $student->id,
+            'institution_id' => $insitutionId ?? auth()->id(),
+            'status' => $status
+        ]);
     }
 
     public function remove(int $student_id) :RedirectResponse

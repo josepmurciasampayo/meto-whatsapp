@@ -54,8 +54,8 @@
                             <input type="radio" id="maybe_{{ $row['student_id'] }}" name="student_{{ $row['student_id'] }}" value="maybe">
                             <label class="pointer" for="maybe_{{ $row['student_id'] }}">Maybe</label>
 
-                            <input type="radio" id="no_{{ $row['student_id'] }}" name="student_{{ $row['student_id'] }}" value="no">
-                            <label class="pointer" for="no_{{ $row['student_id'] }}">No</label>
+                            <input type="radio" id="archived_{{ $row['student_id'] }}" name="student_{{ $row['student_id'] }}" value="archive">
+                            <label class="pointer" for="archived_{{ $row['student_id'] }}">Archive</label>
                         </td>
                     </tr>
                     <?php } ?>
