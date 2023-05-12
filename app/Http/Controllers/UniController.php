@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\User\Role;
 use App\Http\Requests\Uni\UniApplicationRequest;
 use App\Http\Requests\Uni\UniEfcRequest;
 use App\Http\Requests\Uni\UniLocationRequest;
+use App\Mail\UniInvite;
 use App\Models\Institution;
+use App\Models\Joins\UserInstitution;
+use App\Models\User;
+use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class UniController extends Controller
@@ -154,5 +161,85 @@ class UniController extends Controller
     public function newUserStore(Request $request): RedirectResponse
     {
         return redirect(route(''));
+    }
+
+    public function get(int $id): View
+    {
+        return view('admin.university', [
+            'uni' => Institution::find($id),
+            'users' => (new UniService())->getUsersForUni($id),
+        ]);
+    }
+
+    public function create(): View
+    {
+        return view('admin.uni-create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $uni = new Institution();
+        $uni->name = $request->input('uniName');
+        $uni->type = $request->input('type');
+        $uni->efc = $request->input('efc');
+        $uni->connections = $request->input('connections');
+        $uni->save();
+
+        $user = new User();
+        $user->first = $request->input('first');
+        $user->last = $request->input('last');
+        $user->email = $request->input('email');
+        $user->role = Role::INSTITUTION();
+        $user->title = $request->input('title');
+        $user->save();
+
+        $join = new UserInstitution();
+        $join->user_id = $user->id;
+        $join->institution_id = $uni->id;
+        $join->save();
+
+        Mail::to($request->input('email'))->send(new UniInvite(Auth::user(), $uni));
+
+        return redirect(route('universities'));
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        switch ($request->input('action')) {
+            case 0: // simple store
+                $uni = Institution::find($request->input('uni_id'));
+                $uni->name = $request->input('uniName');
+                $uni->type = $request->input('type');
+                $uni->efc = $request->input('efc');
+                $uni->connections = $request->input('connections');
+                $uni->save();
+
+                foreach ($request->input('user') as $user_id => $userData) {
+                    $user = User::find($user_id);
+                    $user->first = $userData['first'];
+                    $user->last = $userData['last'];
+                    $user->email = $userData['email'];
+                    $user->title = $userData['title'];
+                    $user->save();
+                }
+                break;
+
+            case 3: // add user
+                $user = new User();
+                $user->email = Str::random(4);
+                $user->save();
+
+                $join = new UserInstitution();
+                $join->user_id = $user->id;
+                $join->institution_id = $request->input('uni_id');
+                $join->save();
+                break;
+
+            case 4: // delete user
+                User::destroy($request->input('userToDelete'));
+                break;
+
+        }
+        return redirect(route('uni', ['id' => $request->input('uni_id')]));
     }
 }

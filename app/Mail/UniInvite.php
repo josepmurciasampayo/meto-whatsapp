@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Institution;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,28 +11,22 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UniSignup extends Mailable
+class UniInvite extends Mailable
 {
-    public string $name;
-    public string $institution;
-    public string $email;
-    public string $title;
-    public string $how;
-
     use Queueable, SerializesModels;
+
+    public User $user;
+    public Institution $uni;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $institution, $email, $title, $how)
+    public function __construct(User $user, Institution $uni)
     {
-        $this->name = $name;
-        $this->institution = $institution;
-        $this->email = $email;
-        $this->title = $title;
-        $this->how = $how;
+        $this->user = $user;
+        $this->uni = $uni;
     }
 
     /**
@@ -41,7 +37,7 @@ class UniSignup extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'New University Web Request',
+            subject: 'Welcome to Meto! Your database is ready.',
         );
     }
 
@@ -53,7 +49,7 @@ class UniSignup extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.uniSignup',
+            view: 'mail.uniInvite',
         );
     }
 
