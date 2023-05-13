@@ -1,1 +1,1 @@
-A new connection with the status {{ $connection['status'] }} of the student named {{ $user['first'] }}
+A new connection with the status {{ $createdConnection['status'] }} of the student named {{ $user['first'] }}

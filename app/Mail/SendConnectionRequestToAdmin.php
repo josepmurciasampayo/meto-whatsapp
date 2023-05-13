@@ -20,20 +20,20 @@ class SendConnectionRequestToAdmin extends Mailable
 
     public $user;
 
-    public $connection;
+    public $createdConnection;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Student $student, StudentUniversity $connection)
+    public function __construct(Student $student, StudentUniversity $createdConnection)
     {
         $this->student = $student;
 
         $this->user = User::find($student->user_id);
 
-        $this->connection = $connection;
+        $this->createdConnection = $createdConnection;
     }
 
     /**
@@ -60,7 +60,7 @@ class SendConnectionRequestToAdmin extends Mailable
             with: [
                 'student' => $this->student,
                 'user' => $this->user,
-                'connection' => $this->connection
+                'createdConnection' => $this->createdConnection
             ]
         );
     }
