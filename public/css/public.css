@@ -13,6 +13,9 @@ body {
 input[disabled] {
     background: rgba(128, 128, 128, 0.15) !important;
 }
+.pointer {
+    cursor: pointer;
+}
 /** End of Utilities */
 
 
@@ -29,19 +32,24 @@ input[disabled] {
     background: var(--main) !important;
 }
 
-@media screen and (max-width: 768px) {
-    .invite-form {
-        justify-content: center;
-        .invite-popup-input {
-            width: 100% !important;
-        }
-        .invite-popup-btn {
-            border-radius: 5px !important;
-            margin-top: 10px !important;
-        }
+.single-student-card {
+    display: none;
+    .close-btn {
+        cursor: pointer;
     }
-
-    .w-100-sm {
-        width: 100% !important;
+    .student-country-flag {
+        height: 25px;
+        width: 60px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        border-radius: 3px;
+    }
+    .detail {
+        margin-bottom: 10px;
+        label, span {
+            font-size: 18px;
+        }
     }
 }
+

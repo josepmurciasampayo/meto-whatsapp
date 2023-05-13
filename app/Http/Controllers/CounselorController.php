@@ -15,17 +15,21 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
 use App\Mail\InviteCounselor;
+use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use App\Models\Question;
 use App\Models\StudentUniversity;
 use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use App\Jobs\SendConnectionRequestToAdmin as SendConnectionRequestToAdminJob;
 
 class CounselorController extends Controller
 {
@@ -265,6 +269,73 @@ class CounselorController extends Controller
 
             return redirect(route('home'));
         }
+    }
+
+    public function fetchStudent(Request $request, Student $student)
+    {
+        $student->age = Carbon::parse($student->dob)->diffInYears();
+        $questionIds = [119, 164, 102, 104, 281, 271, 275, 120, 63, 2, 69, 72, 67, 73, 70, 14, 267, 257, 99, 114, 292, 285, 308];
+        $answers = \App\Models\Answer::where('student_id', $student->id)->whereIn('question_id', $questionIds)->get();
+
+        foreach ($answers as $answer) {
+            $question = Question::find($answer->question_id);
+            $answer->question = $question;
+        }
+
+        return response([
+            'student' => $student,
+            'user' => User::find($student->user_id),
+            'qas' => $answers
+        ]);
+    }
+
+    // TODO: Move this method to the uni routes
+    public function decide(Request $request)
+    {
+        $items = $request->all();
+
+        $decisions = [
+            'connect' => [],
+            'maybe' => [],
+            'archive' => []
+        ];
+
+        foreach ($items as $key => $value) {
+            if (str_starts_with($key, 'student_')) {
+                $decisions[$value][] = trim($key, 'student_');
+            }
+        }
+
+        foreach ($decisions as $action => $studentIds) {
+            foreach ($studentIds as $id) {
+                $student = Student::find($id);
+                // Create a new connection
+                if ($action === 'connect') {
+                    $connection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
+                    // Send a request email to the admin
+                    $admin = 'abraham@meto-intl.org';
+                    SendConnectionRequestToAdminJob::dispatch($admin, $student, $connection)
+                        ->delay(now()->addMinutes());
+
+                } else if ($action === 'maybe') {
+                    $this->createConnection($student, MatchStudentInstitution::MAYBE);
+                } else if ($action === 'archive') {
+                    $this->createConnection($student, MatchStudentInstitution::ARCHIVED);
+                }
+            }
+        }
+
+        return back()->with('response', 'Changes were made successfully.');
+    }
+
+    // TODO: Move this method to the uni routes
+    public function createConnection($student, $status, $insitutionId = null)
+    {
+        return StudentUniversity::create([
+            'student_id' => $student->id,
+            'institution_id' => $insitutionId ?? auth()->id(),
+            'status' => $status
+        ]);
     }
 
     public function remove(int $student_id) :RedirectResponse

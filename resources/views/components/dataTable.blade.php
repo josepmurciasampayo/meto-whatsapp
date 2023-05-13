@@ -28,6 +28,9 @@ https://datatables.net/examples/basic_init/filter_only.html
             .appendTo('#{{ $name }} thead');
 
         var table = $('#{{ $name }}').DataTable({
+            // columnDefs: [
+            //     { "width": "5%", "targets": 2 }
+            // ],
             paging:false,
             orderCellsTop: true,
             fixedHeader: true,
