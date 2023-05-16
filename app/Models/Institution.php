@@ -29,7 +29,8 @@ class Institution extends Model
 
     public static function getByUserID(int $user_id): Institution
     {
-        $join = Helpers::dbQueryArray('select institution_id from meto_user_institutions where user_id = ' . $user_id);
-        return Institution::find($join->institution_id);
+        $institution = Institution::where('user_id', $user_id)->first();
+        
+        return Institution::find($institution->institution_id);
     }
 }
