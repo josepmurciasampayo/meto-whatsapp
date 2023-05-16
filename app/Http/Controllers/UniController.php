@@ -52,8 +52,7 @@ class UniController extends Controller
 
     public function applicationStore(UniApplicationRequest $request): RedirectResponse
     {
-        // TODO: Make sure that this is the right object
-        $institution = Institution::first();
+        $institution = Institution::getByUserID(Auth::id());
 
         $institution->update([
             'url' => $request->get('institution')
