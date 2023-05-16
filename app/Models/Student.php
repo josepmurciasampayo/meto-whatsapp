@@ -123,4 +123,10 @@ class Student extends Model
         }
         return $toReturn;
     }
+
+    public static function getStudentsAtUni(int $uni_id): array
+    {
+        $ids = Helpers::dbQueryArray('select student_id from meto_student_universities where institution_id = ' . $uni_id);
+
+    }
 }
