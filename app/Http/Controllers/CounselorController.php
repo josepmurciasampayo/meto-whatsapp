@@ -29,7 +29,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
-use App\Jobs\SendConnectionRequestToAdmin as SendConnectionRequestToAdminJob;
 
 class CounselorController extends Controller
 {
@@ -81,6 +80,14 @@ class CounselorController extends Controller
     {
         $rawData = Student::getStudentsAtSchool($highschool_id);
         $data = "";
+
+        foreach ($rawData as $key => $student) {
+            $connection = StudentUniversity::where('student_id', $student['student_id'])->first();
+            if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
+
+            }
+        }
+
         foreach ($rawData as $row) {
             $data .= "[";
             foreach ($row as $value) {
@@ -91,6 +98,7 @@ class CounselorController extends Controller
             }
             $data .= "],";
         }
+
         return view('counselor.students', [
             'data' => $rawData,
             'notes' => UserHighSchool::getNotes(Auth()->user()->id),
@@ -286,55 +294,6 @@ class CounselorController extends Controller
             'student' => $student,
             'user' => User::find($student->user_id),
             'qas' => $answers
-        ]);
-    }
-
-    // TODO: Move this method to the uni routes
-    public function decide(Request $request)
-    {
-        $items = $request->all();
-
-        $decisions = [
-            'connect' => [],
-            'maybe' => [],
-            'archive' => []
-        ];
-
-        foreach ($items as $key => $value) {
-            if (str_starts_with($key, 'student_')) {
-                $decisions[$value][] = trim($key, 'student_');
-            }
-        }
-
-        foreach ($decisions as $action => $studentIds) {
-            foreach ($studentIds as $id) {
-                $student = Student::find($id);
-                // Create a new connection
-                if ($action === 'connect') {
-                    $connection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
-                    // Send a request email to the admin
-                    $admin = 'abraham@meto-intl.org';
-                    SendConnectionRequestToAdminJob::dispatch($admin, $student, $connection)
-                        ->delay(now()->addMinutes());
-
-                } else if ($action === 'maybe') {
-                    $this->createConnection($student, MatchStudentInstitution::MAYBE);
-                } else if ($action === 'archive') {
-                    $this->createConnection($student, MatchStudentInstitution::ARCHIVED);
-                }
-            }
-        }
-
-        return back()->with('response', 'Changes were made successfully.');
-    }
-
-    // TODO: Move this method to the uni routes
-    public function createConnection($student, $status, $insitutionId = null)
-    {
-        return StudentUniversity::create([
-            'student_id' => $student->id,
-            'institution_id' => $insitutionId ?? auth()->id(),
-            'status' => $status
         ]);
     }
 

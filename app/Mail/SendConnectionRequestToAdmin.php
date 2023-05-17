@@ -20,20 +20,20 @@ class SendConnectionRequestToAdmin extends Mailable
 
     public $user;
 
-    public $connection;
+    public $createdConnections;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Student $student, StudentUniversity $connection)
+    public function __construct(Student $student, $createdConnections)
     {
         $this->student = $student;
 
         $this->user = User::find($student->user_id);
 
-        $this->connection = $connection;
+        $this->createdConnections = $createdConnections;
     }
 
     /**
@@ -44,7 +44,7 @@ class SendConnectionRequestToAdmin extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'New connection request from ' . $this->user->first . ' ' . $this->user->last
+            subject: 'New connection request(s)'
         );
     }
 
@@ -55,12 +55,19 @@ class SendConnectionRequestToAdmin extends Mailable
      */
     public function content()
     {
+        $connections = $this->createdConnections;
+
+        foreach ($connections as $connection) {
+            $connection->student = Student::find($connection->student_id);
+            $connection->student->user = User::find($connection->student->user_id);
+        }
+
         return new Content(
             view: 'connections.send_request',
             with: [
                 'student' => $this->student,
                 'user' => $this->user,
-                'connection' => $this->connection
+                'createdConnections' => $connections
             ]
         );
     }

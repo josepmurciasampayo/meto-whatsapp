@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/css/app.css" type="text/css">
     <link rel="stylesheet/less" type="text/css" href="/css/public.css" />
 
+    <!-- Livewire -->
+    @livewireStyles
 
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.6.1.slim.min.js"></script>
@@ -95,6 +97,8 @@
             <li><a href="{{ route('contact') }}" class="nav-link text-white mx-3">Contact Us</a></li>
         </ul>
     </footer>
+
+    @livewireScripts
 
     <!-- Axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

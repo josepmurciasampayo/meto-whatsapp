@@ -155,4 +155,9 @@ class User extends Authenticatable
 
         return $row[0]['id'];
     }
+
+    public function getFullName()
+    {
+        return $this->first . ' ' . $this->last;
+    }
 }
