@@ -8,7 +8,7 @@ Your Meto profile is 100% complete. Please remember to update your profile as ne
         <li>Log in using the following:
             <ul>
                 <li>Email: {{ $user->email }}</li>
-                <li>Your password: {{ $password }}</li>
+                <li>Use the password you set earlier</li>
             </ul>
         </li>
     </ul>
