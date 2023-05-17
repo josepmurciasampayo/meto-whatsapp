@@ -15,7 +15,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
 use App\Mail\InviteCounselor;
-use App\Mail\SendConnectionRequestToAdmin;
+use App\Mail\SendConnectionRequestToAdmin as SendConnectionRequestToAdminMail;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
@@ -29,7 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
-use App\Jobs\SendConnectionRequestToAdmin as SendConnectionRequestToAdminJob;
+use App\Jobs\SendConnectionRequestToAdmin;
 
 class CounselorController extends Controller
 {
@@ -91,6 +91,13 @@ class CounselorController extends Controller
             }
             $data .= "],";
         }
+        foreach ($rawData as $key => $data) {
+            $connection = StudentUniversity::where('student_id', $data['student_id'])->orderBy('id', 'DESC')->first();
+            if ($connection && $connection->status !== MatchStudentInstitution::ARCHIVED) {
+                unset($rawData[$key]);
+            }
+        }
+
         return view('counselor.students', [
             'data' => $rawData,
             'notes' => UserHighSchool::getNotes(Auth()->user()->id),
@@ -311,10 +318,10 @@ class CounselorController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'connect') {
-                    $connection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
                     // Send a request email to the admin
                     $admin = 'abraham@meto-intl.org';
-                    SendConnectionRequestToAdminJob::dispatch($admin, $student, $connection)
+                    SendConnectionRequestToAdmin::dispatch($admin, $student, $createdConnection)
                         ->delay(now()->addMinutes());
 
                 } else if ($action === 'maybe') {
