@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SendConnectionRequestToAdmin as SendConnectionRequestToAdminMail;
 
 class SendConnectionRequestToAdmin implements ShouldQueue
 {
@@ -20,20 +21,20 @@ class SendConnectionRequestToAdmin implements ShouldQueue
 
     public $student;
 
-    public $connection;
+    public $createdConnection;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($admin, Student $student, StudentUniversity $connection)
+    public function __construct($admin, Student $student, StudentUniversity $createdConnection)
     {
         $this->admin = $admin;
 
         $this->student = $student;
 
-        $this->connection = $connection;
+        $this->createdConnection = $createdConnection;
     }
 
     /**
@@ -44,6 +45,6 @@ class SendConnectionRequestToAdmin implements ShouldQueue
     public function handle()
     {
         return Mail::to($this->admin)
-            ->send(new \App\Mail\SendConnectionRequestToAdmin($this->student, $this->connection));
+            ->send(new SendConnectionRequestToAdminMail($this->student, $this->createdConnection));
     }
 }

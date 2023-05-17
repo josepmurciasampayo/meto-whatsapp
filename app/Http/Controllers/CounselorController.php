@@ -15,7 +15,7 @@ use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
 use App\Mail\InviteCounselor;
-use App\Mail\SendConnectionRequestToAdmin;
+use App\Mail\SendConnectionRequestToAdmin as SendConnectionRequestToAdminMail;
 use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
