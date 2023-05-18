@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\MetoWelcomeNotification;
 use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
@@ -159,5 +160,10 @@ class User extends Authenticatable
     public function getFullName()
     {
         return $this->first . ' ' . $this->last;
+    }
+
+    public function sendWelcomeNotification(\Carbon\Carbon $validUntil)
+    {
+        $this->notify(new MetoWelcomeNotification($validUntil));
     }
 }
