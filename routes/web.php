@@ -1,6 +1,11 @@
 <?php
 
-use App\Http\Controllers\{AdminController, Auth\RegisteredUserController, CounselorController, HomeController};
+use App\Http\Controllers\{AdminController,
+    Auth\MetoWelcomeController,
+    Auth\RegisteredUserController,
+    Auth\WelcomeController,
+    CounselorController,
+    HomeController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -30,6 +35,8 @@ Route::get('/signup-counselor', [\App\Http\Controllers\SignupController::class, 
 Route::get('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uni'])->name('signup.uni');
 Route::post('/signup-uni', [\App\Http\Controllers\SignupController::class, 'uniStore'])->name('signup.uni.store');
 Route::get('search-high-schools', [TypeaheadController::class, 'autocompleteSearch'])->name('search-high-schools'); //added for highschool typeahead
+Route::get('welcome/{user}', [MetoWelcomeController::class, 'showWelcomeForm'])->name('welcome');
+Route::post('welcome/{user}', [MetoWelcomeController::class, 'savePassword']);
 
 
 // Admin functionality
