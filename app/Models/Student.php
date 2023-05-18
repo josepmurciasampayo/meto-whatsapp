@@ -15,6 +15,11 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function connection()
+    {
+        return $this->hasOne(StudentUniversity::class, 'student_id');
+    }
+
     public static function countMatches(int $user_id) :int
     {
         $toReturn = DB::select('

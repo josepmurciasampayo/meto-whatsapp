@@ -31,4 +31,6 @@ Route::middleware(['auth', 'terms', 'university'])->group(function () {
     Route::get('/uni-newuser', [\App\Http\Controllers\UniController::class, 'newUser'])->name('uni.newuser');
     Route::post('/uni-newuser', [\App\Http\Controllers\UniController::class, 'newUserStore'])->name('uni.newuser.store');
 
+    Route::post('connection/decide', [\App\Http\Controllers\UniController::class, 'decide'])->name('uni.connection.decide');
+    Route::get('/uni-student-fetch/{student}', [\App\Http\Controllers\UniController::class, 'fetchStudent'])->name('uni.student.fetch');
 });

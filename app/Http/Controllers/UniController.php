@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\General\MatchStudentInstitution;
 use App\Enums\User\Role;
 use App\Http\Requests\Uni\UniApplicationRequest;
 use App\Http\Requests\Uni\UniEfcRequest;
 use App\Http\Requests\Uni\UniLocationRequest;
+use App\Mail\SendConnectionRequestToAdmin;
 use App\Mail\UniInvite;
 use App\Models\Institution;
+use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
+use App\Models\Question;
+use App\Models\Student;
+use App\Models\StudentUniversity;
 use App\Models\User;
 use App\Services\UniService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -240,5 +247,102 @@ class UniController extends Controller
 
         }
         return redirect(route('uni', ['id' => $request->input('uni_id')]));
+    }
+
+    public static function students(int $highschool_id)
+    {
+        $rawData = Student::getStudentsAtSchool($highschool_id);
+        $data = "";
+
+        foreach ($rawData as $key => $student) {
+            $connection = StudentUniversity::where('student_id', $student['student_id'])->first();
+            if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
+                unset($rawData[$key]);
+            }
+        }
+
+        foreach ($rawData as $row) {
+            $data .= "[";
+            foreach ($row as $value) {
+                if (is_null($value)) {
+                    $value = '';
+                }
+                $data .= "'" . htmlspecialchars($value) . "',";
+            }
+            $data .= "],";
+        }
+
+//        return $rawData;
+    }
+
+    public function decide(Request $request)
+    {
+        $items = $request->all();
+
+        $decisions = [
+            'connect' => [],
+            'maybe' => [],
+            'archive' => []
+        ];
+
+        foreach ($items as $key => $value) {
+            if (str_starts_with($key, 'student_')) {
+                $decisions[$value][] = trim($key, 'student_');
+            }
+        }
+
+        $admin = 'abraham@meto-intl.org';
+        $createdConnections = [];
+
+        foreach ($decisions as $action => $studentIds) {
+            foreach ($studentIds as $id) {
+                $student = Student::find($id);
+                // Create a new connection
+                if ($action === 'connect') {
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
+                } else if ($action === 'maybe') {
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE);
+                } else if ($action === 'archive') {
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED);
+                }
+                $createdConnections[] = $createdConnection;
+            }
+        }
+
+        $createdConnections = array_filter($createdConnections, function ($connection) {
+            return $connection->status->value === MatchStudentInstitution::REQUEST->value;
+        });
+
+        // Send a request email to the admin
+        Mail::to($admin)->send(new SendConnectionRequestToAdmin($student, $createdConnections));
+
+        return back()->with('response', 'Changes were made successfully.');
+    }
+
+    public function createConnection($student, $status, $insitutionId = null)
+    {
+        return StudentUniversity::create([
+            'student_id' => $student->id,
+            'institution_id' => $insitutionId ?? auth()->id(),
+            'status' => $status
+        ]);
+    }
+
+    public function fetchStudent(Request $request, Student $student)
+    {
+        $student->age = Carbon::parse($student->dob)->diffInYears();
+        $questionIds = [119, 164, 102, 104, 281, 271, 275, 120, 63, 2, 69, 72, 67, 73, 70, 14, 267, 257, 99, 114, 292, 285, 308];
+        $answers = \App\Models\Answer::where('student_id', $student->id)->whereIn('question_id', $questionIds)->get();
+
+        foreach ($answers as $answer) {
+            $question = Question::find($answer->question_id);
+            $answer->question = $question;
+        }
+
+        return response([
+            'student' => $student,
+            'user' => User::find($student->user_id),
+            'qas' => $answers
+        ]);
     }
 }

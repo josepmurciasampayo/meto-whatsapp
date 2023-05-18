@@ -37,7 +37,10 @@ class HomeController extends Controller
         }
 
         if ($user->isInstitution()) {
-            return view('institution.home');
+            $rawData = UniController::students(auth()->id());
+            return view('uni.students', [
+                'data' => $rawData
+            ]);
         }
 
         if ($user->isStudent()) {
