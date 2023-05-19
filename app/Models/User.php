@@ -162,8 +162,8 @@ class User extends Authenticatable
         return $this->first . ' ' . $this->last;
     }
 
-    public function sendWelcomeNotification(\Carbon\Carbon $validUntil)
+    public function sendWelcomeNotification(\Carbon\Carbon $validUntil, Institution $uni)
     {
-        $this->notify(new MetoWelcomeNotification($validUntil));
+        $this->notify(new MetoWelcomeNotification($validUntil, $uni, $this));
     }
 }
