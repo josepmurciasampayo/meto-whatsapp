@@ -57,6 +57,15 @@ class User extends Authenticatable
         'google_id',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'phone_array' => 'array'
+    ];
+
     public static function getByPhone(string $phone): ?User
     {
         $phone = preg_replace('~\D~', '', $phone);
