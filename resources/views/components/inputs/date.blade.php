@@ -7,7 +7,7 @@
     @if ($help)
         <div class="text-sm text-gray-600 italic mb-4">{{ $help }}</div>
     @endif
-    <div class="text-sm text-gray-600 italic mb-4">You can also type the date as dd/mm/yyyy</div>
+    <div class="text-sm text-gray-600 italic mb-4">You can also type the date as yyyy/mm/dd</div>
     <div class="relative">
         @php $required = ($req) ? "required" : ""  @endphp
         <input id="{{ $name }}" name="{{ $name }}" value="{{ $saved }}" {{ $required }}
