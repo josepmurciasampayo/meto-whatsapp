@@ -1,12 +1,15 @@
 @props(['label', 'name', 'help' => false, 'saved' => '', 'req' => false])
 @php
-    $saved = explode(',', $saved);
+    if (is_string($saved)) {
+        $saved = explode(',', $saved);
+    } else {
+        $saved = array_values($saved);
+    }
 
     $array = new stdClass();
     $array->code = $saved[0];
     $array->number = $saved[1];
 @endphp
-
 
 <div class="my-4 bg-gray-100 rounded-md p-4">
     @php $required = ($req) ? "*" : ""  @endphp
