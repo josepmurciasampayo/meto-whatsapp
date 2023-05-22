@@ -20,14 +20,14 @@
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 @include('_partials.uni.students.pending')
             </div>
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                <livewire:uni.student-table status="{{ \App\Enums\General\MatchStudentInstitution::REQUEST }}" />
+            <div class="tab-pane fade py-4" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                @include('_partials.uni.students.request')
             </div>
-            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                <livewire:uni.student-table status="{{ \App\Enums\General\MatchStudentInstitution::MAYBE }}" />
+            <div class="tab-pane fade py-4" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                @include('_partials.uni.students.maybe')
             </div>
-            <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
-                <livewire:uni.student-table status="{{ \App\Enums\General\MatchStudentInstitution::ARCHIVED }}" />
+            <div class="tab-pane fade py-4" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+                @include('_partials.uni.students.archived')
             </div>
         </div>
 
