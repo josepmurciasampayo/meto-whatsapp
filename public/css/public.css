@@ -32,6 +32,14 @@ input[disabled] {
     background: var(--main) !important;
 }
 
+.power-grid-button {
+    color: #787878 !important;
+    background-color: #2125290f !important;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #787878 !important;
+}
+
 .single-student-card {
     display: none;
     .close-btn {

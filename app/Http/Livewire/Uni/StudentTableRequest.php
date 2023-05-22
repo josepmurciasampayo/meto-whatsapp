@@ -5,38 +5,28 @@ namespace App\Http\Livewire\Uni;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Blade;
-use PowerComponents\LivewirePowerGrid\{Button,
-    Column,
-    Exportable,
-    Footer,
-    Header,
-    PowerGrid,
-    PowerGridComponent,
-    PowerGridEloquent};
-use PowerComponents\LivewirePowerGrid\Rules\{RuleActions};
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use App\Enums\General\MatchStudentInstitution;
 
-final class StudentTable extends PowerGridComponent
+final class StudentTableRequest extends PowerGridComponent
 {
     use ActionButton;
 
-    public $user;
-
-    public $status;
-
     public function setUp(): array
     {
+        $this->showCheckBox();
+
         return [
-            Exportable::make('students')
+            Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
-                ->showRecordCount()
+                ->showRecordCount(),
         ];
     }
 
@@ -45,11 +35,12 @@ final class StudentTable extends PowerGridComponent
      *
      * @return Builder<\App\Models\Student>
      */
-    public function datasource(): Builder
+    public function datasource()
     {
         return Student::query()
-            ->whereDoesntHave('connection', function ($query) {
-                $query->where('institution_id', auth()->id());
+            ->whereHas('connection', function ($query) {
+                $query->where('institution_id', auth()->id())
+                    ->where('status', MatchStudentInstitution::REQUEST);
             });
     }
 
@@ -123,55 +114,44 @@ final class StudentTable extends PowerGridComponent
         ];
     }
 
-    /**
-     * PowerGrid Student Action Buttons.
-     *
-     * @return array<int, Button>
-     */
-    public function actions(): array
+    public function getListeners()
     {
-        if ($this->status) return [];
+        return array_merge(
+            parent::getListeners(), [
+                'resetConnection'
+            ]
+        );
+    }
+
+    public function header()
+    {
         return [
-            Button::add('custom')
-            ->render(function (Student $student) {
-               $key = 'connect_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="connect" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '">Connect</label>'
-               );
-            }),
-            Button::add('maybe')
-            ->render(function (Student $student) {
-               $key = 'maybe_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="maybe" id="student_' . $student->id . '" name="' . $name . '"> <label for="student_' . $student->id . '">Maybe</label>'
-               );
-            }),
-            Button::add('archive')
-            ->render(function (Student $student) {
-               $key = 'archive_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '">Archive</label>'
-               );
-            })
+            Button::add('reset')
+                ->caption(__('Reset'))
+                ->emit('resetConnection', [])
         ];
     }
 
-    public function header(): array
+    public function resetConnection()
     {
-        if ($this->status) {
-            return [
-                Button::add('reset')
-                    ->caption(__('Reset'))
-                    ->emit('resetConnection', [])
-            ];
+        foreach ($this->checkboxValues as $id) {
+            StudentUniversity::where('student_id', $id)
+                ->where('institution_id', auth()->id())
+                ->delete();
         }
-        return [];
+
+        return true;
     }
 
     public function exportToCsv()
+    {
+        // TODO: Complete the export process
+        return [
+            'name'
+        ];
+    }
+
+    public function exportToXLS()
     {
         // TODO: Complete the export process
         return [
