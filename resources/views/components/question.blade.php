@@ -11,7 +11,7 @@
     }
 @endphp
 
-<div>
+<div question-id="{{ $question->id }}">
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
         <x-inputs.text saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1  }}"></x-inputs.text>
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
