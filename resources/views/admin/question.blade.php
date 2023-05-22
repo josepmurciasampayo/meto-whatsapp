@@ -6,6 +6,9 @@
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
     <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
+    @if (!App::environment('prod'))
+        <p class="bg-info p-3">Please make changes at <a href="https://app.meto-intl.org">https://app.meto-intl.org</a></p>
+    @endif
 
     <div class="flex justify-center mt-6 mb-6">
         <x-button-nav href="{{ route('questions') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to questions <i class="fas fa-question-circle"></i></x-button-nav>

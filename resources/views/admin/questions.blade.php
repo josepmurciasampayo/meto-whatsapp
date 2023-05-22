@@ -4,7 +4,17 @@
     <?php $yesNo = \App\Enums\General\YesNo::descriptions() ?>
     <?php $type = \App\Enums\Student\QuestionType::descriptions() ?>
     <div class="my-4 text-end">
-        <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+        @if (!App::environment('prod'))
+        <div class="row">
+            <div class="col">
+                <p class="bg-info p-3">Please make changes at <a href="https://app.meto-intl.org">https://app.meto-intl.org</a></p>
+            </div>
+            <div class="col">
+                <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+            </div>
+        @else
+            <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+        @endif
     </div>
     <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white">
