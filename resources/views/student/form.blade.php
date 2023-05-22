@@ -3,6 +3,7 @@
         <x-image-with-text image-src="/img/Meto-background.webp"/>
         <div class="w-full lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form method="POST" action="{{ route('student.handle') }}" id="question-form">
+                <div id="errors-msg-output" class="alert alert-danger d-none"></div>
                 <input type="hidden" name="page" value="{{ $page ?? null }}">
                 <input type="hidden" name="curriculum" value="{{ $curriculum ?? null }}">
                 <input type="hidden" name="screen" value="{{ $screen ?? null }}">
@@ -33,6 +34,37 @@
         form.validate({
             submitHandler: function (form) {
                 form.submit();
+            },
+            invalidHandler: function(event, validator) {
+                // 'this' refers to the form
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    var message = errors == 1
+                        ? 'You missed 1 field. It has been highlighted'
+                        : 'You missed ' + errors + ' fields. They have been highlighted';
+                    $('#errors-msg-output').removeClass('d-none')
+                        .html(message)
+                } else {
+                    $('#errors-msg-output').addClass('d-none')
+                }
+
+                let errorBag = validator.invalid
+
+                if (errorBag) {
+                    window.scrollTo(0, 0);
+
+                    document.querySelectorAll('.validation-error').forEach(validationError => {
+                        validationError.remove()
+                    })
+
+                    Object.keys(errorBag).forEach(key => {
+                        let el = document.querySelector("[question-id='" + key + "'] div")
+                        let oldEl = el.innerHTML
+                        let error = null
+                        el.querySelector('.validation-error') ? error = '' : error = "<label class='validation-error text-danger small'>" + errorBag[key] + "</label>"
+                        el.innerHTML = oldEl + error
+                    })
+                }
             }
         })
     </script>
