@@ -229,11 +229,13 @@ class AdminController extends Controller
 
     public function mergeHS(Request $request) :View|RedirectResponse
     {
-        $verifyIDs = explode(",", $request->input('verifyIDs'));
-        foreach ($verifyIDs as $id) {
-            $hs = HighSchool::find($id);
-            $hs->verified = YesNo::YES();
-            $hs->save();
+        if ($request->input('verifyIDs')) {
+            $verifyIDs = explode(",", $request->input('verifyIDs'));
+            foreach ($verifyIDs as $id) {
+                $hs = HighSchool::find($id);
+                $hs->verified = YesNo::YES();
+                $hs->save();
+            }
         }
 
         if ($request->input('IDs')) {
