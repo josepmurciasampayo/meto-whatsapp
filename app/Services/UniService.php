@@ -80,7 +80,7 @@ class UniService
             left outer join meto_answers as refugee on refugee.question_id = 285 and refugee.student_id = s.id
             left outer join meto_answers as disability on disability.question_id = 308 and disability.student_id = s.id
 
-            left outer join meto_students_universities as c on c.institution_id = ' . $uni_id . '
+            left outer join meto_students_universities as c on c.student_id = s.id and c.institution_id = ' . $uni_id . '
 
         ');
 
