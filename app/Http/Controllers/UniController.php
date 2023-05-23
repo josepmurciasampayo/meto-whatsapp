@@ -204,7 +204,7 @@ class UniController extends Controller
         $join->institution_id = $uni->id;
         $join->save();
 
-        $user->sendWelcomeNotification(now()->addDay(), $uni);
+        $user->sendWelcomeNotification(now()->addDays(3), $uni);
         //Mail::to($request->input('email'))->send(new UniInvite(Auth::user(), $uni));
 
         return redirect(route('universities'));

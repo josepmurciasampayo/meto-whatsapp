@@ -12,23 +12,15 @@
                 <x-inputs.text label="Job Title" name="title"></x-inputs.text>
                 <x-inputs.textarea label="How did you hear about Meto and how are you looking to use Meto?" name="how"></x-inputs.textarea>
                 <div class="text-center my-4">
-                    <x-button-icon type="submit" icon="" text="Sign Up" />
+                    <x-button-icon type="submit" icon="" text="Request Invite" />
                 </div>
-            </form> 
-            
-            
+            </form>
 
             <div class="flex align-items-center justify-center mt-20 text-xm">
                 <p>Already have a Meto account?</p>
                 <span class="mx-2"></span>
                 <x-button-nav href="{{route('login') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-10"><i class="fa fa-sign-in"></i> Log In</x-button-nav>
             </div>
-
-            <div class="flex align-items-center justify-center mt-5 text-xm">
-                <x-icon-link text="I am a Student" icon="fa fa-sync" href="#"/>
-            </div>
-
-
 
             <p class="text-xm text-center mt-5 font-semibold">Please note that you will be able to add coworkers to your institution account once your request is approved.</p>
         </div>

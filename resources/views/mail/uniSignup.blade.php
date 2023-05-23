@@ -4,4 +4,3 @@ New University Signup<br/>
 <br/><br/>
 They also wrote:<br/>
 {{ $how }}
-

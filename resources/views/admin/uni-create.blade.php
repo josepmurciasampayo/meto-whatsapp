@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h3>Create University Account</h3>
+    <h3 class="display-7 mt-5 flex justify-center">Create University Account</h3>
     <form class="w-50" method="POST" action="{{ route('uni.store') }}">
         @csrf
         <x-inputs.text label="University Name" name="uniName"></x-inputs.text>

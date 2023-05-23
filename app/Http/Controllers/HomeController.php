@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use App\Services\UniService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -37,7 +38,8 @@ class HomeController extends Controller
         }
 
         if ($user->isInstitution()) {
-            $rawData = UniController::students(auth()->id());
+            $uni = Auth::user()->getUni();
+            $rawData = UniService::getStudentTableData($uni->id);
             return view('uni.students', [
                 'data' => $rawData
             ]);

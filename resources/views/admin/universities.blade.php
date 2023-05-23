@@ -9,7 +9,7 @@
         <thead>
         <tr>
             <th>University</th>
-            <th>Country</th>
+            <th>Users</th>
             <th>Existing Connections</th>
             <th>Remaining Connections</th>
         </tr>
@@ -18,7 +18,7 @@
         <tfoot>
         <tr>
             <td>University</td>
-            <td>Country</td>
+            <td>Users</td>
             <td>Existing Connections</td>
             <td>Remaining Connections</td>
         </tr>
@@ -28,13 +28,14 @@
         <?php foreach ($data['universities'] as $row) { ?>
         <tr>
             <td><a href="{{ route('uni', ['id' => $row['id']]) }}">{{ $row['name'] }}</a></td>
-            <td>{{ $row['country'] }}</td>
+            <td>{{ $row['user_count'] }}</td>
             <td>{{ $data['counts'][$row['id']] ?? '-' }}</td>
             <td>{{ $row['connections'] }}</td>
         </tr>
         <?php } ?>
         </tbody>
     </table>
+
     <x-dataTable></x-dataTable>
 
 </x-app-layout>

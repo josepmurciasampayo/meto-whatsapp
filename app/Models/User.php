@@ -7,6 +7,7 @@ use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
+use App\Models\Joins\UserInstitution;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -174,5 +175,11 @@ class User extends Authenticatable
     public function sendWelcomeNotification(\Carbon\Carbon $validUntil, Institution $uni)
     {
         $this->notify(new MetoWelcomeNotification($validUntil, $uni, $this));
+    }
+
+    public function getUni(): Institution
+    {
+        $id = UserInstitution::where('user_id', $this->id)->first()->id;
+        return Institution::find($id);
     }
 }
