@@ -47,10 +47,15 @@ final class StudentTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Student::query()
+        $data = Student::query()
             ->whereDoesntHave('connection', function ($query) {
                 $query->where('institution_id', auth()->id());
             });
+        foreach($data as $row) {
+
+        }
+
+        return $result;
     }
 
     /**

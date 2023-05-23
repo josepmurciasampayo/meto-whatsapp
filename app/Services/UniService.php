@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class UniService
@@ -38,46 +39,31 @@ class UniService
         return User::whereIn('id', array_column($ids, 'user_id'))->get();
    }
 
-   public static function getStudentTableData(int $uni_id, array $statuses = null): array
+   public static function getStudentTableData(int $uni_id, array $statuses = null): Builder|Collection
    {
+       //TODO: make builder object from query
+
         $data = Helpers::dbQueryArray('
             select
             u.id as user_id, s.id as student_id,
-            efc.response_id as efc_id,
-            efc.text as efc_text,
-            curriculum.response_id as curriculum_id,
-            curriculum.text as curriculum_text,
-            citizenship.response_id as citizenship_id,
-            citizenship.text as citizenship_text,
-            citizenship_extra.response_id as citizenship_extra_id,
-            citizenship_extra.text as citizenship_extra_text,
-            track.response_id as track_id,
-            track.text as track_text,
-            destination.response_id as destination_id,
-            destination.text as destination_text,
-            gender.response_id as gender_id,
-            gender.text as gender_text,
-            det.response_id as det_id,
-            det.text as det_text,
-            act.response_id as act_id,
-            act.text as act_text,
-            toefl.response_id as toefl_id,
-            toefl.text as toefl_text,
-            act.response_id as act_id,
-            act.text as act_text,
-            ielts.response_id as ielts_id,
-            ielts.text as ielts_text,
-            affiliations.response_id as affiliations_id,
+            efc.text as efc,
+            curriculum.text as curriculum,
+            citizenship.text as citizenship,
+            citizenship_extra.text as citizenship_extra,
+            track.text as track,
+            destination.text as destination,
+            gender.text as gender,
+            ranking.text as ranking,
+            det.text as det,
+            act.text as act,
+            concat("ACT: ", ifnull(act.text, "-"), " TOEFL: ", ifnull(toefl.text, "-"), " iELTS: ", ifnull(ielts.text, "0")) as other_scores,
             affiliations.text as affiliations_text,
-            refugee.response_id as refugee_id,
             refugee.text as refugee_text,
-            disability.response_id as disability_id,
-            disability.text as disability_text,
-            c.status as connection_status
+            disability.text as disability_text
 
             from meto_users as u
             join meto_students as s on s.user_id = u.id
-            left outer join meto_answers as efc on efc.question_id = 224 and efc.student_id = s.id
+            left outer join meto_answers as efc on efc.question_id = 244 and efc.student_id = s.id
             left outer join meto_answers as countryHS on countryHS.question_id = 104 and countryHS.student_id = s.id
             left outer join meto_answers as curriculum on curriculum.question_id = 318 and curriculum.student_id = s.id
             left outer join meto_answers as citizenship on citizenship.question_id = 288 and citizenship.student_id = s.id
@@ -85,6 +71,7 @@ class UniService
             left outer join meto_answers as track on track.question_id = 13 and track.student_id = s.id
             left outer join meto_answers as destination on destination.question_id = 260 and destination.student_id = s.id
             left outer join meto_answers as gender on gender.question_id = 271 and gender.student_id = s.id
+            left outer join meto_answers as ranking on ranking.question_id = 44 and ranking.student_id = s.id
             left outer join meto_answers as det on det.question_id = 69 and det.student_id = s.id
             left outer join meto_answers as act on act.question_id = 67 and act.student_id = s.id
             left outer join meto_answers as toefl on toefl.question_id = 73 and toefl.student_id = s.id
@@ -97,7 +84,7 @@ class UniService
 
         ');
 
-        return $data;
+        
    }
 
 }
