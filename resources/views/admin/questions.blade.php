@@ -3,6 +3,8 @@
     <?php $format = \App\Enums\QuestionFormat::descriptions() ?>
     <?php $yesNo = \App\Enums\General\YesNo::descriptions() ?>
     <?php $type = \App\Enums\Student\QuestionType::descriptions() ?>
+    @php $active = \App\Enums\QuestionStatus::descriptions() @endphp
+
     <div class="my-4 text-end">
         @if (!App::environment('prod'))
         <div class="row">
@@ -51,7 +53,7 @@
                 <td><?php echo $type[$row['type']] ?></td>
                 <td><?php echo $format[$row['format']] ?></td>
                 <td><?php echo $row['order'] ?></td>
-                <td><?php echo $yesNo[$row['status']] ?></td>
+                <td><?php echo $active[$row['status']] ?></td>
                 <td><?php echo $yesNo[$row['required']] ?></td>
                 <td><a href="{{ route('answers', ['question_id' => $id]) }}">{{ $row['count'] }}</a></td>
             </tr>
