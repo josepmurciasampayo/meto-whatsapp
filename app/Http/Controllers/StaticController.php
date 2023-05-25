@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\User\Role;
 use App\Mail\ContactMail;
 use App\Models\ContactForm;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -15,6 +17,18 @@ class StaticController extends Controller
     public function terms() :View
     {
         return view('static.terms');
+    }
+
+    public function consent() :View
+    {
+        switch (Auth::user()->role) {
+            case Role::INSTITUTION():
+                return view('static.consent-uni');
+            case Role::STUDENT():
+                return view('static.consent-student');
+            case Role::COUNSELOR():
+                return view('static.consent-counselor');
+        }
     }
 
     public function privacy() :View
@@ -26,6 +40,14 @@ class StaticController extends Controller
     {
         $user = Auth()->user();
         $user->terms = $request->terms;
+        $user->save();
+        return redirect(route('student.intro'));
+    }
+
+    public function saveConsent(Request $request) :RedirectResponse
+    {
+        $user = Auth()->user();
+        $user->consent = $request->consent;
         $user->save();
         return redirect(route('student.intro'));
     }

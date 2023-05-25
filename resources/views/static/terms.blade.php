@@ -17,7 +17,7 @@
         <h3>CONDITIONS OF USE</h3>
         <p>By using this service, you certify that you have read and reviewed this Agreement and that you agree to comply with its terms. If you do not want to be bound by the terms of this Agreement, you are advised to leave the website accordingly. Meto only grants use and access of this website, its products, and its services to those who have accepted its terms.</p>
         <h3>PRIVACY POLICY</h3>
-        <p>Before you continue using our website, we advise you to read our <a href="{{ route('privacy-policy') }}">privacy policy</a> regarding our user data collection. It will help you better understand our practices.</p>
+        <p>Before you continue using our website, we advise you to read our <a href="{{ route('privacy') }}">privacy policy</a> regarding our user data collection. It will help you better understand our practices.</p>
         <h3>AGE RESTRICTION</h3>
         <p>You must be at least 18 (eighteen) years of age before you can use this website. By using this website, you warrant that you are at least 18 years of age and you may legally adhere to this Agreement. Meto assumes no responsibility for liabilities related to age misrepresentation.</p>
         <h3>PERMISSION BY PARENT OR GUARDIAN</h3>
@@ -41,13 +41,13 @@
         <p>Meto is not liable for any damages that may occur to you as a result of your misuse of our website and associated application.</p>
         <p>Meto reserves the right to edit, modify, and change this Agreement any time. We shall let our users know of these changes through electronic mail or by alerts through our application. This Agreement is an understanding between Meto and the user, and this supersedes and replaces all prior agreements regarding the use of this website and associated application.</p>
     </div>
-    <?php if (Auth()->user() && Auth()->user()->terms == 0) { ?>
-    <form action="{{ route('saveTerms') }}" method="POST">
-        @csrf
-        <input type="hidden" name="terms" id="terms" value="1">
-        <div class="text-center">
-            <x-button>I Agree</x-button>
-        </div>
-    </form>
-    <?php } ?>
+    @if (Auth::user() && Auth::user()->terms == 0)
+        <form action="{{ route('saveTerms') }}" method="POST">
+            @csrf
+            <input type="hidden" name="terms" id="terms" value="1">
+            <div class="text-center">
+                <x-button>I Agree</x-button>
+            </div>
+        </form>
+    @endif
 </x-app-layout>

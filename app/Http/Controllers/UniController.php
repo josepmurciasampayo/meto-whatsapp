@@ -34,82 +34,99 @@ class UniController extends Controller
 
     public function name(): View
     {
-        return view('uni.name');
+        return view('uni.name', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
     public function nameStore(Request $request): RedirectResponse
     {
+        $uni = Auth::user()->getUni();
+        $uni->name = $request->input('name');
+        $uni->save();
+
         return redirect(route('uni.homepage'));
     }
 
     public function homepage(): View
     {
-        return view('uni.homepage');
+        return view('uni.homepage',[
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
-    public function homepageStore(): RedirectResponse
+    public function homepageStore(Request $request): RedirectResponse
     {
+        $uni = Auth::user()->getUni();
+        $uni->url = $request->input('url');
+        $uni->save();
+
         return redirect(route('uni.application'));
     }
 
     public function application(): View
     {
-        return view('uni.application');
+        return view('uni.application', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
     public function applicationStore(UniApplicationRequest $request): RedirectResponse
     {
-        $institution = Institution::getByUserID(Auth::id());
-
-        $institution->update([
-            'url' => $request->get('institution')
-        ]);
+        $uni = Auth::user()->getUni();
+        $uni->undergrad_url = $request->input('url');
+        $uni->save();
 
         return redirect(route('uni.location'));
     }
 
     public function location(): View
     {
-        return view('uni.location');
+        return view('uni.location', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
     public function locationStore(UniLocationRequest $request): RedirectResponse
     {
-        $institution = Institution::first();
-
-        $institution->update([
-            'country' => $request->get('country'),
-            'state' => $request->get('state'),
-            'city' => $request->get('city')
-        ]);
+        $uni = Auth::user()->getUni();
+        $uni->country = $request->input('country');
+        $uni->state = $request->input('state');
+        $uni->city = $request->input('city');
+        $uni->save();
 
         return redirect(route('uni.efc'));
     }
 
     public function efc(): View
     {
-        return view('uni.efc');
+        return view('uni.efc', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
     public function efcStore(UniEfcRequest $request): RedirectResponse
     {
-        $institution = Institution::first();
+        $uni = Auth::user()->getUni();
+        $uni->efc = $request->input('efc');
+        $uni->save();
 
-        $institution->update([
-            'efc' => $request->get('efc')
-        ]);
-
-        return redirect(route('uni.efc'));
+        return redirect(route('uni.mingrade'));
     }
 
     public function mingrade(): View
     {
-        return view('uni.mingrade');
+        return view('uni.mingrade', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
-    public function mingradeStore(): RedirectResponse
+    public function mingradeStore(Request $request): RedirectResponse
     {
-        return redirect(route('uni.mingrade'));
+        $uni = Auth::user()->getUni();
+        $uni->academic_min = $request->input('efc');
+        $uni->save();
+        return redirect(route('uni.home'));
     }
 
     public function home(): View
@@ -119,7 +136,9 @@ class UniController extends Controller
 
     public function myProfile(): View
     {
-        return view('uni.myProfile');
+        return view('uni.myProfile', [
+            'uni' => Auth::user()->getUni(),
+        ]);
     }
 
     public function myProfileStore(Request $request): RedirectResponse
@@ -142,21 +161,6 @@ class UniController extends Controller
     public function connections(): View
     {
         return view('uni.connections');
-    }
-
-    public function database(): View
-    {
-        return view('uni.database');
-    }
-
-    public function efcGrades(): View
-    {
-        return view('uni.efcGrades');
-    }
-
-    public function efcGradesStore(Request $request): RedirectResponse
-    {
-        return redirect(route(''));
     }
 
     public function newUser(): View
@@ -205,7 +209,6 @@ class UniController extends Controller
         $join->save();
 
         $user->sendWelcomeNotification(now()->addDays(3), $uni);
-        //Mail::to($request->input('email'))->send(new UniInvite(Auth::user(), $uni));
 
         return redirect(route('universities'));
     }

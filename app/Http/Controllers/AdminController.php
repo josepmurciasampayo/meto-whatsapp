@@ -8,8 +8,6 @@ use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Helpers;
 use App\Models\Chat\MessageState;
-use App\Models\HighSchool;
-use App\Models\Institution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
 use App\Models\QuestionScreen;
@@ -73,11 +71,6 @@ class AdminController extends Controller
     public function reports(): View
     {
         return view('admin.reports');
-    }
-
-    public function highschools(): View
-    {
-        return view('admin.highschools', ['data' => HighSchool::getAdminData()]);
     }
 
     public function logins(): View
@@ -225,67 +218,6 @@ class AdminController extends Controller
     {
         Artisan::call('chat:vanderbilt');
         return view('admin.commands');
-    }
-
-    public function mergeHS(Request $request) :View|RedirectResponse
-    {
-        if ($request->input('verifyIDs')) {
-            $verifyIDs = explode(",", $request->input('verifyIDs'));
-            foreach ($verifyIDs as $id) {
-                $hs = HighSchool::find($id);
-                $hs->verified = YesNo::YES();
-                $hs->save();
-            }
-        }
-
-        if ($request->input('IDs')) {
-            $IDs = explode(",", $request->input('IDs'));
-            $highschools = array();
-            foreach ($IDs as $id) {
-                $highschools[] = HighSchool::find($id);
-            }
-
-            return view('admin.highschools-merge', [
-                'IDs' => $request->input('IDs'),
-                'data' => $highschools,
-            ]);
-        }
-
-        return redirect(route('highschools'));
-    }
-
-    public function mergeHSconfirm(Request $request) :RedirectResponse
-    {
-        $oldIDs = $request->input('IDs');
-        $IDarray = explode(",", $oldIDs);
-
-        if ($request->input('primary') == '') {
-            $primaryID = $IDarray[0];
-        } else {
-            $primaryID = $request->input('primary');
-        }
-
-        $highschools = array();
-        foreach ($IDarray as $id) {
-            $highschools[] = HighSchool::find($id);
-            if ($id == $primaryID) {
-                $new = HighSchool::find($id)->replicate();
-            }
-        }
-
-        $new->save();
-
-        Helpers::dbUpdate('
-            update meto_user_high_schools set highschool_id = ' . $new->id . ' where highschool_id in (' . $oldIDs . ');
-        ');
-
-        Helpers::dbUpdate('
-            delete from meto_high_schools where id in (' . $oldIDs . ');
-        ');
-
-        return redirect(route('highschool', [
-            'highschool_id' => $new->id,
-        ]));
     }
 
     public function databases() :View

@@ -5,6 +5,7 @@ use App\Http\Controllers\{AdminController,
     Auth\RegisteredUserController,
     Auth\WelcomeController,
     CounselorController,
+    HighSchoolController,
     HomeController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -24,7 +25,8 @@ Route::get('/thank-you', '\App\Http\Controllers\UserFormController@thankyou')->n
 Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
-Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy-policy');
+Route::get('consent', [\App\Http\Controllers\StaticController::class, 'consent'])->name('consent');
+Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy');
 Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']);
 Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
 Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');
@@ -60,12 +62,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/new-uni', [\App\Http\Controllers\UniController::class, 'store'])->name('uni.store');
     Route::post('/admin/uni-update', [\App\Http\Controllers\UniController::class, 'update'])->name('uni.update');
 
-    Route::get('/admin/highschools', [AdminController::class, 'highschools'])->name('highschools');
-    Route::post('/admin/mergeHS', [AdminController::class, 'mergeHS'])->name('mergeHS');
-    Route::post('/admin/mergeHSconfirm', [AdminController::class, 'mergeHSconfirm'])->name('mergeHSconfirm');
-    Route::get('/admin/students/{highschool_id?}', [AdminController::class, 'students'])->name('students');
-    Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
+    Route::get('/admin/highschools', [HighSchoolController::class, 'index'])->name('highschools');
+    Route::post('/admin/mergeHS', [HighSchoolController::class, 'merge'])->name('mergeHS');
+    Route::post('/admin/mergeHSconfirm', [HighSchoolController::class, 'mergeConfirm'])->name('mergeHSconfirm');
+    Route::get('/admin/students/{highschool_id?}', [HighSchoolController::class, 'students'])->name('students');
 
+    Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
     Route::get('/admin/question/{id?}', [AdminController::class, 'question'])->name('question');
     Route::post('/admin/question', [AdminController::class, 'questionStore'])->name('question.store');
@@ -83,12 +85,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 });
 
-Route::middleware(['auth', 'terms', 'university'])->group(function() {
+Route::middleware(['auth', 'consent', 'university'])->group(function() {
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
 });
 
 // Counselor functionality
-Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
+Route::middleware(['auth', 'counselor', 'consent'])->group(function () {
     Route::get('/students/{highschool_id}', [CounselorController::class, 'students'])->name('counselor-students');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
@@ -111,7 +113,7 @@ Route::middleware(['auth', 'counselor', 'terms'])->group(function () {
 });
 
 // Institution functionality
-Route::middleware(['auth', 'terms', 'institution'])->group(function () {
+Route::middleware(['auth', 'consent', 'institution'])->group(function () {
 });
 
 // Redirects if already authenticated
@@ -153,6 +155,7 @@ Route::middleware('auth')->group(function () {
     Route::post('profile', [\App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
 
     Route::post('terms', [\App\Http\Controllers\StaticController::class, 'saveTerms'])->name('saveTerms');
+    Route::post('consent', [\App\Http\Controllers\StaticController::class, 'saveConsent'])->name('saveConsent');
 });
 
 require __DIR__ . '/web-student.php';

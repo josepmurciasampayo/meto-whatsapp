@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Actions\MetoWelcomeNotification;
+use App\Enums\General\YesNo;
 use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
@@ -133,6 +134,11 @@ class User extends Authenticatable
         return $this->isAdmin() || $this->terms;
     }
 
+    public function consent(): bool
+    {
+        return $this->isAdmin() || $this->consent == YesNo::YES();
+    }
+
     public static function getCounselorsAtHS(int $highschool_id): array
     {
         return Helpers::dbQueryArray('
@@ -179,7 +185,7 @@ class User extends Authenticatable
 
     public function getUni(): Institution
     {
-        $id = UserInstitution::where('user_id', $this->id)->first()->id;
+        $id = UserInstitution::where('user_id', $this->id)->first()->institution_id;
         return Institution::find($id);
     }
 }

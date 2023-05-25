@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
 Route::post('/transfer', [\App\Http\Controllers\StudentController::class, 'storeTransfer'])->name('student.transfer');
 
-Route::middleware(['auth', 'terms', 'student'])->group(function () {
+Route::middleware(['auth', 'consent', 'student'])->group(function () {
     Route::post('/hsLookup', [TypeaheadController::class, 'autocompleteSearch'])->name('hsLookup');
     Route::post('/orgLookup', [TypeaheadController::class, 'autocompleteOrgSearch'])->name('orgLookup');
 

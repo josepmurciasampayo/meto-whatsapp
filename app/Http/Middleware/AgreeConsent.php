@@ -3,11 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AgreeTerms
+class AgreeConsent
 {
     /**
      * Handle an incoming request.
@@ -18,9 +17,9 @@ class AgreeTerms
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->terms()) {
+        if (Auth::user()->consent()) {
             return $next($request);
         }
-        return redirect(route('terms'));
+        redirect(route('consent'));
     }
 }

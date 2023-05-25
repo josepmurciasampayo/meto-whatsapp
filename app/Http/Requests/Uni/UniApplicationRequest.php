@@ -24,7 +24,7 @@ class UniApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'institution' => [
+            'url' => [
                 'required', 'url'
             ]
         ];

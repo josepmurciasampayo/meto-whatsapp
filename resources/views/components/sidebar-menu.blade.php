@@ -19,7 +19,7 @@
 <style>
     .sidebar {
     position: fixed;
-    top: 0;
+    top: 50px;
     left: -250px;
     max-height: 100%;
     width: 250px;
@@ -29,10 +29,8 @@
 }
 
 @media (max-width: 600px) {
-
     .sidebar {
     height: 100vh;
-
 }}
 
 .sidebar.show {
@@ -43,7 +41,7 @@
     position: fixed;
     margin-top: 3.5rem;
     top: 20px;
-    right: 10px;
+    left: 10px;
     height: 60px;
     width: 50px;
     background-color: none;

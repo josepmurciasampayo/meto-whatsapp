@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Services\UniService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     //
-    public function index()
+    public function index(): RedirectResponse|View
     {
         $user = Auth()->user();
         if (is_null($user)) {
@@ -22,8 +24,8 @@ class HomeController extends Controller
             return view('admin.home');
         }
 
-        if (!$user->terms) {
-            return redirect('terms');
+        if (!$user->consent()) {
+            return redirect('consent');
         }
 
         if ($user->isCounselor()) {
@@ -39,6 +41,9 @@ class HomeController extends Controller
 
         if ($user->isInstitution()) {
             $uni = Auth::user()->getUni();
+            if (is_null($uni->academic_min)) {
+                return redirect(route('uni.welcome'));
+            }
             $rawData = UniService::getStudentTableData($uni->id);
             return view('uni.students', [
                 'data' => $rawData
