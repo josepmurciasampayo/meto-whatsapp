@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('meto_users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->unsignedTinyInteger('consent')->default(\App\Enums\General\YesNo::NO());
             $table->unsignedTinyInteger('invite_sent')->default(\App\Enums\General\YesNo::NO());
         });
 
-        Schema::table('meto_answers', function (Blueprint $table) {
+        Schema::table('answers', function (Blueprint $table) {
             $table->string('text_expanded', 500)->nullable();
         });
 
-        Schema::table('meto_institutions', function (Blueprint $table) {
+        Schema::table('institutions', function (Blueprint $table) {
             $table->unsignedMediumInteger('academic_min')->nullable();
             $table->string('undergrad_url', 500)->nullable();
         });
