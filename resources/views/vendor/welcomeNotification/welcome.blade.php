@@ -1,5 +1,6 @@
 <x-app-layout>
-    <p class="my-3">Welcome to Meto! Just enter your password below and you will be automatically logged in.</p>
+    <div class="min-h-screen">
+    <p class="my-3 display-7">Welcome to Meto! Create a password below and you will be automatically logged in.</p>
     <form class="mt-5 w-50" method="POST">
         @csrf
         <input type="hidden" name="email" value="{{ $user->email }}"/>
