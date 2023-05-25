@@ -20,8 +20,6 @@ return new class extends Migration
 
         Schema::table('meto_answers', function (Blueprint $table) {
             $table->string('text_expanded', 500)->nullable();
-            $table->unsignedTinyInteger('equivalency_percentile')->nullable();
-            $table->unsignedTinyInteger('equivalency_rank')->nullable();
         });
 
         Schema::table('meto_institutions', function (Blueprint $table) {
@@ -29,9 +27,6 @@ return new class extends Migration
             $table->string('undergrad_url', 500)->nullable();
         });
 
-        Schema::create('meto_question_equivalency', function (Blueprint $table) {
-
-        });
     }
 
     /**
