@@ -1,5 +1,4 @@
 <x-app-layout>
-    <div class="min-h-screen mt-5 mx-2">
         <h3 class="mt-2 mb-5 display-7">Student Data</h3>
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -31,44 +30,7 @@
             </div>
         </div>
 
-        <div class="card mt-4 single-student-card">
-            <div class="card-body py-4">
-                @php
-                    // TODO: Get the correct student object
-                    $student = \App\Models\Student::first();
-                @endphp
-                <p>
-                    <!-- TODO: Get the alpha 2 code for the country and get the image from the API: https://flagsapi.com/ \App\Enums\Country\Country::getCountryAlphaCode() /flat/64.png -->
-                <div class="student-country-flag d-inline-block"
-                     style="background-image: url('https://flagsapi.com/BE/flat/64.png');"
-                ></div>
-
-                <div class="d-inline-block my-auto">
-                    <span class="h3 fw-bold" id="name">Haytam Bakouane</span>
-                    <span class="text-muted">(<span id="age">23</span>yo)</span>
-                </div>
-
-                <div class="text-end d-inline-block close-btn" onclick="closeStudentCard()">
-                    <i class="fa fa-times"></i>
-                </div>
-                </p>
-
-                <div>
-                    <div class="col-md-12 questions rounded p-3 pb-2">
-                        <div class="row" id="qas">
-                            <div class="bg-light col-md-6 p-3 qa rounded">
-                                <p class="fw-bold small">#1: Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum?</p>
-                                <p class="small">
-                                    Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum
-                                    ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum
-                                    ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('_partials.questions.card')
 
         <script>
         let card = document.querySelector('.single-student-card')
