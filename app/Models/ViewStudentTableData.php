@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ViewStudentTableData extends Model
 {
     use HasFactory;
-    
+
     public $table = 'view_student_table';
 }
