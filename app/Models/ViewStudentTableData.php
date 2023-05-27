@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ViewStudentTableData extends Model
 {
     use HasFactory;
-
-    // TODO: Change the SQL view name
-    public $table = 'view_questions';
+    
+    public $table = 'view_student_table';
 }

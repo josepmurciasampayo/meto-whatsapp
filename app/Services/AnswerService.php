@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\QuestionFormat;
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AnswerService
@@ -42,9 +43,13 @@ class AnswerService
                 break;
             case QuestionFormat::CHECKBOX():
                 $existing->text = implode(',', array_keys($input));
+                $responses = Response::select('text')->whereIn('id', array_keys($input))->get()->pluck('text')->toArray();
+                $existing->text_expanded = implode(", ", $responses);
                 break;
             case QuestionFormat::COUNTRY_CHECKBOX():
                 $existing->text = implode(',', $input);
+                $responses = Response::select('text')->whereIn('id', $input)->get()->pluck('text')->toArray();
+                $existing->text_expanded = implode(", ", $responses);
                 break;
             default:
 

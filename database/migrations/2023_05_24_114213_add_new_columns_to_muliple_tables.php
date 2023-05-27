@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedTinyInteger('consent')->default(\App\Enums\General\YesNo::NO());
-            $table->unsignedTinyInteger('invite_sent')->default(\App\Enums\General\YesNo::NO());
         });
 
         Schema::table('answers', function (Blueprint $table) {
@@ -26,7 +25,6 @@ return new class extends Migration
             $table->unsignedMediumInteger('academic_min')->nullable();
             $table->string('undergrad_url', 500)->nullable();
         });
-
     }
 
     /**
