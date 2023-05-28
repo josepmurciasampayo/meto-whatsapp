@@ -17,7 +17,6 @@ Route::middleware(['auth', 'consent', 'university'])->group(function () {
     Route::post('/uni-location', [\App\Http\Controllers\UniController::class, 'locationStore'])->name('uni.location.store');
     Route::get('/uni-efc', [\App\Http\Controllers\UniController::class, 'efc'])->name('uni.efc');
     Route::post('/uni-efc', [\App\Http\Controllers\UniController::class, 'efcStore'])->name('uni.efc.store');
-    Route::get('/uni-home', [\App\Http\Controllers\UniController::class, 'home'])->name('uni.home');
     Route::get('/uni-mingrade', [\App\Http\Controllers\UniController::class, 'mingrade'])->name('uni.mingrade');
     Route::post('/uni-mingrade', [\App\Http\Controllers\UniController::class, 'mingradeStore'])->name('uni.mingrade.store');
     Route::get('/uni-myprofile', [\App\Http\Controllers\UniController::class, 'myProfile'])->name('uni.myprofile');
