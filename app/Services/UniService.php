@@ -42,10 +42,13 @@ class UniService
         return User::whereIn('id', array_column($ids, 'user_id'))->get();
    }
 
-   public static function getStudentTableData(int $uni_id, array $statuses = null)
+   public static function getStudentTableData(int $uni_id, array $statuses = null): Builder
    {
-        // TODO: Get the right data
-        return ViewStudentTableData::paginate(10);
+       if ($statuses) {
+            return ViewStudentTableData::where('institution_id', $uni_id);
+       } else {
+            return ViewStudentTableData::where('institution_id', $uni_id)->whereIn('status', $statuses);
+       }
    }
 
 }

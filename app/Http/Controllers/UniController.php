@@ -126,12 +126,12 @@ class UniController extends Controller
         $uni = Auth::user()->getUni();
         $uni->academic_min = $request->input('efc');
         $uni->save();
-        return redirect(route('uni.home'));
+        return redirect(route('uni.homepage'));
     }
 
     public function home(): View
     {
-        return view('uni.home');
+        return view('uni.homepage');
     }
 
     public function myProfile(): View

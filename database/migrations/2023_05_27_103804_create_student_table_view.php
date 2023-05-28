@@ -34,10 +34,15 @@ return new class extends Migration
             concat("ACT: ", ifnull(act.text, "-"), " TOEFL: ", ifnull(toefl.text, "-"), " iELTS: ", ifnull(ielts.text, "0")) as other_scores,
             affiliations.text as affiliations_text,
             refugee.text as refugee_text,
-            disability.text_expanded as disability
+            disability.text_expanded as disability,
+            connection.institution_id,
+            connection.status_application,
+            connection.status_enrollment,
+            connection.status
 
             from meto_users as u
             join meto_students as s on s.user_id = u.id
+
             left outer join meto_answers as efc on efc.question_id = 244 and efc.student_id = s.id
             left outer join meto_answers as countryHS on countryHS.question_id = 104 and countryHS.student_id = s.id
             left outer join meto_answers as curriculum on curriculum.question_id = 318 and curriculum.student_id = s.id
@@ -54,6 +59,9 @@ return new class extends Migration
             left outer join meto_answers as affiliations on affiliations.question_id = 164 and affiliations.student_id = s.id
             left outer join meto_answers as refugee on refugee.question_id = 285 and refugee.student_id = s.id
             left outer join meto_answers as disability on disability.question_id = 308 and disability.student_id = s.id
+
+            left outer join meto_student_universities as connection on connection.student_id = s.id
+
             where curriculum.text is not null and efc.text is not null;
         ');
     }
