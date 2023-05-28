@@ -30,8 +30,37 @@
             <span class="info">(qid=34+qid=36+qid=38+qid=35+qid=33+qid=37 +qid=459 ) ___ / 45</span>
         </p>
     @endif
-    <!-- TODO: Complete column IB for line 10 -->
 
+    <p class="detail">
+        <span class="label">qid=131 (qid=6):</span>
+        <br />
+        <span class="info">qid=34</span>
+    </p>
+    <p class="detail">
+        <span class="label">qid=149 (qid=8):</span>
+        <br />
+        <span class="info">qid=36</span>
+    </p>
+    <p class="detail">
+        <span class="label">qid=156 (qid=10):</span>
+        <br />
+        <span class="info">qid=38</span>
+    </p>
+    <p class="detail">
+        <span class="label">qid=133 (qid=7):</span>
+        <br />
+        <span class="info">qid=35</span>
+    </p>
+    <p class="detail">
+        <span class="label">qid=129 (qid=5):</span>
+        <br />
+        <span class="info">qid=33</span>
+    </p>
+    <p class="detail">
+        <span class="label">qid=153 (qid=9):</span>
+        <br />
+        <span class="info">qid=37</span>
+    </p>
 @elseif(false) <!-- Cambridge -->
     <p class="detail">
         <span class="label">Score Description:</span>
