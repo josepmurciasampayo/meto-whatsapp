@@ -24,13 +24,14 @@ class Institution extends Model
         'country',
         'url',
         'google_id',
-        'efc'
+        'efc',
+        'min_grade_score'
     ];
 
     public static function getByUserID(int $user_id): Institution
     {
         $institution = Institution::where('user_id', $user_id)->first();
-        
+
         return Institution::find($institution->institution_id);
     }
 }
