@@ -5,7 +5,6 @@ namespace App\Enums;
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
 enum QuestionFormat: int
-
 {
     use InvokableCases, Options, Values, Names, Strings;
 

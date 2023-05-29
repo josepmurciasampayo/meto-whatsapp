@@ -216,7 +216,7 @@ class UniController extends Controller
     public function update(Request $request): RedirectResponse
     {
         switch ($request->input('action')) {
-            case 0: // simple store
+            case 1: // simple store
                 $uni = Institution::find($request->input('uni_id'));
                 $uni->name = $request->input('uniName');
                 $uni->type = $request->input('type');
@@ -232,17 +232,24 @@ class UniController extends Controller
                     $user->title = $userData['title'];
                     $user->save();
                 }
+
                 break;
 
             case 3: // add user
                 $user = new User();
-                $user->email = Str::random(4);
+                $user->first = $request->input('first');
+                $user->last = $request->input('last');
+                $user->email = $request->input('email');
+                $user->title = $request->input('title');
+                $user->role = Role::INSTITUTION();
                 $user->save();
 
+                $uni = Institution::find($request->input('uni_id'));
                 $join = new UserInstitution();
                 $join->user_id = $user->id;
-                $join->institution_id = $request->input('uni_id');
+                $join->institution_id = $uni->id;
                 $join->save();
+
                 break;
 
             case 4: // delete user

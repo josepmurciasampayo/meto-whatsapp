@@ -39,7 +39,7 @@ final class StudentTableArchived extends PowerGridComponent
     public function datasource(): Builder
     {
         $uni = Auth()->user()->getUni();
-        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::ARCHIVED]);
+        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::ARCHIVED()]);
     }
 
     /**

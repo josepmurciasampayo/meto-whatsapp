@@ -6,6 +6,7 @@ use App\Enums\General\MatchStudentInstitution;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
+use App\Services\UniService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
@@ -37,11 +38,8 @@ final class StudentTableMaybe extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Student::query()
-            ->whereHas('connection', function ($query) {
-                $query->where('institution_id', auth()->id())
-                    ->where('status', MatchStudentInstitution::MAYBE);
-            });
+        $uni = Auth()->user()->getUni();
+        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::MAYBE()]);
     }
 
     /**
