@@ -33,7 +33,7 @@
                     </x-button>
                 </div>
                 <div class="flex align-items-center justify-center mt-6 text-xs">
-                    <p>Don't have a Meto account?</p>
+                    <p>Don't have a {{ config('app.name') }} account?</p>
                     <span class="mx-2"></span>
                     <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50"><i class="fas fa-user-plus"></i> Create an Account</x-button-nav>
 

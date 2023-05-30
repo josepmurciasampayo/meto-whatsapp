@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\Student\Curriculum;
 use App\Models\Answer;
+use App\Models\Equivalency;
 use App\Models\Question;
 use App\Models\Student;
 use App\Models\User;
@@ -169,5 +170,13 @@ class EquivalencyService
         switch ($curriculum) {
 
         }
+    }
+
+    public function getPercentile(Curriculum $curriculum, int $scoreType, string $score): int
+    {
+        return Equivalency::where('curriculum', $curriculum())->
+            where('score_type', $scoreType)->
+            where('score', $score)->
+            first()?->percentile;
     }
 }

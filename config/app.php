@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
-
-    'name' => "Meto",
+    'name' => "Mētō",
     'env' => env('APP_ENV', 'production'),
     'debug' => (bool) env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost'),

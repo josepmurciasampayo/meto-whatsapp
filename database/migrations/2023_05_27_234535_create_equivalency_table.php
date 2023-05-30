@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('equivalency')->default(\App\Enums\General\YesNo::NO())->comment(\App\Enums\General\YesNo::toString());
         });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('students', function (Blueprint $table) {
             $table->unsignedSmallInteger('equivalency')->nullable();
         });
     }
