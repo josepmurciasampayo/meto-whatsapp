@@ -226,6 +226,7 @@ class UniController extends Controller
                 $uni->name = $request->input('uniName');
                 $uni->type = $request->input('type');
                 $uni->efc = $request->input('efc');
+                $uni->min_grade_score = $request->input('min_grade_score');
                 $uni->connections = $request->input('connections');
                 $uni->save();
 

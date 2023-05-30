@@ -14,6 +14,7 @@
         <x-inputs.text saved="{{ $uni->city }}" label="City" name="city"></x-inputs.text>
 
         <x-inputs.text saved="{{ $uni->efc }}" label="Minimum EFC" name="efc"></x-inputs.text>
+        <x-inputs.text saved="{{ $uni->min_grade_score }}" label="Minimum grade score" name="min_grade_score"></x-inputs.text>
         <x-inputs.text saved="{{ $uni->connections }}" label="Connection Count" name="connections"></x-inputs.text>
 
         <hr class="my-5">
