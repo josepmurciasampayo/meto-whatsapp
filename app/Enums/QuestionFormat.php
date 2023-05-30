@@ -37,6 +37,7 @@ enum QuestionFormat: int
     public static function getText(self $value): string
     {
         return match ($value) {
+            self::NOTSET => "Not Set",
             self::INPUT => 'Text',
             self::SELECT => 'Select',
             self::RADIO => 'Radio',
