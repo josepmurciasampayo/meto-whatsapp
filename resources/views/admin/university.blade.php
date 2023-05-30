@@ -1,9 +1,9 @@
 <x-app-layout>
     <h3 class="display-7 mt-5 flex justify-center">Edit University Account</h3>
-    <form class="w-50" method="POST" action="{{ route('uni.update') }}">
+    <form id="uni" class="w-50" method="POST" action="{{ route('uni.update') }}">
         <input type="hidden" name="uni_id" value="{{ $uni->id }}">
         <input type="hidden" name="userToDelete" id="userToDelete" value="0">
-        <input type="hidden" name="action" id="action" value="0">
+        <input type="hidden" name="action" id="action" value="1">
         @csrf
         <x-inputs.text saved="{{ $uni->name }}" label="University Name" name="uniName"></x-inputs.text>
         <x-inputs.select saved="{{ $uni->type }}" label="Type" name="type" :options="\App\Enums\Institution\Type::descriptions()"></x-inputs.select>
@@ -26,30 +26,35 @@
                 <x-inputs.text saved="{{ $email }}" label="Email Address" name="user[{{ $user->id }}][email]"></x-inputs.text>
                 <x-inputs.text saved="{{ $user->title }}" label="Title" name="user[{{ $user->id }}][title]"></x-inputs.text>
                 <div class="text-end">
-                    <x-button type="button" onclick="deleteUser({{ $user->id }})">Delete</x-button>
+                    <x-button type="button" onclick="deleteUser({{ $user->id }})">Delete User</x-button>
                 </div>
             </div>
         @endforeach
-
         <div class="mt-3 text-end">
-            <x-button type="button" onclick="addUser()">Add User</x-button>
-
-                <x-button>Submit</x-button>
-
+            <x-button type="button" onclick="document.getElementById('addUser').classList.remove('d-none')">Add User</x-button>
+            <x-button>Submit University Updates</x-button>
         </div>
-
-        <script type="text/javascript">
-            function addUser() {
-                document.getElementById('action').value = 3;
-                document.forms[0].submit();
-            }
-
-            function deleteUser(id) {
-                document.getElementById('action').value = 4;
-                document.getElementById('userToDelete').value = id;
-                document.forms[0].submit();
-            }
-        </script>
-
     </form>
+
+    <form id="addUser" class="w-50 d-none" method="POST" action="{{ route('uni.update') }}">
+        <input type="hidden" name="action" id="action" value="3">
+        <input type="hidden" name="uni_id" value="{{ $uni->id }}">
+        @csrf
+        <x-inputs.text label="First Name" name="first"></x-inputs.text>
+        <x-inputs.text label="Last Name" name="last"></x-inputs.text>
+        <x-inputs.text label="Email Address" name="email"></x-inputs.text>
+        <x-inputs.text label="Title" name="title"></x-inputs.text>
+        <div class="text-end">
+            <x-button>Submit New User</x-button>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        function deleteUser(id) {
+            document.getElementById('action').value = 4;
+            document.getElementById('userToDelete').value = id;
+            document.forms[0].submit();
+        }
+    </script>
+
 </x-app-layout>

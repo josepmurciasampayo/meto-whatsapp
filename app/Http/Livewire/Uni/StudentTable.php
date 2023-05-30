@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Uni;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
+use App\Models\ViewStudentTableData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
@@ -47,15 +48,8 @@ final class StudentTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        $data = Student::query()
-            ->whereDoesntHave('connection', function ($query) {
-                $query->where('institution_id', auth()->id());
-            });
-        foreach($data as $row) {
-
-        }
-
-        return $result;
+        return ViewStudentTableData::query()
+            ->whereNull('status');
     }
 
     /**

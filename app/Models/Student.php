@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EnumGroup;
+use App\Enums\Student\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -133,5 +134,15 @@ class Student extends Model
     {
         $ids = Helpers::dbQueryArray('select student_id from meto_student_universities where institution_id = ' . $uni_id);
 
+    }
+
+    public function curriculum(): ?Curriculum
+    {
+        return Curriculum::tryFrom(
+            Answer::where('student_id', $this->id)
+            ->where('question_id', \App\Enums\Question::CURRICULUM())
+            ->first()
+            ->response_id
+        );
     }
 }

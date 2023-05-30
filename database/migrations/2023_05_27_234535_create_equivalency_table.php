@@ -16,17 +16,18 @@ return new class extends Migration
         Schema::create('equivalency', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('curriculum_id');
-            $table->unsignedSmallInteger('question_id')->nullable();
-            $table->string('question_ids_json')->nullable();
-            $table->unsignedSmallInteger('response_id');
+            $table->unsignedTinyInteger('score_type')->comment(\App\Enums\ScoreType::toString());
             $table->unsignedSmallInteger('score');
             $table->unsignedTinyInteger('percentile');
-            $table->unsignedTinyInteger('band');
             $table->timestamps();
         });
 
         Schema::table('questions', function (Blueprint $table) {
-            
+            $table->unsignedTinyInteger('equivalency')->default(\App\Enums\General\YesNo::NO())->comment(\App\Enums\General\YesNo::toString());
+        });
+
+        Schema::table('students', function (Blueprint $table) {
+            $table->unsignedSmallInteger('equivalency')->nullable();
         });
     }
 

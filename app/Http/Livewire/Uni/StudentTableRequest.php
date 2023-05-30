@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Uni;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
+use App\Services\UniService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
@@ -37,11 +38,8 @@ final class StudentTableRequest extends PowerGridComponent
      */
     public function datasource()
     {
-        return Student::query()
-            ->whereHas('connection', function ($query) {
-                $query->where('institution_id', auth()->id())
-                    ->where('status', MatchStudentInstitution::REQUEST);
-            });
+        $uni = Auth()->user()->getUni();
+        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::REQUEST()]);
     }
 
     /**
