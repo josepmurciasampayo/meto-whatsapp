@@ -5,33 +5,17 @@
         alt=""
         text=""/>
 
-        <form method="POST" action="{{ route('uni.mingrade.store') }}" class="text-center">
-            @csrf
-
-            @php
-                $options = \App\Enums\Student\Curriculum::getSchoolChoices();
-                if (in_array($other = \App\Enums\Student\Curriculum::OTHER(), array_keys($options))) {
-                    unset($options[$other]);
-                }
-            @endphp
-
-            <h3 class="display-7 mb-4 mt-6">What are the approximate grades for the lowest performing admitted students?
-                Please select minimum grades from one of the following curricula.</h3>
-            @error('efc')
-                <p class="text-danger">{{ $message }}</p>
-            @enderror
-            <x-inputs.radio :options="$options"
-                     help="Meto will use this to show you academically relevant students across curricula (e.g. if you select
-                     a “B” in Cambridge curriculum for minimum grades, you will see all students with “B” or better grades
-                      in Cambridge and equivalent grades across all curricula on Meto’s database). You are welcome to change this later." name="efc"></x-inputs.radio>
-                      <x-button-navigation/>
-        </form>
+        @livewire('uni.questions.min-grade-form')
 
         <script>
             setTimeout(() => {
+                document.querySelector("#efc[9]")
+                document.querySelector('mingrade_score')
                 let input = $("input[name='efc']");
+                let scoreInput = $('[name="mingrade_score"]');
                 input.on('change', () => {
                     // Change the min_grade score list
+                    console.log()
                 })
             }, 300);
         </script>

@@ -108,7 +108,8 @@ class UniController extends Controller
     public function efcStore(UniEfcRequest $request): RedirectResponse
     {
         $uni = Auth::user()->getUni();
-        $uni->efc = $request->input('efc');
+        $uni->efc = $this->option;
+        $uni->min_grade_score = $this->selectedScoreOption;
         $uni->save();
 
         return redirect(route('uni.mingrade'));
