@@ -123,10 +123,14 @@ class UniController extends Controller
 
     public function mingradeStore(Request $request): RedirectResponse
     {
+        $request->validate([
+            'efc' => 'required'
+        ]);
+
         $uni = Auth::user()->getUni();
         $uni->academic_min = $request->input('efc');
         $uni->save();
-        return redirect(route('uni.homepage'));
+        return redirect(route('home'));
     }
 
     public function home(): View

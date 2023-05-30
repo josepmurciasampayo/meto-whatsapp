@@ -17,6 +17,9 @@
 
             <h3 class="display-7 mb-4 mt-6">What are the approximate grades for the lowest performing admitted students?
                 Please select minimum grades from one of the following curricula.</h3>
+            @error('efc')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
             <x-inputs.radio :options="$options"
                      help="Meto will use this to show you academically relevant students across curricula (e.g. if you select
                      a “B” in Cambridge curriculum for minimum grades, you will see all students with “B” or better grades
