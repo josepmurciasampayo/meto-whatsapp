@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\ScoreType;
 use App\Enums\Student\Curriculum;
 use App\Models\Answer;
 use App\Models\Equivalency;
-use App\Models\Question;
 use App\Models\Student;
 use App\Models\User;
 
@@ -43,15 +43,22 @@ class EquivalencyService
 
     public function updateIB(Student $student): void
     {
-        $is_final = Answer::where('student_id', $student->id)
+        $scoreType = match(
+            Answer::where('student_id', $student->id)
             ->where('question_id', 457)
             ->first()
-            ->response_id == 5924; // Final Grade response
-        $question_ids = ($is_final) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
+            ->response_id) {
+            5924 => ScoreType::IBFINAL,
+            5925 => ScoreType::IBPREDICTED,
+            5926 => ScoreType::IBSEMESTER,
+        };
+        $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
+
         $answers = Answer::where('student_id', $student->id)
             ->whereIn('question_id', $question_ids)
             ->get();
         $total = 0;
+
         foreach ($answers as $answer) {
             if (is_null($answer->response_id)) {
                 return;
@@ -59,12 +66,21 @@ class EquivalencyService
             $total += $answer->text;
         }
 
-        $student->equivalency = $this->getEquivalent(Curriculum::IB, $total);
+        $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
         $student->save();
     }
 
     public function updateCambridge(Student $student): void
     {
+        $scoreType = match(
+        Answer::where('student_id', $student->id)
+            ->where('question_id', 460)
+            ->first()
+            ->response_id) {
+            5914 => ScoreType::CAMFINAL,
+            5915 => ScoreType::CAMPREDICTED,
+            5916 => ScoreType::CAMAS,
+        };
         $question_ids = [168, 169, 170];
         $answers = Answer::where('student_id', $student->id)
             ->whereIn('question_id', $question_ids)
@@ -77,80 +93,142 @@ class EquivalencyService
             $final += $answer->text;
         }
 
-        $student->equivalency = $this->getEquivalent(Curriculum::CAMBRIDGE, $final);
+        $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
         $student->save();
     }
 
     public function updateAmerican(Student $student): void
     {
-        $is_weighted = Answer::where('student_id', $student->id)
-                ->where('question_id', 457)
-                ->first()
-                ->response_id == 5909; // Final Grade response
+        $weighted = Answer::where('student_id', $student->id)
+            ->where('question_id', 452)
+            ->first()
+            ->response_id == 5909;
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
+        if ($senior) {
+            $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
+            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $senior);
+            $student->save();
+            return;
+        }
         $junior = Answer::where('student_id', $student->id)
             ->where('question_id', 143)
             ->first()
             ?->test;
-
-        if ($senior || $junior) {
-            $student->equivalency = $this->getEquivalent(Curriculum::AMERICAN, $senior ?? $junior, $is_weighted);
+        if ($junior) {
+            $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
+            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
             $student->save();
         }
     }
 
     public function updateRwandan(Student $student): void
     {
-        $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', [343, 341, 336, 335])
-            ->get();
+        $finalA = Answer::where('student_id', $student->id)
+            ->where('question_id', 343)
+            ->first()
+            ->text;
+        if ($finalA) {
+            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALA, $finalA);
+            $student->save();
+            return;
+        }
 
-        $score = null;
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 373)
+            ->first()
+            ->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANMOCKA, $mock);
+            $student->save();
+            return;
+        }
 
-        foreach ($answers as $answer) {
-            if ($answer->text) {
-                $student->equivalency = $this->getEquivalent(Curriculum::RWANDAN, $score);
-                $student->save();
-                return;
-            }
+        $finalOnew = Answer::where('student_id', $student->id)
+            ->where('question_id', 373)
+            ->first()
+            ->text;
+        if ($finalOnew) {
+            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALON, $finalOnew);
+            $student->save();
+            return;
+        }
+
+        $finalOold = Answer::where('student_id', $student->id)
+            ->where('question_id', 255)
+            ->first()
+            ->text;
+        if ($finalOold) {
+            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALOO, $finalOold);
+            $student->save();
         }
     }
 
     public function updateKenyan(Student $student): void
     {
-        $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', [375, 255])
-            ->get();
+        $kcse = Answer::where('student_id', $student->id)
+            ->where('question_id', 375)
+            ->first()
+            ->text;
+        if ($kcse) {
+            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENFINAL, $kcse);
+            $student->save();
+            return;
+        }
 
-        $score = null;
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 373)
+            ->first()
+            ->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENMOCK, $mock);
+            $student->save();
+            return;
+        }
 
-        foreach ($answers as $answer) {
-            if ($answer->text) {
-                $student->equivalency = $this->getEquivalent(Curriculum::UGANDAN, $score);
-                $student->save();
-                return;
-            }
+        $kcpe = Answer::where('student_id', $student->id)
+            ->where('question_id', 255)
+            ->first()
+            ->text;
+        if ($kcpe) {
+            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENKCPE, $kcpe);
+            $student->save();
         }
     }
 
     public function updateUgandan(Student $student): void
     {
-        $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', [378, 76, 126])
-            ->get();
-
-        $score = null;
-
-        foreach ($answers as $answer) {
-            if ($answer->text) {
-                $student->equivalency = $this->getEquivalent(Curriculum::RWANDAN, $score);
-                $student->save();
-                return;
-            }
+        $finalA = Answer::where('student_id', $student->id)
+            ->where('question_id', 378)
+            ->first()
+            ->text;
+        if ($finalA) {
+            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANFINALA, $finalA);
+            $student->save();
+            return;
         }
+
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 76)
+            ->first()
+            ->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANMOCK, $mock);
+            $student->save();
+            return;
+        }
+
+        $finalO = Answer::where('student_id', $student->id)
+            ->where('question_id', 126)
+            ->first()
+            ->text;
+        if ($finalO) {
+            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANFINALO, $finalO);
+            $student->save();
+        }
+
     }
 
     public function updateNational(Student $student): void
@@ -160,22 +238,15 @@ class EquivalencyService
             ->first();
 
         if ($answer->text) {
-            $student->equivalency = $this->getEquivalent(Curriculum::NATIONAL, $answer->text);
+            $student->equivalency = $this->getPercentile(Curriculum::NATIONAL, ScoreType::OTHERLEAVING, $answer->text);
             $student->save();
         }
     }
 
-    public function getEquivalent(Curriculum $curriculum, string $score, int $score_type): array
-    {
-        switch ($curriculum) {
-
-        }
-    }
-
-    public function getPercentile(Curriculum $curriculum, int $scoreType, string $score): int
+    public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int
     {
         return Equivalency::where('curriculum', $curriculum())->
-            where('score_type', $scoreType)->
+            where('score_type', $scoreType())->
             where('score', $score)->
             first()?->percentile;
     }

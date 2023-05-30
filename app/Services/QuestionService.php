@@ -154,6 +154,7 @@ class QuestionService
         $question->type = $request->input('category');
         $question->help = $request->input('help');
         $question->required = $request->input('required');
+        $question->equivalency = $request->input('equivalency');
         $question->status = $request->input('active');
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
         $question->notes = $request->input('notes');

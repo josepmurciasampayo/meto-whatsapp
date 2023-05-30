@@ -21,6 +21,7 @@
         <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
         <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
         <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
+        <x-inputs.radio label="Equivalency" :options="$yes" name="equivalency" saved="{!! $question->equivalency !!}"></x-inputs.radio>
         <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
         <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
 
