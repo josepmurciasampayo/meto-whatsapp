@@ -115,6 +115,7 @@ class QuestionService
                 q.type,
                 q.format,
                 q.required,
+                q.equivalency,
                 `order`,
                 q.' . Curriculum::TRANSFER() . ',
                 q.' . Curriculum::KENYAN() . ',

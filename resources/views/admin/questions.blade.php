@@ -28,6 +28,7 @@
             <th>Order</th>
             <th>In Use</th>
             <th>Required</th>
+            <th>Equivalency</th>
             <th>Answers</th>
         </tr>
         </thead>
@@ -40,6 +41,7 @@
             <th>Order</th>
             <th>In Use</th>
             <th>Required</th>
+            <th>Equivalency</th>
             <th>Answers</th>
         </tr>
         </tfoot>
@@ -50,11 +52,12 @@
                 @php $id = $row['id'] @endphp
                 <input type="hidden" name="id" id="id" value="{{ $id }}">
                 <td><a target="_blank" href="{{ route('question', ['id' => $id]) }}"><?php echo $row['text'] ?></a></td>
-                <td><?php echo $type[$row['type']] ?></td>
+                <td><?php echo '3' ?></td>
                 <td><?php echo $format[$row['format']] ?></td>
                 <td><?php echo $row['order'] ?></td>
                 <td><?php echo $active[$row['status']] ?></td>
                 <td><?php echo $yesNo[$row['required']] ?></td>
+                <td><?php echo $yesNo[$row['equivalency']] ?></td>
                 <td><a href="{{ route('answers', ['question_id' => $id]) }}">{{ $row['count'] }}</a></td>
             </tr>
         @endforeach
