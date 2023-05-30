@@ -4,8 +4,8 @@
     <form method="POST" action="{{ route('remove', ['student_id' => $student_id]) }}">
         @csrf
      <div class="my-4"><x-button type="submit"><i class="fas fa-trash-alt"></i> Remove Student</x-button></div>
-        
-        
+
+
     </form>
     <h2 class="my-2 display-7">Matches: {{ $data[0]['name'] }}</h2>
     <x-button-nav href="#raw" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 px-3 py-2">
@@ -64,11 +64,11 @@
       <?php } ?>
     </div>
     <form id="verify" name="verify" action="{{ route('saveVerify') }}" method="POST">
-    
+
       @csrf
-    
+
       <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
-    
+
       <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="my-4">
           <div class="row">
@@ -83,7 +83,7 @@
                 <?php $off_checked = ($data[0]['verify'] == 0) ? "checked" : ""; ?>
                 <input type="radio" class="btn-check" name="verify" id="verify_on" autocomplete="off" {{ $on_checked }}>
                 <label class="btn btn-outline-success" for="verify_on">Verified</label>
-    
+
                 <input type="radio" class="btn-check" name="verify" id="verify_off" autocomplete="off" {{ $off_checked }}>
                 <label class="btn btn-outline-success" for="verify_off">Not Verified Yet</label>
               </div>
@@ -91,13 +91,13 @@
           </div>
         </div>
       <?php } ?>
-    
+
       <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="my-4">
           <div class="row">
             <div class="col-md-3">
               <x-label for="notes" value="Notes" />
-              <p class="text-xs">Add notes for corrections. Meto staff can view them.
+              <p class="text-xs">Add notes for corrections. {{ config('app.name') }} staff can view them.
             </p>
             </div>
             <div class="col-md-9">
@@ -117,12 +117,12 @@
           </div>
         </div>
       <?php } ?>
-    
+
       <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="text-end p-3">
           <x-button>Submit Request to Meto</x-button>
         </div>
       <?php } ?>
-    
+
 
 </x-app-layout>

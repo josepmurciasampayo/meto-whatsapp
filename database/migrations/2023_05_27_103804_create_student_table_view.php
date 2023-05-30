@@ -20,7 +20,7 @@ return new class extends Migration
             u.id as user_id, s.id as student_id,
             efc.text as efc,
             curriculum.text as curriculum,
-            round(rand() * 100, 0),
+            s.equivalency,
             if(isnull(citizenship_extra.text),
             	  citizenship.text,
             	  concat(citizenship.text, ", ", citizenship_extra.text)
@@ -60,7 +60,7 @@ return new class extends Migration
             left outer join meto_answers as refugee on refugee.question_id = 285 and refugee.student_id = s.id
             left outer join meto_answers as disability on disability.question_id = 308 and disability.student_id = s.id
 
-            left outer join meto_student_universities as connection on connection.student_id = s.id
+            left outer join meto_student_universities as connection on connection.student_id = s.id and connection.institution_id = ' . $uni_id . '
 
             where curriculum.text is not null and efc.text is not null;
         ');

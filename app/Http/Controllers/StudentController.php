@@ -15,6 +15,7 @@ use App\Models\Question;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\AnswerService;
+use App\Services\EquivalencyService;
 use App\Services\QuestionService;
 use App\Services\ResponseService;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -154,7 +155,7 @@ class StudentController extends Controller
         return $this->renderView(QuestionType::GENERAL, Page::GENERAL, $questionService, $responseService, $answerService);
     }
 
-    public function handle(Request $request, AnswerService $answerService): RedirectResponse
+    public function handle(Request $request, AnswerService $answerService, EquivalencyService $equivalencyService): RedirectResponse
     {
         $questionIDs = array();
         foreach ($request->all() as $index => $input) {
@@ -168,6 +169,10 @@ class StudentController extends Controller
                 $answerService->store($question, $request->input($question->id));
             } else {
                 Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->delete();
+            }
+
+            if ($question->equivalency == YesNo::YES()) {
+                $equivalencyService->update(Auth::user());
             }
         }
 
