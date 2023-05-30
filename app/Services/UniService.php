@@ -44,8 +44,8 @@ class UniService
 
    public static function getStudentTableData(int $uni_id, array $statuses = null): Builder
    {
-       if ($statuses) {
-            return UniService::getStudentTableData($uni_id);
+       if (!$statuses) {
+            return ViewStudentTableData::where('institution_id', $uni_id);
        } else {
             return UniService::getStudentTableData($uni_id, $statuses);
        }

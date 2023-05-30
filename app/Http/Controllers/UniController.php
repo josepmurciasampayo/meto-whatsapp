@@ -108,7 +108,8 @@ class UniController extends Controller
     public function efcStore(UniEfcRequest $request): RedirectResponse
     {
         $uni = Auth::user()->getUni();
-        $uni->efc = $request->input('efc');
+        $uni->efc = $this->option;
+        $uni->min_grade_score = $this->selectedScoreOption;
         $uni->save();
 
         return redirect(route('uni.mingrade'));
@@ -123,10 +124,14 @@ class UniController extends Controller
 
     public function mingradeStore(Request $request): RedirectResponse
     {
+        $request->validate([
+            'efc' => 'required'
+        ]);
+
         $uni = Auth::user()->getUni();
         $uni->academic_min = $request->input('efc');
         $uni->save();
-        return redirect(route('uni.homepage'));
+        return redirect(route('home'));
     }
 
     public function home(): View
@@ -221,6 +226,7 @@ class UniController extends Controller
                 $uni->name = $request->input('uniName');
                 $uni->type = $request->input('type');
                 $uni->efc = $request->input('efc');
+                $uni->min_grade_score = $request->input('min_grade_score');
                 $uni->connections = $request->input('connections');
                 $uni->save();
 
