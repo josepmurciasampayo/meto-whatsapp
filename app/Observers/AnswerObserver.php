@@ -7,66 +7,47 @@ use App\Models\Student;
 
 class AnswerObserver
 {
-    /**
-     * Handle the Answer "created" event.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return void
-     */
-    public function created(Answer $answer)
+    public $questions = [
+        /* question ID => question column in the student table */
+        244 => 'efc',
+        104 => 'countryHS',
+        318 => 'curriculum',
+        288 => 'citizenship',
+        290 => 'citizenship_extra',
+        13 => 'track',
+        260 => 'destination',
+        271 => 'gender',
+        44 => 'ranking',
+        69 => 'det',
+        67 => 'act',
+        73 => 'toefl',
+        70 => 'ielts',
+        164 => 'affiliations',
+        285 => 'refugee',
+        308 => 'disability',
+        275 => 'dob',
+        296 => 'email_owner',
+        312 => 'submission_device',
+        283 => 'birth_city',
+        281 => 'birth_country',
+    ];
+
+    public function created(Answer $answer): void
     {
-        //
+        if (in_array($answer->question_id, array_keys($this->questions))) {
+            $answer->student->update([
+                $this->questions[$answer->question_id] => $answer->expanded_text ?? $answer->text
+            ]);
+        }
     }
 
-    /**
-     * Handle the Answer "updated" event.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return void
-     */
-    public function updated(Answer $answer)
+    public function updated(Answer $answer): void
     {
-        $questions = [
-            /* question ID => question column in the student table */
-            244 => 'efc',
-            104 => 'countryHS'
-        ];
-
-        $answer->student->update([
-            $questions[$answer->question_id] => $answer->text
-        ]);
+        if (in_array($answer->question_id, array_keys($this->questions))) {
+            $answer->student->update([
+                $this->questions[$answer->question_id] => $answer->expanded_text ?? $answer->text
+            ]);
+        }
     }
 
-    /**
-     * Handle the Answer "deleted" event.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return void
-     */
-    public function deleted(Answer $answer)
-    {
-        //
-    }
-
-    /**
-     * Handle the Answer "restored" event.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return void
-     */
-    public function restored(Answer $answer)
-    {
-        //
-    }
-
-    /**
-     * Handle the Answer "force deleted" event.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return void
-     */
-    public function forceDeleted(Answer $answer)
-    {
-        //
-    }
 }

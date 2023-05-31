@@ -50,7 +50,6 @@ final class StudentTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $uniId = auth()->user()->getUni()->id;
-        // return UniService::studentTableQuery(Auth::user()->getUni()->id);
 
         return Student::query()
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
@@ -79,16 +78,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name', function (Student $student) {
                 $fullName = e($student->user->getFullName());
-                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$fullName</a>";
-            })
-            ->addColumn('gender', function (Student $student) {
-                return $student->gender ? Gender::descriptions()[$student->gender] : null;
-            })
-            ->addColumn('email', function (Student $student) {
-                return e($student->user->email);
-            })
-            ->addColumn('phone', function (Student $student) {
-                return '+' . e($student->user->phone_combined);
+                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$student->id</a>";
             })
             ->addColumn('efc', function (Student $student) {
                 return e($student->efc);
@@ -96,9 +86,41 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('countryHS', function (Student $student) {
                 return e($student->countryHS);
             })
-            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
-            ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('curriculum', function (Student $student) {
+                return e($student->curriculum);
+            })
+            ->addColumn('track', function (Student $student) {
+                return e($student->track);
+            })
+            ->addColumn('destination', function (Student $student) {
+                return e($student->destination);
+            })
+            ->addColumn('gender', function (Student $student) {
+                return e($student->gender);
+            })
+            ->addColumn('ranking', function (Student $student) {
+                return e($student->ranking);
+            })
+            ->addColumn('det', function (Student $student) {
+                return e($student->det);
+            })
+            ->addColumn('affiliations', function (Student $student) {
+                return e($student->affiliations);
+            })
+            ->addColumn('refugee', function (Student $student) {
+                return e($student->refugee);
+            })
+            ->addColumn('disability', function (Student $student) {
+                return e($student->disability);
+            })
+            ->addColumn('equivalency', function (Student $student) {
+                return e($student->equivalency);
+            })
+            ->addColumn('other testing', function (Student $student) {
+                return e($student->toefl);
+            })
+            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)));
+
     }
 
     /**
@@ -111,19 +133,6 @@ final class StudentTable extends PowerGridComponent
         return [
             Column::make('ID', 'id')
                 ->searchable(),
-
-            Column::make('Name', 'name')
-                ->searchable(),
-
-            Column::make('Gender', 'gender')
-                ->searchable(),
-
-            Column::make('Email', 'email')
-                ->searchable(),
-
-            Column::make('Phone', 'phone')
-                ->searchable(),
-
             Column::make('efc', 'efc')
                 ->searchable(),
 

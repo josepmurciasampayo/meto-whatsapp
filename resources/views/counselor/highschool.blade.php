@@ -46,6 +46,7 @@
 
             <div class="mb-4">
                 <x-label for="country" value="Country" />
+
                 <select class="form-select" id="country" name="country">
                     <option value=""></option>
                     <?php foreach ($countries as $country) { ?>
