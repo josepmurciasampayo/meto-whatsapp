@@ -13,8 +13,14 @@ body {
 input[disabled] {
     background: rgba(128, 128, 128, 0.15) !important;
 }
+input.form-control {
+    border-radius: 6px !important;
+}
 .pointer {
     cursor: pointer;
+}
+.btn-green {
+    background: #1A8754 !important;
 }
 /** End of Utilities */
 
@@ -67,3 +73,6 @@ label.error {
     margin-top: 9px;
 }
 
+#emailModal .modal-dialog {
+    max-width: 60%;
+}
