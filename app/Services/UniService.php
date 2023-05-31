@@ -45,120 +45,121 @@ class UniService
 
    public static function studentTableQuery(int $uni_id, array $statuses = null): Builder
    {
-       return DB::table('meto_users as u')
-           ->join('meto_students as s', 's.user_id', '=', 'u.id')
+       return DB::table('users as u')
+           ->join('students as s', 's.user_id', '=', 'u.id')
 
-           ->leftJoin('meto_answers as efc', function ($join) {
+           ->leftJoin('answers as efc', function ($join) {
                $join->on('efc.question_id', '=', DB::raw(244))
                    ->on('efc.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as countryHS', function ($join) {
+           ->leftJoin('answers as countryHS', function ($join) {
                $join->on('countryHS.question_id', '=', DB::raw(104))
                    ->on('countryHS.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as curriculum', function ($join) {
+           ->leftJoin('answers as curriculum', function ($join) {
                $join->on('curriculum.question_id', '=', DB::raw(318))
                    ->on('curriculum.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as citizenship', function ($join) {
+           ->leftJoin('answers as citizenship', function ($join) {
                $join->on('citizenship.question_id', '=', DB::raw(288))
                    ->on('citizenship.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as citizenship_extra', function ($join) {
+           ->leftJoin('answers as citizenship_extra', function ($join) {
                $join->on('citizenship_extra.question_id', '=', DB::raw(290))
                    ->on('citizenship_extra.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as track', function ($join) {
-               $join->on('track.question_id', '=', DB::raw(13))
-                   ->on('track.student_id', '=', 's.id');
-           })
+//           ->leftJoin('meto_answers as track', function ($join) {
+//               $join->on('track.question_id', '=', DB::raw(13))
+//                   ->on('track.student_id', '=', 's.id');
+//           })
 
-           ->leftJoin('meto_answers as destination', function ($join) {
+           ->leftJoin('answers as destination', function ($join) {
                $join->on('destination.question_id', '=', DB::raw(260))
                    ->on('destination.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as track', function ($join) {
-               $join->on('track.question_id', '=', DB::raw(271))
-                   ->on('track.student_id', '=', 's.id');
-           })
+//           ->leftJoin('meto_answers as track', function ($join) {
+//               $join->on('track.question_id', '=', DB::raw(271))
+//                   ->on('track.student_id', '=', 's.id');
+//           })
 
-           ->leftJoin('meto_answers as gender', function ($join) {
+           ->leftJoin('answers as gender', function ($join) {
                $join->on('gender.question_id', '=', DB::raw(44))
                    ->on('gender.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as det', function ($join) {
+           ->leftJoin('answers as det', function ($join) {
                $join->on('det.question_id', '=', DB::raw(69))
                    ->on('det.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as act', function ($join) {
+           ->leftJoin('answers as act', function ($join) {
                $join->on('act.question_id', '=', DB::raw(67))
                    ->on('act.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as toefl', function ($join) {
+           ->leftJoin('answers as toefl', function ($join) {
                $join->on('toefl.question_id', '=', DB::raw(73))
                    ->on('toefl.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as ielts', function ($join) {
+           ->leftJoin('answers as ielts', function ($join) {
                $join->on('ielts.question_id', '=', DB::raw(70))
                    ->on('ielts.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as affiliations', function ($join) {
+           ->leftJoin('answers as affiliations', function ($join) {
                $join->on('affiliations.question_id', '=', DB::raw(164))
                    ->on('affiliations.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as refugee', function ($join) {
+           ->leftJoin('answers as refugee', function ($join) {
                $join->on('refugee.question_id', '=', DB::raw(285))
                    ->on('refugee.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_answers as disability', function ($join) {
+           ->leftJoin('answers as disability', function ($join) {
                $join->on('disability.question_id', '=', DB::raw(308))
                    ->on('disability.student_id', '=', 's.id');
            })
 
-           ->leftJoin('meto_student_universities as connection', function ($join) use ($uni_id, $statuses) {
+           ->leftJoin('student_universities as connection', function ($join) use ($uni_id, $statuses) {
                $join->on('connection.student_id', '=', 's.id')
                    ->on('connection.institution_id', '=', $uni_id);
                    //->whereIn('connection.status', $statuses);
            })
 
            ->select([
-                'u.id as user_id,',
-                's.id as student_id,',
-                'efc.text as efc,',
-                'curriculum.text as curriculum,',
-                's.equivalency,',
-                'track.text as track,',
-                'destination.text_expanded as destination,',
-                'gender.text as gender,',
-                'affiliations.text as affiliations_text,',
-                'refugee.text as refugee_text,',
-                'disability.text_expanded as disability,',
-                'ranking.text as ranking,',
-                'det.text as det,',
-                'act.text as act,',
+                'u.id as user_id',
+                's.id as student_id',
+                'efc.text as efc',
+                'curriculum.text as curriculum',
+                's.equivalency',
+//                'track.text as track',
+                'destination.text_expanded as destination',
+                'gender.text as gender',
+                'affiliations.text as affiliations_text',
+                'refugee.text as refugee_text',
+                'disability.text_expanded as disability',
+//                'ranking.text as ranking',
+                'det.text as det',
+                'act.text as act',
                 'connection.institution_id',
                 'connection.status_application',
                 'connection.status_enrollment',
                 'connection.status',
-                DB::raw('if(isnull(citizenship_extra.text), citizenship.text, concat(citizenship.text, ", ", citizenship_extra.text)) as citizenship'),
-                DB::raw('concat("ACT: ", ifnull(act.text, "-"), " TOEFL: ", ifnull(toefl.text, "-"), " iELTS: ", ifnull(ielts.text, "-")) as other_scores')
+//                DB::raw('if(isnull(citizenship_extra.text), citizenship.text, concat(citizenship.text, ", ", citizenship_extra.text)) as citizenship'),
+//                DB::raw('concat("ACT: ", ifnull(act.text, "-"), " TOEFL: ", ifnull(toefl.text, "-"), " iELTS: ", ifnull(ielts.text, "-")) as other_scores')
            ])
 
-           ->whereNotNull('curiculum.text')
-           ->whereNotNull('efc.text');
+//           ->whereNotNull('curiculum.text')
+//           ->whereNotNull('efc.text')
+           ;
 
        /*
         $query = '
