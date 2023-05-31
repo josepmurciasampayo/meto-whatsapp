@@ -12,7 +12,7 @@
             @php $checked = ($value == $saved) ? 'checked' : '' @endphp
             @php $required = ($req) ? 'required' : '' @endphp
             <label class="inline-flex items-center" {{ $required }}>
-                <input type="radio" class="form-radio h-4 w-4 text-green-600" {{ $required ? 'required' : null }} id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $value }}" @if($wire) wire:model="{{ $wire }}" @endif {{ $checked }}>
+                <input type="radio" class="form-radio h-4 w-4 text-green-600" {{ $required ? 'required' : null }} id="{{ $name . '[' . $value . ']' }}" name="{{ $name }}" value="{{ $value }}" @if(isset($wire)) wire:model="{{ $wire }}" @endif {{ $checked }}>
                 <span class="ml-2 text-m">{{ $option }}</span>
             </label>
         @endforeach

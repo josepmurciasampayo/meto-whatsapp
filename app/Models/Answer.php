@@ -16,6 +16,14 @@ class Answer extends Model
      * text
      */
 
+    public $fillable = [
+        'question_id',
+        'student_id',
+        'text',
+        'response_id',
+        'text_expanded'
+    ];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);

@@ -284,6 +284,8 @@ class UniController extends Controller
     {
         $items = $request->all();
 
+        $uniId = auth()->user()->getUni()->id;
+
         $decisions = [
             'connect' => [],
             'maybe' => [],
@@ -304,11 +306,11 @@ class UniController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'connect') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST, $uniId);
                 } else if ($action === 'maybe') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE, $uniId);
                 } else if ($action === 'archive') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED, $uniId);
                 }
                 $createdConnections[] = $createdConnection;
             }
@@ -324,11 +326,11 @@ class UniController extends Controller
         return back()->with('response', 'Changes were made successfully.');
     }
 
-    public function createConnection($student, $status, $insitutionId = null)
+    public function createConnection($student, $status, $institutionId)
     {
         return StudentUniversity::create([
             'student_id' => $student->id,
-            'institution_id' => $insitutionId ?? auth()->id(),
+            'institution_id' => $institutionId,
             'status' => $status
         ]);
     }

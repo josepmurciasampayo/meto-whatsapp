@@ -49,7 +49,11 @@ final class StudentTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return UniService::studentTableQuery(Auth::user()->getUni()->id);
+        $uniId = auth()->user()->getUni()->id;
+        // return UniService::studentTableQuery(Auth::user()->getUni()->id);
+
+        return Student::query()
+            ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
     }
 
     /**
@@ -86,6 +90,12 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('phone', function (Student $student) {
                 return '+' . e($student->user->phone_combined);
             })
+            ->addColumn('efc', function (Student $student) {
+                return e($student->efc);
+            })
+            ->addColumn('countryHS', function (Student $student) {
+                return e($student->countryHS);
+            })
             ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -112,6 +122,12 @@ final class StudentTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Phone', 'phone')
+                ->searchable(),
+
+            Column::make('efc', 'efc')
+                ->searchable(),
+
+            Column::make('countryHS', 'countryHS')
                 ->searchable(),
 
             Column::make('Created at', 'created_at')

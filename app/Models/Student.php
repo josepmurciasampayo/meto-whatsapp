@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
+    protected $fillable = [
+        'efc',
+        'countryHS'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

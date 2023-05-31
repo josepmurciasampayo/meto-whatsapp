@@ -43,8 +43,9 @@ class UniService
         return User::whereIn('id', array_column($ids, 'user_id'))->get();
    }
 
-   public static function studentTableQuery(int $uni_id, array $statuses = null): Builder
+   public static function studentTableQuery(int $uni_id, array $statuses = null)
    {
+       return Student::query();
        return DB::table('users as u')
            ->join('students as s', 's.user_id', '=', 'u.id')
 

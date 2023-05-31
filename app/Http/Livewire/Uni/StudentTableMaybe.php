@@ -38,7 +38,15 @@ final class StudentTableMaybe extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return UniService::studentTableQuery(Auth::user()->getUni()->id, [MatchStudentInstitution::MAYBE()]);
+//        return UniService::studentTableQuery(auth()->user()->getUni()->id, [MatchStudentInstitution::MAYBE()]);
+
+        $uniId = auth()->user()->getUni()->id;
+
+        return Student::query()
+            ->whereHas('connection', function ($q) use ($uniId) {
+                return $q->where('institution_id', $uniId)
+                    ->where('status', MatchStudentInstitution::MAYBE);
+            });
     }
 
     /**
