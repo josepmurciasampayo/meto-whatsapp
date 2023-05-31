@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire\Uni\Questions;
 
+use App\Services\EquivalencyService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Enums\Student\Curriculum;
 
 class MinGradeForm extends Component
 {
-    public $options;
+    public $curricula;
 
-    public $option = 9;
+    public $curriculum = 9;
 
     public $scoreOptions = [];
 
@@ -18,14 +19,12 @@ class MinGradeForm extends Component
 
     public function render()
     {
-        $options = Curriculum::getSchoolChoices();
-        if (in_array($other = Curriculum::OTHER(), array_keys($options))) {
-            unset($options[$other]);
-        }
+        $curricula = Curriculum::getSchoolChoices();
+        unset($curricula[$other = Curriculum::OTHER()]);
 
-        $this->options = $options;
-        if ($option = $this->option) {
-            $method = 'get' . $this->options[$option] . 'Curriculum';
+        $this->curricula = $curricula;
+        if ($option = $this->curriculum) {
+            $method = 'get' . $this->curricula[$option] . 'Curriculum';
             $this->scoreOptions = $this->$method();
         }
 
@@ -34,7 +33,7 @@ class MinGradeForm extends Component
 
     protected function rules() {
         return [
-            'option' => 'required',
+            'curriculum' => 'required',
             'selectedScoreOption' => 'required'
         ];
     }
@@ -44,9 +43,10 @@ class MinGradeForm extends Component
         $this->validate();
 
         $uni = Auth::user()->getUni();
-        $uni->academic_min = $this->option;
-        $uni->min_grade_score = $this->scoreOptions[$this->selectedScoreOption];
+        $uni->min_grade_curriculum = $this->curriculum;
+        $uni->min_grade = $this->scoreOptions[$this->selectedScoreOption];
         $uni->save();
+        (new EquivalencyService())->updateUni($uni);
         return redirect(route('home'));
     }
 

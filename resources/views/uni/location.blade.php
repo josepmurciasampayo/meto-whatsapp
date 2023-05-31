@@ -11,20 +11,20 @@
         @error('country')
             <p class="text-danger my-0 py-0">{{ $message }}</p>
         @enderror
-        <x-inputs.select label="Country" name="country" :options="$countries" />
+        <x-inputs.select saved="{{ $uni->country }}" label="Country" name="country" :options="$countries" />
 
         <h3 class="display-7 mb-1 mt-6">State/Province</h3>
         <p class="text-xm">leave blank if not applicable</p>
         @error('state')
             <p class="text-danger my-0 py-0">{{ $message }}</p>
         @enderror
-        <x-inputs.text name="state"></x-inputs.text>
+        <x-inputs.text saved="{{ $uni->state }}" name="state"></x-inputs.text>
 
         <h3 class="display-7 mb-4 mt-6">City</h3>
         @error('city')
             <p class="text-danger my-0 py-0">{{ $message }}</p>
         @enderror
-        <x-inputs.text name="city"></x-inputs.text>
+        <x-inputs.text saved="{{ $uni->city }}" name="city"></x-inputs.text>
 
         <x-button-navigation/>
     </form>

@@ -1,4 +1,5 @@
 <x-app-layout>
+    @php $curricula = \App\Enums\Student\Curriculum::descriptions() @endphp
     <h3 class="display-7 mt-5 flex justify-center">Edit University Account</h3>
     <form id="uni" class="w-50" method="POST" action="{{ route('uni.update') }}">
         <input type="hidden" name="uni_id" value="{{ $uni->id }}">
@@ -14,7 +15,9 @@
         <x-inputs.text saved="{{ $uni->city }}" label="City" name="city"></x-inputs.text>
 
         <x-inputs.text saved="{{ $uni->efc }}" label="Minimum EFC" name="efc"></x-inputs.text>
-        <x-inputs.text saved="{{ $uni->min_grade_score }}" label="Minimum grade score" name="min_grade_score"></x-inputs.text>
+        <x-inputs.select :options="$curricula" saved="{{ $uni->min_grade_curriculum }}" label="Minimum Grade Curriculum" name="min_grade_curriculum"></x-inputs.select>
+        <x-inputs.text saved="{{ $uni->min_grade }}" label="Minimum Grade" name="min_grade"></x-inputs.text>
+        <x-inputs.text saved="{{ $uni->min_grade_equivalency }}" label="Equivalency" name="min_grade_equivalency"></x-inputs.text>
         <x-inputs.text saved="{{ $uni->connections }}" label="Connection Count" name="connections"></x-inputs.text>
 
         <hr class="my-5">
@@ -57,5 +60,4 @@
             document.forms[0].submit();
         }
     </script>
-
 </x-app-layout>

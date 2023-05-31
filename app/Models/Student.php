@@ -138,11 +138,20 @@ class Student extends Model
 
     public function curriculum(): ?Curriculum
     {
-        return Curriculum::tryFrom(
-            Answer::where('student_id', $this->id)
+        $response = Answer::where('student_id', $this->id)
             ->where('question_id', \App\Enums\Question::CURRICULUM())
             ->first()
-            ->response_id
-        );
+            ->response_id;
+
+        return match($response) {
+            46 => Curriculum::CAMBRIDGE,
+            47 => Curriculum::AMERICAN,
+            48 => Curriculum::IB,
+            49 => Curriculum::UGANDAN,
+            50 => Curriculum::KENYAN,
+            51 => Curriculum::RWANDAN,
+            52 => Curriculum::NATIONAL,
+            default => null,
+        };
     }
 }

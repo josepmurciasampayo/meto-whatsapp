@@ -6,8 +6,10 @@ use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
 use App\Models\ViewStudentTableData;
+use App\Services\UniService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
@@ -44,12 +46,10 @@ final class StudentTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\Student>
      */
     public function datasource(): Builder
     {
-        return ViewStudentTableData::query()
-            ->whereNull('status');
+        return UniService::studentTableQuery(Auth::user()->getUni()->id);
     }
 
     /**

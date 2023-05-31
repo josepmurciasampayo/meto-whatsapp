@@ -38,8 +38,7 @@ final class StudentTableMaybe extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        $uni = Auth()->user()->getUni();
-        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::MAYBE()]);
+        return UniService::studentTableQuery(Auth::user()->getUni()->id, [MatchStudentInstitution::MAYBE()]);
     }
 
     /**

@@ -32,6 +32,8 @@ enum ScoreType :int
     case UGANFINALO = 22;
     case OTHERLEAVING = 23;
     case OTHERPREVIOUS = 24;
+    case IBUNI = 25;
+    case CAMUNI = 26;
 
     public static function getText(self $value) :string
     {
@@ -60,6 +62,7 @@ enum ScoreType :int
             self::UGANFINALO => "",
             self::OTHERLEAVING => "",
             self::OTHERPREVIOUS => "",
+            self::IBUNI => "",
         };
     }
 }

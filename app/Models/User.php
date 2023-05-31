@@ -99,6 +99,11 @@ class User extends Authenticatable
         return ($this->role == Role::STUDENT());
     }
 
+    public function student(): ?Student
+    {
+        return Student::where('user_id', $this->id)->first();
+    }
+
     public function student_id(): ?int
     {
         $student = Student::where('user_id', $this->id)->first();

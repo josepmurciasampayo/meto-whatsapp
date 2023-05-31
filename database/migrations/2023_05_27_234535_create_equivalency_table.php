@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedTinyInteger('curriculum_id');
             $table->unsignedTinyInteger('score_type')->comment(\App\Enums\ScoreType::toString());
-            $table->unsignedSmallInteger('score');
+            $table->string('score', 10);
             $table->unsignedTinyInteger('percentile');
             $table->timestamps();
         });

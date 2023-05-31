@@ -38,8 +38,7 @@ final class StudentTableRequest extends PowerGridComponent
      */
     public function datasource()
     {
-        $uni = Auth()->user()->getUni();
-        return UniService::getStudentTableData($uni->id, [MatchStudentInstitution::REQUEST()]);
+        return UniService::studentTableQuery(Auth::user()->getUni()->id, [MatchStudentInstitution::REQUEST()]);
     }
 
     /**

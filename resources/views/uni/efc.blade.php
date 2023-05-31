@@ -11,7 +11,7 @@
                     <p class="text-danger py-0 my-0">Please enter only numbers</p>
                 @enderror
 
-                <x-inputs.text name="efc" help="Example: The cost of attendance (tuition + rooming + food + health insurance + books + misc
+                <x-inputs.text saved="{{ $uni->efc }}" name="efc" help="Example: The cost of attendance (tuition + rooming + food + health insurance + books + misc
                 living expenses) at ABC University is $30,000 annually. The top scholarship offered is $20,000 annually.
                 So, the minimum that a student's family would need to be able to afford is $10,000. In this case,
                 please input 10000 for your answer."></x-inputs.text>

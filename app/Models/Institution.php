@@ -25,8 +25,8 @@ class Institution extends Model
         'url',
         'google_id',
         'efc',
-        'min_grade_score',
-        'academic_min'
+        'min_grade',
+        'min_grade_curriculum',
     ];
 
     public static function getByUserID(int $user_id): Institution

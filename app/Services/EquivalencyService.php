@@ -6,38 +6,35 @@ use App\Enums\ScoreType;
 use App\Enums\Student\Curriculum;
 use App\Models\Answer;
 use App\Models\Equivalency;
+use App\Models\Institution;
 use App\Models\Student;
-use App\Models\User;
 
 class EquivalencyService
 {
-    public function update(User $user): void
+    public function update(Student $student): void
     {
-        $student = $user->student();
         switch ($student->curriculum()) {
-            case Curriculum::IB():
+            case Curriculum::IB:
                 $this->updateIB($student);
                 break;
-            case Curriculum::CAMBRIDGE():
+            case Curriculum::CAMBRIDGE:
                 $this->updateCambridge($student);
                 break;
-            case Curriculum::AMERICAN():
+            case Curriculum::AMERICAN:
                 $this->updateAmerican($student);
                 break;
-            case Curriculum::RWANDAN():
+            case Curriculum::RWANDAN:
                 $this->updateRwandan($student);
                 break;
-            case Curriculum::KENYAN():
+            case Curriculum::KENYAN:
                 $this->updateKenyan($student);
                 break;
-            case Curriculum::UGANDAN():
+            case Curriculum::UGANDAN:
                 $this->updateUgandan($student);
                 break;
-            case Curriculum::NATIONAL():
+            case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
-            default:
-                return;
         }
     }
 
@@ -81,18 +78,19 @@ class EquivalencyService
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
         };
-        $question_ids = [168, 169, 170];
+
         $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', $question_ids)
+            ->whereIn('question_id', [168, 169, 170])
             ->get();
-        $final = "";
+        $final = array();
         foreach ($answers as $answer) {
             if (is_null($answer->response_id)) {
                 return;
             }
-            $final += $answer->text;
+            $final[] = $answer->text;
         }
 
+        $final = implode(null, sort($final));
         $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
         $student->save();
     }
@@ -122,6 +120,7 @@ class EquivalencyService
             $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
             $student->save();
         }
+        dd($student);
     }
 
     public function updateRwandan(Student $student): void
@@ -243,9 +242,29 @@ class EquivalencyService
         }
     }
 
+    public function updateUni(Institution $uni): void
+    {
+        $curriculum = Curriculum::tryFrom($uni->min_grade_curriculum);
+        switch ($curriculum) {
+            case Curriculum::IB:
+                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::IBFINAL, $uni->min_grade);
+                break;
+            case Curriculum::CAMBRIDGE:
+                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::CAMUNI, $uni->min_grade);
+                break;
+            case Curriculum::AMERICAN:
+                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::AMSENIORU, $uni->min_grade);
+                break;
+            case Curriculum::NATIONAL:
+                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $uni->min_grade);
+                break;
+        };
+        $uni->save();
+    }
+
     public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int
     {
-        return Equivalency::where('curriculum', $curriculum())->
+        return Equivalency::where('curriculum_id', $curriculum())->
             where('score_type', $scoreType())->
             where('score', $score)->
             first()?->percentile;
