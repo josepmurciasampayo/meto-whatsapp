@@ -282,6 +282,24 @@ class UniController extends Controller
 
     public function decide(Request $request)
     {
+        if (count($request->all()) === 1) {
+            return redirect()->back();
+        }
+
+        $request->validate([
+            'application_link' => [
+                'bail', 'required', 'url'
+            ],
+            'upcoming_deadline' => [
+                'bail', 'required', 'date',
+                'after:now'
+            ],
+            'upcoming_webinar_events' => [
+                'bail', 'nullable', 'string',
+                'max:200'
+            ]
+        ]);
+
         $items = $request->all();
 
         $uniId = auth()->user()->getUni()->id;
