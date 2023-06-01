@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -24,7 +25,10 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('auth.reset-password', [
+            'request' => $request,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -37,11 +41,24 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request) :RedirectResponse
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $user = Auth::user();
+        if (Auth::user()) {
+            $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required', 'confirmed'],
+            ]);
+
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+
+            return redirect(route('profile'));
+        } else {
+            $request->validate([
+                'token' => ['required'],
+                'email' => ['required', 'email'],
+                'password' => ['required', 'confirmed'],
+            ]);
+        }
 
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
