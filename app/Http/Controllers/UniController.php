@@ -14,6 +14,7 @@ use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
 use App\Models\Question;
 use App\Models\Student;
+use App\Models\StudentDetailView;
 use App\Models\StudentUniversity;
 use App\Models\User;
 use App\Services\UniService;
@@ -364,10 +365,13 @@ class UniController extends Controller
             $answer->question = $question;
         }
 
+        $studentDetails = StudentDetailView::where('student_id', 90)->first();
+        dd($studentDetails);
+
         return response([
             'student' => $student,
             'user' => User::find($student->user_id),
-            'qas' => $answers
+            'qas' => $studentDetails
         ]);
     }
 }
