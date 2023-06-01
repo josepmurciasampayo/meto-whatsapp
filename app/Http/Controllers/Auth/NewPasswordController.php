@@ -42,7 +42,7 @@ class NewPasswordController extends Controller
     public function store(Request $request) :RedirectResponse
     {
         $user = Auth::user();
-        if (Auth::user()) {
+        if ($user) {
             $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required', 'confirmed'],
@@ -51,7 +51,7 @@ class NewPasswordController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            return redirect(route('profile'));
+            return redirect(route('home'));
         } else {
             $request->validate([
                 'token' => ['required'],
