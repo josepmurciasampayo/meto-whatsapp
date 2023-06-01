@@ -35,6 +35,9 @@
                 </div>
 
                 <div class="alert alert-danger d-none" id="errorHolder"></div>
+                <div class="alert alert-success d-none" id="successHolder">
+                    Connections were created successfully.
+                </div>
 
                 <form id="send-connection-form">
                     <div>
@@ -79,9 +82,39 @@
             upcoming_deadline: modalForm.upcoming_deadline.value,
             upcoming_webinar_events: modalForm.upcoming_webinar_events.value
         }
-        console.log(data)
+
+        let inputs = []
+        Object.values(document.querySelector('#decision-form').elements).forEach(el => {
+            if (el) {
+                if ($(el).attr('name') && $(el).attr('name').includes('student_')) {
+                    if (decision = document.querySelector('[name="' + $(el).attr('name') + '"]:checked')) {
+                        let alreadyExists = false
+                        inputs.forEach(input => {
+                            if (Object.keys(input)[0] === $(decision).attr('name')) {
+                                alreadyExists = true
+                            }
+                        })
+
+                        if (!alreadyExists) {
+                            inputs.push({
+                                [$(decision).attr('name')]: $(decision).attr('value')
+                            })
+                        }
+                    }
+                }
+            }
+        });
+
+        inputs.forEach(input => {
+            data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
+        })
+
         axios.post(url, data)
-            .then(res => console.log(res))
+            .then(res => {
+                clearErrors(data)
+                showSuccessAlert()
+                setTimeout(() => window.location.reload(), 700)
+            })
             .catch(err => {
                 let errors = err.response.data.errors
                 let message = err.response.data.message
@@ -101,12 +134,16 @@
     let clearErrors = data => {
         // hide the main errors alert
         document.querySelector('#errorHolder').classList.add('d-none')
-        console.log('clearing errors')
+
         Object.keys(data).forEach(field => {
             let input = document.querySelector('#' + field)
             input.classList.contains('is-invalid')
                 ? input.classList.remove('is-invalid')
                 : null
         })
+    }
+
+    let showSuccessAlert = () => {
+        document.querySelector('#successHolder').classList.remove('d-none')
     }
 </script>
