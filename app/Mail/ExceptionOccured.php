@@ -29,38 +29,12 @@ class ExceptionOccured extends Mailable
      */
     public function build()
     {
-        $emailsTo = str_getcsv(config('exceptions.emailExceptionsTo'), ',');
-        $ccEmails = str_getcsv(config('exceptions.emailExceptionCCto'), ',');
-        $bccEmails = str_getcsv(config('exceptions.emailExceptionBCCto'), ',');
-        $fromSender = config('exceptions.emailExceptionFrom');
         $subject = config('exceptions.emailExceptionSubject') . ' - ' . $this->content['ip'];
 
-        if ($emailsTo[0] === null) {
-            $emailsTo = config('exceptions.emailExceptionsToDefault');
-        }
-
-        if ($ccEmails[0] === null) {
-            $ccEmails = config('exceptions.emailExceptionCCtoDefault');
-        }
-
-        if ($bccEmails[0] === null) {
-            $bccEmails = config('exceptions.emailExceptionBCCtoDefault');
-        }
-
-        if (! $fromSender) {
-            $fromSender = config('exceptions.emailExceptionFromDefault');
-        }
-
-        if (! $subject) {
-            $subject = config('exceptions.emailExceptionSubjectDefault');
-        }
-
-        return $this->from($fromSender)
-            ->to($emailsTo)
-            ->cc($ccEmails)
-            ->bcc($bccEmails)
+        return $this->from('error@meto-intl.org')
+            ->to('gmgarrison@gmail.com')
             ->subject($subject)
-            ->view(config('exceptions.emailExceptionView'))
+            ->view('mail.exception')
             ->with('content', $this->content);
     }
 }
