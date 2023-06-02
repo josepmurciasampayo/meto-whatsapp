@@ -53,16 +53,6 @@ class AdminController extends Controller
         return view('admin.universities', ['data' => $data]);
     }
 
-    public function students(int $highschool_id = null) :View
-    {
-        if ($highschool_id) {
-            $data = Student::getStudentsAtSchool($highschool_id);
-        } else {
-            $data = Student::getAdminData();
-        }
-        return view('admin.students', ['data' => $data]);
-    }
-
     public function workRequest(): View
     {
         return view('admin.workRequest');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\General\YesNo;
 use App\Helpers;
 use App\Models\HighSchool;
+use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -65,5 +66,15 @@ class HighSchoolController extends Controller
         return redirect(route('highschool', [
             'highschool_id' => $new->id,
         ]));
+    }
+
+    public function students(int $highschool_id = null) :View
+    {
+        if ($highschool_id) {
+            $data = Student::getStudentsAtSchool($highschool_id);
+        } else {
+            $data = Student::getAdminData();
+        }
+        return view('admin.students', ['data' => $data]);
     }
 }
