@@ -14,13 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
+        return;
         DB::statement('
         create or replace view view_student_table as
         select
             u.id as user_id, s.id as student_id,
             efc.text as efc,
             curriculum.text as curriculum,
-            s.equivalency,
+            -- s.equivalency,
             if(isnull(citizenship_extra.text),
             	  citizenship.text,
             	  concat(citizenship.text, ", ", citizenship_extra.text)
