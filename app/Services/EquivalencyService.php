@@ -236,7 +236,7 @@ class EquivalencyService
             ->where('question_id', 462)
             ->first();
 
-        if ($answer->text) {
+        if ($answer?->text) {
             $student->equivalency = $this->getPercentile(Curriculum::NATIONAL, ScoreType::OTHERLEAVING, $answer->text);
             $student->save();
         }
@@ -250,7 +250,7 @@ class EquivalencyService
                 $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::IBFINAL, $uni->min_grade);
                 break;
             case Curriculum::CAMBRIDGE:
-                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::CAMUNI, $uni->min_grade);
+                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::CAMFINAL, $uni->min_grade);
                 break;
             case Curriculum::AMERICAN:
                 $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::AMSENIORU, $uni->min_grade);

@@ -14,7 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
+            $table->dropColumn('gender');
             $table->dropColumn('disability');
+        });
+
+        Schema::table('students', function (Blueprint $table) {
             $table->string('curriculum')->change();
             $table->string('efc')->nullable();
             $table->string('countryHS')->nullable();
@@ -28,9 +32,12 @@ return new class extends Migration
             $table->string('act')->nullable();
             $table->string('toefl')->nullable();
             $table->string('ielts')->nullable();
+            $table->string('refugee')->change();
             $table->string('affiliations')->nullable();
-            $table->string('refugee')->nullable();
             $table->renameColumn('disability_raw', 'disability')->nullable();
+            $table->string('submission_device')->change();
+            $table->string('birth_country')->change();
+            $table->string('birth_city')->change();
         });
     }
 
