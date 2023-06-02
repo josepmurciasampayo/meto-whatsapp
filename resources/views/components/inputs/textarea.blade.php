@@ -1,4 +1,4 @@
-@props(['label', 'name', 'help' => false, 'saved' => '', 'disabled' => false, 'req' => false])
+@props(['label' => "", 'name', 'help' => false, 'saved' => '', 'disabled' => false, 'req' => false])
 
 <div class="my-4 p-4 bg-gray-100 rounded-md">
     @php $required = ($req) ? "*" : ""  @endphp
