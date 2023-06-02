@@ -60,8 +60,6 @@ return new class extends Migration
             left outer join meto_answers as refugee on refugee.question_id = 285 and refugee.student_id = s.id
             left outer join meto_answers as disability on disability.question_id = 308 and disability.student_id = s.id
 
-            left outer join meto_student_universities as connection on connection.student_id = s.id and connection.institution_id = ' . $uni_id . '
-
             where curriculum.text is not null and efc.text is not null;
         ');
     }
