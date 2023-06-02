@@ -128,7 +128,7 @@ class EquivalencyService
         $finalA = Answer::where('student_id', $student->id)
             ->where('question_id', 343)
             ->first()
-            ->text;
+            ?->text;
         if ($finalA) {
             $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALA, $finalA);
             $student->save();
