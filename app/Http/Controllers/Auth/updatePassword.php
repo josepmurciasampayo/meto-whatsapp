@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class updatePassword extends Controller
      */
     public function __invoke(Request $request): RedirectResponse
     {
-        $user = Auth::user();
+        $user = User::where('email', $request->input('email'))->first();
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
         return redirect(route('student.profile'));

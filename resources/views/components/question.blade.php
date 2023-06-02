@@ -30,7 +30,7 @@
     @elseif ($question->format === App\Enums\QuestionFormat::EMAIL())
         <x-inputs.email saved="{{ $answer?->text }}" label="{{ $question->text }}" name="{{ $question->id }}" help="{{ $question->help }}" req="{{ $question->required == 1 }}"></x-inputs.email>
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
-        <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" saved="{!! $answer !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.phone>
+        <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" :saved="$answer" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.phone>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())
         <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.number>
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
