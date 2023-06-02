@@ -1,15 +1,10 @@
 @props(['label', 'name', 'help' => false, 'saved' => false, 'req' => false])
 @php
     if ($saved) {
-        if (is_string($saved)) {
-            $saved = explode(',', $saved);
-        } else {
-            $saved = array_values($saved);
-        }
+        $saved = json_decode($saved->text);
 
-        $array = new stdClass();
-        $savedCode = $saved[0];
-        $savedNumber = $saved[1];
+        $savedCode = $saved->code;
+        $savedNumber = $saved->number;
     }
     else {
         $savedCode = $savedNumber = null;
