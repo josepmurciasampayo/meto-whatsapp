@@ -354,24 +354,10 @@ class UniController extends Controller
         ]);
     }
 
-    public function fetchStudent(Request $request, Student $student)
+    public function fetchStudent(Request $request)
     {
-        $student->age = Carbon::parse($student->dob)->diffInYears();
-        $questionIds = [119, 164, 102, 104, 281, 271, 275, 120, 63, 2, 69, 72, 67, 73, 70, 14, 267, 257, 99, 114, 292, 285, 308];
-        $answers = \App\Models\Answer::where('student_id', $student->id)->whereIn('question_id', $questionIds)->get();
-
-        foreach ($answers as $answer) {
-            $question = Question::find($answer->question_id);
-            $answer->question = $question;
-        }
-
-        $studentDetails = StudentDetailView::where('student_id', 90)->first();
-        dd($studentDetails);
-
         return response([
-            'student' => $student,
-            'user' => User::find($student->user_id),
-            'qas' => $studentDetails
+            'data' =>  StudentDetailView::where('student_id', $request->input('student_id'))->first()
         ]);
     }
 }

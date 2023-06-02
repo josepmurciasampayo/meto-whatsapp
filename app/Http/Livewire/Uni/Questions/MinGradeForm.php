@@ -65,12 +65,13 @@ class MinGradeForm extends Component
     public function getCambridgeCurriculum()
     {
         return [
-            'A*',
-            'A',
-            'B',
-            'C',
-            'D',
-            'E'
+            'AAA',
+            'ABB',
+            'BBB',
+            'BCC',
+            'CCC',
+            'CDD',
+            'DDD'
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Uni;
 
+use App\Enums\Student\Curriculum;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
@@ -75,9 +76,7 @@ final class StudentTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
-            ->addColumn('name', function (Student $student) {
-                $fullName = e($student->user->getFullName());
+            ->addColumn('id', function(Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$student->id</a>";
             })
             ->addColumn('efc', function (Student $student) {
@@ -87,7 +86,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->countryHS);
             })
             ->addColumn('curriculum', function (Student $student) {
-                return e($student->curriculum);
+                return e(Curriculum::descriptions()[$student->curriculum]);
             })
             ->addColumn('track', function (Student $student) {
                 return e($student->track);
@@ -131,19 +130,14 @@ final class StudentTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->searchable(),
-            Column::make('efc', 'efc')
-                ->searchable(),
+            Column::make('ID', 'id')->searchable(),
+            Column::make('efc', 'efc')->searchable(),
+            Column::make('countryHS', 'countryHS')->searchable(),
+            Column::make('curriculum', 'curriculum')->searchable(),
+            Column::make('track', 'track')->searchable(),
+            Column::make('destination', 'destination')->searchable(),
 
-            Column::make('countryHS', 'countryHS')
-                ->searchable(),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->searchable()
         ];
     }
 
