@@ -85,6 +85,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 
     Route::resource('equivalencies', \App\Http\Controllers\EquivalencyController::class);
+
+    Route::resource('connections', \App\Http\Controllers\ConnectionController::class);
 });
 
 Route::middleware(['auth', 'consent', 'university'])->group(function() {

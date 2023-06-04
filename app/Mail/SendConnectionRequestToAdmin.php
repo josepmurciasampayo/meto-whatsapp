@@ -20,6 +20,8 @@ class SendConnectionRequestToAdmin extends Mailable
 
     public $user;
 
+    public $uni;
+
     public $createdConnections;
 
     /**
@@ -32,6 +34,8 @@ class SendConnectionRequestToAdmin extends Mailable
         $this->student = $student;
 
         $this->user = User::find($student->user_id);
+
+        $this->uni = $this->user->getUni();
 
         $this->createdConnections = $createdConnections;
     }
@@ -67,6 +71,7 @@ class SendConnectionRequestToAdmin extends Mailable
             with: [
                 'student' => $this->student,
                 'user' => $this->user,
+                'uni' => $this->uni,
                 'createdConnections' => $connections
             ]
         );

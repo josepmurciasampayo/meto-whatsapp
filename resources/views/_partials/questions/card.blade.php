@@ -67,11 +67,10 @@
 
             <div class="col-12">
                 <div class="alert alert-primary mt-3">
-                    "This student is viewable for you because Meto believes that a [input: operative score] in
-                    the [student's curriculum] curriculum is roughly equivalent to a [input: selected minimum score]
-                    on the [input: reference curriculum], which meets or exceeds the [reference curriculum]
-                    standard you set. Agree or disagree? Tell us at bthomsen@meto-intl.org. Change your
-                    threshold here [<-link to onboarding page]."
+                    "This student is viewable for you because Meto believes that their score in
+                    the {{ $detail->curriculum }} curriculum meets or exceeds the {{ $uni->curriculum }}
+                    standard you set. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
+                    threshold here {{ route('uni.mingrade') }}."
                 </div>
             </div>
         </div>
