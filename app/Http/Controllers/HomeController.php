@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use App\Models\ViewStudentDetail;
 use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 

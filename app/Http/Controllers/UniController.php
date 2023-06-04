@@ -17,6 +17,7 @@ use App\Models\Student;
 use App\Models\StudentDetailView;
 use App\Models\StudentUniversity;
 use App\Models\User;
+use App\Models\ViewStudentDetail;
 use App\Services\UniService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -358,7 +359,7 @@ class UniController extends Controller
     public function fetchStudent(Request $request)
     {
         return response([
-            'data' =>  StudentDetailView::where('student_id', $request->input('student_id'))->first()
+            'data' =>  ViewStudentDetail::where('student_id', $request->route('student'))->first()
         ]);
     }
 }
