@@ -216,6 +216,7 @@ class UniController extends Controller
                 $uni->efc = $request->input('efc');
                 $uni->min_grade = $request->input('min_grade');
                 $uni->min_grade_curriculum = $request->input('min_grade_curriculum');
+                $uni->equivalency = $request->input('equivalency');
                 $uni->connections = $request->input('connections');
                 $uni->save();
 

@@ -117,9 +117,7 @@ final class StudentTable extends PowerGridComponent
             })
             ->addColumn('other testing', function (Student $student) {
                 return e($student->toefl);
-            })
-            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)));
-
+            });
     }
 
     /**
@@ -131,13 +129,19 @@ final class StudentTable extends PowerGridComponent
     {
         return [
             Column::make('ID', 'id')->searchable(),
-            Column::make('efc', 'efc')->searchable(),
-            Column::make('countryHS', 'countryHS')->searchable(),
-            Column::make('curriculum', 'curriculum')->searchable(),
-            Column::make('track', 'track')->searchable(),
-            Column::make('destination', 'destination')->searchable(),
-
-
+            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('High School Country', 'countryHS')->searchable()->sortable(),
+            Column::make('Curriculum', 'curriculum')->searchable(),
+            Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
+            Column::make('Desired Academic Track', 'track')->searchable(),
+            Column::make('Desired Country Destinations', 'destination')->searchable(),
+            Column::make('Gender', 'gender')->searchable()->sortable(),
+            Column::make('Nationally Ranked', 'ranking')->searchable(),
+            Column::make('DET Score', 'det')->searchable()->sortable(),
+            Column::make('Affiliations', 'affiliations')->searchable(),
+            Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
+            Column::make('Disability Disclosure', 'disability')->searchable(),
+            Column::make('Other Testing', 'toefl')->searchable(),
         ];
     }
 

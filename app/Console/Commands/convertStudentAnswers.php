@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\General\YesNo;
 use App\Enums\Question;
 use App\Enums\QuestionFormat;
 use App\Enums\Student\QuestionType;
+use App\Helpers;
 use App\Models\Answer;
 use App\Models\Response;
 use App\Models\Student;
@@ -15,19 +17,9 @@ class convertStudentAnswers extends Command
 {
     protected $signature = 'convert:studentAnswers';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
+    public function handle(): int
     {
         // udpate student data
         $questions = [
@@ -104,7 +96,16 @@ class convertStudentAnswers extends Command
                 }
             }
 
+            //actively applying
+            $answers = Answer::with('student')->where('question_id', 61)->get();
+            foreach ($answers as $answer) {
+                $answer->student->active = YesNo::YES();
+                $answer->student->save();
+
+            }
+
             // set form completed
+
         }
 
         return Command::SUCCESS;
@@ -113,6 +114,9 @@ class convertStudentAnswers extends Command
     public function updateStudent(Answer $answer, string $field): void
     {
         $student = Student::find($answer->student_id);
+        if ($answer->question->id == 244) { //efc - remove $$
+            $answer->text = Helpers::stripNonNumeric($answer->text);
+        }
         $student->update([
             $field => $answer->text_expanded ?? $answer->text,
         ]);

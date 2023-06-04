@@ -22,36 +22,31 @@
                 <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial Meto Email to Students</h1>
                 <div>
                     <p class="mb-3 small fw-bold">
-                        Dear ((Student)),
+                        Dear [Student Name],
                         <br /><br />
-                        Greetings from Meto. The University of Prototyping has reviewed your Meto profile and determined you are a competitive
-                        candidate for admission and would like to invite you to apply.
+                        Greetings from {{ config('app.name') }}. {{ $uni->name }} has reviewed your {{ config('app.name') }} profile and determined you are a competitive candidate for admission and would like to invite you to apply.
                         <br /><br />
-                        It is my pleasure to introduce you to [Insert Name], the [Insert Job Title]. To Contact [Name from above/autopopulate]
-                        please email [Insert Email(s)] or WhatsApp [insert Whatsapp].
+                        It is our pleasure to introduce you to {{ $user->first }} {{ $user->last }}, the {{ $user->title }}. You may email them at {{ $user->email }}.
                         <br /><br />
                         Here is what you need to know to get started:
                     </p>
                 </div>
 
                 <div class="alert alert-danger d-none" id="errorHolder"></div>
-                <div class="alert alert-success d-none" id="successHolder">
-                    Connections were created successfully.
-                </div>
 
                 <form id="send-connection-form">
                     <div>
-                        <x-inputs.text name="application_link" type="url" label="Application link" class="form-control" />
+                        <x-inputs.text name="application_link" type="url" label="Application Link" class="form-control" />
                     </div>
                     <div class="mt-3">
-                        <x-inputs.date name="upcoming_deadline" label="Upcoming deadline" class="form-control" />
+                        <x-inputs.date name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
                     </div>
                     <div class="mt-3">
-                        <x-inputs.textarea name="upcoming_webinar_events" label="Upcoming Webinar/Events" />
+                        <x-inputs.textarea name="upcoming_webinar_events" label="Upcoming Webinar or Events" />
                     </div>
 
                     <div class="text-end">
-                        <button onclick="sendConnection(event)" type="button" class="btn btn-success btn-green submit-pending-btn rounded mt-3">Send Connection</button>
+                        <button onclick="sendConnection(event)" type="button" class="btn btn-success btn-green submit-pending-btn rounded mt-3">Request Connection</button>
                     </div>
                 </form>
             </div>

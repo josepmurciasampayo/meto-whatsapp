@@ -106,11 +106,19 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         $('.datepicker').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-                format: 'YYYY-MM-DD'
-            }
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "minYear": 1990,
+            "maxYear": 2010,
+            "autoApply": true,
+            "locale": {
+                format: 'YYYY-MM-DD',
+                "separator": " - ",
+                "weekLabel": "W",
+                "firstDay": 1
+            },
+            "startDate": "2005-01-01",
+            "opens": "center"
         });
     </script>
 

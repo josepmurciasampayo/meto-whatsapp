@@ -30,7 +30,7 @@ class UniSignup extends Mailable
         $this->institution = $institution;
         $this->email = $email;
         $this->title = $title;
-        $this->how = $how;
+        $this->how = $how ?? "None entered";
     }
 
     /**

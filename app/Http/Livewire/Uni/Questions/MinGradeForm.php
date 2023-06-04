@@ -79,11 +79,11 @@ class MinGradeForm extends Component
     {
         return [
             '4',
-            '3,5',
+            '3.5',
             '3',
-            '2,5',
+            '2.5',
             '2',
-            '1,5'
+            '1.5'
         ];
     }
 

@@ -29,11 +29,11 @@ class UniLocationRequest extends FormRequest
             ],
 
             'state' => [
-                'bail', 'required', 'string'
+                'bail', 'string'
             ],
 
             'city' => [
-                'bail', 'required', 'string'
+                'bail', 'string'
             ]
         ];
     }
