@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
+use App\Models\Student;
 use App\Models\ViewStudentDetail;
 use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
@@ -41,20 +42,23 @@ class HomeController extends Controller
             ]);
         }
 
+        $user = Auth::user();
+
         if ($user->isInstitution()) {
-            $uni = Auth::user()->getUni();
+            $uni = $user->getUni();
             if (is_null($uni->min_grade_equivalency)) {
                 return redirect(route('uni.welcome'));
             }
             //$rawData = UniService::getStudentTableData($uni->id);
             return view('uni.students', [
-                //'data' => $rawData
+                'uni' => $uni,
+                'user' => $user
             ]);
         }
 
         if ($user->isStudent()) {
             return view('student.home', [
-                'user' => Auth::user(),
+                'user' => $user,
             ]);
         }
 
