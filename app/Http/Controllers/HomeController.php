@@ -46,7 +46,9 @@ class HomeController extends Controller
             }
             //$rawData = UniService::getStudentTableData($uni->id);
             return view('uni.students', [
-                //'data' => $rawData
+                //'data' => $rawData,
+                'user' => $user,
+                'uni' => $uni
             ]);
         }
 

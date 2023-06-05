@@ -17,7 +17,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                @include('_partials.uni.students.pending')
+                @include('_partials.uni.students.pending', ['user' => $user, 'uni' => $uni])
             </div>
             <div class="tab-pane fade py-4" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 @include('_partials.uni.students.request')
