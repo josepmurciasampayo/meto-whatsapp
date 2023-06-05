@@ -1,8 +1,7 @@
-<form id="decision-form" method="POST" action="{{ route('uni.connection.decide') }}">
+<form id="decision-form" class="pt-4" method="POST" action="{{ route('uni.connection.decide') }}">
     @csrf
-    <div class="text-end mb-4">
-        <button class="btn btn-success submit-pending-btn rounded mt-4">Submit</button>
-    </div>
+
+    <div class="alert alert-danger d-none" id="tableAlert"></div>
 
     <livewire:uni.student-table/>
 
@@ -58,26 +57,27 @@
     let form = document.querySelector('#decision-form')
     let emailModal = document.querySelector('#emailModal')
     let emailModalBtn = document.querySelector('[data-bs-target="#emailModal"]')
+    let tableAlert = document.querySelector('#tableAlert')
 
     form.addEventListener('submit', e => {
         e.preventDefault()
+
+        // Check if we have at least one student selected
+        let inputs = getSelectedStudents()
+        if (inputs.length === 0) {
+            tableAlert.classList.remove('d-none')
+            tableAlert.textContent = 'You should select at least 1 student to connect with.';
+            return;
+        } else {
+            tableAlert.classList.add('d-none')
+        }
+
         // Open the modal
         // Only if we have at least one connection
         emailModalBtn.click()
     })
 
-    let sendConnection = e => {
-        e.preventDefault()
-        // Execute the ajax request
-        let modalForm = document.querySelector('#send-connection-form')
-        // Prepare the request
-        let url = "{{ route('uni.connection.decide') }}"
-        let data = {
-            application_link: modalForm.application_link.value,
-            upcoming_deadline: modalForm.upcoming_deadline.value,
-            upcoming_webinar_events: modalForm.upcoming_webinar_events.value
-        }
-
+    let getSelectedStudents = () => {
         let inputs = []
         Object.values(document.querySelector('#decision-form').elements).forEach(el => {
             if (el) {
@@ -100,6 +100,24 @@
             }
         });
 
+        return inputs;
+    }
+
+    let sendConnection = e => {
+        e.preventDefault()
+        // Execute the ajax request
+        let modalForm = document.querySelector('#send-connection-form')
+        let errorAlert = document.querySelector('#errorHolder')
+        // Prepare the request
+        let url = "{{ route('uni.connection.decide') }}"
+        let data = {
+            application_link: modalForm.application_link.value,
+            upcoming_deadline: modalForm.upcoming_deadline.value,
+            upcoming_webinar_events: modalForm.upcoming_webinar_events.value
+        }
+
+        let inputs = getSelectedStudents()
+
         inputs.forEach(input => {
             data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
         })
@@ -113,8 +131,6 @@
             .catch(err => {
                 let errors = err.response.data.errors
                 let message = err.response.data.message
-                let errorAlert = document.querySelector('#errorHolder')
-
                 clearErrors(data)
 
                 errorAlert.classList.remove('d-none')

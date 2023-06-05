@@ -47,13 +47,13 @@
                 </p>
 
                 <!-- Line 9 -->
-                @include('_partials.questions.line-9')
+{{--                @include('_partials.questions.line-9')--}}
                 <!-- Line 9 -->
             </div>
 
             <div class="col-md-3">
                 <!-- Line 10 -->
-                @include('_partials.questions.line-10')
+{{--                @include('_partials.questions.line-10')--}}
                 <!-- / Line 10 -->
 
                 <!-- Line 11 -->

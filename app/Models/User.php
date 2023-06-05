@@ -190,7 +190,6 @@ class User extends Authenticatable
 
     public function getUni(): Institution
     {
-        $id = UserInstitution::where('user_id', $this->id)->first()->institution_id;
-        return Institution::find($id);
+        return UserInstitution::where('user_id', $this->id)->first()->institution;
     }
 }
