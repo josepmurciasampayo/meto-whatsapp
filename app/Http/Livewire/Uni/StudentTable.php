@@ -6,7 +6,7 @@ use App\Enums\Student\Curriculum;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
-use App\Models\ViewStudentTableData;
+use App\Models\ViewStudentDetail;
 use App\Services\UniService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;

@@ -262,7 +262,7 @@ class EquivalencyService
         $uni->save();
     }
 
-    public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int
+    public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int|null
     {
         return Equivalency::where('curriculum_id', $curriculum())->
             where('score_type', $scoreType())->

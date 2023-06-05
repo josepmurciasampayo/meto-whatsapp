@@ -47,13 +47,13 @@
                 </p>
 
                 <!-- Line 9 -->
-                @include('_partials.questions.line-9')
+{{--                @include('_partials.questions.line-9')--}}
                 <!-- Line 9 -->
             </div>
 
             <div class="col-md-3">
                 <!-- Line 10 -->
-                @include('_partials.questions.line-10')
+{{--                @include('_partials.questions.line-10')--}}
                 <!-- / Line 10 -->
 
                 <!-- Line 11 -->
@@ -68,7 +68,7 @@
             <div class="col-12">
                 <div class="alert alert-primary mt-3">
                     "This student is viewable for you because Meto believes that their score in
-                    the {{ $detail->curriculum }} curriculum meets or exceeds the {{ $uni->curriculum }}
+{{--                    the {{ $detail->curriculum }} curriculum meets or exceeds the {{ $uni->curriculum }}--}}
                     standard you set. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
                     threshold here {{ route('uni.mingrade') }}."
                 </div>

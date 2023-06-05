@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Helpers;
 use App\Models\Student;
 use App\Models\User;
-use App\Models\ViewStudentTableData;
+use App\Models\ViewStudentDetail;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
