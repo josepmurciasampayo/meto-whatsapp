@@ -111,7 +111,7 @@
             "showDropdowns": true,
             "autoApply": true,
             "minYear": 2000,
-            "maxYear": 2023,
+            "maxYear": new Date().getFullYear(),
             "locale": {
                 format: 'YYYY-MM-DD',
                 "separator": " - ",
