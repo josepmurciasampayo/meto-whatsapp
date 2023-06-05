@@ -44,27 +44,30 @@ class EquivalencyService
             Answer::where('student_id', $student->id)
             ->where('question_id', 457)
             ->first()
-            ->response_id) {
+            ?->response_id) {
             5924 => ScoreType::IBFINAL,
             5925 => ScoreType::IBPREDICTED,
             5926 => ScoreType::IBSEMESTER,
+            null => null,
         };
-        $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
+        if ($scoreType) {
+            $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
 
-        $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', $question_ids)
-            ->get();
-        $total = 0;
+            $answers = Answer::where('student_id', $student->id)
+                ->whereIn('question_id', $question_ids)
+                ->get();
+            $total = 0;
 
-        foreach ($answers as $answer) {
-            if (is_null($answer->response_id)) {
-                return;
+            foreach ($answers as $answer) {
+                if (is_null($answer->response_id)) {
+                    return;
+                }
+                $total += $answer->text;
             }
-            $total += $answer->text;
-        }
 
-        $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
-        $student->save();
+            $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
+            $student->save();
+        }
     }
 
     public function updateCambridge(Student $student): void
