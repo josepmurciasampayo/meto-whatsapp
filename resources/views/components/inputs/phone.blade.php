@@ -1,12 +1,19 @@
-@props(['label', 'name', 'help' => false, 'saved' => false, 'req' => false])
+@props(['label', 'name', 'help' => false, 'saved' => false, 'req' => false, 'old' => false])
 @php
     if ($saved) {
+
         $saved = json_decode($saved->text);
 
         $savedCode = $saved->code;
         $savedNumber = $saved->number;
     }
+    else if ($old) {
+        $values = explode(",", $old);
+        $savedCode = $old[0];
+        $savedNumber = $old[1];
+    }
     else {
+
         $savedCode = $savedNumber = null;
     }
 @endphp
