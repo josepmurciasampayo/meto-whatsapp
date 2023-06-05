@@ -70,6 +70,7 @@
         e.preventDefault()
         // Execute the ajax request
         let modalForm = document.querySelector('#send-connection-form')
+        let errorAlert = document.querySelector('#errorHolder')
         // Prepare the request
         let url = "{{ route('uni.connection.decide') }}"
         let data = {
@@ -100,6 +101,12 @@
             }
         });
 
+        if (inputs.length === 0) {
+            errorAlert.classList.remove('d-none')
+            errorAlert.textContent = 'You should select at least 1 student to connect with.';
+            return;
+        }
+
         inputs.forEach(input => {
             data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
         })
@@ -113,8 +120,6 @@
             .catch(err => {
                 let errors = err.response.data.errors
                 let message = err.response.data.message
-                let errorAlert = document.querySelector('#errorHolder')
-
                 clearErrors(data)
 
                 errorAlert.classList.remove('d-none')

@@ -79,6 +79,11 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('id', function(Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$student->id</a>";
             })
+            ->addColumn('connect', function (Student $student) {
+                $key = 'connect_student_' . $student->id;
+                $name = 'student_' . $student->id;
+                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '">Connect</label>';
+            })
             ->addColumn('efc', function (Student $student) {
                 return e($student->efc);
             })
@@ -128,6 +133,7 @@ final class StudentTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('Connect', 'connect'),
             Column::make('ID', 'id')->searchable(),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
@@ -154,14 +160,6 @@ final class StudentTable extends PowerGridComponent
     {
         if ($this->status) return [];
         return [
-            Button::add('custom')
-            ->render(function (Student $student) {
-               $key = 'connect_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="connect" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '">Connect</label>'
-               );
-            }),
             Button::add('maybe')
             ->render(function (Student $student) {
                $key = 'maybe_student_' . $student->id;
