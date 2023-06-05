@@ -2,6 +2,7 @@
 
 namespace App\Models\Joins;
 
+use App\Models\Institution;
 use Illuminate\Database\Eloquent\Model;
 
 class UserInstitution extends Model
@@ -14,5 +15,10 @@ class UserInstitution extends Model
         $new->save();
 
         return $new;
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class, 'institution_id');
     }
 }
