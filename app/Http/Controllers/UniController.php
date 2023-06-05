@@ -137,7 +137,7 @@ class UniController extends Controller
 
     public function myProfileStore(Request $request): RedirectResponse
     {
-        return redirect(route(''));
+        return redirect(route('home'));
     }
 
     public function uniProfile(): View

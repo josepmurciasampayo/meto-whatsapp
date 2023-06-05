@@ -107,18 +107,20 @@
     <script>
         $('.datepicker').daterangepicker({
             "singleDatePicker": true,
+            "autoUpdateInput": true,
             "showDropdowns": true,
-            "minYear": 1990,
-            "maxYear": 2010,
             "autoApply": true,
+            "minYear": 2000,
+            "maxYear": 2023,
             "locale": {
                 format: 'YYYY-MM-DD',
                 "separator": " - ",
                 "weekLabel": "W",
-                "firstDay": 1
+                "firstDay": 1,
             },
-            "startDate": "2005-01-01",
             "opens": "center"
+        }, function(start) {
+            $(this).val(start);
         });
     </script>
 

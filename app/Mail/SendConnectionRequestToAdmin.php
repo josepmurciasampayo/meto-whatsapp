@@ -16,10 +16,6 @@ class SendConnectionRequestToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $student;
-
-    public $user;
-
     public $uni;
 
     public $createdConnections;
@@ -31,11 +27,7 @@ class SendConnectionRequestToAdmin extends Mailable
      */
     public function __construct(Student $student, $createdConnections)
     {
-        $this->student = $student;
-
-        $this->user = User::find($student->user_id);
-
-        $this->uni = $this->user->getUni();
+        $this->uni = Auth()->user()->getUni();
 
         $this->createdConnections = $createdConnections;
     }
@@ -69,8 +61,6 @@ class SendConnectionRequestToAdmin extends Mailable
         return new Content(
             view: 'connections.send_request',
             with: [
-                'student' => $this->student,
-                'user' => $this->user,
                 'uni' => $this->uni,
                 'createdConnections' => $connections
             ]

@@ -1,8 +1,5 @@
-<form id="decision-form" method="POST" action="{{ route('uni.connection.decide') }}">
+<form id="decision-form" class="pt-4" method="POST" action="{{ route('uni.connection.decide') }}">
     @csrf
-    <div class="text-end mb-4">
-        <button class="btn btn-success submit-pending-btn rounded mt-4">Submit</button>
-    </div>
 
     <div class="alert alert-danger d-none" id="tableAlert"></div>
 
