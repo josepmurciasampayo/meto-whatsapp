@@ -108,8 +108,6 @@
         $('.datepicker').daterangepicker({
             "singleDatePicker": true,
             "showDropdowns": true,
-            "minYear": 1990,
-            "maxYear": 2010,
             "autoApply": true,
             "locale": {
                 format: 'YYYY-MM-DD',
@@ -117,7 +115,6 @@
                 "weekLabel": "W",
                 "firstDay": 1
             },
-            "startDate": "2005-01-01",
             "opens": "center"
         });
     </script>
