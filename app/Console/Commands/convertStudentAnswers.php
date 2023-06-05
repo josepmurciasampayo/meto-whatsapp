@@ -19,6 +19,12 @@ class convertStudentAnswers extends Command
 
     public function handle(): int
     {
+        $this->updateResponseIDs();
+        return Command::SUCCESS;
+    }
+
+    public function updateQuestions(): void
+    {
         // udpate student data
         $questions = [
             /* question ID => question column in the student table */
@@ -50,7 +56,10 @@ class convertStudentAnswers extends Command
         }
 
         echo "\n\nQuestions are updated";
+    }
 
+    public function mergeQuestions(): void
+    {
         // merge questions
         $questions = [
             105 => 104,
@@ -65,7 +74,10 @@ class convertStudentAnswers extends Command
         }
 
         echo "\nQuestions are merged";
+    }
 
+    public function changeResponses(): void
+    {
         // change responses
         DB::update("UPDATE meto_answers SET `text` = REPLACE(SUBSTRING_INDEX(`text`, '-', 1), ' ', '') WHERE question_id = 244;");
         DB::update("UPDATE meto_answers SET `text` = IFNULL(REGEXP_SUBSTR(`text`, '^\\$\\d+'), `text`) WHERE question_id = 244;");
@@ -74,7 +86,10 @@ class convertStudentAnswers extends Command
         DB::update("UPDATE meto_answers SET `text` = '$2000' WHERE `text` = '2000' AND question_id = 244;");
 
         echo "\nQueries are run";
+    }
 
+    public function updateResponseIDs(): void
+    {
         // update response ID's for old questions
         $formats = [
             QuestionFormat::SELECT(),
@@ -82,13 +97,11 @@ class convertStudentAnswers extends Command
             QuestionFormat::CHECKBOX(),
         ];
 
-        // get question_ids
-        $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
-        echo implode(",", $question_ids);
-
-        // get answers and response array
-        $answers = Answer::whereIn('question_id', \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray())->get();
+        //$question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
+        $question_ids = [44];
+        $answers = Answer::whereIn('question_id', $question_ids)->get();
         $responses = Response::whereIn('question_id', $question_ids)->get();
+
         $responseArray = array();
         foreach ($responses as $response) {
             $responseArray[$response->question_id][$response->text] = $response->id;
@@ -98,9 +111,13 @@ class convertStudentAnswers extends Command
         foreach ($answers as $answer) {
             if (isset($responseArray[$answer->question_id][$answer->text])) {
                 $answer->response_id = $responseArray[$answer->question_id][$answer->text];
+                $answer->save();
             }
         }
+    }
 
+    public function other(): void
+    {
         //actively applying
         /*
         $answers = Answer::with('student')->where('question_id', 61)->get();
@@ -116,8 +133,6 @@ class convertStudentAnswers extends Command
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);
         }
-        
-        return Command::SUCCESS;
     }
 
     public function updateStudent(Answer $answer, string $field): void

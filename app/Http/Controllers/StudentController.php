@@ -80,8 +80,8 @@ class StudentController extends Controller
         $questions = $questionService->get($questionType);
         $responses = $responseService->getForQuestionArray($questions);;
         $answers = $answerService->getForQuestionArray($questions, Auth::user()->student_id());
-        //Debugbar::info(print_r($questions, true));
-        //Debugbar::info(print_r($answers, true));
+        Debugbar::info($questions);
+        Debugbar::info($answers);
 
         return view('student.form', [
             'questions' => $questions,
