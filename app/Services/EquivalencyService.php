@@ -103,12 +103,12 @@ class EquivalencyService
         $weighted = Answer::where('student_id', $student->id)
             ->where('question_id', 452)
             ->first()
-            ->response_id == 5909;
+            ?->response_id == 5909;
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
-        if ($senior) {
+        if ($senior && $weighted) {
             $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
             $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $senior);
             $student->save();
@@ -118,7 +118,7 @@ class EquivalencyService
             ->where('question_id', 143)
             ->first()
             ?->test;
-        if ($junior) {
+        if ($junior && $weighted) {
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
             $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
             $student->save();
