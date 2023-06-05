@@ -2,14 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\General\YesNo;
-use App\Enums\Question;
 use App\Enums\QuestionFormat;
-use App\Enums\Student\QuestionType;
 use App\Helpers;
 use App\Models\Answer;
 use App\Models\Response;
 use App\Models\Student;
+use App\Services\EquivalencyService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -51,6 +49,8 @@ class convertStudentAnswers extends Command
             $this->updateStudent($answer, $questions[$answer->question_id]);
         }
 
+        echo "\n\nQuestions are updated";
+
         // merge questions
         $questions = [
             105 => 104,
@@ -64,6 +64,8 @@ class convertStudentAnswers extends Command
             $this->mergeQuestion($answer, $questions[$answer->question_id]);
         }
 
+        echo "\nQuestions are merged";
+
         // change responses
         DB::update("UPDATE meto_answers SET `text` = REPLACE(SUBSTRING_INDEX(`text`, '-', 1), ' ', '') WHERE question_id = 244;");
         DB::update("UPDATE meto_answers SET `text` = IFNULL(REGEXP_SUBSTR(`text`, '^\\$\\d+'), `text`) WHERE question_id = 244;");
@@ -71,43 +73,50 @@ class convertStudentAnswers extends Command
         DB::update("UPDATE meto_answers SET `text` = '$500' WHERE `text` = '500' AND question_id = 244;");
         DB::update("UPDATE meto_answers SET `text` = '$2000' WHERE `text` = '2000' AND question_id = 244;");
 
+        echo "\nQueries are run";
+
         // update response ID's for old questions
         $formats = [
             QuestionFormat::SELECT(),
             QuestionFormat::RADIO(),
             QuestionFormat::CHECKBOX(),
         ];
-        foreach ($formats as $format) {
-            // get question_ids
-            $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
 
-            // get answers and response array
-            $answers = Answer::whereIn('question_id', \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray())->get();
-            $responses = Response::whereIn('question_id', $question_ids)->get();
-            $responseArray = array();
-            foreach ($responses as $response) {
-                $responseArray[$response->question_id][$response->text] = $response->id;
-            }
+        // get question_ids
+        $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
+        echo implode(",", $question_ids);
 
-            // update answers by looking up responses
-            foreach ($answers as $answer) {
-                if (isset($responseArray[$answer->question_id][$answer->text])) {
-                    $answer->response_id = $responseArray[$answer->question_id][$answer->text];
-                }
-            }
-
-            //actively applying
-            $answers = Answer::with('student')->where('question_id', 61)->get();
-            foreach ($answers as $answer) {
-                $answer->student->active = YesNo::YES();
-                $answer->student->save();
-
-            }
-
-            // set form completed
-
+        // get answers and response array
+        $answers = Answer::whereIn('question_id', \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray())->get();
+        $responses = Response::whereIn('question_id', $question_ids)->get();
+        $responseArray = array();
+        foreach ($responses as $response) {
+            $responseArray[$response->question_id][$response->text] = $response->id;
         }
 
+        // update answers by looking up responses
+        foreach ($answers as $answer) {
+            if (isset($responseArray[$answer->question_id][$answer->text])) {
+                $answer->response_id = $responseArray[$answer->question_id][$answer->text];
+            }
+        }
+
+        //actively applying
+        /*
+        $answers = Answer::with('student')->where('question_id', 61)->get();
+        foreach ($answers as $answer) {
+            $answer->student->active = YesNo::YES();
+            $answer->student->save();
+        }
+        */
+
+        echo "\nMultiple-choice questions are processed";
+
+        $students = Student::all();
+        foreach ($students as $student) {
+            (new EquivalencyService())->update($student);
+        }
+        
         return Command::SUCCESS;
     }
 
