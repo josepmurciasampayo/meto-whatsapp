@@ -14,3 +14,23 @@
                class="{{ $class }} datepicker block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
     </div>
 </div>
+
+@once
+    <!-- Date range picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $('.datepicker').daterangepicker({
+            "singleDatePicker": true,
+            "autoUpdateInput": true,
+            "showDropdowns": true,
+            "autoApply": true,
+            "minYear": 2000,
+            "maxYear": new Date().getFullYear() + 1,
+            "startDate": '2001-01-01',
+            "locale": {
+                format: 'YYYY-MM-DD',
+            },
+            "opens": "center"
+        });
+    </script>
+@endonce
