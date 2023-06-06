@@ -34,8 +34,10 @@ class notifyExistingStudents extends Command
     public function handle()
     {
         $students = User::where('role', Role::STUDENT())->get();
-        echo count($students);
+        $total = count($students);
+        $current = 1;
         foreach ($students as $student) {
+            echo "\n" . $current . " / " . $total;
             $newPass = Str::random(8);
             $student->password = Hash::make($newPass);
             $student->save();
