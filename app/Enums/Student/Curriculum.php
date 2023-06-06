@@ -43,4 +43,14 @@ enum Curriculum :int
             self::OTHER() => "Other",
         ];
     }
+
+    public function labels()
+    {
+        return self::getText($this);
+    }
+
+    public function labelPowergridFilter(): string
+    {
+        return $this->labels();
+    }
 }
