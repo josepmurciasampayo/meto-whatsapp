@@ -37,7 +37,10 @@ class notifyExistingStudents extends Command
         $total = count($students);
         $current = 1;
         foreach ($students as $student) {
-            echo "\n" . $current . " / " . $total;
+            if ($current < 14) {
+                continue;
+            }
+            echo "\n" . $current++ . " / " . $total;
             $newPass = Str::random(8);
             $student->password = Hash::make($newPass);
             $student->save();
