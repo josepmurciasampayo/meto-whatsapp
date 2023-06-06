@@ -37,7 +37,7 @@ class notifyExistingStudents extends Command
         $total = count($students);
         $current = 1;
         foreach ($students as $student) {
-            if ($current < 14) {
+            if ($current++ < 14) {
                 continue;
             }
             echo "\n" . $current++ . " / " . $total;
