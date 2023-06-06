@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Console\Commands\reloadEnums;
 use App\Enums\EnumGroup;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers;
@@ -20,6 +21,16 @@ class StudentUniversity extends Model
         'change_date',
         'status'
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 
     public static function getByUserID(int $user_id) :array
     {
