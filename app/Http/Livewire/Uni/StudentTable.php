@@ -202,8 +202,7 @@ final class StudentTable extends PowerGridComponent
         return [
             Filter::enumSelect('curriculum')
                 ->dataSource(Curriculum::cases())
-                ->optionValue('value'),
-            Filter::
+                ->optionValue('value')
         ];
     }
 
