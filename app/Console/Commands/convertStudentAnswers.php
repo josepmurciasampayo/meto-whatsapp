@@ -19,7 +19,11 @@ class convertStudentAnswers extends Command
 
     public function handle(): int
     {
-        $this->updateResponseIDs();
+        //$this->updateResponseIDs();
+        $this->updateQuestions();
+        $this->mergeQuestions();
+        $this->changeResponses();
+        $this->other();
         return Command::SUCCESS;
     }
 
@@ -137,10 +141,6 @@ class convertStudentAnswers extends Command
     public function updateStudent(Answer $answer, string $field): void
     {
         $student = Student::find($answer->student_id);
-        if ($answer->question->id == 244) { //efc - remove $$
-            $answer->text = Helpers::stripNonNumeric($answer->text);
-            $answer->save();
-        }
         $student->update([
             $field => $answer->text_expanded ?? $answer->text,
         ]);
