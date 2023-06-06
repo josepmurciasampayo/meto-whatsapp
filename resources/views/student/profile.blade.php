@@ -1,9 +1,6 @@
 <x-app-layout>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 mt-2">
-        <x-image-with-text
-                           image-src="/img/Meto-background.webp"
-                           alt=""
-                           text="Basic Information"/>
+        <x-image-with-text image-src="/img/Meto-background.webp" alt="" text="Basic Information"/>
 
          <div class="w-75 w-100-sm lg:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
              <form method="POST" action="{{ route('user.update') }}">
@@ -13,7 +10,7 @@
                  <x-inputs.text disabled name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-inputs.text>
                  <x-inputs.text disabled name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-inputs.text>
                  <x-inputs.email disabled name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
-                 <x-inputs.phone name="phone" :saved="json_decode($user->phone_array, true)" label="Phone Number" req="true"></x-inputs.phone>
+                 <x-inputs.phone name="phone" json="{{ $user->phone_array }}" label="Phone Number" req="true"></x-inputs.phone>
                  <x-inputs.select name="owner" saved="{{ $user->phone_owner ?? '' }}" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
                  @php $w = [1 => "I use this number for WhatsApp"] @endphp
                  <div class="form-group checkbox-container">

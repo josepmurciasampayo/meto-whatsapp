@@ -37,7 +37,7 @@ class notifyExistingStudents extends Command
         $total = count($students);
         $current = 1;
         foreach ($students as $student) {
-            if ($current < 14 || in_array($current, [15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63])) {
+            if ($current < 5854) {
                 $current++;
                 continue;
             }
@@ -45,7 +45,11 @@ class notifyExistingStudents extends Command
             $newPass = Str::random(8);
             $student->password = Hash::make($newPass);
             $student->save();
-            Mail::to($student)->send(new StudentNewPassword($newPass, $student));
+            try {
+                Mail::to($student)->send(new StudentNewPassword($newPass, $student));
+            } catch (\Exception $e) {
+
+            }
         }
         return Command::SUCCESS;
     }

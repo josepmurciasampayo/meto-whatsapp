@@ -16,6 +16,7 @@ Route::middleware(['auth', 'consent', 'student'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('student.home');
     Route::get('/edit-info', [\App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
     Route::get('/intro', [\App\Http\Controllers\StudentController::class, 'intro'])->name('student.intro');
+    //Route::get('/student-profile', [\App\Http\Controllers\StudentController::class, 'profile'])->name('student.profile');
     Route::get('/student-profile', [\App\Http\Controllers\StudentController::class, 'profile'])->name('student.profile');
     Route::post('/student-profile', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'update'])->name('user.update');
     Route::get('/demographic', [\App\Http\Controllers\StudentController::class, 'demographic'])->name('student.demographic');

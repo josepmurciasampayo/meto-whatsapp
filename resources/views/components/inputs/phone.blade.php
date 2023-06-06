@@ -1,9 +1,7 @@
-@props(['label', 'name', 'help' => false, 'saved' => false, 'req' => false, 'old' => false])
+@props(['label', 'name', 'help' => false, 'saved' => false, 'req' => false, 'old' => false, 'json' => false,])
 @php
     if ($saved) {
-
         $saved = json_decode($saved->text);
-
         $savedCode = $saved->code;
         $savedNumber = $saved->number;
     }
@@ -12,8 +10,16 @@
         $savedCode = $old[0];
         $savedNumber = $old[1];
     }
+    else if ($json) {
+        $saved = json_decode(htmlspecialchars_decode($json));
+        if (is_array($saved)) {
+            $savedCode = $saved->code;
+            $savedNumber = $saved->number;
+        } else {
+            $savedCode = $savedNumber = null;
+        }
+    }
     else {
-
         $savedCode = $savedNumber = null;
     }
 @endphp

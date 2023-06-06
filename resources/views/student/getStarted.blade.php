@@ -21,7 +21,7 @@
                 <x-inputs.text saved="{{ old('first') }}" name="first" label="First/Given Name"  req="true"></x-inputs.text>
                 <x-inputs.text saved="{{ old('middle') }}" name="middle" label="Middle Name" ></x-inputs.text>
                 <x-inputs.text saved="{{ old('last') }}" name="last" label="Last/Family Name"  req="true"></x-inputs.text>
-                <x-inputs.phone saved="{{ (old('phone.code') || old('phone.number')) ? old('phone.code') . ',' . old('phone.number') : null }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
+                <x-inputs.phone old="{{ (old('phone.code') || old('phone.number')) ? old('phone.code') . ',' . old('phone.number') : null }}" name="phone" label="Phone Number"  req="true"></x-inputs.phone>
                 <x-inputs.select saved="{{ old('owner') }}" name="owner" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
 
                 @php $w = [1 => "I use this number for WhatsApp"] @endphp
