@@ -32,7 +32,7 @@ class ExceptionOccured extends Mailable
         $subject = config('exceptions.emailExceptionSubject') . ' - ' . $this->content['ip'];
 
         return $this->from('error@meto-intl.org')
-            ->to('gmgarrison@gmail.com')
+            ->to('gmgarrison@gmail.com,abraham@meto-intl.org')
             ->subject($subject)
             ->view('mail.exception')
             ->with('content', $this->content);
