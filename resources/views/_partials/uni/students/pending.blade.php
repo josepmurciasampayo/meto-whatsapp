@@ -25,7 +25,7 @@
                         <br /><br />
                         Greetings from {{ config('app.name') }}. {{ $uni->name }} has reviewed your {{ config('app.name') }} profile and determined you are a competitive candidate for admission and would like to invite you to apply.
                         <br /><br />
-                        It is our pleasure to introduce you to {{ $user->first }} {{ $user->last }}, the {{ $user->title }}. You may email them at {{ $user->email }}.
+                        It is our pleasure to introduce you to {{ $user->first }} {{ $user->last }}{{ $user->title ? ', the ' . $user->title : '' }}. You may email them at {{ $user->email }}.
                         <br /><br />
                         Here is what you need to know to get started:
                     </p>
