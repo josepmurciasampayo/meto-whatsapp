@@ -97,8 +97,7 @@ class convertStudentAnswers extends Command
             QuestionFormat::CHECKBOX(),
         ];
 
-        //$question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
-        $question_ids = [44];
+        $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
         $answers = Answer::whereIn('question_id', $question_ids)->get();
         $responses = Response::whereIn('question_id', $question_ids)->get();
 
@@ -140,6 +139,7 @@ class convertStudentAnswers extends Command
         $student = Student::find($answer->student_id);
         if ($answer->question->id == 244) { //efc - remove $$
             $answer->text = Helpers::stripNonNumeric($answer->text);
+            $answer->save();
         }
         $student->update([
             $field => $answer->text_expanded ?? $answer->text,

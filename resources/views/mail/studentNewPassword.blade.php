@@ -1,18 +1,16 @@
 Dear {{ $user->first }},<br/>
-<br/> Greetings from Meto!<br/>
-<br/> In the past, you created a Meto profile. Since then, we upgraded our tech platform, and our hope (and expectation) is that it will improve your experience.<br/>
+<br/>Greetings from {{ config('app.name') }}!<br/>
+<br/>In the past, you created a {{ config('app.name') }} profile. Since then, we upgraded our tech platform, and our hope (and expectation) is that it will improve your experience.<br/>
 <br/>
 NEXT STEPS:
 <ul>
-    <li>Log in and verify the accuracy of your information.</li>
-    <li>Complete your profile.</li>
-    <li>To update basic details like your WhatsApp number and change your password, please visit your basic information page.</li>    
+    <li><a href="https://app.meto-intl.org/login">Log in</a> and verify the accuracy of your information</li>
+    <li>Complete your profile</li>
+    <li>visit your basic information page to update basic details like your WhatsApp number and change your password</li>
     </ul>
 <br/>
-GET STARTED: 
+GET STARTED:
 <ul>
-    <li>Visit <a href="https://app.meto-intl.org">https://app.meto-intl.org</a>
-
         <li>Log in using the following:
             <ul>
                 <li>Email: {{ $user->email }}</li>
@@ -21,6 +19,6 @@ GET STARTED:
         </li>
     </ul>
     <br/> For prompt assistance with any issues or questions, please submit a request for help <a href="https://app.meto-intl.org/contact">here</a> or email us at <a href="mailto:support@21913322.hubspot-inbox.com">support@21913322.hubspot-inbox.com</a>.<br/>
-    <br/> Thank you for using Meto, and we look forward to providing an improved experience.<br/>
+    <br/> Thank you for using {{ config('app.name') }}, and we look forward to providing an improved experience.<br/>
     <br/> Best regards,<br/>
-    <br/> The Meto Team
+    <br/> The {{ config('app.name') }} Team
