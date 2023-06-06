@@ -1,6 +1,6 @@
 Dear {{ $user->first }},<br/>
 <br/>Greetings from {{ config('app.name') }}!<br/>
-<br/>In the past, you created a {{ config('app.name') }} profile. Since then, we upgraded our tech platform, and our hope (and expectation) is that it will improve your experience.<br/>
+<br/>In the past, you created a {{ config('app.name') }} profile. Since then, we've upgraded our tech platform with the aim to make your journey towards finding the perfect post-secondary education opportunity even smoother. Exciting times are ahead!<br/>
 <br/>
 NEXT STEPS:
 <ul>
