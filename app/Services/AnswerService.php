@@ -28,7 +28,6 @@ class AnswerService
             case QuestionFormat::LOOKUP():
             case QuestionFormat::LOOKUPORG():
             case QuestionFormat::COUNTRY():
-                //dd($input);
                 $existing->text = $input;
                 break;
             case QuestionFormat::PHONE():

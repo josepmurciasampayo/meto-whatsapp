@@ -126,7 +126,6 @@ class EquivalencyService
             $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
             $student->save();
         }
-        dd($student);
     }
 
     public function updateRwandan(Student $student): void
