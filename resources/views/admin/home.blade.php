@@ -1,14 +1,15 @@
 <x-app-layout>
 
-  <div class="min-h-screen mt-5 mx-2">    
-    
+  <div class="min-h-screen mt-5 mx-2">
+
     <div class="flex">
     <x-sidebar-menu :links="[      ['label' => 'Chat language', 'icon' => 'fas fa-message', 'href' => route('campaigns')],
         ['label' => 'WhatsApp log', 'icon' => 'fas fa-book', 'href' => route('comms-log')],
         ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions')],
         ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curricula')],
-        ['label' => 'Student data', 'icon' => 'fas fa-user', 'href' => route('students')],
-        ['label' => 'Match data', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
+        ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
+        ['label' => 'Connections', 'icon' => 'fas fa-user', 'href' => route('connections.index')],
+        ['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
         ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
         ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
         ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
