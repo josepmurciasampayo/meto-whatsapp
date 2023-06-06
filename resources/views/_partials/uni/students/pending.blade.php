@@ -32,6 +32,7 @@
                 </div>
 
                 <div class="alert alert-danger d-none" id="errorHolder"></div>
+                <div class="alert alert-success d-none" id="successHolder">Your requests have been received and will be reviewed promptly!</div>
 
                 <form id="send-connection-form">
                     <div>
@@ -67,6 +68,7 @@
         if (inputs.length === 0) {
             tableAlert.classList.remove('d-none')
             tableAlert.textContent = 'You should select at least 1 student to connect with.';
+            window.location = '#top';
             return;
         } else {
             tableAlert.classList.add('d-none')
@@ -108,6 +110,7 @@
         // Execute the ajax request
         let modalForm = document.querySelector('#send-connection-form')
         let errorAlert = document.querySelector('#errorHolder')
+        let submitButtons = document.querySelectorAll('.submit-pending-btn')
         // Prepare the request
         let url = "{{ route('uni.connection.decide') }}"
         let data = {
@@ -122,6 +125,10 @@
             data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
         })
 
+        // Disable the submit buttons
+        disableSubmitButtons(submitButtons)
+
+        // Send the request
         axios.post(url, data)
             .then(res => {
                 clearErrors(data)
@@ -140,6 +147,15 @@
                     document.querySelector('#' + field).classList.add('is-invalid')
                 })
             })
+            .finally(() => enableSubmitButtons(submitButtons))
+    }
+
+    let disableSubmitButtons = submitButtons => {
+        submitButtons.forEach(button => button.setAttribute('disabled', true))
+    }
+
+    let enableSubmitButtons = submitButtons => {
+        submitButtons.forEach(button => button.removeAttribute('disabled'))
     }
 
     let clearErrors = data => {
@@ -148,9 +164,11 @@
 
         Object.keys(data).forEach(field => {
             let input = document.querySelector('#' + field)
-            input.classList.contains('is-invalid')
-                ? input.classList.remove('is-invalid')
-                : null
+            if (input) {
+                input.classList.contains('is-invalid')
+                    ? input.classList.remove('is-invalid')
+                    : null
+            }
         })
     }
 

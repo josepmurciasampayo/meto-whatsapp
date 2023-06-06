@@ -1,5 +1,8 @@
 :root {
     --main: #26403d;
+    --connect: green;
+    --maybe: blue;
+    --archive: orange;
 }
 
 body {
@@ -22,6 +25,19 @@ input.form-control {
 .btn-green {
     background: #1A8754 !important;
 }
+#students-tables {
+    input[type='radio'] {
+        appearance: none;
+        width: 0;
+        opacity: 0;
+    }
+    label {
+        cursor: pointer;
+    }
+}
+label[selected_option="true"].connect { color: var(--connect); }
+label[selected_option="true"].maybe { color: var(--maybe); }
+label[selected_option="true"].archive { color: var(--archive); }
 /** End of Utilities */
 
 
