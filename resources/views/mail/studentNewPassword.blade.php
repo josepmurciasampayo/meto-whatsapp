@@ -1,11 +1,11 @@
 Dear {{ $user->first }},<br/>
 <br/>Greetings from {{ config('app.name') }}!<br/>
-<br/>In the past, you created a {{ config('app.name') }} profile. Since then, we've upgraded our tech platform with the aim to make your journey towards finding the perfect post-secondary education opportunity even smoother.<br/>
+<br/>In the past, you created a {{ config('app.name') }} profile. Since then, we've upgraded our tech platform with the aim to make your journey towards finding the perfect post-secondary education opportunity even smoother. Exciting times are ahead!<br/>
 <br/>
 NEXT STEPS:
 <ul>
     <li><a href="https://app.meto-intl.org/login">Log in</a> to the new system</li>
-    <li>Complete your profilea</li>
+    <li>Complete your profile</li>
     <li>Change your password on your <a href="{{ route('student.profile') }}">basic information</a> page</li>
     </ul>
 <br/>
