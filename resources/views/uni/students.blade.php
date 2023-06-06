@@ -15,7 +15,7 @@
                 <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Archived</button>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="students-tables">
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 @include('_partials.uni.students.pending')
             </div>
@@ -34,6 +34,38 @@
 
         <script>
         let card = document.querySelector('.single-student-card')
+
+        let labels = document.querySelectorAll('#students-tables label')
+
+        labels.forEach(label => {
+            label.addEventListener('click', () => {
+                if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
+                    let action = null;
+                    action = label.textContent.toLowerCase()
+                    selectOption(label, action)
+                }
+            })
+        })
+
+        let selectOption = (label, action) => {
+            // Unselect all the labels first
+            unselectAllOptions(label)
+            // Select the new label
+            label.setAttribute('selected_option', true)
+            label.classList.add(action)
+            // Select the action's radio input
+            document.querySelector("input[type='radio'][value='" + action + "'][name='student_" + label.getAttribute('key') + "']").checked = true
+        }
+
+        let unselectAllOptions = label => {
+            let key = label.getAttribute('key')
+            // Uncolor all the labels
+            document.querySelectorAll("label[key='" + key + "']").forEach(label => {
+                label.hasAttribute('selected_option') ? label.removeAttribute('selected_option') : null
+            })
+            // Unselect all the radio inputs
+            document.querySelectorAll('input[type="radio"][name="student_' + key + '"]').forEach(radio => radio.checked = false)
+        }
 
         let showStudentCard = el => {
             let studentId = el.getAttribute('data-student-id')
