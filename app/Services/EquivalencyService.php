@@ -72,11 +72,14 @@ class EquivalencyService
 
     public function updateCambridge(Student $student): void
     {
-        $scoreType = match(
-        Answer::where('student_id', $student->id)
+        $answer = Answer::where('student_id', $student->id)
             ->where('question_id', 460)
             ->first()
-            ->response_id) {
+            ?->response_id;
+        if (is_null($answer)) {
+            return;
+        }
+        $scoreType = match($answer) {
             5914 => ScoreType::CAMFINAL,
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
