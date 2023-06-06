@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Uni;
 
+use App\Enums\EnumGroup;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\Gender;
+use App\Models\Enums;
+use App\Models\Equivalency;
 use App\Models\Student;
 use App\Models\StudentUniversity;
 use App\Models\ViewStudentDetail;
@@ -15,6 +18,7 @@ use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
     Exportable,
+    Filters\Filter,
     Footer,
     Header,
     PowerGrid,
@@ -189,6 +193,15 @@ final class StudentTable extends PowerGridComponent
             ];
         }
         return [];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::enumSelect('curriculum')
+                ->dataSource(Curriculum::cases())
+                ->optionValue('value')
+        ];
     }
 
     public function exportToCsv()

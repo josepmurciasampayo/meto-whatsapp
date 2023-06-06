@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Enums extends Model
 {
     use HasFactory;
+
+    public $table = 'enum';
 }
