@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\General\MatchStudentInstitution;
 use App\Enums\General\YesNo;
 use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Helpers;
+use App\Mail\Connections\ConnectionWasApproved;
+use App\Mail\Connections\ConnectionWasDenied;
 use App\Models\Chat\MessageState;
+use App\Models\Joins\UserInstitution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
 use App\Models\QuestionScreen;
@@ -16,6 +20,7 @@ use App\Models\ResponseBranch;
 use App\Models\StudentUniversity;
 use App\Models\Question;
 use App\Models\Student;
+use App\Models\User;
 use App\Services\QuestionService;
 use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
@@ -23,6 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -245,5 +251,40 @@ class AdminController extends Controller
             'answer_google' => DB::connection($google_db)->select('select count(*) as c from answers_table')[0]->c,
             'answer_imported' => DB::connection($google_db)->select('select count(*) as c from answers_table where imported = 1')[0]->c,
         ]);
+    }
+
+    public function approveConnection(StudentUniversity $connection)
+    {
+        $connection->update([
+            'status' => MatchStudentInstitution::ACCEPTED
+        ]);
+
+        $student = $connection->student;
+
+        // TODO: Create a cronjob for this
+        Mail::to($student->user->email)
+            ->send(new ConnectionWasApproved($connection));
+
+        return true;
+    }
+
+    public function denyConnection(StudentUniversity $connection)
+    {
+        $connection->update([
+            'status' => MatchStudentInstitution::DENIED
+        ]);
+
+        $student = $connection->student;
+
+        $uniUsers = $connection->institution->users->pluck('id');
+
+        $users = User::query()
+            ->whereIn('id', $uniUsers)
+            ->get();
+
+        Mail::to($users)
+            ->send(new ConnectionWasDenied($connection));
+
+        return true;
     }
 }

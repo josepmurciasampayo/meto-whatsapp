@@ -63,4 +63,9 @@ enum MatchStudentInstitution :int
             self::ARCHIVED => 'Archived'
         };
     }
+
+    public function labelPowergridFilter(): string
+    {
+        return self::getText($this);
+    }
 }

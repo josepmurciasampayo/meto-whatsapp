@@ -44,13 +44,8 @@ enum Curriculum :int
         ];
     }
 
-    public function labels()
-    {
-        return self::getText($this);
-    }
-
     public function labelPowergridFilter(): string
     {
-        return $this->labels();
+        return self::getText($this);
     }
 }
