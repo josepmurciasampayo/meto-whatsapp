@@ -260,6 +260,7 @@ class AdminController extends Controller
 
         $student = $connection->student;
 
+        // TODO: Create a cronjob for this
         Mail::to($student->user->email)
             ->send(new ConnectionWasApproved($connection));
 

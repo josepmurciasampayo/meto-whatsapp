@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\Student\Curriculum;
+use App\Http\Controllers\AdminController;
 use App\Models\Institution;
 use App\Models\Student;
 use App\Models\StudentUniversity;
@@ -30,14 +31,51 @@ final class ConnectionsTable extends PowerGridComponent
     */
     public function setUp(): array
     {
+        $this->showCheckBox();
         return [
-            Exportable::make('students')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+//            Exportable::make('students')
+//                ->striped()
+//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount()
         ];
+    }
+
+    public function header() :array
+    {
+        return [
+            Button::add('approve')
+                ->caption(__('Bulk approve'))
+                ->class('cursor-pointer block bg-indigo-500 text-white')
+                ->emit('bulkApprove', []),
+            Button::add('deny')
+                ->caption(__('Bulk deny'))
+                ->emit('bulkDeny', []),
+        ];
+    }
+
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(), [
+            'bulkApprove',
+            'bulkDeny'
+        ]);
+    }
+
+    public function bulkApprove()
+    {
+        foreach ($this->checkboxValues as $connectionId) {
+            (new AdminController())->approveConnection(StudentUniversity::find($connectionId));
+        }
+    }
+
+    public function bulkDeny()
+    {
+        foreach ($this->checkboxValues as $connectionId) {
+            (new AdminController())->approveConnection(StudentUniversity::find($connectionId));
+        }
     }
 
     /*
@@ -152,10 +190,18 @@ final class ConnectionsTable extends PowerGridComponent
 
     public function filters(): array
     {
+        $statuses = MatchStudentInstitution::cases();
+        $statuses = array_filter($statuses, function ($status) {
+            return $status->value !== 5 && $status->value !== 4;
+        });
+
         return [
             Filter::enumSelect('curriculum')
                 ->dataSource(Curriculum::cases())
-                ->optionValue('value')
+                ->optionValue('value'),
+            Filter::enumSelect('status', 'status')
+                ->dataSource($statuses)
+                ->optionLabel('name')
         ];
     }
 }
