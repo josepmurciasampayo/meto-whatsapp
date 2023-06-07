@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserInstitution extends Model
 {
+    public $table = 'user_institutions';
+
     public static function joinUserInstitution(int $user_id, int $institution_id) :UserInstitution
     {
         $new = new UserInstitution();

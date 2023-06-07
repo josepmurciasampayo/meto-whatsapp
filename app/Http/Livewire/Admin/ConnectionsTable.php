@@ -74,7 +74,7 @@ final class ConnectionsTable extends PowerGridComponent
     public function bulkDeny()
     {
         foreach ($this->checkboxValues as $connectionId) {
-            (new AdminController())->approveConnection(StudentUniversity::find($connectionId));
+            (new AdminController())->denyConnection(StudentUniversity::find($connectionId));
         }
     }
 

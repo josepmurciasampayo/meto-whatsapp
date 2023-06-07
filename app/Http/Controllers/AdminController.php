@@ -11,6 +11,7 @@ use App\Helpers;
 use App\Mail\Connections\ConnectionWasApproved;
 use App\Mail\Connections\ConnectionWasDenied;
 use App\Models\Chat\MessageState;
+use App\Models\Joins\UserInstitution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
 use App\Models\QuestionScreen;
@@ -275,8 +276,13 @@ class AdminController extends Controller
 
         $student = $connection->student;
 
-        // TODO: Send denial mail to uni users
-        Mail::to($student->user->email)
+        $uniUsers = $connection->institution->users->pluck('id');
+
+        $users = User::query()
+            ->whereIn('id', $uniUsers)
+            ->get();
+
+        Mail::to($users)
             ->send(new ConnectionWasDenied($connection));
 
         return true;

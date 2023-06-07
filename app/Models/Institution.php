@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers;
+use App\Models\Joins\UserInstitution;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\In;
 
@@ -34,5 +35,10 @@ class Institution extends Model
         $institution = Institution::where('user_id', $user_id)->first();
 
         return Institution::find($institution->institution_id);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(UserInstitution::class);
     }
 }
