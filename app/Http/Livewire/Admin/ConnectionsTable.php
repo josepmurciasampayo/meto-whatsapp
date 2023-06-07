@@ -34,7 +34,6 @@ final class ConnectionsTable extends PowerGridComponent
             Exportable::make('students')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount()
@@ -60,26 +59,6 @@ final class ConnectionsTable extends PowerGridComponent
             ->where('status', '!=', MatchStudentInstitution::ACCEPTED)
             ->where('status', '!=', MatchStudentInstitution::DENIED)
             ->get();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    |  Relationship Search
-    |--------------------------------------------------------------------------
-    | Configure here relationships to be used by the Search and Table Filters.
-    |
-    */
-
-    /**
-     * Relationship search.
-     *
-     * @return array<string, array<int, string>>
-     */
-    public function relationSearch(): array
-    {
-        return [
-            // TODO: Implement the search relationships
-        ];
     }
 
     /*
