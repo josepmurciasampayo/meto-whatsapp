@@ -19,8 +19,11 @@ class StaticController extends Controller
         return view('static.terms');
     }
 
-    public function consent() :View
+    public function consent() :View|RedirectResponse
     {
+        if (is_null(Auth::user())) {
+            return redirect(route('login'));
+        }
         switch (Auth::user()->role) {
             case Role::INSTITUTION():
                 return view('static.consent-uni');

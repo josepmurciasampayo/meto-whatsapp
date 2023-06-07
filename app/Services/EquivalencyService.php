@@ -96,7 +96,8 @@ class EquivalencyService
             $final[] = $answer->text;
         }
 
-        $final = implode(null, sort($final));
+        sort($final);
+        $final = implode(null, $final);
         $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
         $student->save();
     }
