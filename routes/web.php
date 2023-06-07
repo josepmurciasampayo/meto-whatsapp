@@ -87,6 +87,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('equivalencies', \App\Http\Controllers\EquivalencyController::class);
 
     Route::resource('connections', \App\Http\Controllers\ConnectionController::class);
+    Route::post('/connections/{connection}/approve', [AdminController::class, 'approveConnection']);
+    Route::post('/connections/{connection}/deny', [AdminController::class, 'denyConnection']);
 });
 
 Route::middleware(['auth', 'consent', 'university'])->group(function() {

@@ -56,7 +56,10 @@ final class ConnectionsTable extends PowerGridComponent
      */
     public function datasource(): Collection
     {
-        return StudentUniversity::query()->get();
+        return StudentUniversity::query()
+            ->where('status', '!=', MatchStudentInstitution::ACCEPTED)
+            ->where('status', '!=', MatchStudentInstitution::DENIED)
+            ->get();
     }
 
     /*
@@ -93,6 +96,11 @@ final class ConnectionsTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
+            ->addColumn('actions', function (StudentUniversity $connection) {
+                return
+                    '<button class="btn btn-success" onclick="approveConnection(this)" connection_id="' . $connection->id . '">Approve</button>'
+                    . '<button class="btn btn-danger" onclick="denyConnection(this)" connection_id="' . $connection->id . '">Deny</button>';
+            })
             ->addColumn('student', function (StudentUniversity $connection) {
                 return $connection->student->user->getFullName();
             })
@@ -101,6 +109,24 @@ final class ConnectionsTable extends PowerGridComponent
             })
             ->addColumn('status', function (StudentUniversity $connection) {
                 return MatchStudentInstitution::descriptions()[$connection->status];
+            })
+            ->addColumn('student_curriculum', function (StudentUniversity $connection) {
+                return $connection->student->curriculum;
+            })
+            ->addColumn('student_equivalency', function (StudentUniversity $connection) {
+                return $connection->student->equivalency;
+            })
+            ->addColumn('student_efc', function (StudentUniversity $connection) {
+                return $connection->student->efc;
+            })
+            ->addColumn('institution_curriculum', function (StudentUniversity $connection) {
+                return $connection->institution->min_grade_curriculum;
+            })
+            ->addColumn('institution_equivalency', function (StudentUniversity $connection) {
+                return $connection->institution->min_grade_equivalency;
+            })
+            ->addColumn('institution_efc', function (StudentUniversity $connection) {
+                return $connection->institution->efc;
             });
 
     }
@@ -122,11 +148,21 @@ final class ConnectionsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('Actions', 'actions'),
             Column::make('Student', 'student')->searchable()->sortable(),
             Column::make('Institution', 'institution')->searchable()->sortable(),
 //            Column::make('Status application', 'status_application')->searchable()->sortable(),
 //            Column::make('Status enrollment', 'status_enrollment')->searchable(),
             Column::make('Status', 'status')->sortable(),
+
+            Column::make('Student curriculum', 'student_curriculum')->searchable()->sortable(),
+            Column::make('Student equivalency', 'student_equivalency')->searchable()->sortable(),
+            Column::make('Student efc', 'student_efc')->searchable()->sortable(),
+
+            Column::make('Institution curriculum', 'institution_curriculum')->searchable()->sortable(),
+            Column::make('Institution equivalency', 'institution_equivalency')->searchable()->sortable(),
+            Column::make('Institution efc', 'institution_efc')->searchable()->sortable(),
+
 //            Column::make('Intent', 'intent'),
 //            Column::make('Heard Of', 'heard_of'),
 //            Column::make('Factors', 'factors'),

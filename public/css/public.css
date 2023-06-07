@@ -25,6 +25,11 @@ input.form-control {
 .btn-green {
     background: #1A8754 !important;
 }
+.btn-danger:hover {
+    background: #DC3346 !important;
+    border: 1px solid #DC3346 !important;
+    opacity: .9;
+}
 #students-tables {
     input[type='radio'] {
         appearance: none;
