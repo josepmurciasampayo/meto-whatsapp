@@ -13,6 +13,7 @@ use App\Mail\InviteStudent;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Student;
+use App\Models\StudentUniversity;
 use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\EquivalencyService;
@@ -227,5 +228,15 @@ class StudentController extends Controller
         $user->save();
 
         return view('student.transferThankyou');
+    }
+
+    public function showConnections()
+    {
+        $connections = StudentUniversity::query()
+            ->where('student_id', auth()->id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        return view('...');
     }
 }
