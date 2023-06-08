@@ -8,6 +8,8 @@ use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\QuestionType;
 use App\Helpers;
+use App\Jobs\SendConnectionApprovalMail;
+use App\Jobs\SendConnectionDenialMail;
 use App\Mail\Connections\ConnectionWasApproved;
 use App\Mail\Connections\ConnectionWasDenied;
 use App\Models\Chat\MessageState;
@@ -25,6 +27,7 @@ use App\Services\QuestionService;
 use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -253,38 +256,50 @@ class AdminController extends Controller
         ]);
     }
 
-    public function approveConnection(StudentUniversity $connection)
+    public function approveConnection($connections)
+    {
+        if ($connections instanceof Collection) {
+            $minutesToAdd = 1;
+            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
+                $this->processApproval($connection, $minutesToAdd);
+                $minutesToAdd += 1;
+            }
+        } else {
+            $connection = StudentUniversity::find($connections)->first();
+            $this->processApproval($connection);
+        }
+    }
+
+    public function processApproval($connection, $minutesToAdd = 1)
     {
         $connection->update([
             'status' => MatchStudentInstitution::ACCEPTED
         ]);
 
-        $student = $connection->student;
-
-        // TODO: Create a cronjob for this
-        Mail::to($student->user->email)
-            ->send(new ConnectionWasApproved($connection));
-
-        return true;
+        SendConnectionApprovalMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 
-    public function denyConnection(StudentUniversity $connection)
+    public function denyConnection($connections)
+    {
+        if ($connections instanceof Collection) {
+            $connections = $connections->pluck('id');
+            $minutesToAdd = 1;
+            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
+                $this->processDenial($connection, $minutesToAdd);
+                $minutesToAdd += 1;
+            }
+        } else {
+            $connection = StudentUniversity::find($connections)->first();
+            $this->processDenial($connection);
+        }
+    }
+
+    public function processDenial($connection, $minutesToAdd = 1)
     {
         $connection->update([
             'status' => MatchStudentInstitution::DENIED
         ]);
 
-        $student = $connection->student;
-
-        $uniUsers = $connection->institution->users->pluck('id');
-
-        $users = User::query()
-            ->whereIn('id', $uniUsers)
-            ->get();
-
-        Mail::to($users)
-            ->send(new ConnectionWasDenied($connection));
-
-        return true;
+        SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 }

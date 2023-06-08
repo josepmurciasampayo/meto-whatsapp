@@ -66,16 +66,16 @@ final class ConnectionsTable extends PowerGridComponent
 
     public function bulkApprove()
     {
-        foreach ($this->checkboxValues as $connectionId) {
-            (new AdminController())->approveConnection(StudentUniversity::find($connectionId));
-        }
+        $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
+            ->pluck('id');
+        (new AdminController())->approveConnection($connections);
     }
 
     public function bulkDeny()
     {
-        foreach ($this->checkboxValues as $connectionId) {
-            (new AdminController())->denyConnection(StudentUniversity::find($connectionId));
-        }
+        $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
+            ->pluck('id');
+        (new AdminController())->denyConnection(StudentUniversity::find($connections));
     }
 
     /*
