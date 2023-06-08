@@ -60,8 +60,8 @@ final class StudentTable extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
-            ->whereNotNull('efc')
-            ->whereNotNull('equivalency')
+//            ->whereNotNull('efc')
+//            ->whereNotNull('equivalency')
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
     }
 
@@ -91,7 +91,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
                 $name = 'student_' . $student->id;
-                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '">Connect</label>';
+                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect">Connect</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e($student->efc);
@@ -174,7 +174,7 @@ final class StudentTable extends PowerGridComponent
                $key = 'maybe_student_' . $student->id;
                $name = 'student_' . $student->id;
                return Blade::render('
-                    <input type="radio" value="maybe" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '">Maybe</label>'
+                    <input type="radio" value="maybe" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="maybe">Maybe</label>'
                );
             }),
             Button::add('archive')
@@ -182,7 +182,7 @@ final class StudentTable extends PowerGridComponent
                $key = 'archive_student_' . $student->id;
                $name = 'student_' . $student->id;
                return Blade::render('
-                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '">Archive</label>'
+                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="archive">Archive</label>'
                );
             })
         ];
