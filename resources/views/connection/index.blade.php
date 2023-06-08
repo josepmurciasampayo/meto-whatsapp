@@ -7,7 +7,7 @@
     </div>
 
     <script>
-        let deletedConnections = 0
+        let deletedConnections = 1
 
         let approveConnection = (btn) => {
             let connectionId = btn.getAttribute('connection_id')
