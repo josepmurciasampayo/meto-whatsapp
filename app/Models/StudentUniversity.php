@@ -19,7 +19,10 @@ class StudentUniversity extends Model
         'student_id',
         'institution_id',
         'change_date',
-        'status'
+        'status',
+        'application_link',
+        'deadline',
+        'events',
     ];
 
     public function student()

@@ -8,6 +8,7 @@ use App\Models\Answer;
 use App\Models\Equivalency;
 use App\Models\Institution;
 use App\Models\Student;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class EquivalencyService
 {
@@ -97,7 +98,7 @@ class EquivalencyService
         }
 
         sort($final);
-        $final = implode(null, $final);
+        $final = implode($final);
         $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
         $student->save();
     }
@@ -250,7 +251,8 @@ class EquivalencyService
 
     public function updateUni(Institution $uni): void
     {
-        $curriculum = Curriculum::tryFrom($uni->min_grade_curriculum);
+        $curriculum = Curriculum::from($uni->min_grade_curriculum);
+
         switch ($curriculum) {
             case Curriculum::IB:
                 $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::IBFINAL, $uni->min_grade);

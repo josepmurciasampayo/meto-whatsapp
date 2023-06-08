@@ -1,15 +1,16 @@
-@if(true) <!-- American -->
+@if ($student->curriculum == \App\Enums\Student\Curriculum::AMERICAN()) <!-- American -->
     <p class="detail">
         <span class="label">Junior-year GPA:</span>
         <br />
-        <span class="info">qid=143</span>
+        <span class="info">{{ $row[] }}</span>
     </p>
     <p class="detail">
         <span class="label">Senior-year GPA:</span>
         <br />
         <span class="info">qid=150</span>
     </p>
-@elseif(false) <!-- IB -->
+
+@elseif ($student->curriculum == \App\Enums\Student\Curriculum::IB()) <!-- IB -->
     <!-- Determine if the grade is semester, predicted or final -->
     @if(true) <!-- Semester -->
         <p class="detail">
@@ -61,13 +62,13 @@
         <br />
         <span class="info">qid=37</span>
     </p>
-@elseif(false) <!-- Cambridge -->
+
+@elseif ($student->curriculum == \App\Enums\Student\Curriculum::CAMBRIDGE()) <!-- Cambridge -->
     <p class="detail">
         <span class="label">Score Description:</span>
         <br />
         <span class="info">Qid=460</span>
     </p>
-
     <p class="detail">
         <span class="label">A-level Subject 1:</span>
         <br />
@@ -78,7 +79,6 @@
         <br />
         <span class="info">Qid=168</span>
     </p>
-
     <p class="detail">
         <span class="label">A-level Subject 2:</span>
         <br />
@@ -89,7 +89,6 @@
         <br />
         <span class="info">Qid=169</span>
     </p>
-
     <p class="detail">
         <span class="label">A-level Subject 3:</span>
         <br />
@@ -100,7 +99,8 @@
         <br />
         <span class="info">Qid=170</span>
     </p>
-@elseif(false) <!-- Rwandan -->
+
+@elseif ($student->curriculum == \App\Enums\Student\Curriculum::RWANDAN()) <!-- Rwandan -->
     <p class="detail">
         <span class="label">Mock Exam Score:</span>
         <br />
@@ -111,7 +111,8 @@
         <br />
         <span class="info">___ (Qid=343)</span>
     </p>
-@elseif(false) <!-- Ugandan -->
+
+@elseif ($student->curriculum == \App\Enums\Student\Curriculum::UGANDAN()) <!-- Ugandan -->
     <p class="detail">
         <span class="label">Mock Exam Score:</span>
         <br />
@@ -122,7 +123,8 @@
         <br />
         <span class="info">qid=378</span>
     </p>
-@elseif(false) <!-- Kenyan -->
+
+@elseif($student->curriculum == \App\Enums\Student\Curriculum::KENYAN()) <!-- Kenyan -->
     <p class="detail">
         <span class="label">Mock KCSE Exam Score:</span>
         <br />
@@ -133,6 +135,7 @@
         <br />
         <span class="info">qid=375</span>
     </p>
+
 @else <!-- Other -->
     <p class="detail">
         <span class="label">Current Exam Scores:</span>

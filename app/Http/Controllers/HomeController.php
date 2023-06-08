@@ -49,7 +49,7 @@ class HomeController extends Controller
             if (is_null($uni->min_grade_equivalency)) {
                 return redirect(route('uni.welcome'));
             }
-            //$rawData = UniService::getStudentTableData($uni->id);
+
             return view('uni.students', [
                 'uni' => $uni,
                 'user' => $user

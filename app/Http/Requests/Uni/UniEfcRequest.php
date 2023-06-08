@@ -25,7 +25,7 @@ class UniEfcRequest extends FormRequest
     {
         return [
             'efc' => [
-                'required', 'numeric'
+                'required'
             ]
         ];
     }

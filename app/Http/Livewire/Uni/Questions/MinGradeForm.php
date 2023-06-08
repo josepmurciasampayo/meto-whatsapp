@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Uni\Questions;
 
 use App\Services\EquivalencyService;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Enums\Student\Curriculum;
@@ -41,12 +42,13 @@ class MinGradeForm extends Component
     public function saveMingrade()
     {
         $this->validate();
-
         $uni = Auth::user()->getUni();
         $uni->min_grade_curriculum = $this->curriculum;
         $uni->min_grade = $this->scoreOptions[$this->selectedScoreOption];
         $uni->save();
+
         (new EquivalencyService())->updateUni($uni);
+
         return redirect(route('home'));
     }
 

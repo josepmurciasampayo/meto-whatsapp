@@ -18,6 +18,7 @@ enum Gender :int
             self::MALE => "Male",
             self::FEMALE => "Female",
             self::OTHER => "Other",
+            null => "",
         };
     }
 }

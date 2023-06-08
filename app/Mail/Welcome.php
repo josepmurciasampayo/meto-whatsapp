@@ -33,7 +33,7 @@ class Welcome extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Welcome! You have started your Meto profile.',
+            subject: 'Welcome! You have started your ' . config('app.name') . ' profile.',
         );
     }
 

@@ -33,7 +33,7 @@ class InviteStudent extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Join ' . $this->user->first . ' on Meto',
+            subject: 'Join ' . $this->user->first . ' on ' . config('app.name'),
         );
     }
 

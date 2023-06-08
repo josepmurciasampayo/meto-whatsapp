@@ -6,7 +6,7 @@
     <livewire:uni.student-table/>
 
     <div class="text-end my-4">
-        <button class="btn btn-success submit-pending-btn rounded">Submit</button>
+        <button class="btn btn-success submit-pending-btn rounded">Submit Requests</button>
     </div>
 </form>
 
@@ -39,7 +39,7 @@
                         <x-inputs.text name="application_link" type="url" label="Application Link" class="form-control" />
                     </div>
                     <div class="mt-3">
-                        <x-inputs.date name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
+                        <x-inputs.date starting="2023-09-01" name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
                     </div>
                     <div class="mt-3">
                         <x-inputs.textarea name="upcoming_webinar_events" label="Upcoming Webinar or Events" />

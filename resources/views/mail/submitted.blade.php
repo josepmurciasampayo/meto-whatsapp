@@ -1,6 +1,6 @@
 Hi {{ $user->first }},
 <br/><br/>
-Your Meto profile is 100% complete. Please remember to update your profile as new information becomes available, especially academic information such as predicted grades, national exams, or standardized test scores.
+Your {{ config('app.name') }} profile is 100% complete. Please remember to update your profile as new information becomes available, especially academic information such as predicted grades, national exams, or standardized test scores.
 <br/><br/>
 <ul>
     <li>You can always login at: <a href="https://app.meto-intl.org">https://app.meto-intl.org</a>
@@ -16,6 +16,6 @@ Your Meto profile is 100% complete. Please remember to update your profile as ne
 <br/><br/>
 Best,
 <br/><br/>
-Meto
+{{ config('app.name') }}
 <br/><br/>
 <img src="https://app.meto-intl.org/img/meto-logo-dark.jpeg">

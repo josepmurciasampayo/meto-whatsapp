@@ -33,7 +33,7 @@ class Submitted extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Congatulations, your Meto profile is submitted!',
+            subject: 'Congatulations, your ' . config('app.name') . ' profile is submitted!',
         );
     }
 

@@ -94,8 +94,7 @@ final class ConnectionsTable extends PowerGridComponent
     public function datasource(): Collection
     {
         return StudentUniversity::query()
-            ->where('status', '!=', MatchStudentInstitution::ACCEPTED)
-            ->where('status', '!=', MatchStudentInstitution::DENIED)
+            ->where('status', MatchStudentInstitution::REQUEST())
             ->get();
     }
 
@@ -128,7 +127,7 @@ final class ConnectionsTable extends PowerGridComponent
                 return MatchStudentInstitution::descriptions()[$connection->status];
             })
             ->addColumn('student_curriculum', function (StudentUniversity $connection) {
-                return $connection->student->curriculum;
+                return Curriculum::descriptions()[$connection->student->curriculum];
             })
             ->addColumn('student_equivalency', function (StudentUniversity $connection) {
                 return $connection->student->equivalency;
@@ -137,7 +136,7 @@ final class ConnectionsTable extends PowerGridComponent
                 return $connection->student->efc;
             })
             ->addColumn('institution_curriculum', function (StudentUniversity $connection) {
-                return $connection->institution->min_grade_curriculum;
+                return Curriculum::descriptions()[$connection->institution->min_grade_curriculum];
             })
             ->addColumn('institution_equivalency', function (StudentUniversity $connection) {
                 return $connection->institution->min_grade_equivalency;

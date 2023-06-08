@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\User\Role;
+use App\Helpers;
 use App\Http\Requests\Uni\UniApplicationRequest;
 use App\Http\Requests\Uni\UniEfcRequest;
 use App\Http\Requests\Uni\UniLocationRequest;
@@ -110,7 +111,7 @@ class UniController extends Controller
     public function efcStore(UniEfcRequest $request): RedirectResponse
     {
         $uni = Auth::user()->getUni();
-        $uni->efc = $request->input('efc');
+        $uni->efc = Helpers::stripNonNumeric($request->input('efc'));
         $uni->save();
 
         return redirect(route('uni.mingrade'));
@@ -299,7 +300,7 @@ class UniController extends Controller
             ],
             'upcoming_webinar_events' => [
                 'bail', 'nullable', 'string',
-                'max:200'
+                'max:1000'
             ]
         ]);
 
@@ -327,32 +328,35 @@ class UniController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'connect') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST, $uniId);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'maybe') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE, $uniId);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'archive') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED, $uniId);
+                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 }
                 $createdConnections[] = $createdConnection;
             }
         }
 
         $createdConnections = array_filter($createdConnections, function ($connection) {
-            return $connection->status->value === MatchStudentInstitution::REQUEST->value;
+            return $connection->status->value === MatchStudentInstitution::REQUEST();
         });
 
         // Send a request email to the admin
         Mail::to($admin)->send(new SendConnectionRequestToAdmin($student, $createdConnections));
 
-        return back()->with('response', 'Changes were made successfully.');
+        return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function createConnection($student, $status, $institutionId)
+    public function MatchStudentInstitution(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string $events)
     {
         return StudentUniversity::create([
             'student_id' => $student->id,
             'institution_id' => $institutionId,
-            'status' => $status
+            'status' => $status(),
+            'application_link' => $link,
+            'deadline' => $deadline,
+            'events' => $events,
         ]);
     }
 

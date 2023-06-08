@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Uni;
 
 use App\Enums\EnumGroup;
+use App\Enums\General\YesNo;
 use App\Enums\Student\Curriculum;
 use App\Enums\Student\Gender;
 use App\Models\Enums;
@@ -38,10 +39,12 @@ final class StudentTable extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            /*
             Exportable::make('students')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
+            */
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount()
@@ -57,6 +60,8 @@ final class StudentTable extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            ->whereNotNull('efc')
+            ->whereNotNull('equivalency')
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
     }
 
@@ -104,10 +109,10 @@ final class StudentTable extends PowerGridComponent
                 return e($student->destination);
             })
             ->addColumn('gender', function (Student $student) {
-                return e($student->gender);
+                return e(isset(Gender::descriptions()[$student->gender]) ? Gender::descriptions()[$student->gender] : "");
             })
             ->addColumn('ranking', function (Student $student) {
-                return e($student->ranking);
+                return e(isset(YesNo::descriptions()[$student->ranking]) ? YesNo::descriptions()[$student->ranking] : "");
             })
             ->addColumn('det', function (Student $student) {
                 return e($student->det);
@@ -116,7 +121,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->affiliations);
             })
             ->addColumn('refugee', function (Student $student) {
-                return e($student->refugee);
+                return e(isset(YesNo::descriptions()[$student->refugee]) ? YesNo::descriptions()[$student->refugee] : "");
             })
             ->addColumn('disability', function (Student $student) {
                 return e($student->disability);
@@ -124,8 +129,8 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('equivalency', function (Student $student) {
                 return e($student->equivalency);
             })
-            ->addColumn('other testing', function (Student $student) {
-                return e($student->toefl);
+            ->addColumn('other_testing', function (Student $student) {
+                return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
             });
     }
 
@@ -148,10 +153,10 @@ final class StudentTable extends PowerGridComponent
             Column::make('Gender', 'gender')->searchable()->sortable(),
             Column::make('Nationally Ranked', 'ranking')->searchable(),
             Column::make('DET Score', 'det')->searchable()->sortable(),
+            Column::make('Other Testing', 'other_testing')->searchable(),
             Column::make('Affiliations', 'affiliations')->searchable(),
             Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
             Column::make('Disability Disclosure', 'disability')->searchable(),
-            Column::make('Other Testing', 'toefl')->searchable(),
         ];
     }
 
