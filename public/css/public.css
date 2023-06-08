@@ -40,9 +40,58 @@ input.form-control {
         cursor: pointer;
     }
 }
-label[selected_option="true"].connect { color: var(--connect); }
-label[selected_option="true"].maybe { color: var(--maybe); }
-label[selected_option="true"].archive { color: var(--archive); }
+.btn-connect {
+    color: white;
+    background: var(--connect);
+    border-radius: 5px !important;
+}
+[target='connect'] {
+    border: 1px solid var(--connect) !important;
+    color: var(--connect) !important;
+    border-radius: 5px !important;
+}
+.btn-maybe {
+    color: white;
+    background: var(--maybe);
+    border-radius: 5px !important;
+}
+[target='maybe'] {
+    color: var(--maybe) !important;
+    border: 1px solid var(--maybe) !important;
+    &:hover {
+        color: white !important;
+        border: 1px solid var(--maybe) !important;
+        background: var(--maybe) !important;
+    }
+    border-radius: 5px !important;
+}
+.btn-archive {
+    color: white;
+    background: var(--archive);
+    border-radius: 5px !important;
+}
+[target='archive'] {
+    color: var(--archive) !important;
+    border: 1px solid var(--archive) !important;
+    &:hover {
+        color: white !important;
+        border: 1px solid var(--archive) !important;
+        background: var(--archive) !important;
+    }
+    border-radius: 5px !important;
+}
+label[selected_option="true"].connect {
+    .btn-connect();
+    color: white !important;
+}
+label[selected_option="true"].maybe {
+    .btn-maybe();
+    color: white !important;
+}
+label[selected_option="true"].archive {
+    .btn-archive();
+    color: white !important;
+}
 /** End of Utilities */
 
 
