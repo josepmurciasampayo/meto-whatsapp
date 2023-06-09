@@ -64,6 +64,7 @@ final class StudentTable extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            // TODO: Enable those 2 lines when we finish the process
 //            ->whereNotNull('efc')
 //            ->whereNotNull('equivalency')
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
