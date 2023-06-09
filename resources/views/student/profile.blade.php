@@ -9,7 +9,7 @@
                  <x-inputs.text name="first" label="First/Given Name" saved="{{ $user->first }}"></x-inputs.text>
                  <x-inputs.text name="middle" label="Middle Name" saved="{{ $user->middle }}"></x-inputs.text>
                  <x-inputs.text name="last" label="Last/Family Name" saved="{{ $user->last }}"></x-inputs.text>
-                 <x-inputs.email disabled name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
+                 <x-inputs.email name="email" label="Email" saved="{{ $user->email }}"></x-inputs.email>
                  <x-inputs.phone name="phone" json="{{ $user->phone_array }}" label="Phone Number" req="true"></x-inputs.phone>
                  <x-inputs.select name="owner" saved="{{ $user->phone_owner ?? '' }}" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
                  @php $w = [1 => "I use this number for WhatsApp"] @endphp
