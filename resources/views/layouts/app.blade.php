@@ -70,16 +70,21 @@
             </div>
 
             <div>
-                <?php if (Auth()->user()) { ?>
+                @if (Auth()->user())
                     @if (!(Auth()->user()->isStudent()))
                         <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('profile') }}">Profile</a>
-                    @endif
+                   @endif
                     <a class="text-white mx-3" style="text-decoration: none;" href="{{ route('logout') }}">Logout</a>
-                <?php } else { ?>
+                @else
                     <x-button-nav href="{{route('signup') }}" class="btn btn-outline text-white-600 hover:text-gray-900 text-xs"><i class="fas fa-user-plus"></i> Create an Account</x-button-nav>
-                <?php } ?>
+                @endif
             </div>
         </div>
+        @if (Auth()->user()?->isAdmin())
+            <div class="flex">
+                <x-sidebar-menu />
+            </div>
+        @endif
     </header>
 
     <main class="container-fluid">
