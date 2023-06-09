@@ -58,10 +58,11 @@
                     </h3>
                     <p class="break-long-words trace-message">{{ $content['message'] ?? '' }}</p>
                     <p class="">URL: {{ $content['url'] ?? '' }}</p>
+                    <p class="">Referral: {{ $content['referral'] ?? '' }}</p>
                     <p class="">IP: {{ $content['ip'] ?? '' }}</p>
                     <p class="">User: {{ $content['user']->email ?? '' }}</p>
                     <p class="">User ID: {{ $content['user']->id ?? '' }}</p>
-                    <p class="">Role: {{ $role[$content['user']->role] ?? '' }}</p>
+                    <p class="">Role: {{ \App\Enums\User\Role::descriptions()[$content['user']->role] ?? '' }}</p>
                 </th></tr></thead>
             <tbody>
             <tr>
