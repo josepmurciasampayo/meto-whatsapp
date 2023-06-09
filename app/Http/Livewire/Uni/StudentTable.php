@@ -36,6 +36,10 @@ final class StudentTable extends PowerGridComponent
 
     public $status;
 
+    public int $perPage = 10;
+
+    public $perPageValues = [25, 50, 150, 250, 500];
+
     public function setUp(): array
     {
         return [
@@ -46,7 +50,7 @@ final class StudentTable extends PowerGridComponent
             Header::make()->showSearchInput(),
             */
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
         ];
     }
@@ -60,6 +64,7 @@ final class StudentTable extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            // TODO: Enable those 2 lines when we finish the process
 //            ->whereNotNull('efc')
 //            ->whereNotNull('equivalency')
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uniId));
