@@ -55,6 +55,16 @@
             label.classList.add(action)
             // Select the action's radio input
             document.querySelector("input[type='radio'][value='" + action + "'][name='student_" + label.getAttribute('key') + "']").checked = true
+            // Handle the unselect event for this button
+            setTimeout(() => {
+                label.addEventListener('dblclick', () => {
+                    console.log('the event is happening')
+                    if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
+                        label.removeAttribute('selected_option')
+                        label.parentElement.querySelector('input').checked = false
+                    }
+                }, { once: true })
+            }, 500)
         }
 
         let unselectAllOptions = label => {
