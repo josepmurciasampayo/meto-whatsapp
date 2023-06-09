@@ -22,6 +22,10 @@ final class ConnectionsTable extends PowerGridComponent
 {
     use ActionButton;
 
+    public int $perPage = 10;
+
+    public $perPageValues = [25, 50, 150, 250, 500];
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -37,7 +41,7 @@ final class ConnectionsTable extends PowerGridComponent
 //                ->striped()
 //                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
         ];
     }

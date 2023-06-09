@@ -16,6 +16,10 @@ final class StudentTableMaybe extends PowerGridComponent
 {
     use ActionButton;
 
+    public int $perPage = 10;
+
+    public $perPageValues = [25, 50, 150, 250, 500];
+
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -26,7 +30,7 @@ final class StudentTableMaybe extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
         ];
     }

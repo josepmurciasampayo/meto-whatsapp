@@ -36,6 +36,10 @@ final class StudentTable extends PowerGridComponent
 
     public $status;
 
+    public int $perPage = 10;
+
+    public $perPageValues = [25, 50, 150, 250, 500];
+
     public function setUp(): array
     {
         return [
@@ -46,7 +50,7 @@ final class StudentTable extends PowerGridComponent
             Header::make()->showSearchInput(),
             */
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
         ];
     }
