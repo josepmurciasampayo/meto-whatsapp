@@ -35,17 +35,20 @@
         <script>
         let card = document.querySelector('.single-student-card')
 
-        let labels = document.querySelectorAll('#students-tables label')
 
-        labels.forEach(label => {
-            label.addEventListener('click', () => {
-                if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
-                    let action = null;
-                    action = label.textContent.toLowerCase()
-                    selectOption(label, action)
-                }
+        setInterval(() => {
+            let labels = document.querySelectorAll('#students-tables label')
+            console.log('applying the event listeners ...')
+            labels.forEach(label => {
+                label.addEventListener('click', () => {
+                    if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
+                        let action = null;
+                        action = label.textContent.toLowerCase()
+                        selectOption(label, action)
+                    }
+                })
             })
-        })
+        }, 1000)
 
         let selectOption = (label, action) => {
             // Unselect all the labels first
