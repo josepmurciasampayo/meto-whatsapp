@@ -45,8 +45,13 @@
                         <x-inputs.textarea name="upcoming_webinar_events" label="Upcoming Webinar or Events" />
                     </div>
 
-                    <div class="text-end">
-                        <button onclick="sendConnection(event)" type="button" class="btn btn-success btn-green submit-pending-btn rounded mt-3">Request Connection</button>
+                    <div class="row">
+                        <div class="col">
+                            <button onclick="closeModal()" type="button" class="btn btn-outline-danger rounded mt-3">Cancel</button>
+                        </div>
+                        <div class="col text-end">
+                            <button onclick="sendConnection(event)" type="button" class="btn btn-success btn-green submit-pending-btn rounded mt-3">Request Connection</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -174,5 +179,9 @@
 
     let showSuccessAlert = () => {
         document.querySelector('#successHolder').classList.remove('d-none')
+    }
+
+    let closeModal = () => {
+        $(emailModal).modal('hide')
     }
 </script>
