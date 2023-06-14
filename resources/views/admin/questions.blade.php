@@ -52,7 +52,7 @@
                 @php $id = $row['id'] @endphp
                 <input type="hidden" name="id" id="id" value="{{ $id }}">
                 <td><a target="_blank" href="{{ route('question', ['id' => $id]) }}"><?php echo $row['text'] ?></a></td>
-                <td><?php echo '3' ?></td>
+                <td><?php echo $type[$row['type']] ?></td>
                 <td><?php echo $format[$row['format']] ?></td>
                 <td><?php echo $row['order'] ?></td>
                 <td><?php echo $active[$row['status']] ?></td>

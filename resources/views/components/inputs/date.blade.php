@@ -1,6 +1,8 @@
 <!-- date.blade.php -->
-@props(['name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'class' => '', 'starting' => false])
-
+@props(['name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
+@php $startDate = ($saved) ?? ($starting) ?? "2001-01-01" @endphp
+@php use Barryvdh\Debugbar\Facades\Debugbar @endphp
+@php Debugbar::info($saved . " and " . $startDate) @endphp
 <div class="my-4 bg-gray-100 px-4 py-3 rounded-md">
     @php $required = ($req) ? "*" : ""  @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
@@ -26,7 +28,7 @@
             "autoApply": true,
             "minYear": 2000,
             "maxYear": new Date().getFullYear() + 1,
-            "startDate": {{ $starting ?? '"2001-01-01"' }},
+            "startDate": "{{ $startDate }}",
             "locale": {
                 format: 'YYYY-MM-DD',
             },

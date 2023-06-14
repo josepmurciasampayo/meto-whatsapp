@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Mail\ExceptionOccured;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -70,6 +71,7 @@ class Handler extends ExceptionHandler
             $content['line'] = $exception->getLine();
             $content['trace'] = $exception->getTrace();
             $content['url'] = request()->url();
+            $content['referrer'] = Request::server('HTTP_REFERER');
             $content['body'] = request()->all();
             $content['ip'] = request()->ip();
             $content['user'] = (Auth::user()) ? Auth::user() : '';

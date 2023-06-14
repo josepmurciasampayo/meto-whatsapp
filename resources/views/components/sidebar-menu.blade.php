@@ -1,5 +1,21 @@
 @props(['links' => []])
 
+@php
+$links = [
+['label' => 'Chat language', 'icon' => 'fas fa-message', 'href' => route('campaigns')],
+['label' => 'WhatsApp log', 'icon' => 'fas fa-book', 'href' => route('comms-log')],
+['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions')],
+['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curricula')],
+['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
+['label' => 'Connections', 'icon' => 'fas fa-user', 'href' => route('connections.index')],
+['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
+['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
+['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
+['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
+['label' => 'Work Requests', 'icon' => 'fas fa-network-wired', 'href' => route('workRequest'), 'target' => '_blank'],
+];
+@endphp
+
 <aside class="sidebar">
     <button class="sidebar-toggle">
         <i class="fa fa-bars"></i>
