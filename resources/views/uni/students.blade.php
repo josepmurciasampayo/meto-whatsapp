@@ -44,6 +44,7 @@
                 })
             }
 
+            unstripeTables()
             setInterval(() => unstripeTables(), 500)
 
             let card = document.querySelector('.single-student-card')
