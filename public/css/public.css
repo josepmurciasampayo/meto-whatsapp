@@ -92,6 +92,9 @@ label[selected_option="true"].archive {
     .btn-archive();
     color: white !important;
 }
+.bg-gray {
+    background: rgb(128 128 128 / 29%);
+}
 /** End of Utilities */
 
 

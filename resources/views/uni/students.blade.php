@@ -33,6 +33,15 @@
         @include('_partials.questions.card')
 
         <script>
+        document.querySelectorAll('table').forEach(table => {
+            table.classList.remove('table-striped')
+
+            let head = table.querySelector('tbody tr')
+            !head.hasAttribute('wire:key')
+                ? head.classList.add('bg-gray')
+                : null
+        })
+
         let card = document.querySelector('.single-student-card')
 
         let labels = document.querySelectorAll('#students-tables label')
