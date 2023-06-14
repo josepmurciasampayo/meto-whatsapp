@@ -37,20 +37,29 @@
                 document.querySelectorAll('table.table-striped').forEach(table => {
                     table.classList.remove('table-striped')
 
-
-        setInterval(() => {
-            let labels = document.querySelectorAll('#students-tables label')
-            console.log('applying the event listeners ...')
-            labels.forEach(label => {
-                label.addEventListener('click', () => {
-                    if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
-                        let action = null;
-                        action = label.textContent.toLowerCase()
-                        selectOption(label, action)
-                    }
+                    let head = table.querySelector('tbody tr')
+                    !head.hasAttribute('wire:key')
+                        ? head.classList.add('bg-gray')
+                        : null
                 })
-            })
-        }, 1000)
+            }
+
+            unstripeTables()
+            setInterval(() => unstripeTables(), 500)
+
+            setInterval(() => {
+                let labels = document.querySelectorAll('#students-tables label')
+                console.log('applying the event listeners ...')
+                labels.forEach(label => {
+                    label.addEventListener('click', () => {
+                        if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
+                            let action = null;
+                            action = label.textContent.toLowerCase()
+                            selectOption(label, action)
+                        }
+                    })
+                })
+            }, 1000)
 
             let card = document.querySelector('.single-student-card')
 
