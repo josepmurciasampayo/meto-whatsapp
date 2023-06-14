@@ -92,6 +92,14 @@ label[selected_option="true"].archive {
     .btn-archive();
     color: white !important;
 }
+.bg-gray {
+    background: rgb(128 128 128 / 29%);
+}
+.btn-outline-danger:hover {
+    background: #DC3346 !important;
+    color: white !important;
+    border: 1px solid #DC3346 !important;
+}
 /** End of Utilities */
 
 
