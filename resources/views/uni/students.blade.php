@@ -33,75 +33,89 @@
         @include('_partials.questions.card')
 
         <script>
-        let card = document.querySelector('.single-student-card')
+            let unstripeTables = () => {
+                document.querySelectorAll('table.table-striped').forEach(table => {
+                    table.classList.remove('table-striped')
 
-        let labels = document.querySelectorAll('#students-tables label')
-
-        labels.forEach(label => {
-            label.addEventListener('click', () => {
-                if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
-                    let action = null;
-                    action = label.textContent.toLowerCase()
-                    selectOption(label, action)
-                }
-            })
-        })
-
-        let selectOption = (label, action) => {
-            // Unselect all the labels first
-            unselectAllOptions(label)
-            // Select the new label
-            label.setAttribute('selected_option', true)
-            label.classList.add(action)
-            // Select the action's radio input
-            document.querySelector("input[type='radio'][value='" + action + "'][name='student_" + label.getAttribute('key') + "']").checked = true
-            // Handle the unselect event for this button
-            setTimeout(() => {
-                label.addEventListener('dblclick', () => {
-                    console.log('the event is happening')
-                    if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
-                        label.removeAttribute('selected_option')
-                        label.parentElement.querySelector('input').checked = false
-                    }
-                }, { once: true })
-            }, 500)
-        }
-
-        let unselectAllOptions = label => {
-            let key = label.getAttribute('key')
-            // Uncolor all the labels
-            document.querySelectorAll("label[key='" + key + "']").forEach(label => {
-                label.hasAttribute('selected_option') ? label.removeAttribute('selected_option') : null
-            })
-            // Unselect all the radio inputs
-            document.querySelectorAll('input[type="radio"][name="student_' + key + '"]').forEach(radio => radio.checked = false)
-        }
-
-        let showStudentCard = el => {
-            let studentId = el.getAttribute('data-student-id')
-            axios.get('/uni-student-fetch/' + studentId)
-                .then(res => {
-                    let data = res.data;
-
-                    card.style.display = 'block'
-
-                    card.querySelector('#name').textContent = data.user.first + ' ' + data.user.last
-                    card.querySelector('#age').textContent = data.student.age
-
-                    qas = card.querySelector('#qas')
-                    qas.innerHTML = ''
-                    data.qas.forEach(qa => {
-                        qas.innerHTML += '<div class="p-3 col-md-6">' + '<div class="bg-light p-3 qa rounded mb-3">' +
-                            '<p class="fw-bold small">#' + qa.question_id + ': ' +  qa.question.text + '</p>' +
-                            '<p class="small">' + qa.text + '</p>' +
-                            '</div>' + '</div>'
-                    })
+                    let head = table.querySelector('tbody tr')
+                    !head.hasAttribute('wire:key')
+                        ? head.classList.add('bg-gray')
+                        : null
                 })
-                .catch(err => console.log(err))
-        }
+            }
 
-        let closeStudentCard = () => {
-            card.style.display = 'none'
-        }
-    </script>
+            unstripeTables()
+            setInterval(() => unstripeTables(), 500)
+
+            let card = document.querySelector('.single-student-card')
+
+            let labels = document.querySelectorAll('#students-tables label')
+
+            labels.forEach(label => {
+                label.addEventListener('click', () => {
+                    if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
+                        let action = null;
+                        action = label.textContent.toLowerCase()
+                        selectOption(label, action)
+                    }
+                })
+            })
+
+            let selectOption = (label, action) => {
+                // Unselect all the labels first
+                unselectAllOptions(label)
+                // Select the new label
+                label.setAttribute('selected_option', true)
+                label.classList.add(action)
+                // Select the action's radio input
+                document.querySelector("input[type='radio'][value='" + action + "'][name='student_" + label.getAttribute('key') + "']").checked = true
+                // Handle the unselect event for this button
+                setTimeout(() => {
+                    label.addEventListener('dblclick', () => {
+                        console.log('the event is happening')
+                        if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
+                            label.removeAttribute('selected_option')
+                            label.parentElement.querySelector('input').checked = false
+                        }
+                    }, { once: true })
+                }, 500)
+            }
+
+            let unselectAllOptions = label => {
+                let key = label.getAttribute('key')
+                // Uncolor all the labels
+                document.querySelectorAll("label[key='" + key + "']").forEach(label => {
+                    label.hasAttribute('selected_option') ? label.removeAttribute('selected_option') : null
+                })
+                // Unselect all the radio inputs
+                document.querySelectorAll('input[type="radio"][name="student_' + key + '"]').forEach(radio => radio.checked = false)
+            }
+
+            let showStudentCard = el => {
+                let studentId = el.getAttribute('data-student-id')
+                axios.get('/uni-student-fetch/' + studentId)
+                    .then(res => {
+                        let data = res.data;
+
+                        card.style.display = 'block'
+
+                        card.querySelector('#name').textContent = data.user.first + ' ' + data.user.last
+                        card.querySelector('#age').textContent = data.student.age
+
+                        qas = card.querySelector('#qas')
+                        qas.innerHTML = ''
+                        data.qas.forEach(qa => {
+                            qas.innerHTML += '<div class="p-3 col-md-6">' + '<div class="bg-light p-3 qa rounded mb-3">' +
+                                '<p class="fw-bold small">#' + qa.question_id + ': ' +  qa.question.text + '</p>' +
+                                '<p class="small">' + qa.text + '</p>' +
+                                '</div>' + '</div>'
+                        })
+                    })
+                    .catch(err => console.log(err))
+            }
+
+            let closeStudentCard = () => {
+                card.style.display = 'none'
+            }
+        </script>
 </x-app-layout>
