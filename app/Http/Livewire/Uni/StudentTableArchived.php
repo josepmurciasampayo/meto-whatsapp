@@ -25,9 +25,9 @@ final class StudentTableArchived extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+//            Exportable::make('export')
+//                ->striped()
+//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
