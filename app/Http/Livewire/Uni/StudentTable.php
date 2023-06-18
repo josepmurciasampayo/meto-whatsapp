@@ -208,9 +208,14 @@ final class StudentTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('curriculum')
-                ->dataSource(Curriculum::cases())
-                ->optionValue('value')
+            Filter::multiSelect('curriculum', 'curriculum')
+                ->dataSource(Enums::where('group_id', EnumGroup::STUDENT_CURRICULUM)->get())
+                ->optionValue('enum_id')
+                ->optionLabel('enum_desc'),
+//            Filter::inputText('equivalency', 'equivalency')
+//                ->operators(['min', 'max']),
+            Filter::number('equivalency', 'equivalency')
+                ->placeholder('Min', 'Max')
         ];
     }
 

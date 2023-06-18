@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
     <link rel="stylesheet/less" type="text/css" href="/css/public.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.2.2/css/tom-select.bootstrap5.min.css">
 
     <!-- Livewire -->
     @livewireStyles
@@ -21,9 +22,22 @@
     <script src="/js/jquery-3.6.1.slim.min.js"></script>
     <script src="/js/lodash.core.min.js"></script>
     <script src="/js/instantpage-5.1.1.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+{{--    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>--}}
     <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="module">
+        import Alpine from "https://cdn.jsdelivr.net/npm/alpinejs@3.12.2/+esm";
+        // import TomSelect from "https://cdn.jsdelivr.net/npm/tom-select@2.2.2/+esm";
+        import pgTomSelect from "{{ url('vendor/power-components/livewire-powergrid/resources/js/components/select/tomSelect.js') }}";
+
+        window.Alpine = Alpine
+
+        // window.Alpine.data('pgTomSelect', new pgTomSelect('select[multiple]'));
+        window.Alpine.data('pgTomSelect', pgTomSelect);
+
+        Alpine.start()
+    </script>
 
     <!-- LESS -->
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
