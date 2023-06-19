@@ -49,7 +49,6 @@
 
             setInterval(() => {
                 let labels = document.querySelectorAll('#students-tables label')
-                console.log('applying the event listeners ...')
                 labels.forEach(label => {
                     label.addEventListener('click', () => {
                         if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {

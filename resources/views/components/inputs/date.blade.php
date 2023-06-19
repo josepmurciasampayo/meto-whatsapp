@@ -1,6 +1,7 @@
 <!-- date.blade.php -->
-@props(['name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
+@props(['name', 'help' => false, 'saved' => null, 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
 @php $startDate = ($saved) ?? ($starting) ?? "2001-01-01" @endphp
+
 @php use Barryvdh\Debugbar\Facades\Debugbar @endphp
 @php Debugbar::info($saved . " and " . $startDate) @endphp
 <div class="my-4 bg-gray-100 px-4 py-3 rounded-md">
