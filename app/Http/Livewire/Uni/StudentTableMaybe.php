@@ -145,7 +145,7 @@ final class StudentTableMaybe extends PowerGridComponent
     {
         foreach ($this->checkboxValues as $id) {
             StudentUniversity::where('student_id', $id)
-                ->where('institution_id', auth()->id())
+                ->where('institution_id', auth()->user()->getUni()->id)
                 ->delete();
         }
 
