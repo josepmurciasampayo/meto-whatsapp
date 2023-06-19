@@ -328,18 +328,18 @@ class UniController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'connect') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'maybe') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'archive') {
-                    $createdConnection = $this->createConnection($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 }
                 $createdConnections[] = $createdConnection;
             }
         }
 
         $createdConnections = array_filter($createdConnections, function ($connection) {
-            return $connection->status->value === MatchStudentInstitution::REQUEST();
+            return $connection->status === MatchStudentInstitution::REQUEST;
         });
 
         // Send a request email to the admin
@@ -348,7 +348,7 @@ class UniController extends Controller
         return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function MatchStudentInstitution(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string $events)
+    public function MatchStudentInstitution(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string|null $events)
     {
         return StudentUniversity::create([
             'student_id' => $student->id,
