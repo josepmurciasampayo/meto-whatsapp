@@ -21,9 +21,19 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
     public function connection()
     {
         return $this->hasOne(StudentUniversity::class, 'student_id');
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(StudentUniversity::class, 'student_id');
     }
 
     public static function countMatches(int $user_id) :int

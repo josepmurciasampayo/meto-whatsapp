@@ -8,6 +8,8 @@ use App\Enums\HighSchool\Type;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
+use App\Models\Chat\MessageState;
+use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -67,6 +69,36 @@ class User extends Authenticatable
     protected $casts = [
         'phone_array' => 'array'
     ];
+
+    public function contactForms()
+    {
+        return $this->hasMany(ContactForm::class, 'user_id');
+    }
+
+    public function metoFiles()
+    {
+        return $this->hasMany(File::class, 'owner_id');
+    }
+
+    public function loginEvents()
+    {
+        return $this->hasMany(LoginEvents::class);
+    }
+
+    public function messageStates()
+    {
+        return $this->hasMany(MessageState::class);
+    }
+
+    public function userForms()
+    {
+        return $this->hasMany(UserForm::class);
+    }
+
+    public function highSchools()
+    {
+        return $this->hasMany(UserHighSchool::class);
+    }
 
     public static function getByPhone(string $phone): ?User
     {

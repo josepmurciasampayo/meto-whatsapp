@@ -1,6 +1,11 @@
 <x-app-layout>
     <div class="min-h-screen mt-5 mx-2 w-full">
     <h3 class="my-2 display-7">Raw Student Data</h3>
+
+    <div class="my-3">
+        @include('_partials.response')
+    </div>
+
     <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
     <table id="dataTable" class="table table-striped bg-white">
         <thead>

@@ -4,12 +4,21 @@ namespace App\Models\Joins;
 
 use App\Enums\HighSchool\Role;
 use App\Helpers;
+use App\Models\HighSchool;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class UserHighSchool extends Model
 {
+    public function highSchool()
+    {
+        return $this->belongsTo(
+            HighSchool::class,
+            'highschool_id'
+        );
+    }
+
     public static function joinUserHighSchool(int $user_id, int $highschool_id, Role $role) :UserHighSchool
     {
         $existing = UserHighSchool::where('user_id', $user_id)->where('highschool_id', $highschool_id)->get();

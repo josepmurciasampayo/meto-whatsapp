@@ -42,11 +42,20 @@
                 <?php } ?>
             </tbody>
         </table>
-        <div class="text-end">
-            <x-button>Submit Updates</x-button>
-        </div>
         </div>
     </form>
+
+    <div class="d-flex">
+        <div class="col">
+            <form method="POST" action="{{ route('admin.student.delete', request('student_id')) }}">
+                @csrf
+                <button type="submit" class="btn btn-danger rounded-5">Delete</button>
+            </form>
+        </div>
+        <div class="col text-end">
+            <x-button>Submit Updates</x-button>
+        </div>
+    </div>
 
     <h2 id="raw" class="my-2 display-7">Summary Data: {{ $data[0]['name'] }}</h2>
     <div class="bg-gray-100 p-4 rounded-lg shadow-lg my-5">

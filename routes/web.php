@@ -89,6 +89,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('connections', \App\Http\Controllers\ConnectionController::class);
     Route::post('/connections/{connection}/approve', [AdminController::class, 'approveConnection']);
     Route::post('/connections/{connection}/deny', [AdminController::class, 'denyConnection']);
+
+    Route::post('/admin/student/{student}/delete', [AdminController::class, 'deleteStudent'])->name('admin.student.delete');
 });
 
 Route::middleware(['auth', 'consent', 'university'])->group(function() {
