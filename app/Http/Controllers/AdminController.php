@@ -302,4 +302,47 @@ class AdminController extends Controller
 
         SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
+
+    public function deleteStudent(Student $student)
+    {
+        $user = $student->user;
+
+        DB::transaction(function () use ($student, $user) {
+            $student?->answers()->delete();
+
+            $user?->contactForms()->delete();
+
+            $user?->metoFiles()->delete();
+
+            $this->deleteStudentCommunications($student);
+
+            $user?->loginEvents()->delete();
+
+            $user?->messageStates()->delete();
+
+            $student?->connections()->delete();
+
+            $user?->userForms()->delete();
+
+            $user?->highSchools()->delete();
+
+            $student?->delete();
+
+            $user->delete();
+        });
+
+        return redirect()
+            ->to('/admin/students')
+            ->with('response', 'Student data was deleted successfully!');
+    }
+
+    public function deleteStudentCommunications($student)
+    {
+        $phone = $student->user->phone_combined;
+
+        LogComms::query()
+            ->where('from', $phone)
+            ->orWhere('to', $phone)
+            ->delete();
+    }
 }
