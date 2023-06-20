@@ -47,34 +47,12 @@
             unstripeTables()
             setInterval(() => unstripeTables(), 500)
 
-            setInterval(() => {
-                let labels = document.querySelectorAll('#students-tables label')
-                labels.forEach(label => {
-                    label.addEventListener('click', () => {
-                        if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
-                            let action = null;
-                            action = label.textContent.toLowerCase()
-                            selectOption(label, action)
-                        }
-                    })
-                })
-            }, 1000)
-
             let card = document.querySelector('.single-student-card')
 
             let labels = document.querySelectorAll('#students-tables label')
 
-            labels.forEach(label => {
-                label.addEventListener('click', () => {
-                    if ((labelFor = label.getAttribute('for')) && labelFor.includes('_student_')) {
-                        let action = null;
-                        action = label.textContent.toLowerCase()
-                        selectOption(label, action)
-                    }
-                })
-            })
-
-            let selectOption = (label, action) => {
+            let selectOption = (label, action = null) => {
+                action = action || label.textContent.toLowerCase()
                 // Unselect all the labels first
                 unselectAllOptions(label)
                 // Select the new label
@@ -83,15 +61,18 @@
                 // Select the action's radio input
                 document.querySelector("input[type='radio'][value='" + action + "'][name='student_" + label.getAttribute('key') + "']").checked = true
                 // Handle the unselect event for this button
-                setTimeout(() => {
-                    label.addEventListener('dblclick', () => {
-                        console.log('the event is happening')
-                        if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
-                            label.removeAttribute('selected_option')
-                            label.parentElement.querySelector('input').checked = false
-                        }
-                    }, { once: true })
-                }, 500)
+                label.removeAttribute('onclick')
+                if (label.classList.contains(action)) {
+                    setTimeout(() => {
+                        label.addEventListener('click', () => {
+                            if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
+                                label.removeAttribute('selected_option')
+                                label.parentElement.querySelector('input').checked = false
+                            }
+                            label.setAttribute('onclick', 'selectOption(this)')
+                        }, { once: true })
+                    }, 500)
+                }
             }
 
             let unselectAllOptions = label => {
