@@ -127,8 +127,14 @@
                     .catch(err => console.log(err))
             }
 
-            let closeStudentCard = () => {
-                card.style.display = 'none'
+        let closeStudentCard = () => {
+            card.style.display = 'none'
+        }
+
+        setInterval(() => {
+            if (el = document.querySelectorAll('[placeholder="Min"]')[1]) {
+                el.placeholder !== 'Max' ? el.placeholder = 'Max' : null
             }
-        </script>
+        }, 50)
+    </script>
 </x-app-layout>

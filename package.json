@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "alpinejs": "^3.12.1"
+    "alpinejs": "^3.12.1",
+    "tom-select": "^2.2.2"
   }
 }
