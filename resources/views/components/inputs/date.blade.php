@@ -1,6 +1,6 @@
 <!-- date.blade.php -->
 @props(['name', 'help' => false, 'saved' => null, 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
-@php $startDate = ($saved) ?? ($starting) ?? "2001-01-01" @endphp
+@php $startDate = !empty($saved) ? $saved : (!empty($starting) ? $starting : "2001-01-01") @endphp
 
 @php use Barryvdh\Debugbar\Facades\Debugbar @endphp
 @php Debugbar::info($saved . " and " . $startDate) @endphp
