@@ -6,6 +6,7 @@ use App\Enums\User\Role;
 use App\Mail\ContactMail;
 use App\Models\ContactForm;
 use App\Models\User;
+use Faker\Provider\Payment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,9 +35,22 @@ class StaticController extends Controller
         }
     }
 
-    public function privacy() :View
+    public function privacy(): View
     {
-        return view('static.privacy-policy');
+        if (Auth::user()?->isStudent()) {
+            return view('static.privacy-student');
+        }
+        return view('static.privacy-general');
+    }
+
+    public function privacyGeneral() :View
+    {
+        return view('static.privacy-general');
+    }
+
+    public function privacyStudent() :View
+    {
+        return view('static.privacy-student');
     }
 
     public function saveTerms(Request $request) :RedirectResponse
@@ -44,7 +58,7 @@ class StaticController extends Controller
         $user = Auth()->user();
         $user->terms = $request->terms;
         $user->save();
-        return redirect(route('student.intro'));
+        return redirect(route('student.demographic'));
     }
 
     public function saveConsent(Request $request) :RedirectResponse
@@ -52,7 +66,7 @@ class StaticController extends Controller
         $user = Auth()->user();
         $user->consent = $request->consent;
         $user->save();
-        return redirect(route('student.intro'));
+        return redirect(route('student.demographic'));
     }
 
     public function contact() :View
