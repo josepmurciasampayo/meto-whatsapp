@@ -60,13 +60,6 @@ class StudentController extends Controller
         ]);
     }
 
-    public function intro(): View
-    {
-        return view('student.intro', [
-            'user' => Auth::user(),
-        ]);
-    }
-
     public function profile(): View
     {
         return view('student.profile', [

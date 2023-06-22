@@ -11,7 +11,7 @@
     }
 @endphp
 
-<div question-id="{{ $question->id }}">
+<div question-id="{{ $question->id }}" class="my-4 border border-secondary bg-light rounded-md p-2">
     @if ($question->format == \App\Enums\QuestionFormat::INPUT())
         <x-inputs.text saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1  }}"></x-inputs.text>
     @elseif ($question->format == \App\Enums\QuestionFormat::TEXTAREA())
@@ -24,7 +24,7 @@
     @elseif ($question->format == \App\Enums\QuestionFormat::RADIO())
         <x-inputs.radio saved="{{ $answer?->response_id }}" name="{!! $question->id !!}" label="{!! $question->text !!}" :options="$responses" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.radio>
     @elseif ($question->format === App\Enums\QuestionFormat::DATE())
-        <x-inputs.date saved="{!! $answer?->text !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
+        <x-inputs.date saved="{!! ($answer) ?  $answer->text : 'false' !!}" name="{!! $question->id !!}" label="{!! $question->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.date>
     @elseif ($question->format === App\Enums\QuestionFormat::COUNTRY_CHECKBOX())
         <x-inputs.country-checkbox name="{!! $question->id !!}" label="{!! $question->text !!}" saved="{!! $answer?->text !!}" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.country-checkbox>
     @elseif ($question->format === App\Enums\QuestionFormat::EMAIL())

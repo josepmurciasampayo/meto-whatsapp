@@ -65,11 +65,12 @@ class Student extends Model
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             left outer join meto_user_high_schools as j on j.user_id = u.id
-            join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
+            left outer join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
             left outer join meto_high_schools as h on j.highschool_id = h.id
             left outer join (
             	select s1.id, count(*) as "matches" from meto_students as s1 join meto_student_universities as m on s1.id = m.student_id group by s1.id
-            	) as sub on sub.id = s.id;
+            	) as sub on sub.id = s.id
+            	limit 2000;
         ');
     }
 

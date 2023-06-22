@@ -129,7 +129,7 @@
 
       <?php if (Auth()->user()->role == \App\Enums\User\Role::COUNSELOR()) { ?>
         <div class="text-end p-3">
-          <x-button>Submit Request to Meto</x-button>
+          <x-button>Submit Request to {{ config('app.name') }}</x-button>
         </div>
       <?php } ?>
 

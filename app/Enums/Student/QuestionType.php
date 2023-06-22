@@ -17,6 +17,7 @@ enum QuestionType :int
     case TESTING = 7;
     case HIGHSCHOOL = 8;
     case NOTSET = 0;
+    case AUTOMATEDTESTING = 9;
 
     public static function getText(self $value) :string
     {
@@ -30,6 +31,7 @@ enum QuestionType :int
             self::TESTING => "Testing",
             self::HIGHSCHOOL => "High School",
             self::NOTSET => "Not Set",
+            self::AUTOMATEDTESTING => "Automated Testing",
         };
     }
 }

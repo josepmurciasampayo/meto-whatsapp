@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
             $content['line'] = $exception->getLine();
             $content['trace'] = $exception->getTrace();
             $content['url'] = request()->url();
-            $content['referrer'] = Request::server('HTTP_REFERER');
+            $content['referrer'] = $_SERVER['HTTP_REFERER'];
             $content['body'] = request()->all();
             $content['ip'] = request()->ip();
             $content['user'] = (Auth::user()) ? Auth::user() : '';

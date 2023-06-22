@@ -96,7 +96,16 @@
         </div>
         @if (Auth()->user()?->isAdmin())
             <div class="flex">
-                <x-sidebar-menu />
+                <x-sidebar-menu :links="[
+                    ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions')],
+                    ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curricula')],
+                    ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
+                    ['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
+                    ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
+                    ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
+                    ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
+                    ['label' => 'Work Requests', 'icon' => 'fas fa-network-wired', 'href' => route('workRequest'), 'target' => '_blank'],
+                ]" />
             </div>
         @endif
     </header>
@@ -111,8 +120,18 @@
 
     <footer class="py-3 my-4 bg-black">
         <ul class="nav justify-content-center pb-3 mb-3">
-            <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
-            <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+            @if (is_null(Auth::user()))
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+            @elseif (Auth::user()?->isStudent())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('consent') }}" class="nav-link text-white mx-3">Consent Form</a></li>
+            @elseif (Auth::user()->isInstitution())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+            @elseif (Auth::user()->isCounselor())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+            @endif
             <li><a href="{{ route('contact') }}" class="nav-link text-white mx-3">Contact Us</a></li>
         </ul>
     </footer>

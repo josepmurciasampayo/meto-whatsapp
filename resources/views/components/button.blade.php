@@ -5,7 +5,7 @@
         border-radius: 5px !important;
         color: rgb(22, 66, 22) !important;
         background-color: rgb(22, 66, 22) !important;
-        border-color: rgb(22, 66, 22) !important;
+        border-color: ivory !important;
         color: white !important;
         transition-duration: .3s;
         :hover {

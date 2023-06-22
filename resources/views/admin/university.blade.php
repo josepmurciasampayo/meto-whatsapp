@@ -1,7 +1,8 @@
 <x-app-layout>
     @php $curricula = \App\Enums\Student\Curriculum::descriptions() @endphp
     <h3 class="display-7 mt-5 flex justify-center">Edit University Account</h3>
-    <form id="uni" class="w-50" method="POST" action="{{ route('uni.update') }}">
+    <div class="w-full lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-success-subtle overflow-hidden sm:rounded-lg">
+    <form id="uni" class="w-50" method="POST" action="{{ route('uni.update') }}" >
         <input type="hidden" name="uni_id" value="{{ $uni->id }}">
         <input type="hidden" name="userToDelete" id="userToDelete" value="0">
         <input type="hidden" name="action" id="action" value="1">
@@ -36,9 +37,10 @@
         @endforeach
         <div class="mt-3 text-end">
             <x-button type="button" onclick="document.getElementById('addUser').classList.remove('d-none')">Add User</x-button>
-            <x-button>Submit University Updates</x-button>
+            <x-button>Update University</x-button>
         </div>
     </form>
+    </div>
 
     <form id="addUser" class="w-50 d-none" method="POST" action="{{ route('uni.update') }}">
         <input type="hidden" name="action" id="action" value="3">
