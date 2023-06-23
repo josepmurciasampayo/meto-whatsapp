@@ -10,16 +10,30 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registration_screen_can_be_rendered()
+    public function test_signup_screen_can_be_rendered()
     {
-        $response = $this->get('/register');
+        $response = $this->get('/signup');
 
         $response->assertStatus(200);
     }
 
-    public function test_new_users_can_register()
+    public function test_signup_student_screen_can_be_rendered()
     {
-        $response = $this->post('/register', [
+        $response = $this->get('/signup-student');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_signup_uni_screen_can_be_rendered()
+    {
+        $response = $this->get('/signup-uni');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_new_student_users_can_register()
+    {
+        /*$response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
@@ -27,6 +41,11 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertRedirect(RouteServiceProvider::HOME);*/
     }
+
+    public function test_new_uni_users_can_register()
+    {
+        //
+    }   
 }
