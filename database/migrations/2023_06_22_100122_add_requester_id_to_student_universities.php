@@ -14,9 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('student_universities', function (Blueprint $table) {
-            $table->string('application_link', 250)->nullable();
-            $table->timestamp('deadline')->nullable();
-            $table->string('events', 1000)->nullable();
+            $table->unsignedBigInteger('requester_id');
         });
     }
 
@@ -28,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('student_universities', function (Blueprint $table) {
-            //
+            $table->dropColumn('requester_id');
         });
     }
 };

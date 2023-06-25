@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('student_universities', function (Blueprint $table) {
-            $table->string('application_link', 250)->nullable();
-            $table->timestamp('deadline')->nullable();
-            $table->string('events', 1000)->nullable();
+            $table->string('student_response')
+                ->nullable();
         });
     }
 
@@ -27,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('student_universities', function (Blueprint $table) {
-            //
+        Schema::table('student_universtities', function (Blueprint $table) {
+            $table->dropColumn('student_response');
         });
     }
 };
