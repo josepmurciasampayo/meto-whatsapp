@@ -44,7 +44,7 @@ class RegistrationTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);*/
     }
 
-    public function test_new_uni_users_can_register()
+    public function test_new_uni_users_can_be_invited()
     {
         //
     }   
