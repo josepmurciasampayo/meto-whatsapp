@@ -60,6 +60,11 @@ class RegisteredUserController extends Controller
         ]);
         $user->save();
 
+        if ($request->input('terms') && $request->input('privacy')) {
+            $user->consent = YesNo::YES();
+            $user->save();
+        }
+
         $student = new Student();
         $student->user_id = $user->id;
         $student->save();

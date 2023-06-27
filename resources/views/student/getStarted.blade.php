@@ -57,13 +57,13 @@
                         $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('terms') . " '>terms of use</a></span>";
                          $w = [1 => "I agree to the " . $link];
                         @endphp
-                        <x-inputs.checkbox name="whatsapp" label="By clicking Next:" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
+                        <x-inputs.checkbox name="terms" label="By clicking Next:" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
 
                         @php
                             $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('privacy') . " '>terms of use</a></span>";
                             $c = [1 => "I acknowledge the " . $link];
                         @endphp
-                        <x-inputs.checkbox name="consent" label="" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
+                        <x-inputs.checkbox name="privacy" label="" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
                     </div>
 
                     <div class="text-center my-4">
