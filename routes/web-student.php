@@ -30,4 +30,7 @@ Route::middleware(['auth', 'consent', 'student'])->group(function () {
     Route::post('/inviteFriends', [\App\Http\Controllers\StudentController::class, 'invite'])->name('inviteFriends');
 
     Route::post('/handle', [\App\Http\Controllers\StudentController::class, 'handle'])->name('student.handle');
+
+    Route::post('/connection-request/{studentUniversity}/question/ask', [\App\Http\Controllers\StudentConnectionController::class, 'ask'])->name('question.ask');
+    Route::post('/connection-request/{studentUniversity}/student/decide', [\App\Http\Controllers\StudentConnectionController::class, 'decide'])->name('question.ask');
 });

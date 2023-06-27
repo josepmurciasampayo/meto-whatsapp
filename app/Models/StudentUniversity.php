@@ -23,6 +23,8 @@ class StudentUniversity extends Model
         'application_link',
         'deadline',
         'events',
+        'requester_id',
+        'student_response'
     ];
 
     public function student()
@@ -33,6 +35,11 @@ class StudentUniversity extends Model
     public function institution()
     {
         return $this->belongsTo(Institution::class);
+    }
+
+    public function requester()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public static function getByUserID(int $user_id) :array

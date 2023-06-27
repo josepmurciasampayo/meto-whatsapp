@@ -3,6 +3,9 @@
     --connect: green;
     --maybe: blue;
     --archive: orange;
+    --success: #198754;
+    --warning: #ffc107;
+    --secondary: #6c757d;
 }
 
 body {
@@ -107,6 +110,53 @@ label[selected_option="true"].archive {
     background: #DC3346 !important;
     color: white !important;
     border: 1px solid #DC3346 !important;
+}
+
+.btn-success {
+    &:hover {
+        background: var(--success) !important;
+        color: white !important;
+        border-color: var(--success) !important;
+    }
+}
+.btn-warning {
+    &:hover {
+        background: var(--warning) !important;
+        color: #000 !important;
+        border-color: var(--warning) !important;
+    }
+}
+.btn-secondary {
+    &:hover {
+        background: var(--secondary) !important;
+        color: white !important;
+        border-color: var(--secondary) !important;
+    }
+}
+
+.btn-outline-success {
+    &:hover {
+        background: var(--success) !important;
+        color: white !important;
+        border: 1px solid;
+        border-color: var(--success) !important;
+    }
+}
+.btn-outline-warning {
+    &:hover {
+        background: var(--warning) !important;
+        color: #000 !important;
+        border: 1px solid;
+        border-color: var(--warning) !important;
+    }
+}
+.btn-outline-secondary {
+    &:hover {
+        background: var(--secondary) !important;
+        color: white !important;
+        border: 1px solid;
+        border-color: var(--secondary) !important;
+    }
 }
 /** End of Utilities */
 

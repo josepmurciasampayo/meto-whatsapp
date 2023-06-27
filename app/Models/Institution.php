@@ -41,4 +41,14 @@ class Institution extends Model
     {
         return $this->hasMany(UserInstitution::class);
     }
+
+    public function admins()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserInstitution::class,
+            'institution_id',
+            'id'
+        );
+    }
 }
