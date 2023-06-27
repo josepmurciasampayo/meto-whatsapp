@@ -7,6 +7,9 @@
             btn_href="{{ route('student.academics', ['screen' => 0]) }}"
             btn_icon="fas fa-cloud-upload-alt"
         />
+        <script>
+            document.querySelector('[data-bs-target="#redirectModal"]').click()
+        </script>
     @endif
 
     <div class="min-h-screen">
