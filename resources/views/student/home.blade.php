@@ -19,18 +19,6 @@
             </div>
 
             <div class="flex">
-                <x-sidebar-menu :links="[
-                  ['label' => 'Basic Information', 'icon' => 'fa fa-user', 'href' => route('student.profile')],
-                  ['label' => 'Demographic', 'icon' => 'fa fa-address-card', 'href' => route('student.demographic')],
-                  ['label' => 'High School', 'icon' => 'fa fa-school', 'href' => route('student.highschool')],
-                  ['label' => 'Academic', 'icon' => 'fa fa-graduation-cap', 'href' => route('student.academics', ['screen' => 0])],
-                  ['label' => 'Financial', 'icon' => 'fa fa-money-bill', 'href' => route('student.financial')],
-                  ['label' => 'Extracurricular', 'icon' => 'fa fa-running', 'href' => route('student.extracurricular')],
-                  ['label' => 'University Plan', 'icon' => 'fa fa-university', 'href' => route('student.university')],
-                  ['label' => 'Testing', 'icon' => 'fas fa-clipboard-check', 'href' => route('student.testing')],
-                  ['label' => 'General', 'icon' => 'fa fa-info-circle', 'href' => route('student.general')],
-              ]"/>
-
                 <div class="mt-5 mr-2"><x-invite-friend-popup/></div>
             </div>
         </div>

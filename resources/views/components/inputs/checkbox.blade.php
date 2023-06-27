@@ -10,7 +10,8 @@
     @foreach ($options as $id => $option)
         @php $checked = (in_array($id, $saved)) ? 'checked' : '' @endphp
         <label class="inline-flex items-center">
-            <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600" id="{{ $name . '[' . $id . ']' }}" name="{{ $name . '[' . $id . ']' }}" {{ $checked }}>
+            @php $required = ($req) ? 'required' : '' @endphp
+            <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600" id="{{ $name . '[' . $id . ']' }}" name="{{ $name . '[' . $id . ']' }}" {{ $checked }} {{ $required }}>
             <span class="ml-2 text-sm">{!! $option !!}</span>
         </label>
         @if ($pickOne)

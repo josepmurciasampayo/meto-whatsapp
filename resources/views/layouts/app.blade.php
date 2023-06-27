@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <title>@yield('title')</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
@@ -65,6 +65,10 @@
                     hasError = true;
                     message += (message.length == 0) ? "Passwords do not match" : "\nPasswords do not match";
                 }
+            }
+            if ($('.checkboxes-consent :checkbox').length - $('.checkboxes-consent :checkbox:checked').length !== 0) {
+                hasError = true;
+                message =+ (message.length == 0) ? "Please review the terms and privacy policy" : "\nPlease review the terms and privacy policy";
             }
             if (hasError) {
                 alert(message);

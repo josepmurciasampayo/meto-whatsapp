@@ -19,7 +19,7 @@ class FlowController extends Controller
         }
 
         $flow = [
-            Page::GETSTARTED() => route('student.profile'),
+            Page::GETSTARTED() => route('student.demographic'),
             Page::PROFILE() => route('student.demographic'),
             Page::DEMO() => route('student.highschool'),
             Page::HIGHSCHOOL() => route('student.academics', ['screen' => 0]),
