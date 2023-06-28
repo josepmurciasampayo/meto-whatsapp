@@ -7,6 +7,7 @@ use App\Helpers;
 use App\Models\Answer;
 use App\Models\Response;
 use App\Models\Student;
+use App\Services\AnswerService;
 use App\Services\EquivalencyService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +20,44 @@ class convertStudentAnswers extends Command
 
     public function handle(): int
     {
-        //$this->updateResponseIDs();
+        $this->updateResponseIDs();
+        echo "\nResponse IDs are updated\n";
+
         $this->updateQuestions();
-        $this->mergeQuestions();
-        $this->changeResponses();
-        $this->other();
+        echo "\nQuestions are updated\n";
+
+        //$this->mergeQuestions();
+        //$this->changeResponses();
+        $this->calculateEquivalencies();
         return Command::SUCCESS;
+    }
+
+    public function updateResponseIDs(): void
+    {
+        // update response ID's for old questions
+        $formats = [
+            QuestionFormat::SELECT(),
+            QuestionFormat::RADIO(),
+            QuestionFormat::CHECKBOX(),
+        ];
+
+        $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
+        $answers = Answer::whereIn('question_id', $question_ids)->get();
+        $responses = Response::whereIn('question_id', $question_ids)->get();
+
+        $responseArray = array();
+        foreach ($responses as $response) {
+            $responseArray[$response->question_id][$response->text] = $response->id;
+        }
+
+        // update answers by looking up responses
+        echo "\nAbout to update " . count($answers) . " answers with response IDs";
+        foreach ($answers as $answer) {
+            if (isset($responseArray[$answer->question_id][$answer->text])) {
+                $answer->response_id = $responseArray[$answer->question_id][$answer->text];
+                $answer->save();
+            }
+        }
     }
 
     public function updateQuestions(): void
@@ -55,11 +88,10 @@ class convertStudentAnswers extends Command
             281 => 'birth_country',
         ];
         $answers = Answer::whereIn('question_id', array_keys($questions))->get();
+        echo "\nAbout to update " . count($answers) . " answers into student table";
         foreach ($answers as $answer) {
-            $this->updateStudent($answer, $questions[$answer->question_id]);
+            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->expanded_text ?? $answer->text);
         }
-
-        echo "\n\nQuestions are updated";
     }
 
     public function mergeQuestions(): void
@@ -92,59 +124,13 @@ class convertStudentAnswers extends Command
         echo "\nQueries are run";
     }
 
-    public function updateResponseIDs(): void
+    public function calculateEquivalencies(): void
     {
-        // update response ID's for old questions
-        $formats = [
-            QuestionFormat::SELECT(),
-            QuestionFormat::RADIO(),
-            QuestionFormat::CHECKBOX(),
-        ];
-
-        $question_ids = \App\Models\Question::whereIn('format', $formats)->get()->pluck('id')->toArray();
-        $answers = Answer::whereIn('question_id', $question_ids)->get();
-        $responses = Response::whereIn('question_id', $question_ids)->get();
-
-        $responseArray = array();
-        foreach ($responses as $response) {
-            $responseArray[$response->question_id][$response->text] = $response->id;
-        }
-
-        // update answers by looking up responses
-        foreach ($answers as $answer) {
-            if (isset($responseArray[$answer->question_id][$answer->text])) {
-                $answer->response_id = $responseArray[$answer->question_id][$answer->text];
-                $answer->save();
-            }
-        }
-    }
-
-    public function other(): void
-    {
-        //actively applying
-        /*
-        $answers = Answer::with('student')->where('question_id', 61)->get();
-        foreach ($answers as $answer) {
-            $answer->student->active = YesNo::YES();
-            $answer->student->save();
-        }
-        */
-
-        echo "\nMultiple-choice questions are processed";
-
         $students = Student::all();
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);
         }
-    }
-
-    public function updateStudent(Answer $answer, string $field): void
-    {
-        $student = Student::find($answer->student_id);
-        $student->update([
-            $field => $answer->text_expanded ?? $answer->text,
-        ]);
-        $student->save();
+        echo "\nEquivalencies are processed";
     }
 
     public function mergeQuestion(Answer $answer, $new_question_id): void

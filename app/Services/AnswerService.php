@@ -6,6 +6,7 @@ use App\Enums\QuestionFormat;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Response;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 
 class AnswerService
@@ -70,5 +71,33 @@ class AnswerService
         }
 
         return $answerArray;
+    }
+
+    public function updateStudent(Student $student, int $question_id, string $answer): void
+    {
+        switch ($question_id) {
+            case 244: $student->efc = $answer; break;
+            case 104: $student->countryHS = $answer; break;
+            case 318: $student->curriculum = $answer; break;
+            case 288: $student->citizenship = $answer; break;
+            case 290: $student->citizenship_extra = $answer; break;
+            case 13: $student->track = $answer; break;
+            case 260: $student->destination = $answer; break;
+            case 271: $student->gender = $answer; break;
+            case 44: $student->ranking = $answer; break;
+            case 69: $student->det = $answer; break;
+            case 67: $student->act = $answer; break;
+            case 73: $student->toefl = $answer; break;
+            case 70: $student->ielts = $answer; break;
+            case 164: $student->affiliations = $answer; break;
+            case 285: $student->refugee = $answer; break;
+            case 308: $student->disability = $answer; break;
+            case 275: $student->dob = $answer; break;
+            case 296: $student->email_owner = $answer; break;
+            case 312: $student->submission_device = $answer; break;
+            case 283: $student->birth_city = $answer; break;
+            case 281: $student->birth_country = $answer; break;
+        }
+        $student->save();
     }
 }

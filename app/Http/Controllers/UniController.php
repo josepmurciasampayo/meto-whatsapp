@@ -328,11 +328,11 @@ class UniController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'connect') {
-                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'maybe') {
-                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'archive') {
-                    $createdConnection = $this->MatchStudentInstitution($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 }
                 $createdConnections[] = $createdConnection;
             }
@@ -348,11 +348,12 @@ class UniController extends Controller
         return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function MatchStudentInstitution(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string|null $events)
+    public function createStudentInstitutionConnection(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string|null $events)
     {
         return StudentUniversity::create([
             'student_id' => $student->id,
             'institution_id' => $institutionId,
+            'requester_id' => auth()->id(),
             'status' => $status(),
             'application_link' => $link,
             'deadline' => $deadline,

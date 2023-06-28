@@ -43,7 +43,6 @@ enum QuestionFormat: int
             self::RADIO => 'Radio',
             self::TEXTAREA => 'Textarea',
             self::CHECKBOX => 'Checkbox',
-            self::NOTSET => 'Not Set',
             self::DATE => 'Date', // Added this line for the date input
             self::COUNTRY => 'Country_Select', // Added this line for the country input
             self::COUNTRY_CHECKBOX => 'Country_Checkbox', // Added this line for the country checkbox input

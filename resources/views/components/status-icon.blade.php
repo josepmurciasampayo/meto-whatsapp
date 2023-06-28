@@ -1,15 +1,16 @@
 @props(['href', 'icon', 'text', 'progress' => false])
 
-<a href="{{ $href }}" class="button">
-    <span class="icon"><i class="{{ $icon }}"></i></span>
-    <div class="text">{{ $text }}</div>
-    @if ($progress !== false)
-        <div class="progress">
-          <div class="progress-bar" style="width: {{ $progress }}%">{{ $progress }}%</div>
-        </div>
-    @endif
-  </a>
-
+<div class="my-2">
+    <a href="{{ $href }}" class="button">
+        <span class="icon"><i class="{{ $icon }}"></i></span>
+        <div class="text">{{ $text }}</div>
+        @if ($progress !== false)
+            <div class="progress">
+              <div class="progress-bar" style="width: {{ $progress }}%">{{ $progress }}%</div>
+            </div>
+        @endif
+    </a>
+</div>
 
   <style>
 

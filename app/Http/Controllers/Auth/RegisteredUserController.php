@@ -55,10 +55,16 @@ class RegisteredUserController extends Controller
             'whatsapp_used' => ($request->has('whatsapp')) ? YesNo::YES() : YesNo::NO(),
             'whatsapp_consent' => ($request->has('consent')) ? Consent::CONSENT() : Consent::NOCONSENT(),
             'password' => Hash::make($request->password),
+            'reminder' => YesNo::YES(), // so popup does not appear on first home page visit
             'role' => Role::STUDENT(),
             'status' => Status::ACTIVE(),
         ]);
         $user->save();
+
+        if ($request->has('terms') && $request->has('privacy')) {
+            $user->consent = YesNo::YES();
+            $user->save();
+        }
 
         $student = new Student();
         $student->user_id = $user->id;

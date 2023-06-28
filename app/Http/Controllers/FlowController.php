@@ -19,8 +19,7 @@ class FlowController extends Controller
         }
 
         $flow = [
-            Page::GETSTARTED() => route('student.intro'),
-            Page::INTRO() => route('student.profile'),
+            Page::GETSTARTED() => route('student.demographic'),
             Page::PROFILE() => route('student.demographic'),
             Page::DEMO() => route('student.highschool'),
             Page::HIGHSCHOOL() => route('student.academics', ['screen' => 0]),
@@ -33,8 +32,7 @@ class FlowController extends Controller
 
         $reverseFlow = [
             Page::GETSTARTED() => route('home'),
-            Page::INTRO() => route('home'),
-            Page::PROFILE() => route('student.intro'),
+            Page::PROFILE() => route('student.profile'),
             Page::DEMO() => route('student.profile'),
             Page::HIGHSCHOOL() => route('student.demographic'),
             Page::FINANCIAL() => route('student.academics', ['screen' => 0]),

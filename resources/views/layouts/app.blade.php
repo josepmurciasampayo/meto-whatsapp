@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <title>@yield('title')</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
@@ -26,7 +26,7 @@
     <script src="https://kit.fontawesome.com/c239959cd5.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script type="module">
+    <script type="module" defer>
         import Alpine from "https://cdn.jsdelivr.net/npm/alpinejs@3.12.2/+esm";
         // import TomSelect from "https://cdn.jsdelivr.net/npm/tom-select@2.2.2/+esm";
         import pgTomSelect from "{{ url('vendor/power-components/livewire-powergrid/resources/js/components/select/tomSelect.js') }}";
@@ -66,6 +66,10 @@
                     message += (message.length == 0) ? "Passwords do not match" : "\nPasswords do not match";
                 }
             }
+            if ($('.checkboxes-consent :checkbox').length - $('.checkboxes-consent :checkbox:checked').length !== 0) {
+                hasError = true;
+                message =+ (message.length == 0) ? "Please review the terms and privacy policy" : "\nPlease review the terms and privacy policy";
+            }
             if (hasError) {
                 alert(message);
                 return;
@@ -96,7 +100,16 @@
         </div>
         @if (Auth()->user()?->isAdmin())
             <div class="flex">
-                <x-sidebar-menu />
+                <x-sidebar-menu :links="[
+                    ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions')],
+                    ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curricula')],
+                    ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
+                    ['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
+                    ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
+                    ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
+                    ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
+                    ['label' => 'Work Requests', 'icon' => 'fas fa-network-wired', 'href' => route('workRequest'), 'target' => '_blank'],
+                ]" />
             </div>
         @endif
     </header>
@@ -111,8 +124,18 @@
 
     <footer class="py-3 my-4 bg-black">
         <ul class="nav justify-content-center pb-3 mb-3">
-            <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
-            <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+            @if (is_null(Auth::user()))
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+            @elseif (Auth::user()?->isStudent())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('consent') }}" class="nav-link text-white mx-3">Consent Form</a></li>
+            @elseif (Auth::user()->isInstitution())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+            @elseif (Auth::user()->isCounselor())
+                <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
+                <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+            @endif
             <li><a href="{{ route('contact') }}" class="nav-link text-white mx-3">Contact Us</a></li>
         </ul>
     </footer>

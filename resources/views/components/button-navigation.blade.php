@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col">
             @if ($page && $page() == \App\Enums\Page::ACADEMIC())
-                <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
+                <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button>
             @elseif ($page && $page() != \App\Enums\Page::DEMO())
                 <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
             @endif

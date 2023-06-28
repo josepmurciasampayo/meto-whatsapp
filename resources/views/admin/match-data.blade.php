@@ -1,5 +1,4 @@
 <x-app-layout>
-    // TODO: improve peformance of this (paging?)
     <table id="dataTable" class="table table-striped bg-white col-12">
         <thead>
         <tr>

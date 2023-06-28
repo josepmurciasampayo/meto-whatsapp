@@ -1,7 +1,7 @@
 <!-- radio.blade.php -->
 @props(['options', 'name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'wire'])
 
-<fieldset class="my-4 bg-gray-100 p-4 rounded-md">
+<fieldset>
     @php $required = ($req) ? '*' : '' @endphp
     <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
     @if ($help)
