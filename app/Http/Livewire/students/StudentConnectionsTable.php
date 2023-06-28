@@ -224,4 +224,14 @@ final class StudentConnectionsTable extends PowerGridComponent
         ];
     }
     */
+
+    /**
+     * Get the Livewire component ID
+     *
+     * @return string
+     */
+    public function getLivewireId(): string
+    {
+        return $this->id;
+    }
 }
