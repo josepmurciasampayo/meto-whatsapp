@@ -26,7 +26,7 @@ Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])-
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
 Route::get('consent', [\App\Http\Controllers\StaticController::class, 'consent'])->name('consent');
-Route::get('privacy-policy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy');
+Route::get('privacy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy');
 Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']);
 Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
 Route::post('contact', [\App\Http\Controllers\StaticController::class, 'contactStore'])->name('contact.store');

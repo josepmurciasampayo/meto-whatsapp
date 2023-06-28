@@ -5,25 +5,52 @@
     <?php $yes = \App\Enums\General\YesNo::descriptions() ?>
     <?php $curricula = \App\Enums\Student\Curriculum::descriptions() ?>
 
-    <h3 class="display-7 mt-5 flex justify-center">Editing Question</h3>
+    <h1 class="display-6 mt-5 text-center">Editing Question</h1>
+
     @if (!App::environment('prod'))
-        <p class="bg-info p-3">Please make changes at <a href="https://app.meto-intl.org">https://app.meto-intl.org</a></p>
+        <div class="text-center w-50">
+            <p class="bg-info p-3">
+                Please make changes at <a href="https://app.meto-intl.org">https://app.meto-intl.org</a>
+            </p>
+        </div>
     @endif
 
-    <div class="flex justify-center mt-6 mb-6">
+    <div class="text-center mt-6 mb-6">
         <x-button-nav href="{{ route('questions') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to questions <i class="fas fa-question-circle"></i></x-button-nav>
     </div>
 
+    <div class="w-75 lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-success bg-opacity-25 overflow-hidden sm:rounded-lg">
     <form method="POST" action="{{ route('question.store') }}">
         <input type="hidden" name="question_id" value="{!! $question->id !!}">
         @csrf
-        <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
-        <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
-        <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
-        <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
-        <x-inputs.radio label="Equivalency" :options="$yes" name="equivalency" saved="{!! $question->equivalency !!}"></x-inputs.radio>
-        <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
-        <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
+        <div class="mb-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.text saved="{!! $question->text !!}" label="Text" name="text"></x-inputs.text>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.radio label="Equivalency" :options="$yes" name="equivalency" saved="{!! $question->equivalency !!}"></x-inputs.radio>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
+        </div>
+
+        <div class="my-4 border border-secondary bg-light rounded-md p-2">
+            <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
+        </div>
+
 
         @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
             <div class="row fw-bold border-bottom mb-4">
@@ -129,8 +156,9 @@
             <x-input label="Destination Screen" name="dest_screen" saved=""></x-input>
         @endif
 
-        <div class="text-end">
+        <div class="text-center">
             <x-button>Update <i class="fas fa-pencil-alt"></i></x-button>
         </div>
     </form>
+    </div>
 </x-app-layout>

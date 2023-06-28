@@ -1,9 +1,7 @@
 <x-app-layout>
-    <div class="min-h-screen items-center">
-        <x-image-with-text
-        image-src="/img/Meto-background.webp"
-        alt=""
-        text=""/>
+    @section('title', config('app.name') . ' - Minimum Academic Performance')
+    <div class="min-h-screen text-center">
+        <x-image-with-text image-src="/img/Meto-background.webp" alt="" text=""/>
 
         @livewire('uni.questions.min-grade-form')
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Student\QuestionType;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Student;
 use App\Models\ViewStudentDetail;
+use App\Services\QuestionService;
 use App\Services\UniService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,7 @@ use Illuminate\View\View;
 class HomeController extends Controller
 {
     //
-    public function index(): RedirectResponse|View
+    public function index(QuestionService $questionService): RedirectResponse|View
     {
         $user = Auth()->user();
         if (is_null($user)) {
@@ -57,8 +59,18 @@ class HomeController extends Controller
         }
 
         if ($user->isStudent()) {
+            $student_id = Auth::user()->student_id();
             return view('student.home', [
                 'user' => $user,
+                'profileProgress' => 0,
+                'demoProgress' => $questionService->getProgress(QuestionType::DEMOGRAPHIC, $student_id),
+                'hsProgress' => $questionService->getProgress(QuestionType::HIGHSCHOOL, $student_id),
+                'academicProgress' => 0,
+                'financialProgress' => $questionService->getProgress(QuestionType::FINANCIAL, $student_id),
+                'extraProgress' => $questionService->getProgress(QuestionType::EXTRACURRICULAR, $student_id),
+                'uniProgress' => $questionService->getProgress(QuestionType::UNIVERSITY, $student_id),
+                'testingProgress' => $questionService->getProgress(QuestionType::TESTING, $student_id),
+                'generalProgress' => $questionService->getProgress(QuestionType::GENERAL, $student_id),
             ]);
         }
 

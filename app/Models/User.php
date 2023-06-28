@@ -169,7 +169,7 @@ class User extends Authenticatable
 
     public function terms(): bool
     {
-        return $this->isAdmin() || $this->terms;
+        return $this->isAdmin() || $this->terms == YesNo::YES();
     }
 
     public function consent(): bool

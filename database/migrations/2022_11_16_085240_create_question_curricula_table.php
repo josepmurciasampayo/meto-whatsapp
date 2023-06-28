@@ -15,6 +15,25 @@ return new class extends Migration
     {
         Schema::create('question_curricula', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('curriculum_id');
+            $table->integer('screen')
+                ->nullable();
+            $table->integer('order')
+                ->nullable();
+            $table->integer('branching')
+                ->nullable();
+            $table->integer('destination_screen')
+                ->nullable();
+
+            $table->foreign('question_id')
+                ->references('id')
+                ->on('questions');
+            $table->foreign('curriculum_id')
+                ->references('id')
+                ->on('curriculas');
+
             $table->timestamps();
         });
     }

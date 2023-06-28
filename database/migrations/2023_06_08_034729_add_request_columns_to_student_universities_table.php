@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('student_universities', function (Blueprint $table) {
             $table->string('application_link', 250)->nullable();
-            $table->date('deadline')->nullable();
+            $table->timestamp('deadline')->nullable();
             $table->string('events', 1000)->nullable();
         });
     }

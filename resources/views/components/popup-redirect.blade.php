@@ -1,15 +1,46 @@
 @props(['title', 'text', 'btn_text', 'btn_href', 'btn_icon'])
 
-<div class="popup-box">
-    <div class="popup_secondary">
-        <h2>{{ $title }}</h2>
-        <p>{{ $text }}</p>
-        <a href="{{ $btn_href }}">{{ $btn_text }}<i class="{{ $btn_icon }}"></i></a>
-        <button class="popup_close_secondary">Close <i class="far fa-window-close"></i></button>
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#redirectModal">
+    Launch demo modal
+</button>
+
+<div class="modal fade" id="redirectModal" tabindex="-1" aria-labelledby="redirectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body py-5">
+                <h2 class="title text-center">{{ $title }}</h2>
+                <p class="text-muted text-center mb-4">{{ $text }}</p>
+                <div class="w-100 text-center mb-3">
+                    <a href="{{ $btn_href }}">{{ $btn_text }}<i class="{{ $btn_icon }}"></i></a>
+                </div>
+                <div class="w-100 text-center">
+                    <button class="popup_close_secondary">Close <i class="far fa-window-close"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
+    #redirectModal .title {
+        font-size: 20px;
+        margin-top: 0;
+        color: rgb(5, 23, 21);
+        font-weight: bold;
+    }
+
+    #redirectModal p {
+        font-size: 15px;
+        margin-top: 20px;
+    }
+
+    #redirectModal a {
+        background: #ea4335 !important;
+        color: white !important;
+        padding: 6px;
+        border-radius: 8px;
+    }
+
     .popup-box {
         position: fixed;
         top: 0;
