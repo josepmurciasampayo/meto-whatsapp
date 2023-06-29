@@ -21,11 +21,19 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::rename('question_screens', 'question_curricula');
+        // Moved this from create_question_curricula migration
+        Schema::table('question_curricula', function (Blueprint $table) {
+            $table->foreign('curriculum_id')
+                ->references('id')
+                ->on('curricula');
+        });
+
+        // Not sure why renaming?
+        /*Schema::rename('question_screens', 'question_curricula');
 
         Schema::table('question_curricula', function (Blueprint $table) {
             $table->renameColumn('curriculum', 'curriculum_id');
-        });
+        });*/
     }
 
     /**
