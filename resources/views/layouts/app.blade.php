@@ -101,8 +101,8 @@
         @if (Auth()->user()?->isAdmin())
             <div class="flex">
                 <x-sidebar-menu :links="[
-                    ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions')],
-                    ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curricula')],
+                    ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions.index')],
+                    ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curriculum.index')],
                     ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
                     ['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
                     ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],

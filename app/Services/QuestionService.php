@@ -10,7 +10,7 @@ use App\Enums\Student\QuestionType;
 use App\Helpers;
 use App\Models\Answer;
 use App\Models\Question;
-use App\Models\QuestionScreen;
+use App\Models\QuestionCurriculum;
 use App\Models\Response;
 use App\Models\ResponseBranch;
 use App\Models\User;
@@ -70,10 +70,10 @@ class QuestionService
 
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
-        $branchingQuestionID = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
+        $branchingQuestionID = QuestionCurriculum::where('curriculum', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
 
         if (is_null($branchingQuestionID)) {
-            $destination = QuestionScreen::where('curriculum', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
+            $destination = QuestionCurriculum::where('curriculum', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
             return $destination->destination_screen;
         }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
@@ -159,22 +159,18 @@ class QuestionService
         $question->status = $request->input('active');
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
         $question->notes = $request->input('notes');
-        $question->save();
 
-        foreach (Curriculum::descriptions() as $index => $value) {
-            $question->curriculum($index, false);
-        }
         $question->save();
 
         // reset all info before saving just-submitted info
-        QuestionScreen::where('question_id', $question->id)->delete();
+        QuestionCurriculum::where('question_id', $question->id)->delete();
 
         if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC()) {
             if ($request->has('inUse')) {
                 foreach ($request->input('inUse') as $curriculum => $value) {
-                    $question->curriculum($curriculum, true);
 
-                    $questionScreen = new QuestionScreen();
+
+                    $questionScreen = new QuestionCurriculum();
                     $questionScreen->question_id = $question->id;
                     $questionScreen->curriculum = $curriculum;
                     $questionScreen->screen = $request->input('screen')[$curriculum];

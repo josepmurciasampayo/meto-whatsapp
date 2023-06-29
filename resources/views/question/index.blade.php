@@ -12,10 +12,10 @@
                 <p class="bg-info p-3">Please make changes at <a href="https://app.meto-intl.org">https://app.meto-intl.org</a></p>
             </div>
             <div class="col">
-                <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+                <a href="{{ route('questions.create') }}"><x-button>Add Question</x-button></a>
             </div>
         @else
-            <a href="{{ route('question.create') }}"><x-button>Add Question</x-button></a>
+            <a href="{{ route('questions.create') }}"><x-button>Add Question</x-button></a>
         @endif
     </div>
     <div class="table-container mb-5" style="height: 100vh; overflow-y: scroll;">
@@ -51,7 +51,7 @@
             <tr class="text-center">
                 @php $id = $row['id'] @endphp
                 <input type="hidden" name="id" id="id" value="{{ $id }}">
-                <td><a target="_blank" href="{{ route('question', ['id' => $id]) }}"><?php echo $row['text'] ?></a></td>
+                <td><a target="_blank" href="{{ route('questions.show', ['question' => $id]) }}"><?php echo $row['text'] ?></a></td>
                 <td><?php echo $type[$row['type']] ?></td>
                 <td><?php echo $format[$row['format']] ?></td>
                 <td><?php echo $row['order'] ?></td>

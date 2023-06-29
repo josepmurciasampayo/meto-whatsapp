@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\General\YesNo;
 use App\Enums\QuestionFormat;
-use App\Enums\Student\Curriculum;
+use App\Models\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 
@@ -24,27 +26,25 @@ class Question extends Model
      * a column for each curriculum
      */
 
-    public function curriculum(int $curriculum, bool $inUse = null) :bool
+    public function curricula(): HasManyThrough
     {
-        $questionCurricula = QuestionCurricula::where('curriculum_id', $curriculum)
-            ->where('question_id', $this->id)
-            ->first();
-        $questionCurricula = $questionCurricula ?: $this->attachQuestionToCurricula($curriculum);
+        // this isn't right
+        return $this->hasManyThrough(
+            Curriculum::class,
+            QuestionCurriculum::class,
+            'curriculum_id',
+            'id'
+        );
+    }
 
-        if (!is_null($inUse) && $curriculum < 9) {
-            $value = ($inUse) ? YesNo::YES() : YesNo::NO();
-            $update = "update meto_questions set `" . $curriculum . "` = " . $value . " where id = " . $this->id . ';';
-            $questionCurricula->update([
-                'is_school_choice' => false
-            ]);
-            DB::update($update);
-            return true;
-        } else {
-            $questionCurricula->update([
-                'is_school_choice' => false
-            ]);
-            return $this->$curriculum == YesNo::YES();
-        }
+    public function academic(): HasMany
+    {
+        return $this->hasMany(QuestionCurriculum::class);
+    }
+
+    public function responses(): HasMany
+    {
+        return $this->hasMany(Response::class);
     }
 
     public static function hasResponses(Fluent $question) :bool
@@ -58,17 +58,5 @@ class Question extends Model
             return false;
         }
         return ($this->required == YesNo::YES()) ? "true" : "false";
-    }
-
-    public function attachQuestionToCurricula(int $curriculum)
-    {
-//        return QuestionCurricula::create([
-//            'curriculum_id' => $curriculum,
-//            'question_id' => $this->id,
-//            'screen' => ,
-//            'order' => request('order'),
-//            'branching' => ,
-//            'destination_screen' =>
-//        ]);
     }
 }

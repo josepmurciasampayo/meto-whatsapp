@@ -5,6 +5,7 @@ use App\Http\Controllers\{AdminController,
     Auth\RegisteredUserController,
     Auth\WelcomeController,
     CounselorController,
+    CurriculumController,
     HighSchoolController,
     HomeController};
 use Illuminate\Support\Facades\Route;
@@ -68,13 +69,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/students/{highschool_id?}', [HighSchoolController::class, 'students'])->name('students');
 
     Route::get('/admin/logins', [AdminController::class, 'logins'])->name('logins');
-    Route::get('/admin/questions', [AdminController::class, 'questions'])->name('questions');
-    Route::get('/admin/question/{id?}', [AdminController::class, 'question'])->name('question');
-    Route::post('/admin/question', [AdminController::class, 'questionStore'])->name('question.store');
-    Route::get('/admin/questionCreate', [AdminController::class, 'question'])->name('question.create');
+
+    Route::resource('questions', \App\Http\Controllers\QuestionController::class);
+    Route::resource('equivalencies', \App\Http\Controllers\EquivalencyController::class);
+    Route::resource('connections', \App\Http\Controllers\ConnectionController::class);
+    Route::resource('curriculum', CurriculumController::class);
+
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
-    Route::get('/admin/curricula', [AdminController::class, 'curricula'])->name('curricula');
     Route::get('/admin/curriculum/{curriculum}', [AdminController::class, 'curriculum'])->name('curriculum');
 
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
@@ -84,9 +86,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/workRequest', [AdminController::class, 'workRequest'])->name('workRequest');
     Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 
-    Route::resource('equivalencies', \App\Http\Controllers\EquivalencyController::class);
-
-    Route::resource('connections', \App\Http\Controllers\ConnectionController::class);
     Route::post('/connections/{connection}/approve', [AdminController::class, 'approveConnection']);
     Route::post('/connections/{connection}/deny', [AdminController::class, 'denyConnection']);
 

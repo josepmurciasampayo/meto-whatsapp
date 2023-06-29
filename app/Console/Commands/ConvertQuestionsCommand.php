@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\General\YesNo;
+use App\Enums\Student\Curriculum;
 use App\Helpers;
 use App\Models\Question;
 use App\Models\QuestionCurriculum;
@@ -15,14 +16,14 @@ class ConvertQuestionsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'convert:questions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Move curriculum-related data to separate tables';
 
     /**
      * Execute the console command.
@@ -31,22 +32,11 @@ class ConvertQuestionsCommand extends Command
      */
     public function handle()
     {
-        $questions = Helpers::dbQueryArray('
-            select question_id, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, type, s.order, format, required, equivalency, curriculum, s.screen, branch, destination_screen
-            from meto_questions as q
-            join meto_question_screens as s on s.question_id = q.id
-        ');
-
-        foreach ($questions as $question) {
-            for ($i =1; $i < 9; ++$i) {
-                if ($question->$i == YesNo::YES()) {
-                    $join = new QuestionCurriculum();
-                    $join->question_id = $question->id;
-                    $join->curriculum_id = $i;
-
-                }
-
-            }
+        $enum = Curriculum::descriptions();
+        foreach ($enum as $curriculum) {
+                $c = new \App\Models\Curriculum();
+                $c->name = $curriculum;
+                $c->save();
         }
         return Command::SUCCESS;
     }
