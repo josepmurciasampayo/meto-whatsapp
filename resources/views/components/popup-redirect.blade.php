@@ -14,12 +14,18 @@
                     <a href="{{ $btn_href }}">{{ $btn_text }}<i class="{{ $btn_icon }}"></i></a>
                 </div>
                 <div class="w-100 text-center">
-                    <button class="popup_close_secondary">Close <i class="far fa-window-close"></i></button>
+                    <button onclick="closePopup()" class="popup_close_secondary">Close <i class="far fa-window-close"></i></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    let closePopup = () => {
+        $('[data-bs-target="#redirectModal"]').click()
+    }
+</script>
 
 <style>
     #redirectModal .title {
@@ -158,10 +164,10 @@
     }
 </style>
 
-<script type="text/javascript">
-    const closeButton = document.querySelector('.popup_close_secondary');
-    closeButton.addEventListener('click', () => {
-        const popupContainer = document.querySelector('.popup-box');
-        popupContainer.style.display = 'none';
-    });
-</script>
+{{--<script type="text/javascript">--}}
+{{--    const closeButton = document.querySelector('.popup_close_secondary');--}}
+{{--    closeButton.addEventListener('click', () => {--}}
+{{--        const popupContainer = document.querySelector('.popup-box');--}}
+{{--        popupContainer.style.display = 'none';--}}
+{{--    });--}}
+{{--</script>--}}

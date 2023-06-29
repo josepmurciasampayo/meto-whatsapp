@@ -16,7 +16,7 @@ use App\Models\Chat\MessageState;
 use App\Models\Joins\UserInstitution;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
-use App\Models\QuestionScreen;
+use App\Models\QuestionCurriculum;
 use App\Models\Response;
 use App\Models\ResponseBranch;
 use App\Models\StudentUniversity;
@@ -111,80 +111,6 @@ class AdminController extends Controller
     {
         $matches = StudentUniversity::getByUserID($student_id);
         return view('admin.match-data', ['data' => $matches]);
-    }
-
-    public function questions(): View
-    {
-        return view('admin.questions', [
-            'data' => (new QuestionService())->getAdminData(),
-        ]);
-    }
-
-    public function question(int $id = null) :View
-    {
-        $question = ($id) ? Question::find($id) : new Question();
-        $responses = ($id) ? Response::where('question_id', $id)->get() : null;
-        $screens = ($question->type == QuestionType::ACADEMIC()) ? QuestionScreen::get($id) : null;
-        $branches = ($question->type == QuestionType::ACADEMIC()) ? ResponseBranch::get($id) : null;
-
-        return view('admin.question', [
-            'question' => $question,
-            'responses' => $responses,
-            'screens' => $screens,
-            'branches' => $branches,
-        ]);
-    }
-
-    public function questionStore(Request $request, QuestionService $questionService) :RedirectResponse
-    {
-        $question = $questionService->store($request);
-        return redirect(route('question', ['id' => $question->id]));
-    }
-
-    public function curricula() :View
-    {
-        return view('admin.curricula', [
-            'curricula' => Curriculum::descriptions(),
-        ]);
-    }
-
-    public function curriculum(int $curriculum, QuestionService $questionService) :View
-    {
-        $questions = $screens = array(); // arrays to be filled and sent to the view
-
-        $q = $questionService->getAcademic($curriculum); // get all questions for curriculum and fill in text, format
-        foreach ($q as $id => $question) {
-            $questions[$id]['text'] = $question['text'];
-            $questions[$id]['format'] = QuestionFormat::descriptions()[$question['format']];
-        }
-
-        $s = QuestionScreen::where('curriculum', $curriculum)->get(); // get all
-
-        foreach ($s as $screen) {
-            $questions[$screen->question_id]['screen'] = $screen->screen;
-            $questions[$screen->question_id]['order'] = $screen->order;
-            $questions[$screen->question_id]['destination'] = $screen->destination_screen ?? false;
-
-            $screens[$screen->screen] = ($screen->branch == YesNo::YES()) || !is_null($screen->destination_screen) || (isset($screens[$screen->screen]) && $screens[$screen->screen]);
-
-            $b = ResponseBranch::where('curriculum', $curriculum)->where('question_id', $screen->question_id)->get();
-            if (count($b) > 0) {
-                $questions[$screen->question_id]['branch'] = array();
-                foreach ($b as $branch) {
-                    $questions[$branch->question_id]['branch'][] = $branch->to_screen;
-                }
-                $branches = array_unique($questions[$branch->question_id]['branch']);
-                $questions[$branch->question_id]['branch'] = implode(',', $branches);
-            } else {
-                $questions[$screen->question_id]['branch'] = null;
-            }
-        }
-
-        return view('admin.curriculum', [
-            'questions' => $questions,
-            'screens' => $screens,
-            'curriculum' => Curriculum::descriptions()[$curriculum],
-        ]);
     }
 
     public function answers(int $question_id): View

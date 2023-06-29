@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('curriculas', function (Blueprint $table) {
+        Schema::create('curricula', function (Blueprint $table) {
             $table->id();
-
-            $table->string('name')
-                ->nullable();
-            $table->string('description')
-                ->nullable();
-            $table->boolean('is_school_choice')
-                ->default(false);
-
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->boolean('is_school_choice')->default(false);
             $table->timestamps();
+        });
+
+        Schema::rename('question_screens', 'question_curricula');
+
+        Schema::table('question_curricula', function (Blueprint $table) {
+            $table->renameColumn('curriculum', 'curriculum_id');
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curriculas');
+        Schema::dropIfExists('curricula');
     }
 };
