@@ -5,7 +5,7 @@
     if ($responses) {
         $options = array();
         foreach ($responses as $response) {
-            $options[$response['id']] = $response['text'];
+            $options[$response->id] = $response->text;
         }
         $responses = $options;
     }

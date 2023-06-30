@@ -7,7 +7,9 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Response;
 use App\Models\Student;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+
 
 class AnswerService
 {
@@ -58,11 +60,11 @@ class AnswerService
         return $existing;
     }
 
-    public function getForQuestionArray(array $questions, int $student_id) :array
+    public function getForQuestionArray(Collection $questions, int $student_id) :array
     {
         $question_ids = array();
-        foreach ($questions as $id => $question) {
-            $question_ids[] = $id;
+        foreach ($questions as $question) {
+            $question_ids[] = $question->id;
         }
         $answers = Answer::whereIn('question_id', $question_ids)->where('student_id', $student_id)->get();
         $answerArray = array();

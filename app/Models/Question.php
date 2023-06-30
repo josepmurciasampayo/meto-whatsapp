@@ -7,6 +7,7 @@ use App\Enums\QuestionFormat;
 use App\Models\Curriculum;
 use App\Helpers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\DB;
@@ -29,12 +30,21 @@ class Question extends Model
     public function curricula(): HasManyThrough
     {
         // this isn't right
-        return $this->hasManyThrough(
+        return $this->HasManyThrough(
             Curriculum::class,
             QuestionCurriculum::class,
             'curriculum_id',
             'id'
         );
+    }
+
+    public function curriculum(): BelongsToMany
+    {
+        return $this->belongsToMany(Curriculum::class)
+            ->withPivot([
+                'screen',
+                'order',
+            ]);
     }
 
     public function academic(): HasMany
@@ -47,9 +57,24 @@ class Question extends Model
         return $this->hasMany(Response::class);
     }
 
-    public static function hasResponses(Fluent $question) :bool
+    public function responseCount(): int
     {
-        return in_array($question->format, QuestionFormat::hasResponses());
+        return Response::where('question_id', $this->id)->count();
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function answersForStudent(int $student_id)
+    {
+        return $this->answers()->where('student_id', '=', $student_id);
+    }
+
+    public function hasResponses() :bool
+    {
+        return in_array($this->format, QuestionFormat::hasResponses());
     }
 
     public function requiredString(): string

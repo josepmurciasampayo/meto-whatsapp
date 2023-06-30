@@ -87,11 +87,10 @@ class StudentController extends Controller
     public function renderAcademicView(Page $page, int $curriculum, int $screen, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
         $questions = $questionService->getAcademic($curriculum, $screen);
-        $responses = $responseService->getForQuestionArray($questions);
         $answers = $answerService->getForQuestionArray($questions, Auth::user()->student_id());
+
         return view('student.form', [
             'questions' => $questions,
-            'responses' => $responses,
             'answers' => $answers,
             'page' => $page,
             'curriculum' => $curriculum,

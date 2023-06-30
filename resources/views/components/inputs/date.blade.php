@@ -1,6 +1,7 @@
 <!-- date.blade.php -->
 @props(['name', 'help' => false, 'saved' => null, 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
 
+@php $startDate = $saved ?? "2001-01-01"; @endphp
 @php $required = ($req) ? "*" : ""  @endphp
 <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
 @if ($help)
@@ -24,7 +25,7 @@
             "autoApply": true,
             "minYear": 2000,
             "maxYear": new Date().getFullYear() + 1,
-            "startDate": "2001-01-01",
+            "startDate": "{{ $startDate }}",
             "locale": {
                 format: 'YYYY-MM-DD',
             },

@@ -19,6 +19,7 @@
             <div class="w-full lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-success bg-opacity-25 overflow-hidden sm:rounded-lg">
                 <form method="POST" action="{{ route('user.register') }}">
                     <input type="hidden" name="page" value="{{ \App\Enums\Page::GETSTARTED() }}">
+                    <input type="hidden" name="direction" value="1">
                     @csrf
 
                     <div class="my-4 border border-secondary bg-light rounded-md p-2">
@@ -58,7 +59,7 @@
                         $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('terms') . " '>terms of use</a></span>";
                          $w = [1 => "I agree to the " . $link];
                         @endphp
-                        <x-inputs.checkbox name="terms" label="By clicking Next: *Wel" :options="$w" class="whatsapp-checkbox" ></x-inputs.checkbox>
+                        <x-inputs.checkbox name="terms" label="By clicking Next: *" :options="$w" class="whatsapp-checkbox" ></x-inputs.checkbox>
 
                         @php
                             $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('privacy') . " '>terms of use</a></span>";

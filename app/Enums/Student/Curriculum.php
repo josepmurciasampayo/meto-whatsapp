@@ -17,6 +17,23 @@ enum Curriculum :int
     case TRANSFER = 7;
     case OTHER = 8;
     case NATIONAL = 9;
+    case INDIA = 10;
+    case VIETNAM = 11;
+    case GHANA = 12;
+    case MEXICO = 13;
+    case NIGERIA = 14;
+    case ETHIOPIA = 15;
+    case NEPAL = 16;
+    case SAUDIARABIA = 17;
+    case IRAN = 18;
+    case KUWAIT = 19;
+    case TURKIYE = 20;
+    case BANGLADESH = 21;
+    case BRAZIL = 22;
+    case INDONESIA = 23;
+    case SOUTHAFRICA = 24;
+    case MOROCCO = 25;
+    case EGYPT = 26;
 
     public static function getText(self $value) :string
     {
@@ -30,6 +47,23 @@ enum Curriculum :int
             self::TRANSFER => "Graduates and Transfers",
             self::OTHER => "All Others",
             self::NATIONAL => "National",
+            self::INDIA => 'Indian',
+            self::VIETNAM => 'Vietnamese',
+            self::GHANA => 'Ghanian',
+            self::MEXICO => 'Mexican',
+            self::NIGERIA => 'Nigerian',
+            self::ETHIOPIA => 'Ehtiopian',
+            self::NEPAL => 'Nepalese',
+            self::SAUDIARABIA => 'Saudi Arabian',
+            self::IRAN => 'Iranian',
+            self::KUWAIT => 'Kuwaiti',
+            self::TURKIYE => 'Turkish',
+            self::BANGLADESH => 'Bangladeshi',
+            self::BRAZIL => 'Brazillian',
+            self::INDONESIA => 'Indonesian',
+            self::SOUTHAFRICA => 'South Africa',
+            self::MOROCCO => 'Moroccan',
+            self::EGYPT => 'Egyptian',
         };
     }
 
