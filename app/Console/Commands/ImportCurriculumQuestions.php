@@ -40,11 +40,12 @@ class ImportCurriculumQuestions extends Command
      */
     public function handle()
     {
-        self::createCurricula();
+        // self::createCurricula();
 
         $files = [
-            \App\Enums\Student\Curriculum::MEXICO() => 'Mexico.csv',
             \App\Enums\Student\Curriculum::INDIA() => 'India.csv',
+            /*
+            \App\Enums\Student\Curriculum::MEXICO() => 'Mexico.csv',
             \App\Enums\Student\Curriculum::VIETNAM() => 'Vietnam.csv',
             \App\Enums\Student\Curriculum::GHANA() => 'Ghana.csv',
             \App\Enums\Student\Curriculum::NIGERIA() => 'Nigeria.csv',
@@ -60,6 +61,7 @@ class ImportCurriculumQuestions extends Command
             \App\Enums\Student\Curriculum::SOUTHAFRICA() => 'South Africa.csv',
             \App\Enums\Student\Curriculum::MOROCCO() => 'Morocco.csv',
             \App\Enums\Student\Curriculum::EGYPT() => 'Egypt.csv',
+            */
         ];
 
         foreach ($files as $curriculum_id => $file) {
