@@ -1,5 +1,5 @@
 @php $row = ['hs' => null, 'hs_city' => null, 'hs_country' => null, 'birth_city' => null, 'birth_country' => null, 'gender' => null, 'dob' => null, 'affiliations' => null] @endphp
-<div class="min-h-screen mt-5 mx-2 single-student-card">
+<div class="my-5 mx-2 single-student-card">
     <div>
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">
