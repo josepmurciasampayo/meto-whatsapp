@@ -79,7 +79,6 @@ final class StudentTableMaybe extends PowerGridComponent
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$fullName</a>";
             })
             ->addColumn('gender', function (Student $student) {
-                if ($student->gender === '21,58,76,177,196') dd($student);
                 return $student->gender ? Gender::descriptions()[$student->gender] : null;
             })
             ->addColumn('email', function (Student $student) {
