@@ -77,8 +77,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');
 
-    Route::get('/admin/curriculum/{curriculum}', [AdminController::class, 'curriculum'])->name('curriculum');
-
     Route::get('/admin/commands', [AdminController::class, 'commands'])->name('commands');
     Route::get('/admin/command', [AdminController::class, 'command'])->name('command');
 

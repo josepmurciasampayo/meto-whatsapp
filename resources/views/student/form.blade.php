@@ -13,9 +13,8 @@
                     <div class="my-1">
                     @php $a = $answers[$id] ?? null @endphp
 
-                    @if (\App\Models\Question::hasResponses($question))
-                        <?php $r = isset($responses[$id]) ? $responses[$id] : null ?>
-                        <x-question :question="$question" :answer="$a" :responses="$r"></x-question>
+                    @if (($question->hasResponses()))
+                        <x-question :question="$question" :answer="$a" :responses="$question->responses"></x-question>
                     @else
                         <x-question :question="$question" :answer="$a"></x-question>
                     @endif

@@ -12,7 +12,7 @@ class ResponseBranch extends Model
         $toReturn = array();
         $responses = ResponseBranch::where('question_id', $id)->get();
         foreach ($responses as $response) {
-            $toReturn[$response->response_id][$response->curriculum] = $response->to_screen;
+            $toReturn[$response->response_id][$response->curriculum_id] = $response->to_screen;
         }
         return $toReturn;
     }

@@ -5,7 +5,7 @@
         </div>
         <ul>
             @foreach ($curricula as $curriculum)
-                <li><a style="text-decoration: underline" href="{{ route("curriculum", ['id' => $curricula->id]) }}">{{ $curriculum->name }}</a></li>
+                <li><a style="text-decoration: underline" href="{{ route("curriculum.show", ['curriculum' => $curriculum->id]) }}">{{ $curriculum->name }}</a></li>
             @endforeach
         </ul>
     </div>

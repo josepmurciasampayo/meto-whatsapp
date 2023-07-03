@@ -16,9 +16,9 @@
     @endif
 
     <div class="text-center mt-6 mb-6">
-        <x-button-nav href="{{ route('questions.index') }}"
-                      class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">Back to
-            questions <i class="fas fa-question-circle"></i></x-button-nav>
+        <x-button-nav href="{{ route('questions.index') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-50">
+            Back to questions <i class="fas fa-question-circle"></i>
+        </x-button-nav>
     </div>
 
     <div class="w-75 lg:w-3/4 xl:max-w-md mt-6 px-6 py-4 bg-success bg-opacity-25 overflow-hidden sm:rounded-lg">
@@ -30,28 +30,23 @@
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.select label="Format" :options="$formats" name="format"
-                                 saved="{{ $question->format }}"></x-inputs.select>
+                <x-inputs.select label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.select label="Category" :options="$categories" name="category"
-                                 saved="{{ $question->type }}"></x-inputs.select>
+                <x-inputs.select label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.radio label="Required" :options="$yes" name="required"
-                                saved="{!! $question->required !!}"></x-inputs.radio>
+                <x-inputs.radio label="Required" :options="$yes" name="required" saved="{!! $question->required !!}"></x-inputs.radio>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.radio label="Equivalency" :options="$yes" name="equivalency"
-                                saved="{!! $question->equivalency !!}"></x-inputs.radio>
+                <x-inputs.radio label="Equivalency" :options="$yes" name="equivalency" saved="{!! $question->equivalency !!}"></x-inputs.radio>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.radio label="Active" :options="$active" name="active"
-                                saved="{{ $question->status }}"></x-inputs.radio>
+                <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
@@ -64,13 +59,14 @@
                     <div class="col text-center">Branching</div>
                     <div class="col text-center">Screen</div>
                     <div class="col text-center">Order</div>
-                    @if (!in_array($question['type'], \App\Enums\QuestionFormat::hasResponses()))
+                    @if (!in_array($question->type, \App\Enums\QuestionFormat::hasResponses()))
                         <div class="col text-center">Destination Screen</div>
                     @endif
                 </div>
 
                 @foreach ($question->academic as $academic)
                     <div class="row my-3 d-flex align-items-center">
+                        <input type="hidden" name="join[{{ $academic->curriculum->id }}]" value="{{ $academic->id }}">
                         <div class="col text-end">
                             <p>{!! $academic->curriculum->name !!}</p>
                         </div>
@@ -109,7 +105,7 @@
                         document.forms[0].submit();
                     }
                 </script>
-                <div class="display-7">Responses <i class="fas fa-check-square"></i></div>
+                <div class="display-7 text-center my-3">Responses <i class="fas fa-check-square"></i></div>
                 <div class="row">
                     <div class="col">
                         <x-inputs.text label="Add # blank responses" name="responses"></x-inputs.text>
@@ -126,13 +122,13 @@
                 <div class="row">
                     <div class="col col-lg-2"></div>
                     <div class="col text-center">Response Text</div>
-                    @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
+                    @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC() && $question->academic[0]->branch)
                         <div class="col-lg-4 text-center">Destination Screen</div>
                     @endif
                 </div>
                 @foreach ($responses as $response)
                     <div class="row my-4">
-                        <div class="col col-lg-2 mt-1">
+                        <div class="col col-lg-2 mt-2">
                             <x-button onclick="deleteResponse({{ $response->id }})">
                             <span class="mr-2">
                                 <i class="fas fa-trash"></i>
@@ -144,15 +140,12 @@
                             <x-input label="" name="response[{{ $response->id }}]"
                                      saved="{!! $response->text !!}"></x-input>
                         </div>
-                        @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
-                            <div class="col-lg-4">
-                                @foreach ($curricula as $id => $curriculum)
-                                    @if (isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES())
-                                        @php $value = (isset($branches[$response->id][$id])) ? $branches[$response->id][$id] : null; @endphp
-                                        <input style="width:100px" type="number" id="{!! $curriculum !!}"
-                                               name="responseBranch[{{$response->id}}][{{ $id }}]"
-                                               value="{!! $value !!}">
-                                        <label for="{!! $curriculum !!}">{!! $curriculum !!}</label><br/>
+                        @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC() && $question->academic[0]->branch)
+                            <div class="col-lg-4 mt-2">
+                                @foreach ($question->academic as $academic)
+                                    @if ($academic->branch == \App\Enums\General\YesNo::YES())
+                                        <input style="width:100px" type="number" name="responseBranch[{{$response->id}}]" id="responseBranch[{{$response->id}}]" value="{{ $response->branch->to_screen }}">
+                                        <label for="responseBranch[{{$response->id}}]">{!! $academic->curriculum->name !!}</label><br/>
                                     @endif
                                 @endforeach
                             </div>
