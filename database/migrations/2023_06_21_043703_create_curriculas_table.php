@@ -28,10 +28,12 @@ return new class extends Migration
                 ->on('curricula');
         });
         
-        Schema::rename('question_screens', 'question_curricula');
+        // Why renaming? This table created in create_question_curricula migration
+        /*Schema::rename('question_screens', 'question_curricula');*/
 
         Schema::table('question_curricula', function (Blueprint $table) {
-            $table->renameColumn('curriculum', 'curriculum_id');
+            // Why renaming? This field correctlt created in create_question_curricula migration
+            /*$table->renameColumn('curriculum', 'curriculum_id');*/
             $table->unsignedTinyInteger('equivalency')->default(\App\Enums\General\YesNo::NO())->comment(\App\Enums\General\YesNo::toString());
             $table->unsignedTinyInteger('required')->default(\App\Enums\General\YesNo::NO())->comment(\App\Enums\General\YesNo::toString());
         });
