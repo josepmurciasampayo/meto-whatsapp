@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class AdminUserAccessTest extends TestCase
 {
+    use RefreshDatabase;
+    
     public function test_users_can_not_access_admin_without_admin_role()
     {
         $user = User::factory()->create();
@@ -20,7 +22,7 @@ class AdminUserAccessTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $response = $this->get('/admin/questions');
+        $response = $this->get('/admin/students');
 
         $response->assertForbidden();
     }
@@ -36,7 +38,7 @@ class AdminUserAccessTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $response = $this->get('/admin/questions');
+        $response = $this->get('/admin/students');
 
         $response->assertStatus(200);
     }
