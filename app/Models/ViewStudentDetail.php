@@ -10,4 +10,9 @@ class ViewStudentDetail extends Model
     use HasFactory;
 
     public $table = 'view_student_detail';
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

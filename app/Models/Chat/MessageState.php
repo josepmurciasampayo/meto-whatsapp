@@ -3,7 +3,7 @@
 namespace App\Models\Chat;
 
 use App\Enums\Chat\Campaign;
-use App\Enums\Chat\Surveys\PostMatchHEardOfOption;
+use App\Enums\Chat\Surveys\PostMatchHeardOfOption;
 use App\Enums\Chat\Surveys\PostMatchIntentOption;
 use App\Enums\EnumGroup;
 use App\Http\Controllers\ChatbotController;

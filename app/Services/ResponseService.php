@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Question;
 use App\Models\Response;
 use App\Models\ResponseBranch;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ResponseService
@@ -50,20 +51,17 @@ class ResponseService
                 }
 
                 if ($request->input('responseBranch') && $request->input('responseBranch')[$id]) {
-                    foreach ($request->input('responseBranch')[$id] as $curriculum => $value) {
-                        $rb = new ResponseBranch();
-                        $rb->question_id = $question->id;
-                        $rb->response_id = $id;
-                        $rb->curriculum = $curriculum;
-                        $rb->to_screen = $value;
-                        $rb->save();
-                    }
+                    $rb = new ResponseBranch();
+                    $rb->question_id = $question->id;
+                    $rb->response_id = $id;
+                    $rb->to_screen = $request->input('responseBranch')[$id];
+                    $rb->save();
                 }
             }
         }
     }
 
-    public function getForQuestionArray(array $questions) :array
+    public function getForQuestionArray(Collection $questions) :array
     {
         $question_ids = array();
         foreach ($questions as $id => $question) {

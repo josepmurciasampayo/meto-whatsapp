@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class QuestionCurriculum extends Model
 {
-    public function question(): HasOne
+    public function question(): BelongsTo
     {
-        return $this->hasOne(Question::class);
+        return $this->BelongsTo(Question::class);
     }
 
-    public function curriculum(): HasOne
+    public function curriculum(): BelongsTo
     {
-        return $this->hasOne(Curriculum::class, 'id', 'curriculum_id');
+        return $this->BelongsTo(Curriculum::class);
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Enums\Chat\Surveys;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum PostMatchHEardOfOption :int
+enum PostMatchHeardOfOption :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 

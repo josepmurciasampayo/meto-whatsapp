@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                    <x-inputs.text label="Job Title" name="title"></x-inputs.text>
+                    <x-inputs.text label="Job Title" name="title" req="true"></x-inputs.text>
                 </div>
 
                 <div class="my-4 border border-secondary bg-light rounded-md p-2">

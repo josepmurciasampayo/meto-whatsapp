@@ -40,10 +40,12 @@
                  <div class="my-4 border border-secondary bg-light rounded-md p-2">
                  <x-inputs.select name="owner" saved="{{ $user->phone_owner ?? '' }}" label="Who does this number belong to?" :options="$owners"></x-inputs.select>
                      @php $w = [1 => "I use this number for WhatsApp"] @endphp
-                     <x-inputs.checkbox name="whatsapp" label="" :options="$w" class="whatsapp-checkbox"></x-inputs.checkbox>
+                     @php $checked = ($user->whatsapp_used == \App\Enums\General\YesNo::YES()) ? [1] : [0]; @endphp
+                     <x-inputs.checkbox name="whatsapp" label="" :options="$w" class="whatsapp-checkbox" :saved="$checked"></x-inputs.checkbox>
 
                      @php $c = [1 => "I give consent to be contacted on WhatsApp"] @endphp
-                     <x-inputs.checkbox name="consent" label="" :options="$c" class="consent-checkbox"></x-inputs.checkbox>
+                     @php $checked = ($user->whatsapp_consent == \App\Enums\User\Consent::CONSENT()) ? [1] : [0]; @endphp
+                     <x-inputs.checkbox name="consent" label="" :options="$c" class="consent-checkbox" :saved="$checked"></x-inputs.checkbox>
                  </div>
 
                  <div class="text-center my-4">

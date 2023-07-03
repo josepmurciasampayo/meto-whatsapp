@@ -90,20 +90,21 @@
                 axios.get('/uni-student-fetch/' + studentId)
                     .then(res => {
                         let data = res.data;
+                        let student = data.data.student;
 
                         card.style.display = 'block'
 
-                        card.querySelector('#name').textContent = data.user.first + ' ' + data.user.last
-                        card.querySelector('#age').textContent = data.student.age
+                        // card.querySelector('#name').textContent = student.user.first + ' ' + student.user.last
+                        // card.querySelector('#age').textContent = student.age
 
-                        qas = card.querySelector('#qas')
-                        qas.innerHTML = ''
-                        data.qas.forEach(qa => {
-                            qas.innerHTML += '<div class="p-3 col-md-6">' + '<div class="bg-light p-3 qa rounded mb-3">' +
-                                '<p class="fw-bold small">#' + qa.question_id + ': ' +  qa.question.text + '</p>' +
-                                '<p class="small">' + qa.text + '</p>' +
-                                '</div>' + '</div>'
-                        })
+                        // qas = card.querySelector('#qas')
+                        // qas.innerHTML = ''
+                        // data.qas.forEach(qa => {
+                        //     qas.innerHTML += '<div class="p-3 col-md-6">' + '<div class="bg-light p-3 qa rounded mb-3">' +
+                        //         '<p class="fw-bold small">#' + qa.question_id + ': ' +  qa.question.text + '</p>' +
+                        //         '<p class="small">' + qa.text + '</p>' +
+                        //         '</div>' + '</div>'
+                        // })
                     })
                     .catch(err => console.log(err))
             }

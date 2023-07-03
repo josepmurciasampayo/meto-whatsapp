@@ -364,7 +364,9 @@ class UniController extends Controller
     public function fetchStudent(Request $request)
     {
         return response([
-            'data' =>  ViewStudentDetail::where('student_id', $request->route('student'))->first()
+            'data' => ViewStudentDetail::with('student.user')
+                ->where('student_id', $request->route('student'))
+                ->first()
         ]);
     }
 }
