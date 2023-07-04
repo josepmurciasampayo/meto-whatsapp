@@ -48,12 +48,12 @@
         @foreach ($questions as $question)
             <tr class="text-center">
                 <td><a target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
-                <td>{{ $type[$question->type] }}</td>
-                <td>{{ $format[$question->format] }}</td>
+                <td>{{ $type[$question->type] ?? '' }}</td>
+                <td>{{ $format[$question->format] ?? '' }}</td>
                 <td>{{ $question->order }}</td>
-                <td>{{ $active[$question->status] }}</td>
-                <td>{{ $yesNo[$question->required] }}</td>
-                <td>{{ $yesNo[$question->equivalency] }}</td>
+                <td>{{ $active[$question->status] ?? '' }}</td>
+                <td>{{ $yesNo[$question->required] ?? '' }}</td>
+                <td>{{ $yesNo[$question->equivalency] ?? '' }}</td>
             </tr>
         @endforeach
         </tbody>
