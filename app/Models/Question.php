@@ -62,6 +62,11 @@ class Question extends Model
         return Response::where('question_id', $this->id)->count();
     }
 
+    public function answerCount(): int
+    {
+        return Answer::where('question_id', $this->id)->count();
+    }
+
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);

@@ -29,6 +29,7 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
+            <th>Answer Count</th>
         </tr>
         </thead>
 
@@ -41,6 +42,7 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
+            <th>Answer Count</th>
         </tr>
         </tfoot>
 
@@ -54,6 +56,7 @@
                 <td>{{ $active[$question->status] ?? 'E' }}</td>
                 <td>{{ $yesNo[$question->required] ?? 'E' }}</td>
                 <td>{{ $yesNo[$question->equivalency] ?? 'E' }}</td>
+                <td>{{ $question->answerCount() }}</td>
             </tr>
         @endforeach
         </tbody>
