@@ -118,7 +118,7 @@
                             <div class="col text-center">Branching</div>
                             <div class="col text-center">Screen</div>
                             <div class="col text-center">Order</div>
-                            @if (!$question->hasResponses()))
+                            @if (!$question->hasResponses())
                             <div class="col text-center">Destination Screen</div>
                             @endif
                         </div>
