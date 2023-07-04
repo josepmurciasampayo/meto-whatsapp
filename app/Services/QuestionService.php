@@ -24,28 +24,9 @@ use Illuminate\Support\Fluent;
 
 class QuestionService
 {
-    public function create() :Question
-    {
-        $question = new Question();
-        $question->type = QuestionType::GENERAL();
-        $question->format = QuestionFormat::INPUT();
-        $question->save();
-
-        return $question;
-    }
-
-    public function get(QuestionType $type) :Collection
-    {
-        return Question::
-            where('type', $type())
-            ->where('status', QuestionStatus::ACTIVE())
-            ->whereNot('format', 0)
-            ->orderBy('order', 'asc')
-            ->get();
-    }
-
     public function getAcademic(int $curriculum_id, int $screen = null) :Collection
     {
+        // TODO: refactor all this with expert Eloquent stuff
         if (is_null($screen)) {
             $id_array = DB::select("
                 select q.id
@@ -94,36 +75,11 @@ class QuestionService
         return 0;
     }
 
-    public function getCurriculum(User $user) :?Curriculum
-    {
-        $answer = Answer::where('question_id', 318)->where('student_id', $user->student_id())->first();
-        if ($answer) {
-            // response IDs are coded, Curriculum IDs aren't used but should be?
-            return match($answer->response_id) {
-                46 => Curriculum::CAMBRIDGE,
-                47 => Curriculum::AMERICAN,
-                48 => Curriculum::IB,
-                49 => Curriculum::UGANDAN,
-                50 => Curriculum::KENYAN,
-                51 => Curriculum::RWANDAN,
-                52 => Curriculum::OTHER,
-            };
-        } else {
-            return null;
-        }
-    }
-
-    public function store(Request $request) :?Question
+    public function store(Request $request, Question $question): void
     {
         if ($request->input('toDelete') > 0) {
             Response::destroy($request->input('toDelete'));
-            return null;
-        }
-
-        if (is_numeric($request->input('question_id'))) {
-            $question = Question::find($request->input('question_id'));
-        } else {
-            $question = new Question();
+            return;
         }
 
         $question->text = $request->input('text');
@@ -139,23 +95,26 @@ class QuestionService
         $question->save();
 
         if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC()) {
-            foreach ($request->input('join') as $curriculum_id => $join_id) {
-                $questionScreen = QuestionCurriculum::find($join_id);
-                $questionScreen->screen = $request->input('screen')[$join_id];
-                $questionScreen->order = $request->input('order')[$join_id];
-                $questionScreen->branch = isset($request->input('hasBranch')[$join_id]) ? YesNo::YES() : YesNo::NO();
-                if ($request->has('destination') && isset($request->input('destination')[$join_id])) {
-                    $questionScreen->destination_screen = $request->input('destination')[$join_id];
-                } else {
-                    $questionScreen->destination_screen = null;
+            if ($request->has('join')) {
+                foreach ($request->input('join') as $curriculum_id => $join_id) {
+                    $questionScreen = QuestionCurriculum::find($join_id);
+                    $questionScreen->screen = $request->input('screen')[$join_id];
+                    $questionScreen->order = $request->input('order')[$join_id];
+                    $questionScreen->branch = isset($request->input('hasBranch')[$join_id]) ? YesNo::YES() : YesNo::NO();
+                    if ($request->has('destination') && isset($request->input('destination')[$join_id])) {
+                        $questionScreen->destination_screen = $request->input('destination')[$join_id];
+                    } else {
+                        $questionScreen->destination_screen = null;
+                    }
+                    $questionScreen->save();
                 }
+            } else if ($request->has('addCurricula')) {
+                $questionScreen = new QuestionCurriculum();
+                $questionScreen->question_id = $question->id;
+                $questionScreen->curriculum_id = $request->input('addCurricula');
                 $questionScreen->save();
             }
         }
-
-        (new ResponseService())->create($question, $request);
-
-        return $question;
     }
 
     public function getProgress(QuestionType $questionType, int $student_id) :int
@@ -173,8 +132,6 @@ class QuestionService
         }
         $answers = Answer::where('student_id', $student_id)->whereIn('question_id', $IDs)->whereNotNull('text')->get();
 
-        //$type = QuestionType::descriptions()[$questionType()];
-        //Debugbar::info($type . ": " . count($questions) . " questions, " . count($answers) . " answers");
         return round(count($answers) / count($questions) * 100);
     }
 

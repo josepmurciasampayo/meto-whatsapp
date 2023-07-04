@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\General\YesNo;
 use App\Enums\Page;
+use App\Enums\QuestionStatus;
 use App\Enums\Student\Gender;
 use App\Enums\Student\PhoneOwner;
 use App\Enums\Student\QuestionType;
@@ -70,15 +71,18 @@ class StudentController extends Controller
 
     public function renderView(QuestionType $questionType, Page $page, QuestionService $questionService, ResponseService $responseService, AnswerService $answerService): View
     {
-        $questions = $questionService->get($questionType);
-        $responses = $responseService->getForQuestionArray($questions);
+        $questions = Question::with('responses')->
+            where('type', $questionType())->
+            where('status', QuestionStatus::ACTIVE())->
+            whereNot('format', 0)
+            ->orderBy('order', 'asc')
+            ->get();
         $answers = $answerService->getForQuestionArray($questions, Auth::user()->student_id());
         Debugbar::info($questions);
         Debugbar::info($answers);
 
         return view('student.form', [
             'questions' => $questions,
-            'responses' => $responses,
             'answers' => $answers,
             'page' => $page,
         ]);
@@ -112,7 +116,7 @@ class StudentController extends Controller
     {
         Auth::user()->reminder = YesNo::YES();
         Auth::user()->save();
-        $curriculum = $questionService->getCurriculum(Auth::user());
+        $curriculum = Auth::user()->getCurriculum();
         if (is_null($curriculum)) {
             return redirect(route('student.highschool'));
         }

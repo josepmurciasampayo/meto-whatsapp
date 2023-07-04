@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Actions\MetoWelcomeNotification;
 use App\Enums\General\YesNo;
 use App\Enums\HighSchool\Type;
+use App\Enums\Student\Curriculum;
 use App\Enums\User\Role;
 use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
@@ -223,5 +224,24 @@ class User extends Authenticatable
     public function getUni(): Institution
     {
         return UserInstitution::where('user_id', $this->id)->first()->institution;
+    }
+
+    public function getCurriculum(): ?Curriculum
+    {
+        $answer = Answer::where('question_id', 318)->where('student_id', $this->student_id())->first();
+        if ($answer) {
+            // response IDs are coded, Curriculum IDs aren't used but should be?
+            return match($answer->response_id) {
+                46 => Curriculum::CAMBRIDGE,
+                47 => Curriculum::AMERICAN,
+                48 => Curriculum::IB,
+                49 => Curriculum::UGANDAN,
+                50 => Curriculum::KENYAN,
+                51 => Curriculum::RWANDAN,
+                52 => Curriculum::OTHER,
+            };
+        } else {
+            return null;
+        }
     }
 }

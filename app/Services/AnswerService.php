@@ -24,9 +24,11 @@ class AnswerService
         }
 
         switch ($question->format) {
+            case QuestionFormat::DATE():
+                //dd($input);
+                //break;
             case QuestionFormat::INPUT():
             case QuestionFormat::TEXTAREA():
-            case QuestionFormat::DATE():
             case QuestionFormat::EMAIL():
             case QuestionFormat::NUMBER():
             case QuestionFormat::LOOKUP():

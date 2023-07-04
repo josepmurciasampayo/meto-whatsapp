@@ -9,15 +9,15 @@
                 <input type="hidden" name="screen" value="{{ $screen ?? null }}">
                 <input type="hidden" name="direction" id="direction" value="1">
                 @csrf
-                @foreach ($questions as $id => $question)
-                    <div class="my-1">
-                    @php $a = $answers[$id] ?? null @endphp
+                @foreach ($questions as $question)
+                    @php $a = $answers[$question->id] ?? null @endphp
 
-                    @if (($question->hasResponses()))
-                        <x-question :question="$question" :answer="$a" :responses="$question->responses"></x-question>
-                    @else
-                        <x-question :question="$question" :answer="$a"></x-question>
-                    @endif
+                    <div class="my-1">
+                        @if (($question->hasResponses()))
+                            <x-question :question="$question" :answer="$a" :responses="$question->responses"></x-question>
+                        @else
+                            <x-question :question="$question" :answer="$a"></x-question>
+                        @endif
                     </div>
                 @endforeach
 

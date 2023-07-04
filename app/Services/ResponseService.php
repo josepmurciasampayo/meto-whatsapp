@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ResponseService
 {
-    public function create(Question $question, Request $request): void
+    public function store(Request $request, Question $question): void
     {
         // first, check if we are creating a number of blank responses
         if ($request->input('responses')) { // number of responses to create
@@ -40,22 +40,11 @@ class ResponseService
 
         // finally, review each submitted response
         if ($request->input('response')) { // text for existing responses
-            ResponseBranch::where('question_id', $question->id)->delete(); // remove all existing branches in order to add whatever is submitted
-
-            $responses = $request->input('response');
-            foreach ($responses as $id => $r) {
+            foreach ($request->input('response') as $id => $r) {
                 $response = Response::find($id);
                 if ($response) {
                     $response->text = $r;
                     $response->save();
-                }
-
-                if ($request->input('responseBranch') && $request->input('responseBranch')[$id]) {
-                    $rb = new ResponseBranch();
-                    $rb->question_id = $question->id;
-                    $rb->response_id = $id;
-                    $rb->to_screen = $request->input('responseBranch')[$id];
-                    $rb->save();
                 }
             }
         }
@@ -73,16 +62,6 @@ class ResponseService
             $responseArray[$response->question_id][] = $response;
         }
         return $responseArray;
-    }
-
-    public function getAllAsString(Question $question) : string
-    {
-        $toReturn = array();
-        $responses = Response::where('question_id', $question->id);
-        foreach ($responses as $response) {
-            $toReturn[] = $response->text;
-        }
-        return implode('\n', $toReturn);
     }
 
 }
