@@ -24,13 +24,7 @@
 
         <tbody>
         @foreach ($questions as $id => $question)
-            @php dd($questions) @endphp
-            @if (isset($question['screen']))
-                @php $background = $screens[$question['screen']] ? "" : "#ff6961"; @endphp
-            @else
-                @php $background = ""; @endphp
-            @endif
-            <tr class="text-center" style="background-color: {{ $background }}">
+            <tr class="text-center">
                 <td><a style="text-decoration: underline" target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
                 <td>{{ isset($question->academic[0]) ? $question->academic[0]->screen : '' }}</td>
                 <td>{{ isset($question->academic[0]) ? $question->academic[0]->order : '' }}</td>
