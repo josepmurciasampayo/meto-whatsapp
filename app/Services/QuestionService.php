@@ -68,8 +68,11 @@ class QuestionService
         }
 
         $id_array = (Arr::pluck($id_array, 'id'));
-        $order = 'FIELD(id,' . implode(',', $id_array) . ')';
-        return Question::with('academic', 'responses')->whereIn('id', $id_array)->orderByRaw($order)->get();
+        if ($id_array) {
+            $order = 'FIELD(id,' . implode(',', $id_array) . ')';
+            return Question::with('academic', 'responses')->whereIn('id', $id_array)->orderByRaw($order)->get();
+        }
+        return new Collection();
     }
 
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
