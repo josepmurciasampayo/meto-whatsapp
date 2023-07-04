@@ -24,6 +24,7 @@
 
         <tbody>
         @foreach ($questions as $id => $question)
+            @php dd($questions) @endphp
             @if (isset($question['screen']))
                 @php $background = $screens[$question['screen']] ? "" : "#ff6961"; @endphp
             @else
@@ -31,8 +32,8 @@
             @endif
             <tr class="text-center" style="background-color: {{ $background }}">
                 <td><a style="text-decoration: underline" target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
-                <td>{{ $question->academic[0]->screen }}</td>
-                <td>{{ $question->academic[0]->order }}</td>
+                <td>{{ isset($question->academic[0]) ? $question->academic[0]->screen : '' }}</td>
+                <td>{{ isset($question->academic[0]) ? $question->academic[0]->order : '' }}</td>
                 <td>{{ \App\Enums\General\YesNo::descriptions()[$question->required]  }}</td>
                 <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->equivalency] ?? 'No' }}</td>
                 <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->branch] ?? 'No' }}</td>

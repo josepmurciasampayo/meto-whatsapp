@@ -19,8 +19,6 @@ class CurriculumController extends Controller
     {
         $questions = $questionService->getAcademic($curriculum_id); // get all questions for curriculum and fill in text, format
 
-        //dd($questions[0]->academic[0]);
-
         return view('curriculum.show', [
             'questions' => $questions,
             'curriculum' => Curriculum::find($curriculum_id),
