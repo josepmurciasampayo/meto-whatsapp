@@ -152,8 +152,6 @@
                         @endif
                     </div>
                 @endforeach
-            @elseif ($screens && isset($screens[$id]) && $screens[$id]['branch'] == \App\Enums\General\YesNo::YES())
-                <x-input label="Destination Screen" name="dest_screen" saved=""></x-input>
             @endif
 
             <div class="text-center">

@@ -29,7 +29,6 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
-            <th>Answers</th>
         </tr>
         </thead>
 
@@ -42,23 +41,19 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
-            <th>Answers</th>
         </tr>
         </tfoot>
 
         <tbody>
-        @foreach ($data as $row)
+        @foreach ($questions as $question)
             <tr class="text-center">
-                @php $id = $row['id'] @endphp
-                <input type="hidden" name="id" id="id" value="{{ $id }}">
-                <td><a target="_blank" href="{{ route('questions.show', ['question' => $id]) }}"><?php echo $row['text'] ?></a></td>
-                <td><?php echo $type[$row['type']] ?></td>
-                <td><?php echo $format[$row['format']] ?></td>
-                <td><?php echo $row['order'] ?></td>
-                <td><?php echo $active[$row['status']] ?></td>
-                <td><?php echo $yesNo[$row['required']] ?></td>
-                <td><?php echo $yesNo[$row['equivalency']] ?></td>
-                <td><a href="{{ route('answers', ['question_id' => $id]) }}">{{ $row['count'] }}</a></td>
+                <td><a target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
+                <td>{{ $type[$question->type] }}</td>
+                <td>{{ $format[$question->format] }}</td>
+                <td>{{ $question->order }}</td>
+                <td>{{ $active[$question->status] }}</td>
+                <td>{{ $yesNo[$question->required] }}</td>
+                <td>{{ $yesNo[$question->equivalency] }}</td>
             </tr>
         @endforeach
         </tbody>

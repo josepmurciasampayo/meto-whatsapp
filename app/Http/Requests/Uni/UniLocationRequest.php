@@ -29,7 +29,7 @@ class UniLocationRequest extends FormRequest
             ],
 
             'state' => [
-                'bail', 'string'
+                'bail', 'string', 'nullable'
             ],
 
             'city' => [

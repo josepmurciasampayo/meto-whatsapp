@@ -20,11 +20,9 @@ class convertStudentAnswers extends Command
 
     public function handle(): int
     {
-        $this->updateResponseIDs();
-        echo "\nResponse IDs are updated\n";
-
+        //$this->updateResponseIDs();
+        DB::update('update meto_students set efc = null, countryHS = null, curriculum = null, citizenship = null, citizenship_extra = null, track = null, destination = null, gender = null, ranking = null, det = null, act = null, toefl = null, ielts = null, affiliations = null, refugee = null, disability = null, dob = null, email_owner = null, submission_device = null, birth_city = null, birth_country = null;');
         $this->updateQuestions();
-        echo "\nQuestions are updated\n";
 
         //$this->mergeQuestions();
         //$this->changeResponses();
@@ -58,6 +56,8 @@ class convertStudentAnswers extends Command
                 $answer->save();
             }
         }
+
+        echo "\nResponse IDs are updated\n";
     }
 
     public function updateQuestions(): void
@@ -87,11 +87,15 @@ class convertStudentAnswers extends Command
             283 => 'birth_city',
             281 => 'birth_country',
         ];
-        $answers = Answer::whereIn('question_id', array_keys($questions))->get();
-        echo "\nAbout to update " . count($answers) . " answers into student table";
-        foreach ($answers as $answer) {
-            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->expanded_text ?? $answer->text);
+        foreach ($questions as $question_id => $field) {
+            $answers = Answer::where('question_id', $question_id)->get();
+            echo "\nAbout to update " . count($answers) . " answers into student table";
+            foreach ($answers as $answer) {
+                (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->expanded_text ?? $answer->text);
+            }
         }
+
+        echo "\nQuestions are updated\n";
     }
 
     public function mergeQuestions(): void

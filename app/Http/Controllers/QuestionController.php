@@ -11,6 +11,13 @@ use Illuminate\View\View;
 
 class QuestionController extends Controller
 {
+    public function index(): View
+    {
+        return view('question.index', [
+            'questions' => Question::all(),
+        ]);
+    }
+
     public function show(int $id = null) :View
     {
         $question = ($id) ? Question::with('academic')->find($id) : new Question();

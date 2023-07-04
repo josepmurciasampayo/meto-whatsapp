@@ -29,8 +29,8 @@ class importEquivalencyCommand extends Command
      */
     public function handle()
     {
-        $equivalencies = Helpers::arrayFromCSV(resource_path('data/equivalency.csv'));
         Equivalency::truncate();
+        $equivalencies = Helpers::arrayFromCSV(resource_path('data/equivalency.csv'));
         foreach ($equivalencies as $e) {
             $this->import($e);
         }
