@@ -65,8 +65,13 @@
                 if (label.classList.contains(action)) {
                     setTimeout(() => {
                         label.addEventListener('click', () => {
-                            if (label.hasAttribute('selected_option') && (label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive'))) {
+                            if (label.hasAttribute('selected_option') && ((label.classList.contains('connect') || label.classList.contains('maybe') || label.classList.contains('archive')))) {
                                 label.removeAttribute('selected_option')
+                                let puts = document.querySelectorAll('input[name="student_' + label.getAttribute('key') + '"]')
+                                console.log(puts)
+                                puts.forEach(input => {
+                                    setTimeout(() => input.checked = false, 200)
+                                })
                                 label.parentElement.querySelector('input').checked = false
                             }
                             label.setAttribute('onclick', 'selectOption(this)')

@@ -30,9 +30,6 @@ return new class extends Migration
             $table->foreign('question_id')
                 ->references('id')
                 ->on('questions');
-            $table->foreign('curriculum_id')
-                ->references('id')
-                ->on('curriculas');
 
             $table->timestamps();
         });

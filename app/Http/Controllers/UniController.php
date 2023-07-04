@@ -290,6 +290,15 @@ class UniController extends Controller
             return redirect()->back();
         }
 
+        $hasConnect = false;
+        foreach ($request->all() as $key => $value) {
+            if (!$hasConnect && $value === 'connect') $hasConnect = true;
+        }
+
+        if (!$hasConnect) {
+            return $this->handleMaybeAndArchiveStudents($request);
+        }
+
         $request->validate([
             'application_link' => [
                 'bail', 'required', 'url'
@@ -348,7 +357,55 @@ class UniController extends Controller
         return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function createStudentInstitutionConnection(Student $student, MatchStudentInstitution $status, int $institutionId, string $link, string $deadline, string|null $events)
+    public function handleMaybeAndArchiveStudents($request)
+    {
+        $items = $request->all();
+
+        $uniId = auth()->user()->getUni()->id;
+
+        $decisions = [
+            'maybe' => [],
+            'archive' => []
+        ];
+
+        foreach ($items as $key => $value) {
+            if (str_starts_with($key, 'student_')) {
+                $decisions[$value][] = trim($key, 'student_');
+            }
+        }
+
+        $admin = 'abraham@meto-intl.org';
+
+        foreach ($decisions as $action => $studentIds) {
+            foreach ($studentIds as $id) {
+                $student = Student::find($id);
+                // Create a new connection
+                if ($action === 'maybe') {
+                    $this->createStudentInstitutionConnection(
+                        $student,
+                        MatchStudentInstitution::MAYBE,
+                        $uniId,
+                        null,
+                        null,
+                        null
+                    );
+                } else if ($action === 'archive') {
+                    $this->createStudentInstitutionConnection(
+                        $student,
+                        MatchStudentInstitution::ARCHIVED,
+                        $uniId,
+                        null,
+                        null,
+                        null
+                    );
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function createStudentInstitutionConnection(Student $student, MatchStudentInstitution $status, int $institutionId, string|null $link, string|null $deadline, string|null $events)
     {
         return StudentUniversity::create([
             'student_id' => $student->id,
