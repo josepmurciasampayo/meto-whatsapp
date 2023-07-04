@@ -32,7 +32,17 @@ return [
             ],
 
             'databases' => [
-                'mysql',
+                'mysql' => [
+                    'dump' => [
+                        'excludeTables' => [
+                            'view_matches',
+                            'view_questions',
+                            'view_student_detail',
+                            'view_student_table',
+                            'meto_view_student_detail'
+                        ]
+                    ]
+                ],
             ],
         ],
 
@@ -89,7 +99,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'gmgarrison@gmail.com',
+            'to' => 'greg@meto-intl.org',
 
             'from' => [
                 'address' => 'info@meto-intl.org',

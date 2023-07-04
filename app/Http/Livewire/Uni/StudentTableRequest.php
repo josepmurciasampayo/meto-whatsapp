@@ -79,7 +79,9 @@ final class StudentTableRequest extends PowerGridComponent
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$fullName</a>";
             })
             ->addColumn('gender', function (Student $student) {
-                return $student->gender ? Gender::descriptions()[$student->gender] : null;
+                return $student->gender
+                    ? collect(Gender::descriptions())->first(fn ($value, $key) => strtolower($value) === strtolower($student->gender))
+                    : null;
             })
             ->addColumn('email', function (Student $student) {
                 return e($student->user->email);
