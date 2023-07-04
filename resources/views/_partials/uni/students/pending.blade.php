@@ -81,7 +81,28 @@
 
         // Open the modal
         // Only if we have at least one connection
-        emailModalBtn.click()
+        if (hasConnect(inputs)) {
+            emailModalBtn.click()
+        } else {
+            let url = "{{ route('uni.connection.decide') }}"
+
+            let data = {}
+
+            inputs.forEach(input => {
+                data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
+            })
+
+            console.log('data is ', data)
+
+            axios.post(url, data)
+                .then(res => {
+                    window.location.href = '/#top'
+                    setTimeout(() => window.location.reload(), 700)
+                })
+                .catch(err => {
+                    document.querySelector('#tableAlert').textContent = 'Something went wrong.'
+                })
+        }
     })
 
     let getSelectedStudents = () => {
@@ -153,6 +174,10 @@
                 })
             })
             .finally(() => enableSubmitButtons(submitButtons))
+    }
+
+    let hasConnect = decisions => {
+        return decisions.filter(decision => Object.values(decision)[0] === 'connect').length > 0
     }
 
     let disableSubmitButtons = submitButtons => {
