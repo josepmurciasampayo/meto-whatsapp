@@ -24,7 +24,8 @@ enum QuestionFormat: int
     case LOOKUP = 19; // text
     case LOOKUPORG = 26; // text
 
-    public static function hasResponses() {
+    public static function hasResponses(): array
+    {
         return
             [
                 self::CHECKBOX(),

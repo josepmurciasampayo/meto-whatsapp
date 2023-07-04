@@ -41,6 +41,7 @@ class MinGradeForm extends Component
 
     public function saveMingrade()
     {
+
         $this->validate();
         $uni = Auth::user()->getUni();
         $uni->min_grade_curriculum = $this->curriculum;
@@ -80,11 +81,11 @@ class MinGradeForm extends Component
     public function getAmericanCurriculum()
     {
         return [
-            '4',
+            '4.0',
             '3.5',
-            '3',
+            '3.0',
             '2.5',
-            '2',
+            '2.0',
             '1.5'
         ];
     }

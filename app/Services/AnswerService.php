@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\QuestionFormat;
+use App\Helpers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Response;
@@ -23,9 +24,11 @@ class AnswerService
         }
 
         switch ($question->format) {
+            case QuestionFormat::DATE():
+                //dd($input);
+                //break;
             case QuestionFormat::INPUT():
             case QuestionFormat::TEXTAREA():
-            case QuestionFormat::DATE():
             case QuestionFormat::EMAIL():
             case QuestionFormat::NUMBER():
             case QuestionFormat::LOOKUP():
@@ -78,7 +81,7 @@ class AnswerService
     public function updateStudent(Student $student, int $question_id, string $answer): void
     {
         switch ($question_id) {
-            case 244: $student->efc = $answer; break;
+            case 244: $student->efc = Helpers::stripNonNumeric($answer); break;
             case 104: $student->countryHS = $answer; break;
             case 318: $student->curriculum = $answer; break;
             case 288: $student->citizenship = $answer; break;
