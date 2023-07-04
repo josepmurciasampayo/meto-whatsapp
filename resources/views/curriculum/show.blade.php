@@ -26,12 +26,12 @@
         @foreach ($questions as $id => $question)
             <tr class="text-center">
                 <td><a style="text-decoration: underline" target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
-                <td>{{ isset($question->academic[0]) ? $question->academic[0]->screen : '' }}</td>
-                <td>{{ isset($question->academic[0]) ? $question->academic[0]->order : '' }}</td>
-                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->required] ?? ''  }}</td>
-                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->equivalency] ?? 'No' }}</td>
-                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->branch] ?? 'No' }}</td>
-                <td>{{ \App\Enums\QuestionFormat::descriptions()[$question->format] ?? '' }}</td>
+                <td>{{ isset($question->academic[0]) ? $question->academic[0]->screen : 'E' }}</td>
+                <td>{{ isset($question->academic[0]) ? $question->academic[0]->order : 'E' }}</td>
+                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->required] ?? 'E'  }}</td>
+                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->equivalency] ?? 'E' }}</td>
+                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->branch] ?? 'E' }}</td>
+                <td>{{ \App\Enums\QuestionFormat::descriptions()[$question->format] ?? 'E' }}</td>
                 <td>{{ $question->responseCount() }}</td>
             </tr>
         @endforeach
