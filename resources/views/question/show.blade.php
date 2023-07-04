@@ -163,7 +163,7 @@
                             <div class="row">
                                 <div class="col text-center">{{ $response->text }}</div>
                                 <div class="col text-center">
-                                    <input style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch->to_screen }}" type="number">
+                                    <input style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch?->to_screen }}" type="number">
                                 </div>
                             </div>
                         @endforeach
