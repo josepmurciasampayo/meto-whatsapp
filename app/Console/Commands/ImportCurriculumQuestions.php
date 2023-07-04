@@ -15,7 +15,6 @@ use App\Models\QuestionCurriculum;
 use App\Models\Response;
 use App\Models\ResponseBranch;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 class ImportCurriculumQuestions extends Command
 {
@@ -43,8 +42,10 @@ class ImportCurriculumQuestions extends Command
         // self::createCurricula();
 
         $files = [
-            \App\Enums\Student\Curriculum::INDIA() => 'India.csv',
+            \App\Enums\Student\Curriculum::IRAN() => 'Iran.csv',
+            \App\Enums\Student\Curriculum::KUWAIT() => 'Kuwait.csv',
             /*
+            \App\Enums\Student\Curriculum::INDIA() => 'India.csv',
             \App\Enums\Student\Curriculum::MEXICO() => 'Mexico.csv',
             \App\Enums\Student\Curriculum::VIETNAM() => 'Vietnam.csv',
             \App\Enums\Student\Curriculum::GHANA() => 'Ghana.csv',
@@ -52,8 +53,6 @@ class ImportCurriculumQuestions extends Command
             \App\Enums\Student\Curriculum::ETHIOPIA() => 'Ethiopia.csv',
             \App\Enums\Student\Curriculum::NEPAL() => 'Nepal.csv',
             \App\Enums\Student\Curriculum::SAUDIARABIA() => 'Saudi Arabia.csv',
-            \App\Enums\Student\Curriculum::IRAN() => 'Iran.csv',
-            \App\Enums\Student\Curriculum::KUWAIT() => 'Kuwait.csv',
             \App\Enums\Student\Curriculum::TURKIYE() => 'Turkiye.csv',
             \App\Enums\Student\Curriculum::BANGLADESH() => 'Bangladesh.csv',
             \App\Enums\Student\Curriculum::BRAZIL() => 'Brazil.csv',
