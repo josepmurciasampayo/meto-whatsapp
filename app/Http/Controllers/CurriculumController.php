@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curriculum;
+use App\Models\QuestionCurriculum;
 use App\Services\QuestionService;
 use Illuminate\View\View;
 
@@ -22,6 +23,7 @@ class CurriculumController extends Controller
         return view('curriculum.show', [
             'questions' => $questions,
             'curriculum' => Curriculum::find($curriculum_id),
+            'maxScreen' => QuestionCurriculum::where('curriculum_id', $curriculum_id)->max('screen'),
         ]);
     }
 

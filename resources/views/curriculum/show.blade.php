@@ -29,14 +29,22 @@
                 <td>{{ isset($question->academic[0]) ? $question->academic[0]->screen : 'E' }}</td>
                 <td>{{ isset($question->academic[0]) ? $question->academic[0]->order : 'E' }}</td>
                 @php
-                    $destination = isset($question->academic[0]) ? $question->academic[0]->destination_screen : 'E';
-                    if (!$destination) {
-                        $destination = $question->academic[0]->screen + 1;
+                    if ($question->academic[0]->branch == \App\Enums\General\YesNo::YES()) {
+                        $destination = '-';
+                    } else {
+                        $destination = isset($question->academic[0]) ? $question->academic[0]->destination_screen : 'E';
+                        if (!$destination) {
+                            if ($maxScreen == $question->academic[0]->screen) {
+                                $destination = 0;
+                            } else {
+                                $destination = $question->academic[0]->screen + 1;
+                            }
+                        }
                     }
                 @endphp
                 <td>{{ $destination }}</td>
-                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->required] ?? 'E'  }}</td>
                 <td>{{ \App\Enums\General\YesNo::descriptions()[$question->academic[0]->branch] ?? 'E' }}</td>
+                <td>{{ \App\Enums\General\YesNo::descriptions()[$question->required] ?? 'E'  }}</td>
                 <td>{{ \App\Enums\QuestionFormat::descriptions()[$question->format] ?? 'E' }}</td>
                 <td>{{ $question->responseCount() }}</td>
             </tr>
