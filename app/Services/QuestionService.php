@@ -62,6 +62,10 @@ class QuestionService
 
         if (is_null($branchingQuestionID)) {
             $destination = QuestionCurriculum::where('curriculum_id', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
+            if (is_null($destination)) {
+                $max = QuestionCurriculum::where('curriculum_id', $curriculum)->max('screen');
+                return ($max == $screen) ? 0 : $screen+1;
+            }
             return $destination->destination_screen;
         }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
