@@ -189,7 +189,7 @@
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
+                <x-inputs.text label="Help Text" name="help" saved="{{ $question->help }}"></x-inputs.text>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
