@@ -58,7 +58,6 @@ class FlowController extends Controller
         $curriculum = $request->input('curriculum');
         $screen = $request->input('screen');
 
-
         $nextScreen = (new QuestionService())->getAcademicNextScreen($curriculum, $screen);
         if ($nextScreen == 0) {
             return route('student.financial');
