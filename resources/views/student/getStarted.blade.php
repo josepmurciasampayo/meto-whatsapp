@@ -56,13 +56,13 @@
 
                     <div class="my-4 border border-secondary bg-light rounded-md p-2 checkboxes-consent">
                         @php
-                        $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('terms') . " '>terms of use</a></span>";
+                        $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('consent.student') . " '>terms of use</a></span>";
                          $w = [1 => "I agree to the " . $link];
                         @endphp
                         <x-inputs.checkbox name="terms" label="By clicking Next: *" :options="$w" class="whatsapp-checkbox" ></x-inputs.checkbox>
 
                         @php
-                            $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('privacy') . " '>terms of use</a></span>";
+                            $link = "<span style='text-decoration: underline'><a target='_blank' href='" . route('privacy.student') . " '>privacy policy</a></span>";
                             $c = [1 => "I acknowledge the " . $link];
                         @endphp
                         <x-inputs.checkbox name="privacy" label="" :options="$c" class="consent-checkbox" ></x-inputs.checkbox>
