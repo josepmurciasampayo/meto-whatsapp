@@ -41,7 +41,7 @@ class StaticController extends Controller
             return view('static.consent-student');
         }
         if (Auth::user()->isInstitution()) {
-            return view('static.privacy-general');
+            return view('static.consent-uni');
         }
         if (Auth::user()->isCounselor()) {
             return view('static.consent-counselor');
