@@ -1,4 +1,4 @@
-@props(['page' => false, 'answers' => []])
+@props(['page' => false, 'screen' => false, 'answers' => []])
 
 <div style="display: flex; justify-content: center; gap: 16px;">
     <script type="text/javascript">
@@ -14,11 +14,15 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-            @if ($page && $page() == \App\Enums\Page::ACADEMIC())
-                <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button>
-            @elseif ($page && $page() != \App\Enums\Page::DEMO())
-                <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
-            @endif
+                @if ($page && $page() == \App\Enums\Page::ACADEMIC())
+                    @if ($screen && $screen == 0)
+                        <a href="{{ route('student.highschool') }}"><x-button type="button" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button></a>
+                    @else
+                        <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button>
+                    @endif
+                @elseif ($page && $page() != \App\Enums\Page::DEMO())
+                    <x-button type="button" onclick="goBack()" id="back-btn"><i class="fas fa-chevron-left"></i> Back</x-button>
+                @endif
             </div>
             <div class="col">
                 <x-button id="next-btn">Next <i class="fas fa-chevron-right"></i></x-button>
