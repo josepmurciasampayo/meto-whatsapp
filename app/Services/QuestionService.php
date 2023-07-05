@@ -32,7 +32,7 @@ class QuestionService
                 select q.id
                 from meto_questions as q
                     join meto_question_curricula as j on j.question_id = q.id and j.curriculum_id = $curriculum_id
-                    where q.format != 0
+                    where q.format != 0 and q.status = " . YesNo::YES() . "
                     order by j.screen, j.order
                     "
             );
@@ -42,7 +42,7 @@ class QuestionService
                 select q.id
                 from meto_questions as q
                     join meto_question_curricula as j on j.question_id = q.id and j.curriculum_id = $curriculum_id and j.screen = $screen
-                    where q.format != 0
+                    where q.format != 0 and q.status = " . YesNo::YES() . "
                     order by j.screen, j.order
                     "
             );
