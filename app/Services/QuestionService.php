@@ -59,6 +59,7 @@ class QuestionService
     public function getAcademicNextScreen(int $curriculum, int $screen) :int
     {
         $branchingQuestionID = QuestionCurriculum::where('curriculum_id', $curriculum)->where('screen', $screen)->where('branch', YesNo::YES())->first();
+
         if (is_null($branchingQuestionID)) {
             $destination = QuestionCurriculum::where('curriculum_id', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
             if (is_null($destination)) {
