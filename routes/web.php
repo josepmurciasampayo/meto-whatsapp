@@ -26,6 +26,7 @@ Route::get('thank-you', '\App\Http\Controllers\UserFormController@thankyou')->na
 Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
+Route::get('consent', [\App\Http\Controllers\StaticController::class, 'consent'])->name('consent');
 Route::get('consent-student', [\App\Http\Controllers\StaticController::class, 'consentStudent'])->name('consent.student');
 Route::get('consent-university', [\App\Http\Controllers\StaticController::class, 'consentUni'])->name('consent.uni');
 Route::get('consent-highschool', [\App\Http\Controllers\StaticController::class, 'consentHS'])->name('consent.HS');
