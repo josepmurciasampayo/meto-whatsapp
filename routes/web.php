@@ -27,6 +27,10 @@ Route::get('reset-password/{token?}', [NewPasswordController::class, 'create'])-
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 Route::get('terms', [\App\Http\Controllers\StaticController::class, 'terms'])->name('terms');
 Route::get('consent', [\App\Http\Controllers\StaticController::class, 'consent'])->name('consent');
+Route::get('consent-student', [\App\Http\Controllers\StaticController::class, 'consentStudent'])->name('consent.student');
+Route::get('consent-university', [\App\Http\Controllers\StaticController::class, 'consentUni'])->name('consent.uni');
+Route::get('consent-highschool', [\App\Http\Controllers\StaticController::class, 'consentHS'])->name('consent.HS');
+Route::get('privacy-student', [\App\Http\Controllers\StaticController::class, 'privacyStudent'])->name('privacy.student');
 Route::get('privacy', [\App\Http\Controllers\StaticController::class, 'privacy'])->name('privacy');
 Route::post('deploy', [\App\Http\Controllers\WebhookController::class, 'deploy']);
 Route::get('contact', [\App\Http\Controllers\StaticController::class, 'contact'])->name('contact');
@@ -115,10 +119,6 @@ Route::middleware(['auth', 'counselor', 'consent'])->group(function () {
     Route::get('/student/fetch/{student}', [CounselorController::class, 'fetchStudent'])->name('student.fetch');
 
     Route::post('/remove/{student_id}', [CounselorController::class, 'remove'])->name('remove');
-});
-
-// Institution functionality
-Route::middleware(['auth', 'consent', 'institution'])->group(function () {
 });
 
 // Redirects if already authenticated

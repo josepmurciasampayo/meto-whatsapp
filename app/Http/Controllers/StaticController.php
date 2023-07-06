@@ -20,18 +20,31 @@ class StaticController extends Controller
         return view('static.terms');
     }
 
-    public function consent() :View|RedirectResponse
+    public function consentStudent(): View
     {
-        if (is_null(Auth::user())) {
-            return redirect(route('login'));
+        return view('static.consent-student');
+    }
+
+    public function consentUni(): View
+    {
+        return view('static.consent-uni');
+    }
+
+    public function consentHS(): View
+    {
+        return view('static.consent-counselor');
+    }
+
+    public function consent(): View
+    {
+        if (Auth::user()?->isStudent()) {
+            return view('static.consent-student');
         }
-        switch (Auth::user()->role) {
-            case Role::INSTITUTION():
-                return view('static.consent-uni');
-            case Role::STUDENT():
-                return view('static.consent-student');
-            case Role::COUNSELOR():
-                return view('static.consent-counselor');
+        if (Auth::user()->isInstitution()) {
+            return view('static.consent-uni');
+        }
+        if (Auth::user()->isCounselor()) {
+            return view('static.consent-counselor');
         }
     }
 

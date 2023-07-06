@@ -29,6 +29,7 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
+            <th>Answer Count</th>
         </tr>
         </thead>
 
@@ -41,6 +42,7 @@
             <th>In Use</th>
             <th>Required</th>
             <th>Equivalency</th>
+            <th>Answer Count</th>
         </tr>
         </tfoot>
 
@@ -48,12 +50,13 @@
         @foreach ($questions as $question)
             <tr class="text-center">
                 <td><a target="_blank" href="{{ route('questions.show', ['question' => $question->id]) }}">{{ $question->text }}</a></td>
-                <td>{{ $type[$question->type] }}</td>
-                <td>{{ $format[$question->format] }}</td>
+                <td>{{ $type[$question->type] ?? 'E' }}</td>
+                <td>{{ $format[$question->format] ?? 'E' }}</td>
                 <td>{{ $question->order }}</td>
-                <td>{{ $active[$question->status] }}</td>
-                <td>{{ $yesNo[$question->required] }}</td>
-                <td>{{ $yesNo[$question->equivalency] }}</td>
+                <td>{{ $active[$question->status] ?? 'E' }}</td>
+                <td>{{ $yesNo[$question->required] ?? 'E' }}</td>
+                <td>{{ $yesNo[$question->equivalency] ?? 'E' }}</td>
+                <td>{{ $question->answerCount() }}</td>
             </tr>
         @endforeach
         </tbody>

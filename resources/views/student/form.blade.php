@@ -21,7 +21,7 @@
                     </div>
                 @endforeach
 
-                <x-button-navigation :page="$page" :answers="$answers"/>
+                <x-button-navigation :page="$page" :screen="$screen" :answers="$answers"/>
 
             </form>
         </div>

@@ -118,7 +118,7 @@
                             <div class="col text-center">Branching</div>
                             <div class="col text-center">Screen</div>
                             <div class="col text-center">Order</div>
-                            @if (!$question->hasResponses()))
+                            @if ($question->academic[0]->branch == \App\Enums\General\YesNo::NO())
                             <div class="col text-center">Destination Screen</div>
                             @endif
                         </div>
@@ -140,7 +140,7 @@
                                 <div class="col text-center">
                                     <input style="width:75px" name="order[{{ $academic->id }}]" value="{!! $academic->order !!}" type="number">
                                 </div>
-                                @if (!$question->hasResponses()))
+                                @if ($academic->branch == \App\Enums\General\YesNo::NO())
                                     <div class="col text-center">
                                         <input style="width:75px" name="destination[{{ $academic->id }}]" value="{!! $academic->destination_screen !!}" type="number">
                                     </div>
@@ -163,7 +163,7 @@
                             <div class="row">
                                 <div class="col text-center">{{ $response->text }}</div>
                                 <div class="col text-center">
-                                    <input style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch?->to_screen }}" type="number">
+                                    <input required style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch?->to_screen }}" type="number">
                                 </div>
                             </div>
                         @endforeach
@@ -189,7 +189,7 @@
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
-                <x-inputs.text label="Help Text" name="help" saved="{!! $question->help !!}"></x-inputs.text>
+                <x-inputs.text label="Help Text" name="help" saved="{{ $question->help }}"></x-inputs.text>
             </div>
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">

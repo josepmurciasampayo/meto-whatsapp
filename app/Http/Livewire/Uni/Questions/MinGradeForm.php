@@ -41,7 +41,6 @@ class MinGradeForm extends Component
 
     public function saveMingrade()
     {
-
         $this->validate();
         $uni = Auth::user()->getUni();
         $uni->min_grade_curriculum = $this->curriculum;

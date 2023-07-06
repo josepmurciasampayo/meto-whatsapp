@@ -15,6 +15,9 @@ class FlowController extends Controller
             if ($request->input('screen') == 1 && $request->input('direction') == -1) {
                 return route('student.highschool');
             }
+            if ($request->input('direction') == -3) {
+                return route('home');
+            }
             return self::nextAcademic($request);
         }
 
@@ -57,7 +60,6 @@ class FlowController extends Controller
     {
         $curriculum = $request->input('curriculum');
         $screen = $request->input('screen');
-
 
         $nextScreen = (new QuestionService())->getAcademicNextScreen($curriculum, $screen);
         if ($nextScreen == 0) {

@@ -85,6 +85,7 @@ class StudentController extends Controller
             'questions' => $questions,
             'answers' => $answers,
             'page' => $page,
+            'screen' => null,
         ]);
     }
 

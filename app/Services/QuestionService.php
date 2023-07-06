@@ -32,7 +32,7 @@ class QuestionService
                 select q.id
                 from meto_questions as q
                     join meto_question_curricula as j on j.question_id = q.id and j.curriculum_id = $curriculum_id
-                    where q.format != 0
+                    where q.format != 0 and q.status = " . YesNo::YES() . "
                     order by j.screen, j.order
                     "
             );
@@ -42,7 +42,7 @@ class QuestionService
                 select q.id
                 from meto_questions as q
                     join meto_question_curricula as j on j.question_id = q.id and j.curriculum_id = $curriculum_id and j.screen = $screen
-                    where q.format != 0
+                    where q.format != 0 and q.status = " . YesNo::YES() . "
                     order by j.screen, j.order
                     "
             );
@@ -62,10 +62,14 @@ class QuestionService
 
         if (is_null($branchingQuestionID)) {
             $destination = QuestionCurriculum::where('curriculum_id', $curriculum)->where('screen', $screen)->whereNotNull('destination_screen')->first();
+            if (is_null($destination)) {
+                $max = QuestionCurriculum::where('curriculum_id', $curriculum)->max('screen');
+                return ($max == $screen) ? 0 : $screen+1;
+            }
             return $destination->destination_screen;
         }
         $answer = Answer::where('question_id', $branchingQuestionID->question_id)->where('student_id', Auth::user()->student_id())->first();
-        $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->where('curriculum_id', $curriculum)->get();
+        $responseBranches = ResponseBranch::where('question_id', $branchingQuestionID->question_id)->get();
         foreach ($responseBranches as $branch) {
             if ($branch->response_id == $answer->response_id) {
                 return $branch->to_screen;

@@ -110,7 +110,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->countryHS);
             })
             ->addColumn('curriculum', function (Student $student) {
-//                return e(Curriculum::descriptions()[$student->curriculum]);
+                return e($student->curriculum);
             })
             ->addColumn('track', function (Student $student) {
                 return e($student->track);

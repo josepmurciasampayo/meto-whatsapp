@@ -240,6 +240,24 @@ class User extends Authenticatable
                 50 => Curriculum::KENYAN,
                 51 => Curriculum::RWANDAN,
                 52 => Curriculum::OTHER,
+
+                111049 => Curriculum::BANGLADESH,
+                111048 => Curriculum::BRAZIL,
+                111047 => Curriculum::EGYPT,
+                111046 => Curriculum::ETHIOPIA,
+                111045 => Curriculum::GHANA,
+                111044 => Curriculum::INDIA,
+                111043 => Curriculum::INDONESIA,
+                111042 => Curriculum::IRAN,
+                111041 => Curriculum::KUWAIT,
+                111040 => Curriculum::MEXICO,
+                111039 => Curriculum::MOROCCO,
+                111038 => Curriculum::NEPAL,
+                111037 => Curriculum::NIGERIA,
+                111036 => Curriculum::SAUDIARABIA,
+                111035 => Curriculum::SOUTHAFRICA,
+                111034 => Curriculum::TURKIYE,
+                111033 => Curriculum::VIETNAM,
             };
         } else {
             return null;
