@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col">
                 @if ($page && $page() == \App\Enums\Page::ACADEMIC())
-                    @if ($screen && $screen == 0)
+                    @if ($screen && $screen == 1)
                         <a href="{{ route('student.highschool') }}"><x-button type="button" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button></a>
                     @else
                         <x-button type="button" onclick="history.back()" id="back-btn"><i class="fas fa-chevron-left "></i> Back</x-button>
