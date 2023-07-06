@@ -96,8 +96,8 @@ final class StudentTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('idClickable', function(Student $student) {
-                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$student->id</a>";
+            ->addColumn('details', function (Student $student) {
+                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
@@ -154,7 +154,7 @@ final class StudentTable extends PowerGridComponent
     {
         return [
             Column::make('Connect', 'connect'),
-            Column::make('ID', 'idClickable'),
+            Column::make('Details', 'details'),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),

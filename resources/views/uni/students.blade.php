@@ -32,7 +32,7 @@
                 @include('_partials.uni.students.archived')
             </div>
             <div class="tab-pane fade py-4" id="connections-tab-pane" role="tabpanel" aria-labelledby="archived-tab" tabindex="0">
-                Connections will be here
+                @include('_partials.uni.students.connections')
             </div>
         </div>
 
