@@ -150,7 +150,7 @@
 
                     @endif
 
-                    @if (count($branches) > 0)
+                    @if ($academic->branch == \App\Enums\General\YesNo::YES())
                         <hr class="mt-4">
 
                         <div class="display-8 text-center my-3">Branching</div>

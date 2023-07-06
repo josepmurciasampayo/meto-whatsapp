@@ -1,10 +1,8 @@
 <x-app-layout>
-    <h3 class="text-center mt-5">University Admission Professional Consent Form</h3>
+    <h3 class="text-center mt-5">Terms of Use for Educational Institutions</h3>
     <br/>
     <p>
-        Meto Incorporated is a non-profit organization with its offices at 724 F St NE, Washington, DC 20002 (EIN No: 84-2456429) ("Meto", “we”, “us” and “our”).
-        Meto has developed an online “meeting place” (the “service”) that enables university admission professionals (hereafter referred to as “you" and “your”) to create unique profiles in order to access and connect with students (hereafter referred to as “students").
-        In order to provide you with the service, we need to process certain personal data (e.g., your name, email address, and professional history). We process such data in accordance with our Privacy Policy [insert link and remove these square brackets]. Meto is the data controller of your personal data processed in connection with the service.
+        This agreement (the “Agreement”) is made between Educational Institutions (“you,” “your,” or the “Institution”) and Meto, Inc. (“Meto,” “we,” “us,” and “our”). The purpose of this document is to establish the terms and conditions that govern your access to Meto’s service (the “Service”).
     </p>
     <br/>
     <p>
