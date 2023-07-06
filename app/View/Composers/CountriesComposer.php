@@ -2,6 +2,7 @@
 
 namespace App\View\Composers;
 
+use App\Models\EnumCountry;
 use Illuminate\View\View;
 
 class CountriesComposer
@@ -264,6 +265,26 @@ class CountriesComposer
         '260' => 'Zambia (+260)',
         '263' => 'Zimbabwe (+263)'
     ];
+
+    public function __construct()
+    {
+        $countries = EnumCountry::get(['id', 'name', 'code']);
+
+        // Override the countries property
+        $this->countries = array([]);
+
+        foreach ($countries as $country) {
+            $this->countries[] = $country->name;
+        }
+
+        // Override the phoneCountries property
+        $phoneCountries = array();
+
+        foreach ($countries as $country) {
+            $phoneCountries[$country->id] = $country->name . ' (+hello' . $country->code . ')';
+        }
+        $this->phoneCountries = $phoneCountries;
+    }
 
     /**
      * Make the countries variable available once the view is called

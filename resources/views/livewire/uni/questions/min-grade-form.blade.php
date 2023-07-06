@@ -1,5 +1,5 @@
 <div>
-    <form method="POST" wire:submit.prevent="saveMingrade()" action="{{ route('uni.mingrade.store') }}" class="w-50">
+    <form method="POST" wire:submit.prevent="saveMingrade()" action="{{ route('uni.mingrade.store') }}">
         @csrf
 
         @php
