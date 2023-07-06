@@ -281,7 +281,7 @@ class CountriesComposer
         $phoneCountries = array();
 
         foreach ($countries as $country) {
-            $phoneCountries[$country->id] = $country->name . ' (+hello' . $country->code . ')';
+            $phoneCountries[$country->id] = $country->name . ' (' . $country->code . ')';
         }
         $this->phoneCountries = $phoneCountries;
     }
