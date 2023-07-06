@@ -271,7 +271,7 @@ class CountriesComposer
         $countries = EnumCountry::get(['id', 'name', 'code']);
 
         // Override the countries property
-        $this->countries = array([]);
+        $this->countries = array();
 
         foreach ($countries as $country) {
             $this->countries[] = $country->name;

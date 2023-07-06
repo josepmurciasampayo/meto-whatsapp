@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Uni;
 
 use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\YesNo;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\StudentUniversity;
@@ -78,18 +79,59 @@ final class StudentTableMaybe extends PowerGridComponent
                 $fullName = e($student->user->getFullName());
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$fullName</a>";
             })
-            ->addColumn('gender', function (Student $student) {
-                return $student->gender ? Gender::descriptions()[$student->gender] : null;
-            })
+
             ->addColumn('email', function (Student $student) {
                 return e($student->user->email);
             })
             ->addColumn('phone', function (Student $student) {
                 return '+' . e($student->user->phone_combined);
             })
+
+            ->addColumn('efc', function (Student $student) {
+                return e($student->efc);
+            })
+            ->addColumn('countryHS', function (Student $student) {
+                return e($student->countryHS);
+            })
+            ->addColumn('curriculum', function (Student $student) {
+                return e($student->curriculum);
+            })
+            ->addColumn('track', function (Student $student) {
+                return e($student->track);
+            })
+            ->addColumn('destination', function (Student $student) {
+                return e($student->destination);
+            })
+
+            ->addColumn('gender', function (Student $student) {
+                return $student->gender ? Gender::descriptions()[$student->gender] : null;
+            })
+
+            ->addColumn('ranking', function (Student $student) {
+                return e(isset(YesNo::descriptions()[$student->ranking]) ? YesNo::descriptions()[$student->ranking] : "");
+            })
+            ->addColumn('det', function (Student $student) {
+                return e($student->det);
+            })
+            ->addColumn('affiliations', function (Student $student) {
+                return e($student->affiliations);
+            })
+            ->addColumn('refugee', function (Student $student) {
+                return e(isset(YesNo::descriptions()[$student->refugee]) ? YesNo::descriptions()[$student->refugee] : "");
+            })
+            ->addColumn('disability', function (Student $student) {
+                return e($student->disability);
+            })
+            ->addColumn('equivalency', function (Student $student) {
+                return e($student->equivalency);
+            })
+            ->addColumn('other_testing', function (Student $student) {
+                return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
+            })
+
             ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
-            ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at', fn (Student $model) => $model->connection->created_at)
+            ->addColumn('updated_at', fn (Student $model) => $model->connection->updated_at);
     }
 
     /**
@@ -105,20 +147,31 @@ final class StudentTableMaybe extends PowerGridComponent
 
             Column::make('Name', 'name')
                 ->searchable(),
+            Column::make('Email', 'email')
+                ->searchable(),
+            Column::make('Phone', 'phone')
+                ->searchable(),
+
+            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('High School Country', 'countryHS')->searchable()->sortable(),
+            Column::make('Curriculum', 'curriculum')->searchable(),
+            Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
+            Column::make('Desired Academic Track', 'track')->searchable(),
+            Column::make('Desired Country Destinations', 'destination')->searchable(),
 
             Column::make('Gender', 'gender')
                 ->searchable(),
 
-            Column::make('Email', 'email')
+            Column::make('Nationally Ranked', 'ranking')->searchable(),
+            Column::make('DET Score', 'det')->searchable()->sortable(),
+            Column::make('Other Testing', 'other_testing')->searchable(),
+            Column::make('Affiliations', 'affiliations')->searchable(),
+            Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
+            Column::make('Disability Disclosure', 'disability')->searchable(),
+
+            Column::make('Created at', 'created_at', 'created_at')
                 ->searchable(),
-
-            Column::make('Phone', 'phone')
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
-                ->hidden(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
+            Column::make('Updated at', 'updated_at', 'updated_at')
                 ->searchable()
         ];
     }
