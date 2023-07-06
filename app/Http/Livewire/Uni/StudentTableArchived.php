@@ -73,10 +73,8 @@ final class StudentTableArchived extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
-            ->addColumn('name', function (Student $student) {
-                $fullName = e($student->user->getFullName());
-                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$fullName</a>";
+            ->addColumn('details', function (Student $student) {
+                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
             ->addColumn('gender', function (Student $student) {
                 return $student->gender ? Gender::descriptions()[$student->gender] : null;
@@ -88,8 +86,8 @@ final class StudentTableArchived extends PowerGridComponent
                 return '+' . e($student->user->phone_combined);
             })
             ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
-            ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at', fn (Student $model) => $model->connection->created_at)
+            ->addColumn('updated_at', fn (Student $model) => $model->connection->updated_at);
     }
 
     /**
@@ -100,25 +98,37 @@ final class StudentTableArchived extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Details', 'details')
                 ->searchable(),
 
-            Column::make('Name', 'name')
-                ->searchable(),
+//            Column::make('Name', 'name')
+//                ->searchable(),
+//            Column::make('Email', 'email')
+//                ->searchable(),
+//
+//            Column::make('Phone', 'phone')
+//                ->searchable(),
+
+            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('High School Country', 'countryHS')->searchable()->sortable(),
+            Column::make('Curriculum', 'curriculum')->searchable(),
+            Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
+            Column::make('Desired Academic Track', 'track')->searchable(),
+            Column::make('Desired Country Destinations', 'destination')->searchable(),
 
             Column::make('Gender', 'gender')
                 ->searchable(),
 
-            Column::make('Email', 'email')
+            Column::make('Nationally Ranked', 'ranking')->searchable(),
+            Column::make('DET Score', 'det')->searchable()->sortable(),
+            Column::make('Other Testing', 'other_testing')->searchable(),
+            Column::make('Affiliations', 'affiliations')->searchable(),
+            Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
+            Column::make('Disability Disclosure', 'disability')->searchable(),
+
+            Column::make('Created at', 'created_at', 'created_at')
                 ->searchable(),
-
-            Column::make('Phone', 'phone')
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
-                ->hidden(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
+            Column::make('Updated at', 'updated_at', 'updated_at')
                 ->searchable()
         ];
     }
