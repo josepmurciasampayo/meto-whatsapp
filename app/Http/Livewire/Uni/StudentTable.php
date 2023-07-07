@@ -66,13 +66,12 @@ final class StudentTable extends PowerGridComponent
         return Student::query()
             ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uni->id))
             ->where(function ($query) use ($uni) {
-                // TODO: Uncomment when we finish testing
-//                $query->whereNotNull('efc')
-//                    ->where('efc', '>=', $uni->efc);
+                $query->whereNotNull('efc')
+                    ->where('efc', '>=', $uni->efc);
             })
             ->where(function ($query) use ($uni) {
-//                $query->whereNotNull('equivalency')
-//                    ->where('equivalency', '>=', $uni->min_grade_equivalency);
+                $query->whereNotNull('equivalency')
+                    ->where('equivalency', '>=', $uni->min_grade_equivalency);
             });
     }
 
