@@ -20,6 +20,8 @@ final class StudentConnectionsTable extends PowerGridComponent
 
     public int $perPage = 25;
 
+    public $perPageValues = [25, 50, 150, 250, 500];
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -37,7 +39,7 @@ final class StudentConnectionsTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
         ];
     }
