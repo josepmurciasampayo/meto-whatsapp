@@ -97,7 +97,7 @@ final class StudentTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('details', function (Student $student) {
-                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
+                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a><button type='button' id='refresh-records-btn' wire:click='refreshRecords' class='d-none'></button>";
             })
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
@@ -231,5 +231,10 @@ final class StudentTable extends PowerGridComponent
         return [
             'name'
         ];
+    }
+
+    public function refreshRecords()
+    {
+        $this->datasource();
     }
 }

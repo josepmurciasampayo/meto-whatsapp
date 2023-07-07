@@ -100,15 +100,9 @@
                 data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
             })
 
-            processingAlert.classList.remove('d-none')
-            requestSuccessAlert.classList.add('d-none')
-
             axios.post(url, data)
                 .then(res => {
-                    window.location.href = '/#top'
-                    processingAlert.classList.add('d-none')
-                    requestSuccessAlert.classList.remove('d-none')
-                    setTimeout(() => window.location.reload(), 700)
+                    document.querySelector('#refresh-records-btn').click()
                 })
                 .catch(err => {
                     processingAlert.classList.add('d-none')
