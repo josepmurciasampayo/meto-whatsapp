@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="robots" content="noindex, nofollow">
-  <title>Meto Log Viewer</title>
+  <title>{{ config('app.name') }} Log Viewer</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
   <style>
@@ -73,7 +73,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col sidebar mb-3">
-      <h1>Meto Log Viewer</h1>
+      <h1>{{ config('app.name') }} Log Viewer</h1>
       <div class="list-group div-scroll">
         @foreach($folders as $folder)
           <div class="list-group-item">

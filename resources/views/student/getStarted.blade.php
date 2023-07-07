@@ -75,7 +75,7 @@
             </div>
 
             <div class="flex align-items-center justify-center mt-4 text-xs">
-                <p>Already have a Meto account?</p>
+                <p>Already have a {{ config('app.name') }} account?</p>
                 <span class="mx-2"></span>
                 <x-button-nav href="{{route('login') }}" class="btn btn-outline text-gray-600 hover:text-gray-900 text-xs text-center w-10"><i class="fa fa-sign-in"></i> Log In</x-button-nav>
             </div>

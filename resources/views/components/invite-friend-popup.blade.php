@@ -1,5 +1,5 @@
 @php
-    $inviteText = Auth::user()->first . ' is inviting you to join them on Meto. Get started here: www.app.meto-intl.org';
+    $inviteText = Auth::user()->first . ' is inviting you to join them on '. config('app.name') . ' . Get started here: www.app.meto-intl.org';
 @endphp
 
 

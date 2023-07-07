@@ -65,12 +65,12 @@ return [
 
     'from' => [
         'address' => 'app@meto-intl.org',
-        'name' => 'Meto',
+        'name' => config('app.name'),
     ],
 
     'contact' => [
         'address' => 'connections@meto-intl.org',
-        'name' => 'Meto Admins',
+        'name' => config('app.name') . ' Admins',
     ],
 
     'markdown' => [

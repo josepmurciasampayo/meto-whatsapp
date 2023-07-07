@@ -5,7 +5,7 @@
             image-src="/img/Meto-background.webp"
             alt=""
             text="Transfers and Graduate Students" />
-        <p class="mt-2 text-center">At the moment, Meto doesn't provide active support to transfer or graduate students. To receive updates on potential opportunities, please complete the form below, and we'll get in touch as they arise.</p>
+        <p class="mt-2 text-center">At the moment, {{ config('app.name') }} doesn't provide active support to transfer or graduate students. To receive updates on potential opportunities, please complete the form below, and we'll get in touch as they arise.</p>
 
         <div class="w-75 lg:max-w-md mt-4 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form id="transferForm" method="POST" action="{{ route('student.transfer') }}">

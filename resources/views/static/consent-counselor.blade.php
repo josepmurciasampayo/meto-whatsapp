@@ -2,7 +2,7 @@
     <h3 class="text-center mt-5">Counselor Consent Form</h3>
     <br/>
     <p>
-        Meto Incorporated is a non-profit organization with its offices at 724 F St NE, Washington, DC 20002 (EIN No: 84-2456429) ("Meto", “we”, “us” and “our”). Meto has developed an online “meeting place” (the “service”) that enables counselors (hereafter referred to as “you" and “your”) to create unique profiles in order to access and connect with students and educational institutions (hereafter referred to as “Educational Institutions").
+        {{ config('app.name') }} Incorporated is a non-profit organization with its offices at 724 F St NE, Washington, DC 20002 (EIN No: 84-2456429) ("{{ config('app.name') }}", “we”, “us” and “our”). Meto has developed an online “meeting place” (the “service”) that enables counselors (hereafter referred to as “you" and “your”) to create unique profiles in order to access and connect with students and educational institutions (hereafter referred to as “Educational Institutions").
     </p>
     <br/>
     <p>
