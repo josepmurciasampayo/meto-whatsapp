@@ -103,11 +103,11 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('curriculum', function (Student $student) {
                 return e($student->curriculum);
             })
-            ->addColumn('track', function (Student $student) {
-                return e($student->track);
-            })
             ->addColumn('destination', function (Student $student) {
                 return e($student->destination);
+            })
+            ->addColumn('track', function (Student $student) {
+                return e($student->track);
             })
             ->addColumn('gender', function (Student $student) {
                 return e(isset(Gender::descriptions()[$student->gender]) ? Gender::descriptions()[$student->gender] : "");
@@ -148,9 +148,9 @@ final class StudentTable extends PowerGridComponent
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
-            Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
+            Column::make('Approx Percentile', 'equivalency')->searchable()->sortable(),
+            Column::make('Desired Destinations', 'destination')->searchable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
-            Column::make('Desired Country Destinations', 'destination')->searchable(),
             Column::make('Gender', 'gender')->searchable()->sortable(),
             Column::make('Nationally Ranked', 'ranking')->searchable(),
             Column::make('DET Score', 'det')->searchable()->sortable(),

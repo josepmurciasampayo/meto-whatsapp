@@ -83,7 +83,7 @@ class AnswerService
         switch ($question_id) {
             case 244: $student->efc = Helpers::stripNonNumeric($answer); break;
             case 104: $student->countryHS = $answer; break;
-            case 318: $student->curriculum = $answer; break;
+            case 318: $student->curriculum = substr($answer, strpos($answer, '')); break;
             case 288: $student->citizenship = $answer; break;
             case 290: $student->citizenship_extra = $answer; break;
             case 13: $student->track = $answer; break;
