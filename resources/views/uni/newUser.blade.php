@@ -6,8 +6,6 @@
         <x-inputs.text name="last" label="Last" />
         <x-inputs.text name="email" label="Email" />
         <x-inputs.text name="title" label="Job Title" />
-
-
         <x-button>Send Invite</x-button>
     </form>
 </x-app-layout>
