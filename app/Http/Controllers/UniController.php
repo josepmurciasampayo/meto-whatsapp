@@ -214,11 +214,14 @@ class UniController extends Controller
             case 1: // simple store
                 $uni = Institution::find($request->input('uni_id'));
                 $uni->name = $request->input('uniName');
+                $uni->undergrad_url = $request->input('undergrad_url');
+                $uni->country = $request->input('country');
+                $uni->state = $request->input('state');
                 $uni->type = $request->input('type');
                 $uni->efc = $request->input('efc');
                 $uni->min_grade = $request->input('min_grade');
                 $uni->min_grade_curriculum = $request->input('min_grade_curriculum');
-                $uni->equivalency = $request->input('equivalency');
+                $uni->min_grade_equivalency = $request->input('min_grade_equivalency');
                 $uni->connections = $request->input('connections');
                 $uni->save();
 

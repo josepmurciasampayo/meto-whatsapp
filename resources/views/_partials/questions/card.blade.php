@@ -66,7 +66,7 @@
             <div class="col-12">
                 <div class="alert alert-primary mt-3">
                     This student is viewable for you because {{ config('app.name') }} believes that their score in
-                    the {{ strtolower(\App\Enums\Student\Curriculum::descriptions()[$uni->min_grade_curriculum]) }} curriculum meets or exceeds the
+                    the {{ strtolower(\App\Enums\Student\Curriculum::descriptions()[$uni->min_grade_curriculum] ?? '') }} curriculum meets or exceeds the
                     standard you set. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
                     threshold here {{ route('uni.mingrade') }}.
                 </div>

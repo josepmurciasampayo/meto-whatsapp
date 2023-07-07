@@ -37,6 +37,8 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
+            default:
+                return;
         }
     }
 
@@ -51,6 +53,7 @@ class EquivalencyService
             5925 => ScoreType::IBPREDICTED,
             5926 => ScoreType::IBSEMESTER,
             null => null,
+            default => null,
         };
         if ($scoreType) {
             $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
@@ -85,26 +88,29 @@ class EquivalencyService
             5914 => ScoreType::CAMFINAL,
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
+            default => null,
+            null => null,
         };
+        if ($scoreType) {
+            $answers = Answer::where('student_id', $student->id)
+                ->whereIn('question_id', [168, 169, 170])
+                ->get();
+            $final = array();
+            foreach ($answers as $answer) {
+                if (is_null($answer->response_id)) {
+                    return;
+                }
+                $final[] = $answer->text;
+            }
 
-        $answers = Answer::where('student_id', $student->id)
-            ->whereIn('question_id', [168, 169, 170])
-            ->get();
-        $final = array();
-        foreach ($answers as $answer) {
-            if (is_null($answer->response_id)) {
+            if (is_null($final)) {
                 return;
             }
-            $final[] = $answer->text;
+            sort($final);
+            $final = implode($final);
+            $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+            $student->save();
         }
-
-        if (is_null($final)) {
-            return;
-        }
-        sort($final);
-        $final = implode($final);
-        $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
-        $student->save();
     }
 
     public function updateAmerican(Student $student): void

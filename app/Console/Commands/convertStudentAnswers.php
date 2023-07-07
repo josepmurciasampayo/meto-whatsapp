@@ -21,8 +21,8 @@ class convertStudentAnswers extends Command
     public function handle(): int
     {
         //$this->updateResponseIDs();
-        DB::update('update meto_students set efc = null, countryHS = null, curriculum = null, citizenship = null, citizenship_extra = null, track = null, destination = null, gender = null, ranking = null, det = null, act = null, toefl = null, ielts = null, affiliations = null, refugee = null, disability = null, dob = null, email_owner = null, submission_device = null, birth_city = null, birth_country = null;');
-        $this->updateQuestions();
+
+        //$this->updateQuestions();
 
         //$this->mergeQuestions();
         //$this->changeResponses();
@@ -62,6 +62,8 @@ class convertStudentAnswers extends Command
 
     public function updateQuestions(): void
     {
+        DB::update('update meto_students set efc = null, countryHS = null, curriculum = null, citizenship = null, citizenship_extra = null, track = null, destination = null, gender = null, ranking = null, det = null, act = null, toefl = null, ielts = null, affiliations = null, refugee = null, disability = null, dob = null, email_owner = null, submission_device = null, birth_city = null, birth_country = null;');
+
         // udpate student data
         $questions = [
             /* question ID => question column in the student table */
@@ -130,6 +132,7 @@ class convertStudentAnswers extends Command
 
     public function calculateEquivalencies(): void
     {
+        echo "\nProcessing equivalencies";
         $students = Student::all();
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);

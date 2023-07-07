@@ -32,7 +32,8 @@
                     if ($question->academic[0]->branch == \App\Enums\General\YesNo::YES()) {
                         $destination = '-';
                     } else {
-                        $destination = isset($question->academic[0]) ? $question->academic[0]->destination_screen : 'E';
+
+                        $destination = $question->academic[0]->destination_screen ?? 'E';
                         if (!$destination) {
                             if ($maxScreen == $question->academic[0]->screen) {
                                 $destination = 0;

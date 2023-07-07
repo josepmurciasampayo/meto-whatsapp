@@ -1,7 +1,7 @@
 <x-app-layout>
     <h3 class="text-center mt-5">Terms of Use for Educational Institutions</h3>
     <div class="d-flex justify-content-center">
-        <div class="min-h-screen text-center col-md-6">
+        <div class="min-h-screen col-md-6">
     <br/>
     <p>
         This agreement (the “Agreement”) is made between Educational Institutions (“you,” “your,” or the “Institution”) and Meto, Inc. (“Meto,” “we,” “us,” and “our”). The purpose of this document is to establish the terms and conditions that govern your access to Meto’s service (the “Service”).

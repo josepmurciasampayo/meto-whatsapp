@@ -104,7 +104,7 @@ final class StudentTable extends PowerGridComponent
                 return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Connect</label>';
             })
             ->addColumn('efc', function (Student $student) {
-                return e($student->efc);
+                return e('$' . $student->efc);
             })
             ->addColumn('countryHS', function (Student $student) {
                 return e($student->countryHS);

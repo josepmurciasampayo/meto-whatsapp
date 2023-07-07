@@ -10,7 +10,7 @@ class ConnectionController extends Controller
 {
     public function index(): View
     {
-        $connections = StudentUniversity::get();
+        //$connections = StudentUniversity::get();
 
         return view('connection.index');
     }
