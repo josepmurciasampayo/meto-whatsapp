@@ -18,6 +18,8 @@ final class StudentConnectionsTable extends PowerGridComponent
 {
     use ActionButton;
 
+    public int $perPage = 25;
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
