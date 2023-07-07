@@ -2,7 +2,6 @@
 @props(['name', 'help' => false, 'saved' => null, 'label' => '', 'req' => false, 'class' => '', 'starting' => null])
 
 @php
-
     $startDate = ($saved) ? "startDate: \"$saved\"" : "startDate: \"2001-01-01\",";
     $required = ($req) ? "*" : ""
 @endphp

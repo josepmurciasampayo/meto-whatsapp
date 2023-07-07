@@ -104,7 +104,7 @@
                     ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions.index')],
                     ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curriculum.index')],
                     ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
-                    ['label' => 'Matches', 'icon' => 'fas fa-handshake', 'href' => route('matchData')],
+                    ['label' => 'Connections', 'icon' => 'fas fa-handshake', 'href' => route('connections.index')],
                     ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
                     ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
                     ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
