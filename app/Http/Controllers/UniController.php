@@ -24,8 +24,10 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class UniController extends Controller
@@ -183,6 +185,46 @@ class UniController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $request->validate([
+            'uniName' => [
+                'bail', 'required', 'string',
+                'max:100'
+            ],
+
+            'type' => [
+                'bail', 'required', 'string',
+                Rule::in(\App\Enums\Institution\Type::values())
+            ],
+
+            'connections' => [
+                'bail', 'required', 'numeric'
+            ],
+
+            'first' => [
+                'bail', 'required', 'string',
+                'max:50'
+            ],
+
+            'last' => [
+                'bail', 'required', 'string',
+                'max:50'
+            ],
+
+            'title' => [
+                'bail', 'required', 'string',
+                'max:120'
+            ],
+
+            'email' => [
+                'bail', 'required', 'email',
+                'unique:users,email'
+            ],
+
+            'password' => [
+                'bail', 'required', 'min:8'
+            ]
+        ]);
+
         $uni = new Institution();
         $uni->name = $request->input('uniName');
         $uni->type = $request->input('type');
@@ -196,6 +238,7 @@ class UniController extends Controller
         $user->email = $request->input('email');
         $user->role = Role::INSTITUTION();
         $user->title = $request->input('title');
+        $user->password = Hash::make($request->input('password'));
         $user->save();
 
         $join = new UserInstitution();
