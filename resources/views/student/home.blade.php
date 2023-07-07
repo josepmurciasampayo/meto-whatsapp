@@ -25,6 +25,8 @@
 
         <div class="display-7" style="margin-top: 12px;">Welcome, {{ $user->first }}!</div>
 
+        <livewire:students.student-connections-table />
+
         <div class="flex flex-wrap justify-center" style="margin-top: 12px;margin-bottom: 12px;">
             <x-status-icon href="/student-profile" icon="fa fa-user" text="Basic Information" />
             <x-status-icon href="/demographic" icon="fa fa-user-friends" text="Demographic" progress="{{ $demoProgress }}"/>

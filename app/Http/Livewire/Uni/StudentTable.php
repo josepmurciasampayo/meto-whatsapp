@@ -36,9 +36,9 @@ final class StudentTable extends PowerGridComponent
 
     public $status;
 
-    public $perPageValues = [25, 50, 150, 250, 500];
-
     public int $perPage = 25;
+
+    public $perPageValues = [25, 50, 150, 250, 500];
 
     public function setUp(): array
     {

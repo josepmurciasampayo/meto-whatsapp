@@ -17,7 +17,7 @@ final class StudentTableMaybe extends PowerGridComponent
 {
     use ActionButton;
 
-    public int $perPage = 10;
+    public int $perPage = 25;
 
     public $perPageValues = [25, 50, 150, 250, 500];
 
