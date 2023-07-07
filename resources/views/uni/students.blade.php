@@ -6,16 +6,13 @@
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">To Review</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="request-tab" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button" role="tab" aria-controls="request-tab-pane" aria-selected="false">Connected</button>
+                <button class="nav-link" id="request-tab" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button" role="tab" aria-controls="request-tab-pane" aria-selected="false">Yes</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="maybe-tab" data-bs-toggle="tab" data-bs-target="#maybe-tab-pane" type="button" role="tab" aria-controls="maybe-tab-pane" aria-selected="false">Maybe</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived-tab-pane" type="button" role="tab" aria-controls="archived-tab-pane" aria-selected="false">Archived</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="connections-tab" data-bs-toggle="tab" data-bs-target="#connections-tab-pane" type="button" role="tab" aria-controls="connections-tab-pane" aria-selected="false">Connections</button>
+                <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived-tab-pane" type="button" role="tab" aria-controls="archived-tab-pane" aria-selected="false">No</button>
             </li>
         </ul>
         <div class="tab-content" id="students-tables">
@@ -30,9 +27,6 @@
             </div>
             <div class="tab-pane fade py-4" id="archived-tab-pane" role="tabpanel" aria-labelledby="archived-tab" tabindex="0">
                 @include('_partials.uni.students.archived')
-            </div>
-            <div class="tab-pane fade py-4" id="connections-tab-pane" role="tabpanel" aria-labelledby="archived-tab" tabindex="0">
-                @include('_partials.uni.students.connections')
             </div>
         </div>
 

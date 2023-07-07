@@ -55,10 +55,6 @@ final class StudentTable extends PowerGridComponent
         ];
     }
 
-    /**
-     * PowerGrid datasource.
-     *
-     */
     public function datasource(): Builder
     {
         $uni = auth()->user()->getUni();
@@ -75,11 +71,6 @@ final class StudentTable extends PowerGridComponent
             });
     }
 
-    /**
-     * Relationship search.
-     *
-     * @return array<string, array<int, string>>
-     */
     public function relationSearch(): array
     {
         return [
@@ -101,7 +92,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
                 $name = 'student_' . $student->id;
-                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Connect</label>';
+                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Yes</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . $student->efc);
@@ -192,7 +183,7 @@ final class StudentTable extends PowerGridComponent
                $key = 'archive_student_' . $student->id;
                $name = 'student_' . $student->id;
                return Blade::render('
-                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="archive" onclick="selectOption(this)">Archive</label>'
+                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="archive" onclick="selectOption(this)">No</label>'
                );
             })
         ];

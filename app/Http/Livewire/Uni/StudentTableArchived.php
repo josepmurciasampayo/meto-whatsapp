@@ -77,7 +77,7 @@ final class StudentTableArchived extends PowerGridComponent
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
             ->addColumn('gender', function (Student $student) {
-                return $student->gender ? Gender::descriptions()[$student->gender] : null;
+                return $student->gender ?? "";
             })
             ->addColumn('email', function (Student $student) {
                 return e($student->user->email);

@@ -124,6 +124,10 @@ final class ConnectionsTable extends PowerGridComponent
             ->addColumn('student', function (StudentUniversity $connection) {
                 return $connection->student->user->getFullName();
             })
+            ->addColumn('email', function (StudentUniversity $connection) {
+                $email = $connection->student->user->email;
+                return "<a href='mailto:$email'>$email</a>";
+            })
             ->addColumn('institution', function (StudentUniversity $connection) {
                 return $connection->institution->name;
             })
@@ -131,7 +135,7 @@ final class ConnectionsTable extends PowerGridComponent
                 return MatchStudentInstitution::descriptions()[$connection->status];
             })
             ->addColumn('student_curriculum', function (StudentUniversity $connection) {
-                return Curriculum::descriptions()[$connection->student->curriculum];
+                return $connection->student->curriculum;
             })
             ->addColumn('student_equivalency', function (StudentUniversity $connection) {
                 return $connection->student->equivalency;
@@ -140,13 +144,13 @@ final class ConnectionsTable extends PowerGridComponent
                 return $connection->student->efc;
             })
             ->addColumn('institution_curriculum', function (StudentUniversity $connection) {
-                return Curriculum::descriptions()[$connection->institution->min_grade_curriculum];
+                return Curriculum::descriptions()[$connection->institution->min_grade_curriculum] ?? '';
             })
             ->addColumn('institution_equivalency', function (StudentUniversity $connection) {
                 return $connection->institution->min_grade_equivalency;
             })
             ->addColumn('institution_efc', function (StudentUniversity $connection) {
-                return $connection->institution->efc;
+                return '$' . $connection->institution->efc;
             });
 
     }
@@ -170,6 +174,7 @@ final class ConnectionsTable extends PowerGridComponent
         return [
             Column::make('Actions', 'actions'),
             Column::make('Student', 'student')->searchable()->sortable(),
+            Column::make('Email', 'email'),
             Column::make('Institution', 'institution')->searchable()->sortable(),
 //            Column::make('Status application', 'status_application')->searchable()->sortable(),
 //            Column::make('Status enrollment', 'status_enrollment')->searchable(),
@@ -186,8 +191,6 @@ final class ConnectionsTable extends PowerGridComponent
 //            Column::make('Intent', 'intent'),
 //            Column::make('Heard Of', 'heard_of'),
 //            Column::make('Factors', 'factors'),
-            Column::make('Created at', 'created_at'),
-            Column::make('Updated at', 'updated_at')
         ];
     }
 
