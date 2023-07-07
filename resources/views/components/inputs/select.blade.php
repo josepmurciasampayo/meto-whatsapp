@@ -1,12 +1,12 @@
 <!-- select.blade.php -->
-@props(['options', 'name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'onchange' => false])
+@props(['options', 'name', 'help' => false, 'saved' => '', 'label' => '', 'req' => false, 'onchange' => false, 'class' => ''])
 
 @php $required = ($req) ? "*" : ""  @endphp
 <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
 @if ($help)
     <div class="text-sm text-gray-600 italic mb-4">{{ $help }}</div>
 @endif
-<div class="relative">
+<div class="relative {{ $class }}">
     @php $required = ($req) ? "required" : ""  @endphp
     @php $change = ($onchange) ? "onchange=$onchange" : ""  @endphp
     <select {{ $change }} id="{{ $name }}" {{ $required }} name="{{ $name }}" class="block w-full pl-3 pr-10 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm">
