@@ -28,6 +28,7 @@ class Institution extends Model
         'efc',
         'min_grade',
         'min_grade_curriculum',
+        'min_grade_equivalency'
     ];
 
     public static function getByUserID(int $user_id): Institution

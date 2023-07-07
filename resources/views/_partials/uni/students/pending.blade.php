@@ -2,6 +2,12 @@
     @csrf
 
     <div class="alert alert-danger d-none" id="tableAlert"></div>
+    <div class="alert alert-primary d-none" id="processingAlert">
+        Processing your request ...
+    </div>
+    <div class="alert alert-success d-none" id="requestSuccessAlert">
+        Your request has been proceeded successfully.
+    </div>
 
     <livewire:uni.student-table/>
 
@@ -64,6 +70,8 @@
     let emailModal = document.querySelector('#emailModal')
     let emailModalBtn = document.querySelector('[data-bs-target="#emailModal"]')
     let tableAlert = document.querySelector('#tableAlert')
+    let processingAlert = document.querySelector('#processingAlert')
+    let requestSuccessAlert = document.querySelector('#requestSuccessAlert')
 
     form.addEventListener('submit', e => {
         e.preventDefault()
@@ -92,14 +100,18 @@
                 data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
             })
 
-            console.log('data is ', data)
+            processingAlert.classList.remove('d-none')
+            requestSuccessAlert.classList.add('d-none')
 
             axios.post(url, data)
                 .then(res => {
                     window.location.href = '/#top'
+                    processingAlert.classList.add('d-none')
+                    requestSuccessAlert.classList.remove('d-none')
                     setTimeout(() => window.location.reload(), 700)
                 })
                 .catch(err => {
+                    processingAlert.classList.add('d-none')
                     document.querySelector('#tableAlert').textContent = 'Something went wrong.'
                 })
         }
