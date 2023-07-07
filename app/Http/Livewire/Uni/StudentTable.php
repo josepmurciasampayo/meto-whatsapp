@@ -92,7 +92,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
                 $name = 'student_' . $student->id;
-                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Connect</label>';
+                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Yes</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . $student->efc);
@@ -143,7 +143,7 @@ final class StudentTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Yes', 'connect'),
+            Column::make('Connect', 'connect'),
             Column::make('Details', 'details'),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
