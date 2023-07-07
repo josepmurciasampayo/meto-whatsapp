@@ -103,7 +103,7 @@ final class StudentTableMaybe extends PowerGridComponent
             })
 
             ->addColumn('gender', function (Student $student) {
-                return $student->gender ? Gender::descriptions()[$student->gender] : null;
+                return $student->gender ?? '';
             })
 
             ->addColumn('ranking', function (Student $student) {
