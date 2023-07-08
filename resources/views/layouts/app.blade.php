@@ -131,7 +131,7 @@
                 <li><a href="{{ route('consent') }}" class="nav-link text-white mx-3">Consent Form</a></li>
             @elseif (Auth::user()->isInstitution())
                 <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
-                <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
+                <li><a href="{{ route('consent') }}" class="nav-link text-white mx-3">Terms of Use</a></li>
             @elseif (Auth::user()->isCounselor())
                 <li><a href="{{ route('privacy') }}" class="nav-link text-white mx-3">Privacy Policy</a></li>
                 <li><a href="{{ route('terms') }}" class="nav-link text-white mx-3">Terms of Use</a></li>

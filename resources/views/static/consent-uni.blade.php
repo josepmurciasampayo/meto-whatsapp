@@ -34,12 +34,15 @@
             <p>
                 <strong>Your access to and use of student data</strong>
             </p>
+            <br/>
             <p>
                 Students provide their information to {{ config('app.name') }} with the intention of having {{ config('app.name') }} share their information with educational institutions like yours.
             </p>
+            <br/>
             <p>
                 However, it is of the utmost importance to us that students’ privacy is protected in accordance with the standards set forth by the General Data Protection Regulations (“GDPR”) and any additional applicable national data protection laws.
             </p>
+            <br/>
             <p>
                 By using {{ config('app.name') }}’s service, you agree:
             </p>
