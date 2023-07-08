@@ -40,6 +40,10 @@ final class StudentTable extends PowerGridComponent
 
     public $perPageValues = [25, 50, 150, 250, 500];
 
+    public $arrow = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
+</svg>';
+
     public function setUp(): array
     {
         return [
@@ -87,7 +91,7 @@ final class StudentTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('details', function (Student $student) {
-                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a><button type='button' id='refresh-records-btn' wire:click='refreshRecords' class='d-none'></button>";
+                return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$this->arrow</a><button type='button' id='refresh-records-btn' wire:click='refreshRecords' class='d-none'></button>";
             })
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
@@ -97,17 +101,20 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('efc', function (Student $student) {
                 return e('$' . $student->efc);
             })
+            ->addColumn('citizenship', function (Student $student) {
+                return e(substr($student->citizenship, 0, 10));
+            })
             ->addColumn('countryHS', function (Student $student) {
-                return e($student->countryHS);
+                return e(substr($student->countryHS, 0, 10));
             })
             ->addColumn('curriculum', function (Student $student) {
-                return e($student->curriculum);
+                return e(substr($student->curriculum, 0, strpos($student->curriculum, ' ')));
             })
             ->addColumn('destination', function (Student $student) {
-                return e($student->destination);
+                return e(substr($student->destination, 0, 10));
             })
             ->addColumn('track', function (Student $student) {
-                return e($student->track);
+                return e(substr($student->track, 0, 12));
             })
             ->addColumn('gender', function (Student $student) {
                 return e(isset(Gender::descriptions()[$student->gender]) ? Gender::descriptions()[$student->gender] : "");
@@ -144,9 +151,10 @@ final class StudentTable extends PowerGridComponent
     {
         return [
             Column::make('Connect', 'connect'),
-            Column::make('Details', 'details'),
+            Column::make('Profile', 'details'),
             Column::make('EFC', 'efc')->searchable()->sortable(),
-            Column::make('High School Country', 'countryHS')->searchable()->sortable(),
+            Column::make('Citizenship', 'citizenship')->searchable(),
+            Column::make('HS Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
             Column::make('Approx Percentile', 'equivalency')->searchable()->sortable(),
             Column::make('Desired Destinations', 'destination')->searchable(),
