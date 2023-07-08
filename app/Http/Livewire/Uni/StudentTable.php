@@ -96,7 +96,17 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('connect', function (Student $student) {
                 $key = 'connect_student_' . $student->id;
                 $name = 'student_' . $student->id;
-                return '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Yes</label>';
+
+                $maybeKey = 'maybe_student_' . $student->id;
+                $maybeName = 'student_' . $student->id;
+
+                $noKey = 'archive_student_' . $student->id;
+                $noName = 'student_' . $student->id;
+
+                return
+                    '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Yes</label>'
+                    . '<input type="radio" value="maybe" id="' . $maybeKey . '" name="' . $maybeName . '"> <label for="' . $maybeKey . '" key="' . $student->id . '" class="btn" target="maybe" onclick="selectOption(this)">Maybe</label>'
+                    . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" target="archive" onclick="selectOption(this)">No</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . $student->efc);
@@ -166,34 +176,6 @@ final class StudentTable extends PowerGridComponent
             Column::make('Affiliations', 'affiliations')->searchable(),
             Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
             Column::make('Disability Disclosure', 'disability')->searchable(),
-        ];
-    }
-
-    /**
-     * PowerGrid Student Action Buttons.
-     *
-     * @return array<int, Button>
-     */
-    public function actions(): array
-    {
-        if ($this->status) return [];
-        return [
-            Button::add('maybe')
-            ->render(function (Student $student) {
-               $key = 'maybe_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="maybe" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="maybe" onclick="selectOption(this)">Maybe</label>'
-               );
-            }),
-            Button::add('archive')
-            ->render(function (Student $student) {
-               $key = 'archive_student_' . $student->id;
-               $name = 'student_' . $student->id;
-               return Blade::render('
-                    <input type="radio" value="archive" id="' . $key . '" name="' . $name . '"> <label for="' . $key . '" key="' . $student->id . '" class="btn" target="archive" onclick="selectOption(this)">No</label>'
-               );
-            })
         ];
     }
 
