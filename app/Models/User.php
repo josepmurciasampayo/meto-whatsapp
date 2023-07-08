@@ -219,7 +219,7 @@ class User extends Authenticatable
 
     public function sendWelcomeNotification(\Carbon\Carbon $validUntil, Institution $uni)
     {
-        $this->notify(new MetoWelcomeNotification($validUntil, $uni, $this));
+        $this->notify(new MetoWelcomeNotification($validUntil, $uni));
     }
 
     public function getUni(): Institution

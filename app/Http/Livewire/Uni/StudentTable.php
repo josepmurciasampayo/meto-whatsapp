@@ -40,7 +40,7 @@ final class StudentTable extends PowerGridComponent
 
     public $perPageValues = [25, 50, 150, 250, 500];
 
-    public $arrow = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+    public $arrow = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16" style="display: block; margin:auto">
   <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
 </svg>';
 
@@ -104,9 +104,9 @@ final class StudentTable extends PowerGridComponent
                 $noName = 'student_' . $student->id;
 
                 return
-                    '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" target="connect" onclick="selectOption(this)">Yes</label>'
-                    . '<input type="radio" value="maybe" id="' . $maybeKey . '" name="' . $maybeName . '"> <label for="' . $maybeKey . '" key="' . $student->id . '" class="btn" target="maybe" onclick="selectOption(this)">Maybe</label>'
-                    . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" target="archive" onclick="selectOption(this)">No</label>';
+                    '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="connect" onclick="selectOption(this)">Yes</label>'
+                    . '<input type="radio" value="maybe" id="' . $maybeKey . '" name="' . $maybeName . '"> <label for="' . $maybeKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="maybe" onclick="selectOption(this)">Maybe</label>'
+                    . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="archive" onclick="selectOption(this)">No</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . $student->efc);
