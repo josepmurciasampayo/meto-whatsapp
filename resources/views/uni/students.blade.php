@@ -52,7 +52,7 @@
             let labels = document.querySelectorAll('#students-tables label')
 
             let selectOption = (label, action = null) => {
-                action = action || label.textContent.toLowerCase()
+                action = action || label.getAttribute('target').toLowerCase()
                 // Unselect all the labels first
                 unselectAllOptions(label)
                 // Select the new label
