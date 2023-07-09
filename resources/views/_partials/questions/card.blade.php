@@ -47,13 +47,13 @@
                     <span class="info">3.5</span>
                 </p>
 
-                {{--  @include('_partials.questions.line-9') --}}
+                  @include('_partials.questions.line-9', ['student' => $student])
 
             </div>
 
             <div class="col-md-3">
 
-                {{-- @include('_partials.questions.line-10') --}}
+                 @include('_partials.questions.line-10', ['student' => $student])
 
                 <p class="detail">
                     <span class="label">Not known yet:</span>

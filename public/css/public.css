@@ -183,7 +183,6 @@ label[selected_option="true"].archive {
 }
 
 .single-student-card {
-    display: none;
     .close-btn {
         cursor: pointer;
     }

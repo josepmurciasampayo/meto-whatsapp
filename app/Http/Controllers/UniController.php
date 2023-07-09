@@ -466,10 +466,16 @@ class UniController extends Controller
 
     public function fetchStudent(Request $request)
     {
+        $data = ViewStudentDetail::with('student.user')
+            ->where('student_id', $request->route('student'))
+            ->first();
+        $view = view('_partials.questions.card', [
+            'uni' => auth()->user()->getUni(),
+            'student' => $data
+        ])->render();
         return response([
-            'data' => ViewStudentDetail::with('student.user')
-                ->where('student_id', $request->route('student'))
-                ->first()
+            'view' => $view,
+            'data' => $data
         ]);
     }
 }

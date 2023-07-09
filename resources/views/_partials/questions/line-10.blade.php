@@ -2,7 +2,7 @@
     <p class="detail">
         <span class="label">Junior-year GPA:</span>
         <br />
-        <span class="info">{{ $row[] }}</span>
+        <span class="info">{{ '' }}</span>
     </p>
     <p class="detail">
         <span class="label">Senior-year GPA:</span>

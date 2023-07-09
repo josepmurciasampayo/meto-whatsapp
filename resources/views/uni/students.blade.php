@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        @include('_partials.questions.card')
+        <div id="student-details-card-holder"></div>
 
         <script>
             let unstripeTables = () => {
@@ -48,7 +48,7 @@
             unstripeTables()
             setInterval(() => unstripeTables(), 500)
 
-            let card = document.querySelector('.single-student-card')
+            let card = document.querySelector('#student-details-card-holder')
 
             let labels = document.querySelectorAll('#students-tables label')
 
@@ -93,12 +93,14 @@
 
             let showStudentCard = el => {
                 let studentId = el.getAttribute('data-student-id')
+                card.style.display = 'none'
                 axios.get('/uni-student-fetch/' + studentId)
                     .then(res => {
                         let data = res.data;
                         let student = data.data.student;
 
                         card.style.display = 'block'
+                        card.innerHTML = data.view
 
                         // card.querySelector('#name').textContent = student.user.first + ' ' + student.user.last
                         // card.querySelector('#age').textContent = student.age
