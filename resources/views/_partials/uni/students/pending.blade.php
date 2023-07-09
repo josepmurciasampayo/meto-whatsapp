@@ -99,7 +99,7 @@
             inputs.forEach(input => {
                 data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
             })
-
+            console.log(data)
             axios.post(url, data)
                 .then(res => {
                     document.querySelector('#refresh-records-btn').click()

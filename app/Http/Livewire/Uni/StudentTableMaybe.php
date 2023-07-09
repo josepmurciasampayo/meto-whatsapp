@@ -179,7 +179,12 @@ final class StudentTableMaybe extends PowerGridComponent
         return [
             Button::add('reset')
                 ->caption(__('Reset'))
-                ->emit('resetConnection', [])
+                ->emit('resetConnection', []),
+
+            Button::add('refresh')
+                ->caption(__('Refresh'))
+                ->class('refresh-btn')
+                ->emit('refreshRecords', []),
         ];
     }
 
@@ -187,7 +192,9 @@ final class StudentTableMaybe extends PowerGridComponent
     {
         return array_merge(
             parent::getListeners(), [
-                'resetConnection'
+                'resetConnection',
+                'refreshRecords',
+                'refreshOtherComponents'
             ]
         );
     }
@@ -200,6 +207,18 @@ final class StudentTableMaybe extends PowerGridComponent
                 ->delete();
         }
 
+        $this->emit('refreshRecords');
+
         return true;
+    }
+
+    public function refreshRecords()
+    {
+        $this->datasource();
+    }
+
+    public function refreshOtherComponents()
+    {
+        $this->datasource();
     }
 }

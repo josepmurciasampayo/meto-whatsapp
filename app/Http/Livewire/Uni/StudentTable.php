@@ -51,8 +51,8 @@ final class StudentTable extends PowerGridComponent
             Exportable::make('students')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
             */
+            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
@@ -181,14 +181,12 @@ final class StudentTable extends PowerGridComponent
 
     public function header(): array
     {
-        if ($this->status) {
-            return [
-                Button::add('reset')
-                    ->caption(__('Reset'))
-                    ->emit('resetConnection', [])
-            ];
-        }
-        return [];
+        return [
+            Button::add('refresh')
+                ->caption(__('Refresh'))
+                ->class('refresh-btn')
+                ->emit('refreshRecords', [])
+        ];
     }
 
     public function filters(): array
@@ -213,7 +211,22 @@ final class StudentTable extends PowerGridComponent
         ];
     }
 
+    public function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(), [
+                'refreshRecords',
+                'refreshOtherComponents'
+            ]
+        );
+    }
+
     public function refreshRecords()
+    {
+        $this->datasource();
+    }
+
+    public function refreshOtherComponents()
     {
         $this->datasource();
     }
