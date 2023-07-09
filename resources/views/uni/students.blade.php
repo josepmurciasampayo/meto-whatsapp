@@ -33,6 +33,18 @@
 
         <div id="student-details-card-holder"></div>
 
+        @push('js')
+            <script>
+                let buttons = document.querySelectorAll('.refresh-btn' )
+
+                setInterval(() => buttons.forEach(btn => btn.type !== 'button' ? btn.type = 'button' : null), 500)
+
+                Livewire.on('refreshRecords', () => {
+                    Livewire.emit('refreshOtherComponents')
+                })
+            </script>
+        @endpush
+
         <script>
             let unstripeTables = () => {
                 document.querySelectorAll('table.table-striped').forEach(table => {
