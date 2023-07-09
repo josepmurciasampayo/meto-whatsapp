@@ -1,8 +1,8 @@
 :root {
     --main: #26403d;
     --connect: green;
-    --maybe: blue;
-    --archive: orange;
+    --maybe: #ecb051;
+    --archive: red;
     --success: #198754;
     --warning: #ffc107;
     --secondary: #6c757d;
