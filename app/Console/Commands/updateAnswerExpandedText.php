@@ -17,25 +17,60 @@ class updateAnswerExpandedText extends Command
     public function handle(): int
     {
         $countries = EnumCountry::orderBy('name', 'asc')->get();
-        $country_array = [];
+        $unmatchedCountries = [];
+
+        $country_id_array = [];
         foreach ($countries as $country) {
-            $country_array[$country->id] = $country->name;
+            $country_id_array[$country->id] = $country->name;
         }
 
-        $country_checkbox = Question::where('format', QuestionFormat::COUNTRY_CHECKBOX())->pluck('id')->toArray();
-        $answers = Answer::whereIn('question_id', $country_checkbox)->get();
-        foreach ($answers as $answer) {
-            $answer_countries_expanded = [];
-            $answer_countries_ids = explode(",", $answer->text);
-            if (is_numeric($answer->text)) {
-                foreach ($answer_countries_ids as $a) {
-                    $answer_countries_expanded[] = $countries[$a];
-                }
-                $answer->expanded_text = implode(", ", $answer_countries_expanded);
-            } else {
-                $answer->expanded_text = $answer->text;
-            }
+        $country_name_array = [];
+        foreach ($countries as $country) {
+            $country_name_array[$country->name] = $country->id;
         }
+        $country_name_array['United States of America'] = 235;
+        $country_name_array['United Kingdom'] = 234;
+        $country_name_array['South Korea'] = 119;
+        $country_name_array['Russia'] = 183;
+        $country_name_array['Tanzania'] = 219;
+        $country_name_array['Vietnam'] = 241;
+        $country_name_array['Congo (Congo-Brazzaville)'] = 50;
+        $country_name_array['Democratic Republic of the Congo'] = 51;
+        $country_name_array['Syria'] = 216;
+        $country_name_array["Côte d''Ivoire"] = 54;
+
+        $answers = Answer::with('student')->where('question_id', 260)->get();
+        foreach ($answers as $answer) {
+
+            $answer_countries_expanded = [];
+            if (is_numeric($answer->text[0])) {
+                $answer_ids = explode(",", $answer->text);
+                foreach ($answer_ids as $id) {
+                    $answer_countries_expanded[] = $country_id_array[$id];
+                }
+                $answer->text_expanded = implode(", ", $answer_countries_expanded);
+            } else {
+                $answer_names = explode(", ", $answer->text);
+                $answer->text_expanded = $answer->text;
+
+                foreach ($answer_names as $name) {
+                    if (isset($country_name_array[$name])) {
+                        $answer_countries_expanded[] = $country_name_array[$name];
+                    } else {
+                        $unmatchedCountries[$name] = 1;
+                    }
+                }
+                $answer->text = implode(",", $answer_countries_expanded);
+            }
+            $answer->save();
+
+            $answer->student->destination = $answer->text_expanded;
+            $answer->student->save();
+        }
+
+        print_r(implode(", ", array_keys($unmatchedCountries)));
+
+
 
         return Command::SUCCESS;
 
