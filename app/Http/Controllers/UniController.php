@@ -471,7 +471,7 @@ class UniController extends Controller
             ->first();
         $view = view('_partials.questions.card', [
             'uni' => auth()->user()->getUni(),
-            'student' => $data
+            'row' => $data
         ])->render();
         return response([
             'view' => $view,

@@ -1,4 +1,4 @@
-@if ($student->curriculum == \App\Enums\Student\Curriculum::AMERICAN()) <!-- American -->
+@if ($row['curriculum'] == \App\Enums\Student\Curriculum::AMERICAN()) <!-- American -->
     <p class="detail">
         <span class="label">Junior-year GPA:</span>
         <br />
@@ -10,7 +10,7 @@
         <span class="info"><!--qid=150--></span>
     </p>
 
-@elseif ($student->curriculum == \App\Enums\Student\Curriculum::IB()) <!-- IB -->
+@elseif ($row['curriculum'] == \App\Enums\Student\Curriculum::IB()) <!-- IB -->
     <!-- Determine if the grade is semester, predicted or final -->
     @if(true) <!-- Semester -->
         <p class="detail">
@@ -63,7 +63,7 @@
         <span class="info">qid=37</span>
     </p>
 
-@elseif ($student->curriculum == \App\Enums\Student\Curriculum::CAMBRIDGE()) <!-- Cambridge -->
+@elseif ($row['curriculum'] == \App\Enums\Student\Curriculum::CAMBRIDGE()) <!-- Cambridge -->
     <p class="detail">
         <span class="label">Score Description:</span>
         <br />
@@ -100,7 +100,7 @@
         <span class="info">Qid=170</span>
     </p>
 
-@elseif ($student->curriculum == \App\Enums\Student\Curriculum::RWANDAN()) <!-- Rwandan -->
+@elseif ($row['curriculum'] == \App\Enums\Student\Curriculum::RWANDAN()) <!-- Rwandan -->
     <p class="detail">
         <span class="label">Mock Exam Score:</span>
         <br />
@@ -112,7 +112,7 @@
         <span class="info">___ (Qid=343)</span>
     </p>
 
-@elseif ($student->curriculum == \App\Enums\Student\Curriculum::UGANDAN()) <!-- Ugandan -->
+@elseif ($row['curriculum'] == \App\Enums\Student\Curriculum::UGANDAN()) <!-- Ugandan -->
     <p class="detail">
         <span class="label">Mock Exam Score:</span>
         <br />
@@ -124,7 +124,7 @@
         <span class="info">qid=378</span>
     </p>
 
-@elseif($student->curriculum == \App\Enums\Student\Curriculum::KENYAN()) <!-- Kenyan -->
+@elseif($row['curriculum'] == \App\Enums\Student\Curriculum::KENYAN()) <!-- Kenyan -->
     <p class="detail">
         <span class="label">Mock KCSE Exam Score:</span>
         <br />
