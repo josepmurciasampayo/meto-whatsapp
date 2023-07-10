@@ -127,10 +127,10 @@ final class StudentTable extends PowerGridComponent
                 return e(substr($student->track, 0, 12));
             })
             ->addColumn('gender', function (Student $student) {
-                return e(isset(Gender::descriptions()[$student->gender]) ? Gender::descriptions()[$student->gender] : "");
+                return e($student->gender);
             })
             ->addColumn('ranking', function (Student $student) {
-                return e(isset(YesNo::descriptions()[$student->ranking]) ? YesNo::descriptions()[$student->ranking] : "");
+                return e($student->ranking);
             })
             ->addColumn('det', function (Student $student) {
                 return e($student->det);
@@ -139,7 +139,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->affiliations);
             })
             ->addColumn('refugee', function (Student $student) {
-                return e(isset(YesNo::descriptions()[$student->refugee]) ? YesNo::descriptions()[$student->refugee] : "");
+                return e($student->refugee);
             })
             ->addColumn('disability', function (Student $student) {
                 return e($student->disability);
@@ -148,7 +148,18 @@ final class StudentTable extends PowerGridComponent
                 return e($student->equivalency);
             })
             ->addColumn('other_testing', function (Student $student) {
-                return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
+                $toReturn = [];
+                if ($student->act) {
+                    $toReturn[] = "ACT: $student->act";
+                }
+                if ($student->toefl) {
+                    $toReturn[] = "TOEFL $student->toefl";
+                }
+                if ($student->ielts) {
+                    $toReturn[] = "IELTS: $student->ielts";
+                }
+                $toReturnString = ($toReturn) ? implode(", ", $toReturn) : "";
+                return e($toReturnString);
             });
     }
 

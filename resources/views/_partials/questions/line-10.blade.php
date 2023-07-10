@@ -7,7 +7,7 @@
     <p class="detail">
         <span class="label">Senior-year GPA:</span>
         <br />
-        <span class="info">qid=150</span>
+        <span class="info"><!--qid=150--></span>
     </p>
 
 @elseif ($student->curriculum == \App\Enums\Student\Curriculum::IB()) <!-- IB -->

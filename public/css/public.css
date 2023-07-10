@@ -196,9 +196,6 @@ label[selected_option="true"].archive {
     }
     .detail {
         margin-bottom: 10px;
-        label, span {
-            font-size: 18px;
-        }
     }
 }
 

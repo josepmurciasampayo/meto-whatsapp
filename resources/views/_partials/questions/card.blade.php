@@ -1,5 +1,5 @@
 @php $row = ['hs' => null, 'hs_city' => null, 'hs_country' => null, 'birth_city' => null, 'birth_country' => null, 'gender' => null, 'dob' => null, 'affiliations' => null] @endphp
-<div class="my-5 mx-2 single-student-card">
+<div class="my-5 mx-2 single-student-card" style="font-size: 14px;">
     <div>
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">
@@ -44,7 +44,7 @@
                 <p class="detail">
                     <span class="label">Graduation Date:</span>
                     <br />
-                    <span class="info">3.5</span>
+                    <span class="info"></span>
                 </p>
 
                   @include('_partials.questions.line-9', ['student' => $student])
@@ -58,7 +58,7 @@
                 <p class="detail">
                     <span class="label">Not known yet:</span>
                     <br />
-                    <span class="info">Qid=120</span>
+                    <span class="info"><!--Qid=120--></span>
                 </p>
 
             </div>
@@ -68,7 +68,7 @@
                     This student is viewable for you because {{ config('app.name') }} believes that their score in
                     the {{ strtolower(\App\Enums\Student\Curriculum::descriptions()[$uni->min_grade_curriculum] ?? '') }} curriculum meets or exceeds the
                     standard you set. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
-                    threshold here {{ route('uni.mingrade') }}.
+                    threshold <a href="{{ route('uni.mingrade') }}">here</a>.
                 </div>
             </div>
         </div>
