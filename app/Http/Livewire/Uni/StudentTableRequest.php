@@ -249,6 +249,6 @@ final class StudentTableRequest extends PowerGridComponent
     public function exportCsv()
     {
         $now = Carbon::now();
-        return Excel::download(new RequestExport(), 'meto-' . $now->month() . '-' . $now->day() . '.csv');
+        return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
     }
 }
