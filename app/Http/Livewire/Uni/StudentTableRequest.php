@@ -203,7 +203,7 @@ final class StudentTableRequest extends PowerGridComponent
 
             Button::add('exportCsv')
                 ->caption(__('Export'))
-                ->emit('exportCsv', []),
+                ->emit('exportCsv', [])
         ];
     }
 
@@ -220,22 +220,6 @@ final class StudentTableRequest extends PowerGridComponent
         return true;
     }
 
-    public function exportToCsv()
-    {
-        // TODO: Complete the export process
-        return [
-            'name'
-        ];
-    }
-
-    public function exportToXLS()
-    {
-        // TODO: Complete the export process
-        return [
-            'name'
-        ];
-    }
-
     public function refreshRecords()
     {
         $this->datasource();
@@ -248,7 +232,9 @@ final class StudentTableRequest extends PowerGridComponent
 
     public function exportCsv()
     {
-        $now = Carbon::now();
-        return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
+        if (filled($this->datasource()->get())) {
+            $now = Carbon::now();
+            return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
+        }
     }
 }
