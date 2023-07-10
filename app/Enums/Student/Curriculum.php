@@ -70,10 +70,10 @@ enum Curriculum :int
     public static function getSchoolChoices() :array
     {
         return [
-            self::NATIONAL() => "National",
             self::IB() => "IB",
             self::CAMBRIDGE() => "Cambridge",
             self::AMERICAN() => "American",
+            self::NATIONAL() => "National",
             self::OTHER() => "Other",
         ];
     }

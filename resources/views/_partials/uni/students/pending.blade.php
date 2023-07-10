@@ -42,7 +42,7 @@
 
                 <form id="send-connection-form">
                     <div>
-                        <x-inputs.text name="application_link" type="url" label="Application Link" class="form-control" value="{{ $uni->undergrad_url }}" />
+                        <x-inputs.text name="application_link" type="url" label="Application Link" class="form-control" saved="{{ $uni->undergrad_url }}" />
                     </div>
                     <div class="mt-3">
                         <x-inputs.date saved="2023-09-01" name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
