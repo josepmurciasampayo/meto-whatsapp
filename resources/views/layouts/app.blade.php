@@ -12,7 +12,7 @@
     <link href="https://fonts.bunny.net/css?family=proza-libre:400,600,800" rel="stylesheet" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/app.css" type="text/css">
-    <link rel="stylesheet/less" type="text/css" href="/css/public.css" />
+    <link rel="stylesheet/less" type="text/css" href="/css/public.css?v=2" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.2.2/css/tom-select.bootstrap5.min.css">
 
     <!-- Livewire -->
