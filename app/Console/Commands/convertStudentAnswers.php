@@ -22,11 +22,11 @@ class convertStudentAnswers extends Command
     {
         //$this->updateResponseIDs();
 
-        //$this->updateQuestions();
+        $this->updateQuestions();
 
         //$this->mergeQuestions();
         //$this->changeResponses();
-        $this->calculateEquivalencies();
+        //$this->calculateEquivalencies();
         return Command::SUCCESS;
     }
 
@@ -49,7 +49,7 @@ class convertStudentAnswers extends Command
         }
 
         // update answers by looking up responses
-        echo "\nAbout to update " . count($answers) . " answers with response IDs";
+        echo "\nAbout to update " . count($answers) . " answers with response IDs (question $response->question_id)";
         foreach ($answers as $answer) {
             if (isset($responseArray[$answer->question_id][$answer->text])) {
                 $answer->response_id = $responseArray[$answer->question_id][$answer->text];

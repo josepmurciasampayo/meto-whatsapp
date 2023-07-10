@@ -25,7 +25,7 @@ class UniApplicationRequest extends FormRequest
     {
         return [
             'url' => [
-                'required', 'url'
+                'required',
             ]
         ];
     }

@@ -109,7 +109,7 @@ final class StudentTable extends PowerGridComponent
                     . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="archive" onclick="selectOption(this)">No</label>';
             })
             ->addColumn('efc', function (Student $student) {
-                return e('$' . $student->efc);
+                return e($student->efc);
             })
             ->addColumn('citizenship', function (Student $student) {
                 return e(substr($student->citizenship, 0, 10));

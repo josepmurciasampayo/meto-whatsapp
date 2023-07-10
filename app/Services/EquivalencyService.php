@@ -282,9 +282,11 @@ class EquivalencyService
 
     public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int|null
     {
-        return Equivalency::where('curriculum_id', $curriculum())->
-            where('score_type', $scoreType())->
-            where('score', $score)->
-            first()?->percentile;
+        //dd("Curriculum: $curriculum->value ScoreType: $scoreType->value Sore: $score");
+        $equivalency = Equivalency::where('curriculum_id', $curriculum())->
+        where('score_type', $scoreType())->
+        where('score', $score)->
+        first();
+        return ($equivalency?->percentile);
     }
 }
