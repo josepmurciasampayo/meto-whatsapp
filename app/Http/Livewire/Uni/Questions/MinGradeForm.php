@@ -43,9 +43,11 @@ class MinGradeForm extends Component
     {
         $this->validate();
         $uni = Auth::user()->getUni();
-        $uni->min_grade_curriculum = $this->curriculum;
-        $uni->min_grade = $this->scoreOptions[$this->selectedScoreOption];
-        $uni->save();
+
+        $uni->update([
+            'min_grade_curriculum' => $this->curriculum,
+            'min_grade' => $this->scoreOptions[$this->selectedScoreOption]
+        ]);
 
         (new EquivalencyService())->updateUni($uni);
 

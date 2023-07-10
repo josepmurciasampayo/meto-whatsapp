@@ -265,19 +265,22 @@ class EquivalencyService
 
         switch ($curriculum) {
             case Curriculum::IB:
-                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::IBFINAL, $uni->min_grade);
+                $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::IBFINAL, $uni->min_grade);
                 break;
             case Curriculum::CAMBRIDGE:
-                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::CAMFINAL, $uni->min_grade);
+                $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::CAMFINAL, $uni->min_grade);
                 break;
             case Curriculum::AMERICAN:
-                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::AMSENIORU, $uni->min_grade);
+                $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::AMSENIORU, $uni->min_grade);
                 break;
             case Curriculum::NATIONAL:
-                $uni->min_grade_equivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $uni->min_grade);
+                $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $uni->min_grade);
                 break;
         };
-        $uni->save();
+
+        $uni->update([
+            'min_grade_equivalency' => $minGradeEquivalency
+        ]);
     }
 
     public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int|null
