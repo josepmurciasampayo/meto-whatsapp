@@ -58,7 +58,7 @@ enum MatchStudentInstitution :int
             self::UNKNOWN => 'Unknown',
             self::NOTINTERESTED => 'Not Interested',
             self::WAITLISTED => 'Waitlisted',
-            self::REQUEST => 'Request',
+            self::REQUEST => 'RequestExport',
             self::MAYBE => 'Maybe',
             self::ARCHIVED => 'Archived'
         };

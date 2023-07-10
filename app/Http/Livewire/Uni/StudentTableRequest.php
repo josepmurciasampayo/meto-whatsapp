@@ -4,11 +4,13 @@ namespace App\Http\Livewire\Uni;
 
 use App\Enums\General\YesNo;
 use App\Enums\Student\Gender;
+use App\Exports\uni\connections\RequestExport;
 use App\Models\Student;
 use App\Models\StudentUniversity;
 use App\Services\UniService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Facades\Excel;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 use App\Enums\General\MatchStudentInstitution;
@@ -77,6 +79,9 @@ final class StudentTableRequest extends PowerGridComponent
             ->addColumn('details', function (Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
+            ->addColumn('name', function (Student $student) {
+                return e($student->user->getFullName());
+            })
             ->addColumn('email', function (Student $student) {
                 return e($student->user->email);
             })
@@ -139,11 +144,11 @@ final class StudentTableRequest extends PowerGridComponent
         return [
             Column::make('Details', 'details'),
 
-//            Column::make('Name', 'name')
-//                ->searchable(),
-//
-//            Column::make('Email', 'email')
-//                ->searchable(),
+            Column::make('Name', 'name')
+                ->searchable(),
+
+            Column::make('Email', 'email')
+                ->searchable(),
 //
 //            Column::make('Phone', 'phone')
 //                ->searchable(),
@@ -178,7 +183,8 @@ final class StudentTableRequest extends PowerGridComponent
             parent::getListeners(), [
                 'resetConnection',
                 'refreshRecords',
-                'refreshOtherComponents'
+                'refreshOtherComponents',
+                'exportCsv'
             ]
         );
     }
@@ -194,6 +200,10 @@ final class StudentTableRequest extends PowerGridComponent
                 ->caption(__('Refresh'))
                 ->class('refresh-btn')
                 ->emit('refreshRecords', []),
+
+            Button::add('exportCsv')
+                ->caption(__('Export'))
+                ->emit('exportCsv', []),
         ];
     }
 
@@ -234,5 +244,11 @@ final class StudentTableRequest extends PowerGridComponent
     public function refreshOtherComponents()
     {
         $this->datasource();
+    }
+
+    public function exportCsv()
+    {
+        $now = Carbon::now();
+        return Excel::download(new RequestExport(), 'meto-' . $now->month() . '-' . $now->day() . '.csv');
     }
 }
