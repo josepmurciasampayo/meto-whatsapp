@@ -41,31 +41,33 @@ class updateAnswerExpandedText extends Command
 
         $answers = Answer::with('student')->where('question_id', 260)->get();
         foreach ($answers as $answer) {
-
             $answer_countries_expanded = [];
-            if (is_numeric($answer->text[0])) {
-                $answer_ids = explode(",", $answer->text);
-                foreach ($answer_ids as $id) {
-                    $answer_countries_expanded[] = $country_id_array[$id];
-                }
-                $answer->text_expanded = implode(", ", $answer_countries_expanded);
-            } else {
-                $answer_names = explode(", ", $answer->text);
-                $answer->text_expanded = $answer->text;
 
-                foreach ($answer_names as $name) {
-                    if (isset($country_name_array[$name])) {
-                        $answer_countries_expanded[] = $country_name_array[$name];
-                    } else {
-                        $unmatchedCountries[$name] = 1;
+            if (strlen($answer->text) > 1) {
+                if (is_numeric($answer->text[0])) {
+                    $answer_ids = explode(",", $answer->text);
+                    foreach ($answer_ids as $id) {
+                        $answer_countries_expanded[] = $country_id_array[$id];
                     }
-                }
-                $answer->text = implode(",", $answer_countries_expanded);
-            }
-            $answer->save();
+                    $answer->text_expanded = implode(", ", $answer_countries_expanded);
+                } else {
+                    $answer_names = explode(", ", $answer->text);
+                    $answer->text_expanded = $answer->text;
 
-            $answer->student->destination = $answer->text_expanded;
-            $answer->student->save();
+                    foreach ($answer_names as $name) {
+                        if (isset($country_name_array[$name])) {
+                            $answer_countries_expanded[] = $country_name_array[$name];
+                        } else {
+                            $unmatchedCountries[$name] = 1;
+                        }
+                    }
+                    $answer->text = implode(",", $answer_countries_expanded);
+                }
+                $answer->save();
+
+                $answer->student->destination = $answer->text_expanded;
+                $answer->student->save();
+            }
         }
 
         print_r(implode(", ", array_keys($unmatchedCountries)));
