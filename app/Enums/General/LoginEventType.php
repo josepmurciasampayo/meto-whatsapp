@@ -21,7 +21,7 @@ enum LoginEventType :int
             self::LOGOUT => 'Logout',
             self::FAILEDAUTH => 'Failed Login',
             self::RESETPW => 'Reset Password',
-            self::RESETPWREQUEST => 'Request Password Reset',
+            self::RESETPWREQUEST => 'RequestExport Password Reset',
         };
     }
 }
