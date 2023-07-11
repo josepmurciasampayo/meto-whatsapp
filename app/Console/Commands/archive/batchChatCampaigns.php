@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\archive;
 
 use App\Enums\Chat\Campaign;
 use App\Helpers;

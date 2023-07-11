@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\QuestionFormat;
+use App\Enums\Student\Curriculum;
 use App\Helpers;
 use App\Models\Answer;
 use App\Models\Question;
@@ -57,9 +58,9 @@ class AnswerService
                 $existing->text_expanded = implode(", ", $responses);
                 break;
             default:
-
         }
         $existing->save();
+
         return $existing;
     }
 
@@ -78,35 +79,36 @@ class AnswerService
         return $answerArray;
     }
 
-    public function updateStudent(Student $student, int $question_id, string $answer): void
+    public function updateStudent(Student $student, int $question_id, string $answer, ?string $answerExpanded, ?int $responseID): void
     {
         switch ($question_id) {
             case 244:
                 $student->efc = Helpers::stripNonNumeric($answer);
                 break;
             case 104:
-                $student->countryHS = $answer;
+                $student->countryHS = $answerExpanded;
                 break;
             case 318:
-                $student->curriculum = substr($answer, strpos($answer, ''));
+                $student->curriculum = substr($answer, strpos($answerExpanded, ''));
+                $student->curriculum_id = \App\Models\Curriculum::where('response_id', $responseID)->first()?->enum_id;
                 break;
             case 288:
-                $student->citizenship = $answer;
+                $student->citizenship = $answerExpanded;
                 break;
             case 290:
-                $student->citizenship_extra = $answer;
+                $student->citizenship_extra = $answerExpanded;
                 break;
             case 13:
-                $student->track = $answer;
+                $student->track = $answerExpanded;
                 break;
             case 260:
-                $student->destination = $answer;
+                $student->destination = $answerExpanded;
                 break;
             case 271:
-                $student->gender = $answer;
+                $student->gender = $answerExpanded;
                 break;
             case 44:
-                $student->ranking = $answer;
+                $student->ranking = $answerExpanded;
                 break;
             case 69:
                 $student->det = $answer;
@@ -127,16 +129,16 @@ class AnswerService
                 $student->refugee = $answer;
                 break;
             case 308:
-                $student->disability = $answer;
+                $student->disability = $answerExpanded;
                 break;
             case 275:
                 $student->dob = $answer;
                 break;
             case 296:
-                $student->email_owner = $answer;
+                $student->email_owner = $answerExpanded;
                 break;
             case 312:
-                $student->submission_device = $answer;
+                $student->submission_device = $answerExpanded;
                 break;
             case 283:
                 $student->birth_city = $answer;

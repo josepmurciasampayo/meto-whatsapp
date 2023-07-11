@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\archive;
 
 use App\Http\Controllers\ChatbotController;
 use Illuminate\Console\Command;

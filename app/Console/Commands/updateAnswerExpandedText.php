@@ -72,8 +72,6 @@ class updateAnswerExpandedText extends Command
 
         print_r(implode(", ", array_keys($unmatchedCountries)));
 
-
-
         return Command::SUCCESS;
 
         $questions = Question::whereIn('format', [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\archive;
 
 use App\Helpers;
 use Illuminate\Console\Command;

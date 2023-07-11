@@ -36,14 +36,14 @@ class AnswerObserver
     public function created(Answer $answer): void
     {
         if (in_array($answer->question_id, array_keys($this->questions))) {
-            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->expanded_text ?? $answer->text);
+            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->text, $answer->expanded_text);
         }
     }
 
     public function updated(Answer $answer): void
     {
         if (in_array($answer->question_id, array_keys($this->questions))) {
-            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->expanded_text ?? $answer->text);
+            (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->text, $answer->expanded_text);
         }
     }
 }

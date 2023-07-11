@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\archive;
 
 use App\Enums\User\Role;
 use Illuminate\Console\Command;
