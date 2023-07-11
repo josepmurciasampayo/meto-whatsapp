@@ -30,9 +30,9 @@ class CleanDuplicateAnswers extends Command
     public function handle()
     {
         $exactDuplicates = DB::select('
-        select student_id, question_id, text, response_id, group_concat(id) as ids, count(*) as count
+        select student_id, question_id, text, response_id, text_expanded, group_concat(id) as ids, count(*) as count
             from meto_answers as a
-            group by student_id, question_id, text, response_id
+            group by student_id, question_id, text, response_id, text_expanded
             having count > 1
             order by count desc, question_id, student_id;
         ');
