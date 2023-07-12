@@ -31,7 +31,7 @@
                 <p class="detail">
                     <span class="fw-bold">DOB:</span>
                     <br />
-                    <span class="info">{{ $row['dob'] }}</span>
+                    <span class="info">{{ \Carbon\Carbon::parse($row['dob'])->format('M d, Y') }}</span>
                 </p>
                 <p class="detail">
                     <span class="fw-bold">Gender:</span>
@@ -42,7 +42,7 @@
 
             <div class="col-md-3">
                 <p class="detail">
-                    <span class="fw-bold">Graduation Date:</span> {{ $row['curriculum_id'] }}
+                    <span class="fw-bold">Graduation Date:</span>
                     <br />
                     @php
                         $grad = match($row['curriculum_id']) {
