@@ -469,10 +469,12 @@ class UniController extends Controller
         $data = ViewStudentDetail::with('student.user')
             ->where('student_id', $request->route('student'))
             ->first();
+
         $view = view('_partials.questions.card', [
             'uni' => auth()->user()->getUni(),
             'row' => $data
         ])->render();
+
         return response([
             'view' => $view,
             'data' => $data

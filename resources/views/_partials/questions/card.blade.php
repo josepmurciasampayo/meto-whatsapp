@@ -3,7 +3,7 @@
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">
                 <p class="detail">
-                     User ID: {{ $row['user_id'] }} Student ID: {{ $row['student_id'] }}
+                    <!-- User ID: {{ $row['user_id'] }} Student ID: {{ $row['student_id'] }} -->
                     <span class="fw-bold">High School Name:</span>
                     <br />
                     <span class="info">{{ $row['hs'] }}</span>
@@ -42,7 +42,7 @@
 
             <div class="col-md-3">
                 <p class="detail">
-                    <span class="fw-bold">Graduation Date:</span>
+                    <span class="fw-bold">Graduation Date:</span> {{ $row['curriculum_id'] }}
                     <br />
                     @php
                         $grad = match($row['curriculum_id']) {

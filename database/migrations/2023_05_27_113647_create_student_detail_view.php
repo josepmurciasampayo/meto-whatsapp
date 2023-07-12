@@ -15,12 +15,13 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        create view meto_view_student_ib as
+        create or replace view meto_view_student_ib as
             select
 			u.id as 'user_id',
 			  s.id as 'student_id',
             s.curriculum_id,
             which_IB.text as which_IB,
+            grad_IB.text as grad_IB,
             IB_1.text as IB_1,
             IB_2.text as IB_2,
             IB_3.text as IB_3,
@@ -45,6 +46,7 @@ return new class extends Migration
 
             left outer join meto_answers as grad_IB on grad_IB.question_id = 54 and grad_IB.student_id = s.id
             left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
+
             left outer join meto_answers as IB_1 on IB_1.question_id = 34 and IB_1.student_id = s.id
             left outer join meto_answers as IB_2 on IB_2.question_id = 36 and IB_2.student_id = s.id
             left outer join meto_answers as IB_3 on IB_3.question_id = 38 and IB_3.student_id = s.id
@@ -67,10 +69,8 @@ return new class extends Migration
         ;");
 
         DB::statement('
-            create or replace view view_student_detail as
+            create or replace view meto_view_student_detail as
             select
-            u.id as user_id, s.id as student_id,
-            s.curriculum_id,
             hs.text as hs,
             hs_city.text as hs_city,
             hs_country.text as hs_country,
@@ -80,7 +80,6 @@ return new class extends Migration
             gender.text as gender,
             dob.text as dob,
             grad_american.text as grad_american,
-            grad_IB.text as grad_IB,
             grad_cambridge.text as grad_cambridge,
             grad_rwandan.text as grad_rwandan,
             grad_ugandan1.text as grad_ugandan1,
@@ -98,25 +97,7 @@ return new class extends Migration
             american_junior.text as american_junior,
             american_senior.text as american_senior,
 
-            which_IB.text as which_IB,
-            IB_1.text as IB_1,
-            IB_2.text as IB_2,
-            IB_3.text as IB_3,
-            IB_4.text as IB_4,
-            IB_5.text as IB_5,
-            IB_6.text as IB_6,
-            IB_S1.text as IB_S1,
-            IB_L1.text as IB_L1,
-            IB_S2.text as IB_S2,
-            IB_L2.text as IB_L2,
-            IB_S5.text as IB_S5,
-            IB_L5.text as IB_L5,
-            IB_S3.text as IB_S3,
-            IB_L3.text as IB_L3,
-            IB_S4.text as IB_S4,
-            IB_L4.text as IB_L4,
-            IB_S6.text as IB_S6,
-            IB_L6.text as IB_L6,
+            ib.*,
 
             cambridge_desc.text as cambridge_desc,
             cambridge_A_subj.text as cambridge_A_subj,
@@ -150,8 +131,8 @@ return new class extends Migration
             left outer join meto_answers as birth_city on birth_city.question_id = 283 and birth_city.student_id = s.id
             left outer join meto_answers as gender on gender.question_id = 271 and gender.student_id = s.id
             left outer join meto_answers as dob on dob.question_id = 275 and dob.student_id = s.id
+
             left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
-            left outer join meto_answers as grad_IB on dob.question_id = 54 and grad_IB.student_id = s.id
             left outer join meto_answers as grad_cambridge on dob.question_id = 53 and grad_cambridge.student_id = s.id
             left outer join meto_answers as grad_rwandan on dob.question_id = 339 and grad_rwandan.student_id = s.id
             left outer join meto_answers as grad_ugandan1 on dob.question_id = 112 and grad_ugandan1.student_id = s.id
@@ -169,7 +150,7 @@ return new class extends Migration
             left outer join meto_answers as american_junior on american_junior.question_id = 134 and american_junior.student_id = s.id
             left outer join meto_answers as american_senior on american_senior.question_id = 134 and american_senior.student_id = s.id
 
-            left outer join meto_view_student_ib as ib on ib.student_id =
+            left outer join meto_view_student_ib as ib on ib.student_id = s.id
 
             left outer join meto_answers as cambridge_desc on cambridge_desc.question_id = 460 and cambridge_desc.student_id = s.id
             left outer join meto_answers as cambridge_A_subj on cambridge_A_subj.question_id = 399 and cambridge_A_subj.student_id = s.id
@@ -201,6 +182,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_detail_view');
+
     }
 };
