@@ -3,7 +3,7 @@
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">
                 <p class="detail">
-                    <!-- User ID: {{ $row['user_id'] }} Student ID: {{ $row['student_id'] }} --!>
+                     User ID: {{ $row['user_id'] }} Student ID: {{ $row['student_id'] }}
                     <span class="fw-bold">High School Name:</span>
                     <br />
                     <span class="info">{{ $row['hs'] }}</span>
@@ -58,24 +58,18 @@
                     @endphp
                     <span class="info">{{ $grad }}</span>
                 </p>
-
-                  @include('_partials.questions.line-9', ['row' => $row])
-
+                @include('_partials.questions.line-9', ['row' => $row])
             </div>
 
             <div class="col-md-3">
-
-                 @include('_partials.questions.line-10', ['row' => $row])
-
-
-
+                @include('_partials.questions.line-10', ['row' => $row])
             </div>
 
             <div class="col-12">
                 <div class="alert alert-primary mt-3">
                     This student is viewable for you because {{ config('app.name') }} believes that their score in
-                    the {{ $row['curriculum'] }}  meets or exceeds the
-                    standard you set in the {{ (\App\Enums\Student\Curriculum::descriptions()[$uni->min_grade_curriculum] ?? '' }}. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
+                    the {{ $row['curriculum'] }} meets or exceeds the
+                    standard you set in the {{ \App\Enums\Student\Curriculum::descriptions()[$uni->min_grade_curriculum] ?? '' }}. Agree or disagree? Tell us at <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a>. Change your
                     threshold <a href="{{ route('uni.mingrade') }}">here</a>.
                 </div>
             </div>

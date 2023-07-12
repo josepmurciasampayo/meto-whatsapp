@@ -8,27 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class CleanDuplicateAnswers extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'clean:duplicateAnswers';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
+        /*
         $exactDuplicates = DB::select('
         select student_id, question_id, text, response_id, text_expanded, group_concat(id) as ids, count(*) as count
             from meto_answers as a
@@ -39,7 +25,7 @@ class CleanDuplicateAnswers extends Command
         foreach ($exactDuplicates as $duplicate) {
             $this->collapseResponses($duplicate);
         }
-        return Command::SUCCESS;
+        */
 
         $duplicates = DB::select('
             select student_id, question_id, group_concat(id) as ids, group_concat(distinct text) as texts, group_concat(distinct `response_id`) as responses, count(*) as count
@@ -55,8 +41,8 @@ class CleanDuplicateAnswers extends Command
             } else {
                 //echo "\nStudent ID: $duplicate->student_id Question ID: $duplicate->question_id Responses: $duplicate->texts";
             }
-
         }
+        return Command::SUCCESS;
     }
 
     public function sameResponses($duplicate): bool
