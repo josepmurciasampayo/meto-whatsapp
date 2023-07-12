@@ -12,7 +12,7 @@ class MinGradeForm extends Component
 {
     public $curricula;
 
-    public $curriculum = 9;
+    public $curriculum = 5;
 
     public $scoreOptions = [];
 
