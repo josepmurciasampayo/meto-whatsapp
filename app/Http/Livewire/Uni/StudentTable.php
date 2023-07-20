@@ -120,6 +120,9 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('curriculum', function (Student $student) {
                 return e(substr($student->curriculum, 0, strpos($student->curriculum, ' ')));
             })
+            ->addColumn('curriculum_id', function (Student $student) {
+                return e($student->curriculum_id);
+            })
             ->addColumn('destination', function (Student $student) {
                 return e(substr($student->destination, 0, 10));
             })
@@ -203,7 +206,7 @@ final class StudentTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::multiSelect('curriculum', 'curriculum')
+            Filter::multiSelect('curriculum', 'curriculum_id')
                 ->dataSource(Enums::where('group_id', EnumGroup::STUDENT_CURRICULUM)->get())
                 ->optionValue('enum_id')
                 ->optionLabel('enum_desc'),
