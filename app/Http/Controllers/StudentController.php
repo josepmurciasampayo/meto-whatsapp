@@ -228,6 +228,7 @@ class StudentController extends Controller
 
     public function showConnections()
     {
+        // TODO: Delete this
         $connections = StudentUniversity::query()
             ->where('student_id', auth()->id())
             ->orderBy('created_at', 'DESC')
