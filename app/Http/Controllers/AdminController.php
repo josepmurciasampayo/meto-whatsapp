@@ -179,7 +179,7 @@ class AdminController extends Controller
                 $minutesToAdd += 1;
             }
         } else {
-            $connection = StudentUniversity::find($connections)->first();
+            $connection = StudentUniversity::find($connections);
             $this->processApproval($connection);
         }
     }
