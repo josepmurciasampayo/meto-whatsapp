@@ -98,38 +98,22 @@ final class StudentTableArchived extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Details', 'details')
-                ->searchable(),
-
-//            Column::make('Name', 'name')
-//                ->searchable(),
-//            Column::make('Email', 'email')
-//                ->searchable(),
-//
-//            Column::make('Phone', 'phone')
-//                ->searchable(),
-
+            Column::make('Details', 'details')->searchable(),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
             Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
             Column::make('Desired Country Destinations', 'destination')->searchable(),
-
-            Column::make('Gender', 'gender')
-                ->searchable(),
-
+            Column::make('Gender', 'gender')->searchable(),
             Column::make('Nationally Ranked', 'ranking')->searchable(),
             Column::make('DET Score', 'det')->searchable()->sortable(),
             Column::make('Other Testing', 'other_testing')->searchable(),
             Column::make('Affiliations', 'affiliations')->searchable(),
             Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
             Column::make('Disability Disclosure', 'disability')->searchable(),
-
-            Column::make('Created at', 'created_at', 'created_at')
-                ->searchable(),
-            Column::make('Updated at', 'updated_at', 'updated_at')
-                ->searchable()
+            Column::make('Created at', 'created_at', 'created_at')->searchable(),
+            Column::make('Updated at', 'updated_at', 'updated_at')->searchable()
         ];
     }
 

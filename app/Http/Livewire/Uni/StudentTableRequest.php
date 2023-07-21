@@ -85,9 +85,6 @@ final class StudentTableRequest extends PowerGridComponent
             ->addColumn('email', function (Student $student) {
                 return e($student->user->email);
             })
-            ->addColumn('phone', function (Student $student) {
-                return '+' . e($student->user->phone_combined);
-            })
             ->addColumn('efc', function (Student $student) {
                 return e($student->efc);
             })
@@ -129,7 +126,6 @@ final class StudentTableRequest extends PowerGridComponent
             ->addColumn('other_testing', function (Student $student) {
                 return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
             })
-            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
             ->addColumn('created_at', fn (Student $model) => $model->connection->created_at)
             ->addColumn('updated_at', fn (Student $model) => $model->connection->updated_at);
     }
@@ -149,9 +145,6 @@ final class StudentTableRequest extends PowerGridComponent
 
             Column::make('Email', 'email')
                 ->searchable(),
-//
-//            Column::make('Phone', 'phone')
-//                ->searchable(),
 
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
