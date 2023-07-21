@@ -29,7 +29,7 @@ final class StudentTableMaybe extends PowerGridComponent
 //            Exportable::make('export')
 //                ->striped()
 //                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+//            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
@@ -52,23 +52,6 @@ final class StudentTableMaybe extends PowerGridComponent
                 return $q->where('institution_id', $uniId)
                     ->where('status', MatchStudentInstitution::MAYBE);
             });
-    }
-
-    /**
-     * Relationship search.
-     *
-     * @return array<string, array<int, string>>
-     */
-    public function relationSearch(): array
-    {
-        return [
-            'user' => [
-                'first',
-                'last',
-                'email',
-                'phone_raw'
-            ]
-        ];
     }
 
     public function addColumns(): PowerGridEloquent

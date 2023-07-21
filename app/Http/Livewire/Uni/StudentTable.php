@@ -52,7 +52,7 @@ final class StudentTable extends PowerGridComponent
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             */
-            Header::make()->showSearchInput(),
+//            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount()
@@ -73,18 +73,6 @@ final class StudentTable extends PowerGridComponent
                 $query->whereNotNull('equivalency')
                     ->where('equivalency', '>=', $uni->min_grade_equivalency);
             });
-    }
-
-    public function relationSearch(): array
-    {
-        return [
-            'user' => [
-                'first',
-                'last',
-                'email',
-                'phone_raw'
-            ]
-        ];
     }
 
     public function addColumns(): PowerGridEloquent
