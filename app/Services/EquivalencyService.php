@@ -16,14 +16,14 @@ class EquivalencyService
     public function update(Student $student): void
     {
         switch ($student->curriculum()) {
-            case Curriculum::IB:
-                $this->updateIB($student);
+            case Curriculum::AMERICAN:
+                $this->updateAmerican($student);
                 break;
             case Curriculum::CAMBRIDGE:
                 $this->updateCambridge($student);
                 break;
-            case Curriculum::AMERICAN:
-                $this->updateAmerican($student);
+            case Curriculum::IB:
+                $this->updateIB($student);
                 break;
             case Curriculum::RWANDAN:
                 $this->updateRwandan($student);
@@ -83,6 +83,7 @@ class EquivalencyService
             ?->response_id;
 
         if (is_null($answer)) {
+            //echo "$student->user_id,";
             return;
         }
 
@@ -94,6 +95,7 @@ class EquivalencyService
         };
 
         if (is_null($scoreType)) {
+            //echo "$student->user_id,";
             return;
         }
 
@@ -102,12 +104,14 @@ class EquivalencyService
             ->get();
 
         if ($answers->isEmpty()) {
+            //echo "$student->user_id,";
             return;
         }
 
         $final = [];
         foreach ($answers as $answer) {
             if (is_null($answer->response_id)) {
+                //echo "$student->user_id,";
                 return;
             }
             $final[] = substr($answer->text, 0, 1);
@@ -115,7 +119,12 @@ class EquivalencyService
 
         sort($final);
         $final = implode($final);
-        $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+        $equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+        if (is_null($equivalency)) {
+            //echo "$student->user_id,";
+            return;
+        }
+        $student->equivalency = $equivalency;
         $student->save();
     }
 
@@ -125,25 +134,41 @@ class EquivalencyService
             ->where('question_id', 452)
             ->first()
             ?->response_id == 5909;
+
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
-        if ($senior && $weighted) {
-            $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
-            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $senior);
-            $student->save();
-            return;
-        }
+
         $junior = Answer::where('student_id', $student->id)
             ->where('question_id', 143)
             ->first()
-            ?->test;
-        if ($junior && $weighted) {
+            ?->text;
+
+        if ($senior) {
+            $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
+            $score = $senior;
+        } elseif ($junior) {
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
-            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
-            $student->save();
+            $score = $junior;
+        } else {
+            //echo "$student->user_id,";
+            return;
         }
+
+        if (is_null($scoreType)) {
+            //echo "\nDidn't match an American score type $student->id";
+            return;
+        }
+
+        $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
+        if (is_null($equivalency)) {
+            //echo "\nNull US equivalency for scoretype: " . $scoreType() . " and score: $score user:" . $student->user_id;
+            return;
+        }
+        $student->equivalency = $equivalency;
+        $student->save();
+
     }
 
     public function updateRwandan(Student $student): void
@@ -298,6 +323,6 @@ class EquivalencyService
         where('score_type', $scoreType())->
         where('score', $score)->
         first();
-        return ($equivalency?->percentile);
+        return $equivalency?->percentile;
     }
 }
