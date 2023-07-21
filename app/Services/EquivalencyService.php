@@ -81,36 +81,42 @@ class EquivalencyService
             ->where('question_id', 460)
             ->first()
             ?->response_id;
+
         if (is_null($answer)) {
             return;
         }
+
         $scoreType = match($answer) {
             5914 => ScoreType::CAMFINAL,
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
             default => null,
-            null => null,
         };
-        if ($scoreType) {
-            $answers = Answer::where('student_id', $student->id)
-                ->whereIn('question_id', [168, 169, 170])
-                ->get();
-            $final = array();
-            foreach ($answers as $answer) {
-                if (is_null($answer->response_id)) {
-                    return;
-                }
-                $final[] = $answer->text;
-            }
 
-            if (is_null($final)) {
+        if (is_null($scoreType)) {
+            return;
+        }
+
+        $answers = Answer::where('student_id', $student->id)
+            ->whereIn('question_id', [168, 169, 170])
+            ->get();
+
+        if ($answers->isEmpty()) {
+            return;
+        }
+
+        $final = [];
+        foreach ($answers as $answer) {
+            if (is_null($answer->response_id)) {
                 return;
             }
-            sort($final);
-            $final = implode($final);
-            $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
-            $student->save();
+            $final[] = substr($answer->text, 0, 1);
         }
+
+        sort($final);
+        $final = implode($final);
+        $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+        $student->save();
     }
 
     public function updateAmerican(Student $student): void
@@ -276,6 +282,8 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $uni->min_grade);
                 break;
+            default:
+                return;
         };
 
         $uni->update([

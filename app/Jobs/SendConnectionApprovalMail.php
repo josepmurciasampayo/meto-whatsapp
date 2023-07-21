@@ -38,6 +38,7 @@ class SendConnectionApprovalMail implements ShouldQueue
         $connection = $this->studentUniConnection;
 
         Mail::to($connection->student->user->email)
+            ->cc($connection->requester->email)
             ->send(new ConnectionWasApproved($connection));
     }
 }

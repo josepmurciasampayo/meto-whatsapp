@@ -12,7 +12,7 @@ use App\Services\EquivalencyService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class convertStudentAnswers extends Command
+class ConvertStudentAnswers extends Command
 {
     protected $signature = 'convert:studentAnswers';
 
@@ -22,11 +22,11 @@ class convertStudentAnswers extends Command
     {
         //$this->updateResponseIDs();
 
-        $this->updateQuestions();
+        // $this->updateQuestions();
 
         //$this->mergeQuestions();
         //$this->changeResponses();
-        //$this->calculateEquivalencies();
+        $this->calculateEquivalencies();
         return Command::SUCCESS;
     }
 

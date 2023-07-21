@@ -35,7 +35,7 @@ class ConnectionWasApproved extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Connection Was Approved',
+            subject: config('app.name') . ' College Connection',
         );
     }
 
