@@ -1,8 +1,10 @@
 <?php
 
-
-use App\Http\Controllers\TypeaheadController;
+use App\Http\Controllers\{
+    Auth\WelcomeController
+};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TypeaheadController;
 
 // Unathenticated routes
 Route::get('/transfer', [\App\Http\Controllers\StudentController::class, 'transfer'])->name('student.transfer');
