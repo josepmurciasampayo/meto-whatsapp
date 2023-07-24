@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\General\MatchStudentInstitution;
+use App\Jobs\SendConnectionApprovalMail;
+use App\Jobs\SendConnectionDenialMail;
 use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\Student;
 use App\Models\StudentUniversity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -151,5 +154,53 @@ class ConnectionController extends Controller
             'deadline' => $deadline,
             'events' => $events,
         ]);
+    }
+
+    public function approveConnection($connections)
+    {
+        if ($connections instanceof Collection) {
+            $minutesToAdd = 1;
+            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
+                $this->processApproval($connection, $minutesToAdd);
+                $minutesToAdd += 1;
+            }
+        } else {
+            $connection = StudentUniversity::find($connections);
+            $this->processApproval($connection);
+        }
+    }
+
+    public function processApproval($connection, $minutesToAdd = 1)
+    {
+        $connection->update([
+            'status' => MatchStudentInstitution::ACCEPTED
+        ]);
+
+        SendConnectionApprovalMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
+    }
+
+    public function denyConnection($connections)
+    {
+        if ($connections instanceof Collection) {
+            $connections = $connections->pluck('id');
+            $minutesToAdd = 1;
+            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
+                $this->processDenial($connection, $minutesToAdd);
+                $minutesToAdd += 1;
+            }
+        } else {
+            $connection = StudentUniversity::find($connections);
+            $this->processDenial($connection);
+        }
+    }
+
+    public function processDenial($connection, $minutesToAdd = 1)
+    {
+        $connection->update([
+            'status' => MatchStudentInstitution::DENIED
+        ]);
+
+        SendConnectionDenialMail::dispatch($connection)
+            ->delay(now()->addMinutes($minutesToAdd));
     }
 }
