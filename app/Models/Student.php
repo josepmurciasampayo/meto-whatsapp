@@ -154,43 +154,47 @@ class Student extends Model
 
     public function curriculum(): ?Curriculum
     {
-        $response = Answer::where('student_id', $this->id)
+        $curriculum_id = Answer::where('student_id', $this->id)
             ->where('question_id', \App\Enums\Question::CURRICULUM())
             ->first()
             ?->response_id;
 
-        if ($response) {
-            return match ($response) {
-                46 => Curriculum::CAMBRIDGE,
-                47 => Curriculum::AMERICAN,
-                48 => Curriculum::IB,
-                49 => Curriculum::UGANDAN,
-                50 => Curriculum::KENYAN,
-                51 => Curriculum::RWANDAN,
-                52 => Curriculum::NATIONAL,
+        if (is_null($curriculum_id)) {
+            $curriculum_id = \App\Models\Curriculum::where('enum_id', $this->curriculum_id)->first()?->response_id;
+        }
 
-                109523 => Curriculum::BANGLADESH,
-                109524 => Curriculum::BRAZIL,
-                109525 => Curriculum::EGYPT,
-                109526 => Curriculum::ETHIOPIA,
-                109527 => Curriculum::GHANA,
-                109528 => Curriculum::INDIA,
-                109529 => Curriculum::INDONESIA,
-                109530 => Curriculum::IRAN,
-                109531 => Curriculum::KUWAIT,
-                109532 => Curriculum::MEXICO,
-                109533 => Curriculum::MOROCCO,
-                109534 => Curriculum::NEPAL,
-                109535 => Curriculum::NIGERIA,
-                109536 => Curriculum::SAUDIARABIA,
-                109537 => Curriculum::SOUTHAFRICA,
-                109538 => Curriculum::TURKIYE,
-                109539 => Curriculum::VIETNAM,
-
-                default => null,
-            };
-        } else {
+        if (is_null($curriculum_id)) {
             return null;
         }
+
+        return match ($curriculum_id) {
+            46 => Curriculum::CAMBRIDGE,
+            47 => Curriculum::AMERICAN,
+            48 => Curriculum::IB,
+            49 => Curriculum::UGANDAN,
+            50 => Curriculum::KENYAN,
+            51 => Curriculum::RWANDAN,
+            52 => Curriculum::NATIONAL,
+
+            109523 => Curriculum::BANGLADESH,
+            109524 => Curriculum::BRAZIL,
+            109525 => Curriculum::EGYPT,
+            109526 => Curriculum::ETHIOPIA,
+            109527 => Curriculum::GHANA,
+            109528 => Curriculum::INDIA,
+            109529 => Curriculum::INDONESIA,
+            109530 => Curriculum::IRAN,
+            109531 => Curriculum::KUWAIT,
+            109532 => Curriculum::MEXICO,
+            109533 => Curriculum::MOROCCO,
+            109534 => Curriculum::NEPAL,
+            109535 => Curriculum::NIGERIA,
+            109536 => Curriculum::SAUDIARABIA,
+            109537 => Curriculum::SOUTHAFRICA,
+            109538 => Curriculum::TURKIYE,
+            109539 => Curriculum::VIETNAM,
+
+            default => null,
+        };
     }
 }

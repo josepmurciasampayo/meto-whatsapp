@@ -52,8 +52,8 @@ return new class extends Migration
             left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
             left outer join meto_answers as american_freshman on american_freshman.question_id = 134 and american_freshman.student_id = s.id
             left outer join meto_answers as american_sophomore on american_sophomore.question_id = 154 and american_sophomore.student_id = s.id
-            left outer join meto_answers as american_junior on american_junior.question_id = 134 and american_junior.student_id = s.id
-            left outer join meto_answers as american_senior on american_senior.question_id = 134 and american_senior.student_id = s.id
+            left outer join meto_answers as american_junior on american_junior.question_id = 143 and american_junior.student_id = s.id
+            left outer join meto_answers as american_senior on american_senior.question_id = 150 and american_senior.student_id = s.id
         ");
 
         DB::statement("
@@ -181,6 +181,9 @@ return new class extends Migration
             create or replace view meto_view_student_detail as
             select
             s.id as student_id,
+            s.equivalency as equivalency,
+            s.google_id as google_id,
+            s.efc as efc,
             u.id as user_id,
             s.curriculum_id,
             hs.text as hs,
