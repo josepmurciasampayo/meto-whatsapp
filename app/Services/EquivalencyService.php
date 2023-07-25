@@ -82,22 +82,12 @@ class EquivalencyService
             ->first()
             ?->response_id;
 
-        if (is_null($answer)) {
-            //echo "$student->user_id,";
-            return;
-        }
-
         $scoreType = match($answer) {
             5914 => ScoreType::CAMFINAL,
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
-            default => null,
+            default => ScoreType::CAMFINAL,
         };
-
-        if (is_null($scoreType)) {
-            //echo "$student->user_id,";
-            return;
-        }
 
         $answers = Answer::where('student_id', $student->id)
             ->whereIn('question_id', [168, 169, 170])
@@ -139,6 +129,9 @@ class EquivalencyService
             ->where('question_id', 150)
             ->first()
             ?->text;
+        if (str_contains($senior, "I have not yet begun")) {
+            $senior = null;
+        }
 
         $junior = Answer::where('student_id', $student->id)
             ->where('question_id', 143)
@@ -168,7 +161,6 @@ class EquivalencyService
         }
         $student->equivalency = $equivalency;
         $student->save();
-
     }
 
     public function updateRwandan(Student $student): void
@@ -320,9 +312,9 @@ class EquivalencyService
     {
         //dd("Curriculum: $curriculum->value ScoreType: $scoreType->value Sore: $score");
         $equivalency = Equivalency::where('curriculum_id', $curriculum())->
-        where('score_type', $scoreType())->
-        where('score', $score)->
-        first();
+            where('score_type', $scoreType())->
+            where('score', $score)->
+            first();
         return $equivalency?->percentile;
     }
 }
