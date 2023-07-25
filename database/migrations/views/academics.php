@@ -18,6 +18,8 @@ return new class extends Migration
         create or replace view meto_view_student_cambridge as
             select
             s.id as 'cambridge_student_id',
+            s.equivalency,
+            s.curriculum_id,
             grad_cambridge.text as grad_cambridge,
             cambridge_desc.text as cambridge_desc,
             cambridge_A_subj.text as cambridge_A_subj,
@@ -27,7 +29,7 @@ return new class extends Migration
             cambridge_C_subj.text as cambridge_C_subj,
             cambridge_C_score.text as cambridge_C_score
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::CAMBRIDGE() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 6
             left outer join meto_answers as grad_cambridge on grad_cambridge.question_id = 53 and grad_cambridge.student_id = s.id
             left outer join meto_answers as cambridge_desc on cambridge_desc.question_id = 460 and cambridge_desc.student_id = s.id
             left outer join meto_answers as cambridge_A_subj on cambridge_A_subj.question_id = 399 and cambridge_A_subj.student_id = s.id
@@ -42,13 +44,14 @@ return new class extends Migration
         create or replace view meto_view_student_american as
             select
 			s.id as american_student_id,
+			s.equivalency,
 			grad_american.text as grad_american,
             american_freshman.text as american_freshman,
             american_sophomore.text as american_sophomore,
             american_junior.text as american_junior,
             american_senior.text as american_senior
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::AMERICAN() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 4
             left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
             left outer join meto_answers as american_freshman on american_freshman.question_id = 134 and american_freshman.student_id = s.id
             left outer join meto_answers as american_sophomore on american_sophomore.question_id = 154 and american_sophomore.student_id = s.id
@@ -60,46 +63,49 @@ return new class extends Migration
         create or replace view meto_view_student_ugandan as
             select
 			s.id as ugandan_student_id,
+			s.equivalency,
             grad_ugandan1.text as grad_ugandan1,
             grad_ugandan2.text as grad_ugandan2,
             uganadan_mock.text as uganadan_mock,
             ugandan_A.text as ugandan_A,
             ugandan_olevel.text as ugandan_olevel
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::UGANDAN() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 2
             left outer join meto_answers as grad_ugandan1 on grad_ugandan1.question_id = 112 and grad_ugandan1.student_id = s.id
             left outer join meto_answers as grad_ugandan2 on grad_ugandan2.question_id = 377 and grad_ugandan2.student_id = s.id
             left outer join meto_answers as ugandan_olevel on ugandan_olevel.question_id = 126 and ugandan_olevel.student_id = s.id
             left outer join meto_answers as uganadan_mock on uganadan_mock.question_id = 76 and uganadan_mock.student_id = s.id
-            left outer join meto_answers as ugandan_A on ugandan_A.question_id = 378 and ugandan_A.student_id = s.id
+            left outer join meto_answers as ugandan_A on ugandan_A.question_id = 378 and ugandan_A.student_id = s.id;
         ");
 
         DB::statement("
         create or replace view meto_view_student_kenyan as
             select
 			s.id as kenyan_student_id,
+			s.equivalency,
             grad_kenyan.text as grad_kenyan,
             kenyan_mock.text as kenyan_mock,
             kenyan_exam.text as kenyan_exam,
             kcpe.text as kcpe
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::KENYAN() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 1
             left outer join meto_answers as grad_kenyan on grad_kenyan.question_id = 109 and grad_kenyan.student_id = s.id
             left outer join meto_answers as kcpe on kcpe.question_id = 255 and kcpe.student_id = s.id
             left outer join meto_answers as kenyan_mock on kenyan_mock.question_id = 373 and kenyan_mock.student_id = s.id
-            left outer join meto_answers as kenyan_exam on kenyan_exam.question_id = 375 and kenyan_exam.student_id = s.id
+            left outer join meto_answers as kenyan_exam on kenyan_exam.question_id = 375 and kenyan_exam.student_id = s.id;
         ;");
 
         DB::statement("
         create or replace view meto_view_student_other as
             select
 			s.id as other_student_id,
+			s.equivalency,
 			grad_other.text as grad_other,
 			other_current.text as other_current,
             other_final1.text as other_final1,
             other_final2.text as other_final2
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::OTHER() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 8
             left outer join meto_answers as grad_other on grad_other.question_id = 256 and grad_other.student_id = s.id
             left outer join meto_answers as other_current on other_current.question_id = 462 and other_current.student_id = s.id
             left outer join meto_answers as other_final1 on other_final1.question_id = 325 and other_final1.student_id = s.id
@@ -110,6 +116,7 @@ return new class extends Migration
         create or replace view meto_view_student_rwandan as
             select
 			s.id as rwandan_student_id,
+			s.equivalency,
             grad_rwandan.text as grad_rwandan,
             rwandan_olevel1.text as rwandan_olevel1,
             rwandan_olevel2.text as rwandan_olevel2,
@@ -117,18 +124,19 @@ return new class extends Migration
             rwandan_A.text as rwandan_A
 
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::RWANDAN() . "
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 3
             left outer join meto_answers as grad_rwandan on grad_rwandan.question_id = 339 and grad_rwandan.student_id = s.id
             left outer join meto_answers as rwandan_olevel1 on rwandan_olevel1.question_id = 335 and rwandan_olevel1.student_id = s.id
             left outer join meto_answers as rwandan_olevel2 on rwandan_olevel2.question_id = 336 and rwandan_olevel2.student_id = s.id
             left outer join meto_answers as rwandan_mock on rwandan_mock.question_id = 341 and rwandan_mock.student_id = s.id
-            left outer join meto_answers as rwandan_A on rwandan_A.question_id = 343 and rwandan_A.student_id = s.id
+            left outer join meto_answers as rwandan_A on rwandan_A.question_id = 343 and rwandan_A.student_id = s.id;
         ");
 
         DB::statement("
         create or replace view meto_view_student_ib as
             select
 			s.id as ib_student_id,
+			s.equivalency,
             which_IB.text as which_IB,
             grad_IB.text as grad_IB,
             IB_1.text as IB_1,
@@ -151,7 +159,7 @@ return new class extends Migration
             IB_L6.text as IB_L6
 
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and curriculum_id = " . \App\Enums\Student\Curriculum::IB() . "
+            join meto_students as s on s.user_id = u.id and curriculum_id = 5
 
             left outer join meto_answers as grad_IB on grad_IB.question_id = 54 and grad_IB.student_id = s.id
             left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
@@ -174,14 +182,13 @@ return new class extends Migration
             left outer join meto_answers as IB_S5 on IB_S5.question_id = 156 and IB_S5.student_id = s.id
             left outer join meto_answers as IB_L5 on IB_L5.question_id = 10 and IB_L5.student_id = s.id
             left outer join meto_answers as IB_S6 on IB_S6.question_id = 153 and IB_S6.student_id = s.id
-            left outer join meto_answers as IB_L6 on IB_L6.question_id = 9 and IB_L6.student_id = s.id
+            left outer join meto_answers as IB_L6 on IB_L6.question_id = 9 and IB_L6.student_id = s.id;
         ;");
 
         DB::statement('
             create or replace view meto_view_student_detail as
             select
             s.id as student_id,
-            s.equivalency as equivalency,
             s.google_id as google_id,
             s.efc as efc,
             u.id as user_id,
