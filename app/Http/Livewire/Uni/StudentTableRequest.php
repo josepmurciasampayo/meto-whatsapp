@@ -52,7 +52,7 @@ final class StudentTableRequest extends PowerGridComponent
         return Student::query()
             ->whereHas('connection', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->whereIn('status', [MatchStudentInstitution::REQUEST, MatchStudentInstitution::ACCEPTED]);
+                    ->whereIn('status', [MatchStudentInstitution::ACCEPTED]);
             });
     }
 
@@ -185,9 +185,9 @@ final class StudentTableRequest extends PowerGridComponent
     public function header()
     {
         return [
-            Button::add('reset')
-                ->caption(__('Reset'))
-                ->emit('resetConnection', []),
+//            Button::add('reset')
+//                ->caption(__('Reset'))
+//                ->emit('resetConnection', []),
 
             Button::add('refresh')
                 ->caption(__('Refresh'))

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\Student\Curriculum;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ConnectionController;
 use App\Models\Institution;
 use App\Models\Student;
 use App\Models\StudentUniversity;
@@ -72,14 +73,14 @@ final class ConnectionsTable extends PowerGridComponent
     {
         $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
             ->pluck('id');
-        (new AdminController())->approveConnection($connections);
+        (new ConnectionController())->approveConnection($connections);
     }
 
     public function bulkDeny()
     {
         $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
             ->pluck('id');
-        (new AdminController())->denyConnection(StudentUniversity::find($connections));
+        (new ConnectionController())->denyConnection(StudentUniversity::find($connections));
     }
 
     /*
