@@ -31,6 +31,7 @@ class ConvertStudentAnswers extends Command
         $this->convertCambridge();
 
         $this->calculateEquivalencies();
+
         return Command::SUCCESS;
     }
 
@@ -208,8 +209,8 @@ class ConvertStudentAnswers extends Command
     public function calculateEquivalencies(): void
     {
         echo "\nProcessing equivalencies";
-         // $students = Student::find([4741]);
         $students = Student::all();
+        //$students = Student::find([2797]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);

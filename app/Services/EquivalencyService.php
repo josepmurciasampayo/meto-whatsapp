@@ -100,7 +100,7 @@ class EquivalencyService
 
         $final = [];
         foreach ($answers as $answer) {
-            if (is_null($answer->response_id)) {
+            if (is_null($answer->text)) {
                 //echo "$student->user_id,";
                 return;
             }
