@@ -163,6 +163,7 @@ class ConvertStudentAnswers extends Command
 
     public function convertCambridge(): void
     {
+        /*
         $question_ids = [
             174 => 399,
             182 => 400,
@@ -178,6 +179,7 @@ class ConvertStudentAnswers extends Command
                 $this->updateAnswer($answer->student_id, $new_id, $existing->text);
             }
         }
+        */
 
         $question_ids = [
             171 => 168,
@@ -209,8 +211,8 @@ class ConvertStudentAnswers extends Command
     public function calculateEquivalencies(): void
     {
         echo "\nProcessing equivalencies";
-        $students = Student::all();
-        //$students = Student::find([2797]);
+        //$students = Student::all();
+        $students = Student::find([1517]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);
