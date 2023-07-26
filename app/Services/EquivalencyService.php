@@ -52,8 +52,8 @@ class EquivalencyService
             5924 => ScoreType::IBFINAL,
             5925 => ScoreType::IBPREDICTED,
             5926 => ScoreType::IBSEMESTER,
-            null => null,
-            default => null,
+            null => ScoreType::IBFINAL,
+            default => ScoreType::IBFINAL,
         };
         if ($scoreType) {
             $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];

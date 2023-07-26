@@ -28,6 +28,8 @@ class ConvertStudentAnswers extends Command
 
         //$this->changeResponses();
 
+        $this->convertCambridge();
+
         $this->calculateEquivalencies();
         return Command::SUCCESS;
     }
@@ -156,6 +158,51 @@ class ConvertStudentAnswers extends Command
         DB::update("UPDATE meto_answers SET `text` = '$2000' WHERE `text` = '2000' AND question_id = 244;");
 
         echo "\nQueries are run";
+    }
+
+    public function convertCambridge(): void
+    {
+        $question_ids = [
+            174 => 399,
+            182 => 400,
+            183 => 402,
+            179 => 168,
+            180 => 169,
+            181 => 170,
+        ];
+        foreach ($question_ids as $old_id => $new_id) {
+            $answers = Answer::where('question_id', $old_id)->get();
+            foreach ($answers as $answer) {
+                $existing = Answer::where('student_id', $answer->student_id)->where('question_id', $old_id)->first();
+                $this->updateAnswer($answer->student_id, $new_id, $existing->text);
+            }
+        }
+
+        $question_ids = [
+            171 => 168,
+            172 => 169,
+            173 => 170,
+        ];
+        foreach ($question_ids as $old_id => $new_id) {
+            $answers = Answer::where('question_id', $old_id)->get();
+            foreach ($answers as $answer) {
+                $existing = Answer::where('student_id', $answer->student_id)->where('question_id', $old_id)->first();
+                $this->updateAnswer($answer->student_id, $new_id, $existing->text);
+            }
+        }
+    }
+
+    public function updateAnswer(int $student_id, int $new_id, string $text): void {
+        $a = Answer::where('student_id', $student_id)->where('question_id', $new_id)->first();
+        if ($a) {
+            return;
+        }
+
+        $a = new Answer();
+        $a->question_id = $new_id;
+        $a->text = $text;
+        $a->student_id = $student_id;
+        $a->save();
     }
 
     public function calculateEquivalencies(): void
