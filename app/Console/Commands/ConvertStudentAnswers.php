@@ -211,8 +211,8 @@ class ConvertStudentAnswers extends Command
     public function calculateEquivalencies(): void
     {
         echo "\nProcessing equivalencies";
-        //$students = Student::all();
-        $students = Student::find([1517]);
+        $students = Student::all();
+        //$students = Student::find([1517]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);
