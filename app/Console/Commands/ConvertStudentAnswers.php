@@ -28,7 +28,7 @@ class ConvertStudentAnswers extends Command
 
         //$this->changeResponses();
 
-        $this->convertCambridge();
+        //$this->convertCambridge();
 
         $this->calculateEquivalencies();
 
