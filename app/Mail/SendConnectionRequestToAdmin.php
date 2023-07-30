@@ -2,9 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Student;
-use App\Models\StudentUniversity;
-use App\Models\User;
+use App\Models\Institution;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,20 +14,20 @@ class SendConnectionRequestToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $uni;
+    public Institution $uni;
 
-    public $createdConnections;
+    public int $connectionCount;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Student $student, $createdConnections)
+    public function __construct(int $connectionCount)
     {
         $this->uni = Auth()->user()->getUni();
 
-        $this->createdConnections = $createdConnections;
+        $this->connectionCount = $connectionCount;
     }
 
     /**
@@ -51,18 +49,11 @@ class SendConnectionRequestToAdmin extends Mailable
      */
     public function content()
     {
-        $connections = $this->createdConnections;
-
-        foreach ($connections as $connection) {
-            $connection->student = Student::find($connection->student_id);
-            $connection->student->user = User::find($connection->student->user_id);
-        }
-
         return new Content(
             view: 'connections.send_request',
             with: [
                 'uni' => $this->uni,
-                'createdConnections' => $connections
+                'connections' => $this->connectionCount,
             ]
         );
     }

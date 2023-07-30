@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\students;
 
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\View\Components\AskQuestionAboutConnectionRequestModal;
 use App\View\Components\StudentConnectionInterestDecisionButtons;
 use Illuminate\Support\Carbon;
@@ -54,7 +54,7 @@ final class StudentConnectionsTable extends PowerGridComponent
      */
     public function datasource(): array|\Illuminate\Database\Eloquent\Collection
     {
-        return StudentUniversity::query()
+        return Connection::query()
             ->where('student_id', auth()->id())
             ->get();
     }
@@ -92,24 +92,24 @@ final class StudentConnectionsTable extends PowerGridComponent
     {
         return PowerGrid::columns()
             ->addColumn('id')
-            ->addColumn('uni_name', fn (StudentUniversity $studentUniversity) => e($studentUniversity->institution->name))
-            ->addColumn('poc', function (StudentUniversity $studentUniversity) {
+            ->addColumn('uni_name', fn (Connection $studentUniversity) => e($studentUniversity->institution->name))
+            ->addColumn('poc', function (Connection $studentUniversity) {
                 return "<a href='mailto:" . $studentUniversity?->requester?->email . "' class='pointer'>" . $studentUniversity?->requester?->getFullName() . "</a>";
             })
-            ->addColumn('app_deadline', function (StudentUniversity $studentUniversity) {
+            ->addColumn('app_deadline', function (Connection $studentUniversity) {
                 return e(Carbon::parse($studentUniversity->deadline)->format('m-d-Y'));
             })
-            ->addColumn('upcoming_events', fn (StudentUniversity $studentUniversity) => $studentUniversity->events)
-            ->addColumn('start_application', function (StudentUniversity $studentUniversity) {
+            ->addColumn('upcoming_events', fn (Connection $studentUniversity) => $studentUniversity->events)
+            ->addColumn('start_application', function (Connection $studentUniversity) {
                 return $studentUniversity->application_link ? "<a href='" . $studentUniversity->application_link . "'>Click here</a>" : null;
             })
-            ->addColumn('ask_question', function (StudentUniversity $studentUniversity) {
+            ->addColumn('ask_question', function (Connection $studentUniversity) {
                 return Blade::renderComponent(new AskQuestionAboutConnectionRequestModal($studentUniversity));
             })
-            ->addColumn('interested', function (StudentUniversity $studentUniversity) {
+            ->addColumn('interested', function (Connection $studentUniversity) {
                 return Blade::renderComponent(new StudentConnectionInterestDecisionButtons($studentUniversity));
             })
-            ->addColumn('created_at_formatted', fn (StudentUniversity $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (Connection $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*

@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\Connections\ConnectionWasApproved;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,16 +16,16 @@ class SendConnectionApprovalMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $studentUniConnection;
+    public $connection;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
-        $this->studentUniConnection = $connection;
+        $this->connection = $connection;
     }
 
     /**
@@ -35,10 +35,8 @@ class SendConnectionApprovalMail implements ShouldQueue
      */
     public function handle()
     {
-        $connection = $this->studentUniConnection;
-
-        Mail::to($connection->student->user->email)
-            ->cc($connection->requester->email)
-            ->send(new ConnectionWasApproved($connection));
+        Mail::to($this->connection->student->user->email)
+            ->cc($this->connection->requester->email)
+            ->send(new ConnectionWasApproved($this->connection));
     }
 }

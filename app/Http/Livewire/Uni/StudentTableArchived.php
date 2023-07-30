@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Uni;
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\Student\Gender;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Services\UniService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,9 +25,6 @@ final class StudentTableArchived extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-//            Exportable::make('export')
-//                ->striped()
-//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
@@ -42,12 +39,10 @@ final class StudentTableArchived extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-//        return UniService::studentTableQuery(auth()->user()->getUni()->id, [MatchStudentInstitution::ARCHIVED()]);
-
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
-            ->whereHas('connection', function ($q) use ($uniId) {
+            ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
                     ->where('status', MatchStudentInstitution::ARCHIVED);
             });
@@ -85,9 +80,7 @@ final class StudentTableArchived extends PowerGridComponent
             ->addColumn('phone', function (Student $student) {
                 return '+' . e($student->user->phone_combined);
             })
-            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
-            ->addColumn('created_at', fn (Student $model) => $model->connection->created_at)
-            ->addColumn('updated_at', fn (Student $model) => $model->connection->updated_at);
+            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)));
     }
 
     /**
@@ -112,8 +105,6 @@ final class StudentTableArchived extends PowerGridComponent
             Column::make('Affiliations', 'affiliations')->searchable(),
             Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
             Column::make('Disability Disclosure', 'disability')->searchable(),
-            Column::make('Created at', 'created_at', 'created_at')->searchable(),
-            Column::make('Updated at', 'updated_at', 'updated_at')->searchable()
         ];
     }
 
@@ -145,7 +136,7 @@ final class StudentTableArchived extends PowerGridComponent
     public function resetConnection()
     {
         foreach ($this->checkboxValues as $id) {
-            StudentUniversity::where('student_id', $id)
+            Connection::where('student_id', $id)
                 ->where('institution_id', auth()->user()->getUni()->id)
                 ->delete();
         }

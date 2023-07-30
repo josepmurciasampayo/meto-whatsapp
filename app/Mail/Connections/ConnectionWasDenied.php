@@ -2,7 +2,7 @@
 
 namespace App\Mail\Connections;
 
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -21,7 +21,7 @@ class ConnectionWasDenied extends Mailable
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }

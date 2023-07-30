@@ -14,7 +14,7 @@ use App\Mail\InviteStudent;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\User;
 use App\Services\AnswerService;
 use App\Services\EquivalencyService;
@@ -229,7 +229,7 @@ class StudentController extends Controller
     public function showConnections()
     {
         // TODO: Delete this
-        $connections = StudentUniversity::query()
+        $connections = Connection::query()
             ->where('student_id', auth()->id())
             ->orderBy('created_at', 'DESC')
             ->get();

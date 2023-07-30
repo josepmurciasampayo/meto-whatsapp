@@ -7,9 +7,10 @@ use App\Jobs\SendConnectionApprovalMail;
 use App\Jobs\SendConnectionDenialMail;
 use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -30,7 +31,9 @@ class ConnectionController extends Controller
 
         $hasConnect = false;
         foreach ($request->all() as $key => $value) {
-            if (!$hasConnect && $value === 'connect') $hasConnect = true;
+            if (!$hasConnect && $value === 'connect') {
+                $hasConnect = true;
+            }
         }
 
         if (!$hasConnect) {
@@ -51,8 +54,6 @@ class ConnectionController extends Controller
             ]
         ]);
 
-        $items = $request->all();
-
         $uniId = auth()->user()->getUni()->id;
 
         $decisions = [
@@ -61,6 +62,7 @@ class ConnectionController extends Controller
             'archive' => []
         ];
 
+        $items = $request->all();
         foreach ($items as $key => $value) {
             if (str_starts_with($key, 'student_')) {
                 $decisions[$value][] = trim($key, 'student_');
@@ -68,29 +70,23 @@ class ConnectionController extends Controller
         }
 
         $admin = 'abraham@meto-intl.org';
-        $createdConnections = [];
+        $requestCount = 0;
 
         foreach ($decisions as $action => $studentIds) {
-            foreach ($studentIds as $id) {
-                $student = Student::find($id);
+            foreach ($studentIds as $student_id) {
                 // Create a new connection
                 if ($action === 'connect') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $requestCount++;
                 } else if ($action === 'maybe') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $this->createConnection($student_id, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 } else if ($action === 'archive') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $this->createConnection($student_id, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
                 }
-                $createdConnections[] = $createdConnection;
             }
         }
 
-        $createdConnections = array_filter($createdConnections, function ($connection) {
-            return $connection->status === MatchStudentInstitution::REQUEST;
-        });
-
-        // Send a request email to the admin
-        Mail::to($admin)->send(new SendConnectionRequestToAdmin($student, $createdConnections));
+        Mail::to($admin)->send(new SendConnectionRequestToAdmin($requestCount));
 
         return back()->with('response', 'Requests sent successfully.');
     }
@@ -119,7 +115,7 @@ class ConnectionController extends Controller
                 $student = Student::find($id);
                 // Create a new connection
                 if ($action === 'maybe') {
-                    $this->createStudentInstitutionConnection(
+                    $this->createConnection(
                         $student,
                         MatchStudentInstitution::MAYBE,
                         $uniId,
@@ -128,7 +124,7 @@ class ConnectionController extends Controller
                         null
                     );
                 } else if ($action === 'archive') {
-                    $this->createStudentInstitutionConnection(
+                    $this->createConnection(
                         $student,
                         MatchStudentInstitution::ARCHIVED,
                         $uniId,
@@ -143,10 +139,10 @@ class ConnectionController extends Controller
         return true;
     }
 
-    public function createStudentInstitutionConnection(Student $student, MatchStudentInstitution $status, int $institutionId, string|null $link, string|null $deadline, string|null $events)
+    public function createConnection(int $student_id, MatchStudentInstitution $status, int $institutionId, string|null $link, string|null $deadline, string|null $events)
     {
-        return StudentUniversity::create([
-            'student_id' => $student->id,
+        return Connection::create([
+            'student_id' => $student_id,
             'institution_id' => $institutionId,
             'requester_id' => auth()->id(),
             'status' => $status(),
@@ -156,21 +152,22 @@ class ConnectionController extends Controller
         ]);
     }
 
-    public function approveConnection($connections)
+    public function approveConnections(Collection $connections)
     {
-        if ($connections instanceof Collection) {
-            $minutesToAdd = 1;
-            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
-                $this->processApproval($connection, $minutesToAdd);
-                $minutesToAdd += 1;
-            }
-        } else {
-            $connection = StudentUniversity::find($connections);
-            $this->processApproval($connection);
+        $minutesToAdd = 1;
+        foreach ($connections as $connection) {
+            $this->processApproval($connection, $minutesToAdd);
+            $minutesToAdd += 1;
         }
     }
 
-    public function processApproval($connection, $minutesToAdd = 1)
+    public function approveConnection(int $id)
+    {
+        $connection = Connection::find($id);
+        $this->processApproval($connection);
+    }
+
+    public function processApproval(Connection $connection, int $minutesToAdd = 1)
     {
         $connection->update([
             'status' => MatchStudentInstitution::ACCEPTED
@@ -179,28 +176,28 @@ class ConnectionController extends Controller
         SendConnectionApprovalMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 
-    public function denyConnection($connections)
+    public function denyConnections(Collection $connections)
     {
-        if ($connections instanceof Collection) {
-            $connections = $connections->pluck('id');
-            $minutesToAdd = 1;
-            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
-                $this->processDenial($connection, $minutesToAdd);
-                $minutesToAdd += 1;
-            }
-        } else {
-            $connection = StudentUniversity::find($connections);
-            $this->processDenial($connection);
+        $connections = $connections->pluck('id');
+        $minutesToAdd = 1;
+        foreach (Connection::whereIn('id', $connections->toArray())->get() as $connection) {
+            $this->processDenial($connection, $minutesToAdd);
+            $minutesToAdd += 1;
         }
     }
 
-    public function processDenial($connection, $minutesToAdd = 1)
+    public function denyConnection(int $id)
+    {
+        $connection = Connection::find($id);
+        $this->processDenial($connection);
+    }
+
+    public function processDenial(Connection $connection, $minutesToAdd = 1)
     {
         $connection->update([
             'status' => MatchStudentInstitution::DENIED
         ]);
 
-        SendConnectionDenialMail::dispatch($connection)
-            ->delay(now()->addMinutes($minutesToAdd));
+        SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 }

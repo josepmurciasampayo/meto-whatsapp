@@ -37,6 +37,7 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
+
             default:
                 return;
         }
@@ -124,19 +125,23 @@ class EquivalencyService
             ->where('question_id', 452)
             ->first()
             ?->response_id == 5909;
+        if (is_null($weighted)) {
+            $weighted = true;
+        }
 
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
-        if (str_contains($senior, "I have not yet begun")) {
-            $senior = null;
-        }
 
         $junior = Answer::where('student_id', $student->id)
             ->where('question_id', 143)
             ->first()
             ?->text;
+
+        if (is_null($junior) && is_null($senior)) {
+            return;
+        }
 
         if ($senior) {
             $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
@@ -144,17 +149,9 @@ class EquivalencyService
         } elseif ($junior) {
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
             $score = $junior;
-        } else {
-            $scoreType = ScoreType::AMJUNIORU;
-            $score = $junior;
         }
 
-        $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
-        if (is_null($equivalency)) {
-            //echo "\nNull US equivalency for scoretype: " . $scoreType() . " and score: $score user:" . $student->user_id;
-            return;
-        }
-        $student->equivalency = $equivalency;
+        $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
         $student->save();
     }
 
@@ -296,7 +293,7 @@ class EquivalencyService
                 break;
             default:
                 return;
-        };
+        }
 
         $uni->update([
             'min_grade_equivalency' => $minGradeEquivalency

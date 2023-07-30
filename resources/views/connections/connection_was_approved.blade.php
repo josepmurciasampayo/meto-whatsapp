@@ -12,10 +12,9 @@ It is my pleasure to introduce you to {{ $connection->requester->getFullName() }
 Here is what you need to know to get started:
 
 Application link:
-{{ $connection->application_link }}
+    <a href="{{ $connection->application_link }}">{{ $connection->application_link }}</a>
 
-Application deadline:
-{{ $connection->deadline }}
+Application deadline:{{ \Carbon\Carbon::parse($connection->deadline)->format('m d, Y') }}
 
 Thank you,<br>
 {{ config('app.name') }}

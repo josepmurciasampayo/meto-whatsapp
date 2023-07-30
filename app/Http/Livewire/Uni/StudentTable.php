@@ -9,7 +9,7 @@ use App\Enums\Student\Gender;
 use App\Models\Enums;
 use App\Models\Equivalency;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\ViewStudentDetail;
 use App\Services\UniService;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,7 +64,7 @@ final class StudentTable extends PowerGridComponent
         $uni = auth()->user()->getUni();
 
         return Student::query()
-            ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uni->id))
+            ->whereDoesntHave('connections', fn ($q) => $q->where('institution_id', $uni->id))
             ->where(function ($query) use ($uni) {
                 $query->whereNotNull('efc')
                     ->where('efc', '>=', $uni->efc);
@@ -180,20 +180,20 @@ final class StudentTable extends PowerGridComponent
         return [
             Column::make('Connect', 'connect'),
             Column::make('Profile', 'details'),
-            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('EFC', 'efc')->sortable(),
             Column::make('Citizenship', 'citizenship')->searchable(),
             Column::make('HS Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
             Column::make('Approx Percentile', 'equivalency')->searchable()->sortable(),
             Column::make('Desired Destinations', 'destination')->searchable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
-            Column::make('Gender', 'gender')->searchable()->sortable(),
-            Column::make('Nationally Ranked', 'ranking')->searchable(),
-            Column::make('DET Score', 'det')->searchable()->sortable(),
-            Column::make('Other Testing', 'other_testing')->searchable(),
-            Column::make('Affiliations', 'affiliations')->searchable(),
-            Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
-            Column::make('Disability Disclosure', 'disability')->searchable(),
+            Column::make('Gender', 'gender')->sortable(),
+            Column::make('Nationally Ranked', 'ranking'),
+            Column::make('DET Score', 'det')->sortable(),
+            Column::make('Other Testing', 'other_testing')->sortable(),
+            Column::make('Affiliations', 'affiliations')->sortable(),
+            Column::make('Refugee or Asylum-Seeker', 'refugee')->sortable(),
+            Column::make('Disability Disclosure', 'disability'),
         ];
     }
 

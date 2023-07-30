@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,9 +15,9 @@ class SendAskQuestionEmail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var StudentUniversity
+     * @var Connection
      */
-    public StudentUniversity $studentUniversity;
+    public Connection $studentUniversity;
 
     /**
      * @var string
@@ -29,7 +29,7 @@ class SendAskQuestionEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(StudentUniversity $studentUniversity, string $question)
+    public function __construct(Connection $studentUniversity, string $question)
     {
         $this->studentUniversity = $studentUniversity;
 

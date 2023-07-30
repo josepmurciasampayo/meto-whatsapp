@@ -9,7 +9,7 @@ class ViewStudentDetail extends Model
 {
     use HasFactory;
 
-    public $table = 'view_student_detail';
+    public $table = 'view_student_zdetail';
 
     public function student()
     {

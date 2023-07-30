@@ -37,7 +37,7 @@ return [
                         'excludeTables' => [
                             'view_matches',
                             'view_questions',
-                            'view_student_detail',
+                            'view_student_zdetail',
                             'view_student_table',
                             'meto_view_student_detail'
                         ]

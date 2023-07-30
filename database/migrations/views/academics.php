@@ -178,7 +178,7 @@ return new class extends Migration
             left outer join meto_answers as IB_L6 on IB_L6.question_id = 9 and IB_L6.student_id = s.id
             ;
 
-        create or replace view meto_view_student_detail as
+        create or replace view meto_view_student_zdetail as
             select
             s.id as student_id,
             s.google_id as google_id,

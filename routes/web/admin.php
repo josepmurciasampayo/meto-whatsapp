@@ -50,8 +50,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/workRequest', [AdminController::class, 'workRequest'])->name('workRequest');
     Route::get('/admin/reports', [AdminController::class, 'reports'])->name('reports');
 
-    Route::post('/connections/{connection}/approve', [\App\Http\Controllers\ConnectionController::class, 'approveConnection']);
-    Route::post('/connections/{connection}/deny', [\App\Http\Controllers\ConnectionController::class, 'denyConnection']);
+    Route::post('/connections/{id}/approve', [\App\Http\Controllers\ConnectionController::class, 'approveConnection']);
+    Route::post('/connections/{id}/deny', [\App\Http\Controllers\ConnectionController::class, 'denyConnection']);
 
     Route::post('/admin/student/{student}/delete', [AdminController::class, 'deleteStudent'])->name('admin.student.delete');
 });

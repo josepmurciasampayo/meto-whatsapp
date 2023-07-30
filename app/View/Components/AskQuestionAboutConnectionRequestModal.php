@@ -2,22 +2,22 @@
 
 namespace App\View\Components;
 
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\View\Component;
 
 class AskQuestionAboutConnectionRequestModal extends Component
 {
     /**
-     * @var StudentUniversity
+     * @var Connection
      */
-    public StudentUniversity $studentUniversity;
+    public Connection $studentUniversity;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(StudentUniversity $studentUniversity)
+    public function __construct(Connection $studentUniversity)
     {
         $this->studentUniversity = $studentUniversity;
     }

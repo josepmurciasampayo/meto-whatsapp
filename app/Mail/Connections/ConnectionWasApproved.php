@@ -3,7 +3,7 @@
 namespace App\Mail\Connections;
 
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -22,7 +22,7 @@ class ConnectionWasApproved extends Mailable
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -36,6 +36,7 @@ class ConnectionWasApproved extends Mailable
     {
         return new Envelope(
             subject: config('app.name') . ' College Connection',
+            cc: $this->connection->requester()->email,
         );
     }
 

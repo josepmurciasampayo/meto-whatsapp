@@ -5,7 +5,7 @@ namespace App\Console\Commands\archive;
 use App\Enums\Chat\Campaign;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Chat\MessageState;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -32,7 +32,7 @@ class VanderbiltCampaign extends Command
      */
     public function handle()
     {
-        $users = StudentUniversity::getMatchesByUniversityID(77);
+        $users = Connection::where('university_id', 77)->get();
         echo 'Found ' . count($users) . ' users from Vanderbilt';
         Log::channel('chat')->info('Found ' . count($users) . ' users from Vanderbilt');
         foreach ($users as $user) {

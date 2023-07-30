@@ -30,6 +30,8 @@ class ConvertStudentAnswers extends Command
 
         //$this->convertCambridge();
 
+        $this->updateStudents();
+
         $this->calculateEquivalencies();
 
         return Command::SUCCESS;
@@ -67,37 +69,9 @@ class ConvertStudentAnswers extends Command
 
     public function updateQuestions(): void
     {
-        /*
-        DB::update('update meto_students set
-                         efc = null,
-                         countryHS = null,
-                         curriculum = null,
-                         curriculum_id = null,
-                         citizenship = null,
-                         citizenship_extra = null,
-                         track = null,
-                         destination = null,
-                         gender = null,
-                         ranking = null,
-                         det = null,
-                         act = null,
-                         toefl = null,
-                         ielts = null,
-                         affiliations = null,
-                         refugee = null,
-                         disability = null,
-                         dob = null,
-                         email_owner = null,
-                         submission_device = null,
-                         birth_city = null,
-                         birth_country = null
-        ;');
-*/
-        // udpate student data
         $questions = [
             /* question ID => question column in the student table */
             318 => 'curriculum',
-            /*
             244 => 'efc',
             104 => 'countryHS',
             288 => 'citizenship',
@@ -118,13 +92,12 @@ class ConvertStudentAnswers extends Command
             312 => 'submission_device',
             283 => 'birth_city',
             281 => 'birth_country',
-            */
         ];
         foreach ($questions as $question_id => $field) {
             $answers = Answer::where('question_id', $question_id)->get();
             echo "\nAbout to update " . count($answers) . " answers into student table";
             foreach ($answers as $answer) {
-                (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->text, $answer->expanded_text, $answer->response_id);
+                (new AnswerService())->updateStudent($answer);
             }
         }
 
@@ -158,7 +131,7 @@ class ConvertStudentAnswers extends Command
         DB::update("UPDATE meto_answers SET `text` = '$500' WHERE `text` = '500' AND question_id = 244;");
         DB::update("UPDATE meto_answers SET `text` = '$2000' WHERE `text` = '2000' AND question_id = 244;");
 
-        echo "\nQueries are run";
+        echo "\nEFC responses updated";
     }
 
     public function convertCambridge(): void
@@ -218,6 +191,15 @@ class ConvertStudentAnswers extends Command
             (new EquivalencyService())->update($student);
         }
         echo "\nEquivalencies are processed";
+    }
+
+    public function updateStudents(): void
+    {
+        echo "\nUpdating students from answers";
+        $students = Student::all();
+        foreach ($students as $student) {
+            $student->updateFromAnswers();
+        }
     }
 
     public function mergeQuestion(Answer $answer, $new_question_id): void

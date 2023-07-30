@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EnumGroup;
 use App\Enums\General\MatchStudentInstitution;
 use App\Enums\General\Month;
 use App\Enums\HighSchool\Boarding;
@@ -20,9 +21,10 @@ use App\Models\EnumCountry;
 use App\Models\HighSchool;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Question;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\StudentService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -78,11 +80,11 @@ class CounselorController extends Controller
 
     public function students(int $highschool_id) :View
     {
-        $rawData = Student::getStudentsAtSchool($highschool_id);
+        $rawData = StudentService::getStudentsAtSchool($highschool_id);
         $data = "";
 
         foreach ($rawData as $key => $student) {
-            $connection = StudentUniversity::where('student_id', $student['student_id'])->first();
+            $connection = Connection::where('student_id', $student['student_id'])->first();
             if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
 
             }
@@ -107,7 +109,26 @@ class CounselorController extends Controller
 
     public function matches(int $highschool_id) :View
     {
-        $data = StudentUniversity::getMatchesByHighSchool($highschool_id);
+        $data = Helpers::dbQueryArray('
+            select
+                u.id as "user_id",
+                s.id as "student_id",
+                concat(u.first, " ", u.last) as "name",
+                u.email,
+                i.id as "institution_id",
+                i.name as "institution_name",
+                m.created_at as "date",
+                m.status as status_code,
+                if(s.active = 1, "Yes", "No") as "active",
+                status.enum_desc as "status"
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_user_high_schools as h on h.user_id = u.id and h.highschool_id = ' . $highschool_id .'
+            join meto_connections as m on m.student_id = s.id
+            join meto_institutions as i on m.institution_id = i.id
+            join meto_high_schools as hs on h.highschool_id = hs.id
+            join meto_enum as status on status.enum_id = m.status and status.group_id = ' . EnumGroup::GENERAL_MATCH() . ';
+        ');
         $summary = self::makeSummaryMatchData($data);
         return view('counselor.matches', [
             'data' => $data,
@@ -159,8 +180,24 @@ class CounselorController extends Controller
 
     public function student(int $student_id) :View
     {
-        $data = Student::getStudentData($student_id);
-        $matches = StudentUniversity::getByUserID(Student::find($student_id)->user_id);
+        $data = Helpers::dbQueryArray('
+            select
+                concat (u.first, " ", u.last) as "name",
+                u.id as "user_id",
+                s.id as "student_id",
+                q.text as "question",
+                q.id as "question_id",
+                a.text as "answer",
+                s.verify,
+                s.verify_notes
+            from meto_students as s
+            join meto_users as u on s.user_id = u.id
+            join meto_answers as a on a.student_id = s.id
+            join meto_questions as q on q.id = a.question_id
+            where student_id = ' . $student_id . '
+            order by type, question_id;
+        ');
+        $matches = Connection::getByUserID(Student::find($student_id)->user_id);
         $notes = UserHighSchool::getNotes(Auth()->user()->id);
         return view('counselor.student', [
             'data' => $data,
@@ -181,7 +218,7 @@ class CounselorController extends Controller
                 continue;
             }
             $id = ((int) substr($index, strpos($index,'-') + 1));
-            StudentUniversity::updateMatchStatusByMatchID($id, $value);
+            Connection::updateMatchStatusByMatchID($id, $value);
         }
 
         return redirect(route('counselor-student', ['student_id' => $student_id]));
