@@ -145,13 +145,8 @@ class EquivalencyService
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
             $score = $junior;
         } else {
-            //echo "$student->user_id,";
-            return;
-        }
-
-        if (is_null($scoreType)) {
-            //echo "\nDidn't match an American score type $student->id";
-            return;
+            $scoreType = ScoreType::AMJUNIORU;
+            $score = $junior;
         }
 
         $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);

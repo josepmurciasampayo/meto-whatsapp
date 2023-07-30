@@ -76,7 +76,7 @@ final class StudentTable extends PowerGridComponent
             ->where(function ($query) use ($uni) {
                 $query->whereNotNull('actively_applying_id')
                     ->whereIn('actively_applying_id', [70, 71, 72, 73]);
-            });
+            })->distinct();
     }
 
     public function relationSearch(): array
