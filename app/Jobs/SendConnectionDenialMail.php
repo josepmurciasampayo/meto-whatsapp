@@ -26,7 +26,7 @@ class SendConnectionDenialMail implements ShouldQueue
      */
     public function __construct(Connection $connection)
     {
-        $this->connection = $connection;
+        $this->studentUniConnection = $connection;
     }
 
     /**
@@ -36,7 +36,7 @@ class SendConnectionDenialMail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->connection->requester)
-            ->send(new ConnectionWasDenied($this->connection));
+        Mail::to($this->studentUniConnection->requester)
+            ->send(new ConnectionWasDenied($this->studentUniConnection));
     }
 }

@@ -14,7 +14,7 @@ class ConnectionWasDenied extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $connection;
+    public Connection $studentUniversity;
 
     /**
      * Create a new message instance.
@@ -23,7 +23,7 @@ class ConnectionWasDenied extends Mailable
      */
     public function __construct(Connection $connection)
     {
-        $this->connection = $connection;
+        $this->studentUniversity = $connection;
     }
 
     /**
@@ -48,7 +48,7 @@ class ConnectionWasDenied extends Mailable
         return (new Content(
             markdown: 'connections.connection_was_denied',
         ))->with([
-            'connection' => $this->connection
+            'connection' => $this->studentUniversity
         ]);
     }
 

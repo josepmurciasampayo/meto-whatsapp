@@ -16,7 +16,7 @@ class SendConnectionApprovalMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $connection;
+    public Connection $studentUniversity;
 
     /**
      * Create a new job instance.
@@ -25,7 +25,7 @@ class SendConnectionApprovalMail implements ShouldQueue
      */
     public function __construct(Connection $connection)
     {
-        $this->connection = $connection;
+        $this->studentUniversity = $connection;
     }
 
     /**
@@ -35,8 +35,8 @@ class SendConnectionApprovalMail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->connection->student->user->email)
-            ->cc($this->connection->requester->email)
-            ->send(new ConnectionWasApproved($this->connection));
+        Mail::to($this->studentUniversity->student->user->email)
+            ->cc($this->studentUniversity->requester->email)
+            ->send(new ConnectionWasApproved($this->studentUniversity));
     }
 }
