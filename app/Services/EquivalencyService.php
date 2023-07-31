@@ -16,15 +16,15 @@ class EquivalencyService
     public function update(Student $student): void
     {
         switch ($student->curriculum()) {
-            case Curriculum::AMERICAN:
-                $this->updateAmerican($student);
+
+            case Curriculum::IB:
+                $this->updateIB($student);
                 break;
-                /*
             case Curriculum::CAMBRIDGE:
                 $this->updateCambridge($student);
                 break;
-            case Curriculum::IB:
-                $this->updateIB($student);
+            case Curriculum::AMERICAN:
+                $this->updateAmerican($student);
                 break;
             case Curriculum::RWANDAN:
                 $this->updateRwandan($student);
@@ -38,7 +38,7 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
-*/
+
             default:
                 return;
         }
@@ -57,24 +57,24 @@ class EquivalencyService
             null => ScoreType::IBFINAL,
             default => ScoreType::IBFINAL,
         };
-        if ($scoreType) {
-            $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
 
-            $answers = Answer::where('student_id', $student->id)
-                ->whereIn('question_id', $question_ids)
-                ->get();
-            $total = 0;
+        $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
 
-            foreach ($answers as $answer) {
-                if (is_null($answer->response_id)) {
-                    return;
-                }
-                $total += $answer->text;
+        $answers = Answer::where('student_id', $student->id)
+            ->whereIn('question_id', $question_ids)
+            ->get();
+        $total = 0;
+
+        foreach ($answers as $answer) {
+            if (is_null($answer->text)) {
+                return;
             }
-
-            $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
-            $student->save();
+            $total += $answer->text;
         }
+
+        $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
+        $student->save();
+
     }
 
     public function updateCambridge(Student $student): void

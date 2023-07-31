@@ -32,8 +32,6 @@ class ConvertStudentAnswers extends Command
 
         // $this->updateStudents();
 
-        $this->calculateEquivalencies();
-
         return Command::SUCCESS;
     }
 
@@ -179,18 +177,6 @@ class ConvertStudentAnswers extends Command
         $a->text = $text;
         $a->student_id = $student_id;
         $a->save();
-    }
-
-    public function calculateEquivalencies(): void
-    {
-        echo "\nProcessing equivalencies";
-        $students = Student::all();
-        //$students = Student::find([1481,5818,5517]);
-
-        foreach ($students as $student) {
-            (new EquivalencyService())->update($student);
-        }
-        echo "\nEquivalencies are processed";
     }
 
     public function updateStudents(): void
