@@ -54,7 +54,10 @@ class ImportFromGoogleStudentTable extends Command
         ');
 
         foreach ($students as $student) {
-            $student_id = Student::where('google_id', $student['student_id'])->first()->id;
+            $student_id = Student::where('google_id', $student['student_id'])->first()?->id;
+            if (is_null($student_id)) {
+                continue;
+            }
             echo "\n$student_id";
             foreach ($fields as $field => $question_id) {
                 $existing = Answer::where('student_id', $student_id)->where('question_id', $question_id)->first();
