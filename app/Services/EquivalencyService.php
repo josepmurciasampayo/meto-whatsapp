@@ -19,6 +19,7 @@ class EquivalencyService
             case Curriculum::AMERICAN:
                 $this->updateAmerican($student);
                 break;
+                /*
             case Curriculum::CAMBRIDGE:
                 $this->updateCambridge($student);
                 break;
@@ -37,7 +38,7 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
-
+*/
             default:
                 return;
         }
@@ -121,37 +122,61 @@ class EquivalencyService
 
     public function updateAmerican(Student $student): void
     {
-        $weighted = Answer::where('student_id', $student->id)
-            ->where('question_id', 452)
-            ->first()
-            ?->response_id == 5909;
-        if (is_null($weighted)) {
-            $weighted = true;
-        }
+        $senior = $junior = $sophomore = null;
 
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
+        if (str_contains($senior, "I have not")) {
+            $senior = null;
+        }
 
-        $junior = Answer::where('student_id', $student->id)
-            ->where('question_id', 143)
-            ->first()
-            ?->text;
+        if (is_null($senior)) {
+            $junior = Answer::where('student_id', $student->id)
+                ->where('question_id', 143)
+                ->first()
+                ?->text;
+            if (str_contains($junior, "I")) {
+                $junior = null;
+            }
+        }
 
         if (is_null($junior) && is_null($senior)) {
+            $sophomore = Answer::where('student_id', $student->id)
+                ->where('question_id', 154)
+                ->first()
+                ?->text;
+            if (str_contains($sophomore, "I")) {
+                $sophomore = null;
+            }
+        }
+
+        $score = $senior ?? $junior ?? $sophomore ?? null;
+        if (is_null($score)) {
             return;
+        }
+
+        if ($score > 4.0) {
+            $weighted = true;
+        } else {
+            $weighted = Answer::where('student_id', $student->id)
+                    ->where('question_id', 452)
+                    ->first()
+                    ?->response_id == 5909;
+            if (is_null($weighted)) {
+                $weighted = true;
+            }
         }
 
         if ($senior) {
             $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
-            $score = $senior;
-        } elseif ($junior) {
+        } else {
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
-            $score = $junior;
         }
 
-        $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
+        $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
+        $student->equivalency = $equivalency;
         $student->save();
     }
 

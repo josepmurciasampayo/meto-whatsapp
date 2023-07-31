@@ -3,19 +3,9 @@
 namespace App\Http\Livewire\Uni;
 
 use App\Enums\EnumGroup;
-use App\Enums\General\YesNo;
-use App\Enums\Student\Curriculum;
-use App\Enums\Student\Gender;
 use App\Models\Enums;
-use App\Models\Equivalency;
 use App\Models\Student;
-use App\Models\Connection;
-use App\Models\ViewStudentDetail;
-use App\Services\UniService;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
     Exportable,
@@ -47,11 +37,6 @@ final class StudentTable extends PowerGridComponent
     public function setUp(): array
     {
         return [
-            /*
-            Exportable::make('students')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            */
 //            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
@@ -94,15 +79,15 @@ final class StudentTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('details', function (Student $student) {
+            ->addColumn("details", function (Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$this->arrow</a><button type='button' id='refresh-records-btn' wire:click='refreshRecords' class='d-none'></button>";
             })
-            ->addColumn('connect', function (Student $student) {
-                $key = 'connect_student_' . $student->id;
-                $name = 'student_' . $student->id;
+            ->addColumn("connect", function (Student $student) {
+                $key = "connect_student_" . $student->id;
+                $name = "student_" . $student->id;
 
-                $maybeKey = 'maybe_student_' . $student->id;
-                $maybeName = 'student_' . $student->id;
+                $maybeKey = "maybe_student_" . $student->id;
+                $maybeName = "student_" . $student->id;
 
                 $noKey = 'archive_student_' . $student->id;
                 $noName = 'student_' . $student->id;
@@ -148,7 +133,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('refugee', function (Student $student) {
                 return e($student->refugee);
             })
-            ->addColumn('disability', function (Student $student) {
+            ->addColumn("disability", function (Student $student) {
                 return e($student->disability);
             })
             ->addColumn('equivalency', function (Student $student) {
@@ -170,11 +155,6 @@ final class StudentTable extends PowerGridComponent
             });
     }
 
-    /**
-     * PowerGrid Columns.
-     *
-     * @return array<int, Column>
-     */
     public function columns(): array
     {
         return [
@@ -214,18 +194,8 @@ final class StudentTable extends PowerGridComponent
                 ->dataSource(Enums::where('group_id', EnumGroup::STUDENT_CURRICULUM)->get())
                 ->optionValue('enum_id')
                 ->optionLabel('enum_desc'),
-//            Filter::inputText('equivalency', 'equivalency')
-//                ->operators(['min', 'max']),
             Filter::number('equivalency', 'equivalency')
                 ->placeholder('Min', 'Max')
-        ];
-    }
-
-    public function exportToCsv()
-    {
-        // TODO: Complete the export process
-        return [
-            'name'
         ];
     }
 

@@ -30,7 +30,7 @@ class ConvertStudentAnswers extends Command
 
         //$this->convertCambridge();
 
-        $this->updateStudents();
+        // $this->updateStudents();
 
         $this->calculateEquivalencies();
 
@@ -185,7 +185,7 @@ class ConvertStudentAnswers extends Command
     {
         echo "\nProcessing equivalencies";
         $students = Student::all();
-        //$students = Student::find([1517]);
+        //$students = Student::find([1481,5818,5517]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);

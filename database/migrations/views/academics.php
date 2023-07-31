@@ -29,7 +29,7 @@ return new class extends Migration
             cambridge_C_score.text as cambridge_C_score
             from meto_users as u
             join meto_students as s on s.user_id = u.id and s.curriculum_id = 6
-            left outer join meto_answers as grad_cambridge on grad_cambridge.question_id = 53 and grad_cambridge.student_id = s.id
+            left outer join meto_answers as grad_cambridge on grad_cambridge.question_id = 61 and grad_cambridge.student_id = s.id
             left outer join meto_answers as cambridge_desc on cambridge_desc.question_id = 460 and cambridge_desc.student_id = s.id
             left outer join meto_answers as cambridge_A_subj on cambridge_A_subj.question_id = 399 and cambridge_A_subj.student_id = s.id
             left outer join meto_answers as cambridge_A_score on cambridge_A_score.question_id = 168 and cambridge_A_score.student_id = s.id
@@ -50,7 +50,7 @@ return new class extends Migration
             american_senior.text as american_senior
             from meto_users as u
             join meto_students as s on s.user_id = u.id and s.curriculum_id = 4
-            left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
+            left outer join meto_answers as grad_american on grad_american.question_id = 61 and grad_american.student_id = s.id
             left outer join meto_answers as american_freshman on american_freshman.question_id = 134 and american_freshman.student_id = s.id
             left outer join meto_answers as american_sophomore on american_sophomore.question_id = 154 and american_sophomore.student_id = s.id
             left outer join meto_answers as american_junior on american_junior.question_id = 143 and american_junior.student_id = s.id
@@ -154,8 +154,7 @@ return new class extends Migration
             from meto_users as u
             join meto_students as s on s.user_id = u.id and curriculum_id = 5
 
-            left outer join meto_answers as grad_IB on grad_IB.question_id = 54 and grad_IB.student_id = s.id
-            left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
+            left outer join meto_answers as grad_IB on grad_IB.question_id = 61 and grad_IB.student_id = s.id
 
             left outer join meto_answers as IB_1 on IB_1.question_id = 34 and IB_1.student_id = s.id
             left outer join meto_answers as IB_2 on IB_2.question_id = 36 and IB_2.student_id = s.id
