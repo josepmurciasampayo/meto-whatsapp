@@ -119,6 +119,10 @@ class Student extends Model
             case 244:
                 $this->efc = Helpers::stripNonNumeric($answer->text);
                 break;
+            case 61:
+                $this->actively_applying = $answer->text;
+                $this->actively_applying_id = $answer->response_id;
+                break;
             case 275:
                 $this->dob = $answer->text;
                 break;

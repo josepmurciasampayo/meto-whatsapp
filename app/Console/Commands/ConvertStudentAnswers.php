@@ -140,15 +140,6 @@ class ConvertStudentAnswers extends Command
         $a->save();
     }
 
-    public function updateStudents(): void
-    {
-        echo "\nUpdating students from answers";
-        $students = Student::all();
-        foreach ($students as $student) {
-            $student->updateFromAnswers();
-        }
-    }
-
     public function mergeQuestion(Answer $answer, $new_question_id): void
     {
         $answer->question_id = $new_question_id;
