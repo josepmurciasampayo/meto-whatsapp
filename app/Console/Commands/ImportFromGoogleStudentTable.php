@@ -83,11 +83,6 @@ class ImportFromGoogleStudentTable extends Command
                 }
 
                 $answer->save();
-update meto_students set curriculum = "American Curriculum" where curriculum_id = 4;
-update meto_students set curriculum = "IB Curriculum" where curriculum_id = 5;
-update meto_students set curriculum = "Cambridge Curriculum" where curriculum_id = 6;
-update meto_students set curriculum = "Kenyan Curriculum" where curriculum_id = 1;
-update meto_students set curriculum = "Ugandan Curriculum" where curriculum_id = 2;
             }
         }
     }
