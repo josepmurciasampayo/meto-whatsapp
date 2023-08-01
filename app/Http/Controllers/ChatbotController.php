@@ -13,7 +13,7 @@ use App\Models\Chat\Message;
 use App\Models\Chat\MessageState;
 use App\Models\Institution;
 use App\Models\LogComms;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\UserForm;
@@ -190,7 +190,7 @@ class ChatbotController extends Controller
             User::deleteByRole(Role::STUDENT);
             UserForm::truncate();
             Student::truncate();
-            StudentUniversity::truncate();
+            Connection::truncate();
             //Session::flush();
             $seeder = new ChatTestSeeder();
             $seeder->run();

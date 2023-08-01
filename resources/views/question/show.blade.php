@@ -119,7 +119,7 @@
                             <div class="col text-center">Screen</div>
                             <div class="col text-center">Order</div>
                             @if ($question->academic[0]->branch == \App\Enums\General\YesNo::NO())
-                            <div class="col text-center">Destination Screen</div>
+                                <div class="col text-center">Destination Screen</div>
                             @endif
                         </div>
 
@@ -146,26 +146,25 @@
                                     </div>
                                 @endif
                             </div>
-                        @endforeach
 
-                    @endif
+                            @if ($academic->branch == \App\Enums\General\YesNo::YES())
+                                <hr class="mt-4">
 
-                    @if ($academic->branch == \App\Enums\General\YesNo::YES())
-                        <hr class="mt-4">
-
-                        <div class="display-8 text-center my-3">Branching</div>
-                        <div class="row mb-2">
-                            <div class="col text-center fw-bold">Response Text</div>
-                            <div class="col text-center fw-bold">Destination Screen</div>
-                        </div>
-
-                        @foreach ($responses as $response)
-                            <div class="row">
-                                <div class="col text-center">{{ $response->text }}</div>
-                                <div class="col text-center">
-                                    <input required style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch?->to_screen }}" type="number">
+                                <div class="display-8 text-center my-3">Branching</div>
+                                <div class="row mb-2">
+                                    <div class="col text-center fw-bold">Response Text</div>
+                                    <div class="col text-center fw-bold">Destination Screen</div>
                                 </div>
-                            </div>
+
+                                @foreach ($responses as $response)
+                                    <div class="row">
+                                        <div class="col text-center">{{ $response->text }}</div>
+                                        <div class="col text-center">
+                                            <input required style="width:75px" name="branchDestinations[{{ $response->id  }}]" value="{{ $response->branch?->to_screen }}" type="number">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         @endforeach
                     @endif
                 </div>

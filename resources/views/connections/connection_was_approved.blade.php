@@ -1,21 +1,20 @@
 <!--
-  | @var StudentUniversity $connection
+  | @var StudentUniversity $studentUniversity
 -->
 
 <x-mail::message>
-Dear {{ $connection->student->user->first }},
+Dear {{ $studentUniversity->student->user->first }},
 
-Greetings from {{ config('app.name') }}. {{ $connection->institution->name }} has reviewed your profile and they have determined you are a competitive candidate for admission and would like to invite you to apply.
+Greetings from {{ config('app.name') }}. {{ $studentUniversity->institution->name }} has reviewed your profile and they have determined you are a competitive candidate for admission and would like to invite you to apply.
 
-It is my pleasure to introduce you to {{ $connection->requester->getFullName() }}, the {{ $connection->requester->title }}. To contact {{ $connection->requester->first }}, please email <a href="mailto:{{ $connection->requester->email }}">{{ $connection->requester->email }}</a>.
+It is my pleasure to introduce you to {{ $studentUniversity->requester->getFullName() }}, the {{ $studentUniversity->requester->title }}. To contact {{ $studentUniversity->requester->first }}, please email <a href="mailto:{{ $studentUniversity->requester->email }}">{{ $studentUniversity->requester->email }}</a>.
 
-Here is what you need to know to get started:
+Here is what you need to know to get started.
 
 Application link:
-{{ $connection->application_link }}
+    <a href="{{ $studentUniversity->application_link }}">{{ $studentUniversity->application_link }}</a>
 
-Application deadline:
-{{ $connection->deadline }}
+Application deadline: {{ \Carbon\Carbon::parse($studentUniversity->deadline)->format('M d, Y') }}
 
 Thank you,<br>
 {{ config('app.name') }}

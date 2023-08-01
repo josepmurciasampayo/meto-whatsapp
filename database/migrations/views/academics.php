@@ -18,7 +18,9 @@ return new class extends Migration
         create or replace view meto_view_student_cambridge as
             select
             s.id as 'cambridge_student_id',
-            grad_cambridge.text as grad_cambridge,
+            s.equivalency as cambridge_equivalency,
+            cambridge_active.text as cambridge_active,
+            cambridge_active.response_id as cambridge_active_id,
             cambridge_desc.text as cambridge_desc,
             cambridge_A_subj.text as cambridge_A_subj,
             cambridge_A_score.text as cambridge_A_score,
@@ -27,8 +29,8 @@ return new class extends Migration
             cambridge_C_subj.text as cambridge_C_subj,
             cambridge_C_score.text as cambridge_C_score
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::CAMBRIDGE() . "
-            left outer join meto_answers as grad_cambridge on grad_cambridge.question_id = 53 and grad_cambridge.student_id = s.id
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 6
+            left outer join meto_answers as cambridge_active on cambridge_active.question_id = 61 and cambridge_active.student_id = s.id
             left outer join meto_answers as cambridge_desc on cambridge_desc.question_id = 460 and cambridge_desc.student_id = s.id
             left outer join meto_answers as cambridge_A_subj on cambridge_A_subj.question_id = 399 and cambridge_A_subj.student_id = s.id
             left outer join meto_answers as cambridge_A_score on cambridge_A_score.question_id = 168 and cambridge_A_score.student_id = s.id
@@ -36,101 +38,34 @@ return new class extends Migration
             left outer join meto_answers as cambridge_B_score on cambridge_B_score.question_id = 169 and cambridge_B_score.student_id = s.id
             left outer join meto_answers as cambridge_C_subj on cambridge_C_subj.question_id = 402 and cambridge_C_subj.student_id = s.id
             left outer join meto_answers as cambridge_C_score on cambridge_C_score.question_id = 170 and cambridge_C_score.student_id = s.id
-        ");
+            ;
 
-        DB::statement("
         create or replace view meto_view_student_american as
             select
 			s.id as american_student_id,
-			grad_american.text as grad_american,
+			s.equivalency as american_equivalency,
+			american_active.text as american_active,
+			american_active.response_id as american_active_id,
             american_freshman.text as american_freshman,
             american_sophomore.text as american_sophomore,
             american_junior.text as american_junior,
             american_senior.text as american_senior
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::AMERICAN() . "
-            left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 4
+            left outer join meto_answers as american_active on american_active.question_id = 61 and american_active.student_id = s.id
             left outer join meto_answers as american_freshman on american_freshman.question_id = 134 and american_freshman.student_id = s.id
             left outer join meto_answers as american_sophomore on american_sophomore.question_id = 154 and american_sophomore.student_id = s.id
-            left outer join meto_answers as american_junior on american_junior.question_id = 134 and american_junior.student_id = s.id
-            left outer join meto_answers as american_senior on american_senior.question_id = 134 and american_senior.student_id = s.id
-        ");
+            left outer join meto_answers as american_junior on american_junior.question_id = 143 and american_junior.student_id = s.id
+            left outer join meto_answers as american_senior on american_senior.question_id = 150 and american_senior.student_id = s.id
+            ;
 
-        DB::statement("
-        create or replace view meto_view_student_ugandan as
-            select
-			s.id as ugandan_student_id,
-            grad_ugandan1.text as grad_ugandan1,
-            grad_ugandan2.text as grad_ugandan2,
-            uganadan_mock.text as uganadan_mock,
-            ugandan_A.text as ugandan_A,
-            ugandan_olevel.text as ugandan_olevel
-            from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::UGANDAN() . "
-            left outer join meto_answers as grad_ugandan1 on grad_ugandan1.question_id = 112 and grad_ugandan1.student_id = s.id
-            left outer join meto_answers as grad_ugandan2 on grad_ugandan2.question_id = 377 and grad_ugandan2.student_id = s.id
-            left outer join meto_answers as ugandan_olevel on ugandan_olevel.question_id = 126 and ugandan_olevel.student_id = s.id
-            left outer join meto_answers as uganadan_mock on uganadan_mock.question_id = 76 and uganadan_mock.student_id = s.id
-            left outer join meto_answers as ugandan_A on ugandan_A.question_id = 378 and ugandan_A.student_id = s.id
-        ");
-
-        DB::statement("
-        create or replace view meto_view_student_kenyan as
-            select
-			s.id as kenyan_student_id,
-            grad_kenyan.text as grad_kenyan,
-            kenyan_mock.text as kenyan_mock,
-            kenyan_exam.text as kenyan_exam,
-            kcpe.text as kcpe
-            from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::KENYAN() . "
-            left outer join meto_answers as grad_kenyan on grad_kenyan.question_id = 109 and grad_kenyan.student_id = s.id
-            left outer join meto_answers as kcpe on kcpe.question_id = 255 and kcpe.student_id = s.id
-            left outer join meto_answers as kenyan_mock on kenyan_mock.question_id = 373 and kenyan_mock.student_id = s.id
-            left outer join meto_answers as kenyan_exam on kenyan_exam.question_id = 375 and kenyan_exam.student_id = s.id
-        ;");
-
-        DB::statement("
-        create or replace view meto_view_student_other as
-            select
-			s.id as other_student_id,
-			grad_other.text as grad_other,
-			other_current.text as other_current,
-            other_final1.text as other_final1,
-            other_final2.text as other_final2
-            from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::OTHER() . "
-            left outer join meto_answers as grad_other on grad_other.question_id = 256 and grad_other.student_id = s.id
-            left outer join meto_answers as other_current on other_current.question_id = 462 and other_current.student_id = s.id
-            left outer join meto_answers as other_final1 on other_final1.question_id = 325 and other_final1.student_id = s.id
-            left outer join meto_answers as other_final2 on other_final2.question_id = 324 and other_final2.student_id = s.id;
-        ");
-
-        DB::statement("
-        create or replace view meto_view_student_rwandan as
-            select
-			s.id as rwandan_student_id,
-            grad_rwandan.text as grad_rwandan,
-            rwandan_olevel1.text as rwandan_olevel1,
-            rwandan_olevel2.text as rwandan_olevel2,
-            rwandan_mock.text as rwandan_mock,
-            rwandan_A.text as rwandan_A
-
-            from meto_users as u
-            join meto_students as s on s.user_id = u.id and s.curriculum_id = " . \App\Enums\Student\Curriculum::RWANDAN() . "
-            left outer join meto_answers as grad_rwandan on grad_rwandan.question_id = 339 and grad_rwandan.student_id = s.id
-            left outer join meto_answers as rwandan_olevel1 on rwandan_olevel1.question_id = 335 and rwandan_olevel1.student_id = s.id
-            left outer join meto_answers as rwandan_olevel2 on rwandan_olevel2.question_id = 336 and rwandan_olevel2.student_id = s.id
-            left outer join meto_answers as rwandan_mock on rwandan_mock.question_id = 341 and rwandan_mock.student_id = s.id
-            left outer join meto_answers as rwandan_A on rwandan_A.question_id = 343 and rwandan_A.student_id = s.id
-        ");
-
-        DB::statement("
-        create or replace view meto_view_student_ib as
+create or replace view meto_view_student_ib as
             select
 			s.id as ib_student_id,
+			IB_active.text as IB_active,
+			IB_active.response_id as IB_active_id,
+			s.equivalency as ib_equivalency,
             which_IB.text as which_IB,
-            grad_IB.text as grad_IB,
             IB_1.text as IB_1,
             IB_2.text as IB_2,
             IB_3.text as IB_3,
@@ -151,11 +86,10 @@ return new class extends Migration
             IB_L6.text as IB_L6
 
             from meto_users as u
-            join meto_students as s on s.user_id = u.id and curriculum_id = " . \App\Enums\Student\Curriculum::IB() . "
+            join meto_students as s on s.user_id = u.id and curriculum_id = 5
 
-            left outer join meto_answers as grad_IB on grad_IB.question_id = 54 and grad_IB.student_id = s.id
+            left outer join meto_answers as IB_active on IB_active.question_id = 61 and IB_active.student_id = s.id
             left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
-
             left outer join meto_answers as IB_1 on IB_1.question_id = 34 and IB_1.student_id = s.id
             left outer join meto_answers as IB_2 on IB_2.question_id = 36 and IB_2.student_id = s.id
             left outer join meto_answers as IB_3 on IB_3.question_id = 38 and IB_3.student_id = s.id
@@ -175,13 +109,86 @@ return new class extends Migration
             left outer join meto_answers as IB_L5 on IB_L5.question_id = 10 and IB_L5.student_id = s.id
             left outer join meto_answers as IB_S6 on IB_S6.question_id = 153 and IB_S6.student_id = s.id
             left outer join meto_answers as IB_L6 on IB_L6.question_id = 9 and IB_L6.student_id = s.id
-        ;");
+            ;
 
-        DB::statement('
-            create or replace view meto_view_student_detail as
+        create or replace view meto_view_student_ugandan as
+            select
+			s.id as ugandan_student_id,
+			s.equivalency as ugandan_equivalency,
+            grad_ugandan1.text as grad_ugandan1,
+            grad_ugandan2.text as grad_ugandan2,
+            uganadan_mock.text as uganadan_mock,
+            ugandan_A.text as ugandan_A,
+            ugandan_olevel.text as ugandan_olevel
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 2
+            left outer join meto_answers as grad_ugandan1 on grad_ugandan1.question_id = 112 and grad_ugandan1.student_id = s.id
+            left outer join meto_answers as grad_ugandan2 on grad_ugandan2.question_id = 377 and grad_ugandan2.student_id = s.id
+            left outer join meto_answers as ugandan_olevel on ugandan_olevel.question_id = 126 and ugandan_olevel.student_id = s.id
+            left outer join meto_answers as uganadan_mock on uganadan_mock.question_id = 76 and uganadan_mock.student_id = s.id
+            left outer join meto_answers as ugandan_A on ugandan_A.question_id = 378 and ugandan_A.student_id = s.id
+            ;
+
+        create or replace view meto_view_student_kenyan as
+            select
+			s.id as kenyan_student_id,
+			s.equivalency as kenyan_equivalency,
+            grad_kenyan.text as grad_kenyan,
+            kenyan_mock.text as kenyan_mock,
+            kenyan_exam.text as kenyan_exam,
+            kcpe.text as kcpe
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 1
+            left outer join meto_answers as grad_kenyan on grad_kenyan.question_id = 109 and grad_kenyan.student_id = s.id
+            left outer join meto_answers as kcpe on kcpe.question_id = 255 and kcpe.student_id = s.id
+            left outer join meto_answers as kenyan_mock on kenyan_mock.question_id = 373 and kenyan_mock.student_id = s.id
+            left outer join meto_answers as kenyan_exam on kenyan_exam.question_id = 375 and kenyan_exam.student_id = s.id
+            ;
+
+        create or replace view meto_view_student_other as
+            select
+			s.id as other_student_id,
+			s.equivalency as other_equivalency,
+			grad_other.text as grad_other,
+			other_current.text as other_current,
+            other_final1.text as other_final1,
+            other_final2.text as other_final2
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 8
+            left outer join meto_answers as grad_other on grad_other.question_id = 256 and grad_other.student_id = s.id
+            left outer join meto_answers as other_current on other_current.question_id = 462 and other_current.student_id = s.id
+            left outer join meto_answers as other_final1 on other_final1.question_id = 325 and other_final1.student_id = s.id
+            left outer join meto_answers as other_final2 on other_final2.question_id = 324 and other_final2.student_id = s.id
+            ;
+
+        create or replace view meto_view_student_rwandan as
+            select
+			s.id as rwandan_student_id,
+			s.equivalency as rwandan_equivalency,
+            grad_rwandan.text as grad_rwandan,
+            rwandan_olevel1.text as rwandan_olevel1,
+            rwandan_olevel2.text as rwandan_olevel2,
+            rwandan_mock.text as rwandan_mock,
+            rwandan_A.text as rwandan_A
+
+            from meto_users as u
+            join meto_students as s on s.user_id = u.id and s.curriculum_id = 3
+            left outer join meto_answers as grad_rwandan on grad_rwandan.question_id = 339 and grad_rwandan.student_id = s.id
+            left outer join meto_answers as rwandan_olevel1 on rwandan_olevel1.question_id = 335 and rwandan_olevel1.student_id = s.id
+            left outer join meto_answers as rwandan_olevel2 on rwandan_olevel2.question_id = 336 and rwandan_olevel2.student_id = s.id
+            left outer join meto_answers as rwandan_mock on rwandan_mock.question_id = 341 and rwandan_mock.student_id = s.id
+            left outer join meto_answers as rwandan_A on rwandan_A.question_id = 343 and rwandan_A.student_id = s.id
+            ;
+
+        create or replace view meto_view_student_zdetail as
             select
             s.id as student_id,
+            s.google_id as google_id,
+            s.equivalency,
+            s.efc as efc,
             u.id as user_id,
+            active.text as actively_applying,
+            active.response_id as actively_applying_id,
             s.curriculum_id,
             hs.text as hs,
             hs_city.text as hs_city,
@@ -204,8 +211,8 @@ return new class extends Migration
             join meto_students as s on s.user_id = u.id
 
             left outer join meto_answers as hs on hs.question_id = 119 and hs.student_id = s.id
-            left outer join meto_answers as hs_city on hs_city.question_id = 119 and hs_city.student_id = s.id
-            left outer join meto_answers as hs_country on hs_country.question_id = 119 and hs_country.student_id = s.id
+            left outer join meto_answers as hs_city on hs_city.question_id = 102 and hs_city.student_id = s.id
+            left outer join meto_answers as hs_country on hs_country.question_id = 104 and hs_country.student_id = s.id
             left outer join meto_answers as affiliations on affiliations.question_id = 164 and affiliations.student_id = s.id
             left outer join meto_answers as birth_country on birth_country.question_id = 281 and birth_country.student_id = s.id
             left outer join meto_answers as birth_city on birth_city.question_id = 283 and birth_city.student_id = s.id
@@ -220,7 +227,9 @@ return new class extends Migration
             left outer join meto_view_student_ib as ib on ib.ib_student_id = s.id
             left outer join meto_view_student_kenyan as kenyan on kenyan.kenyan_student_id = s.id
 
-        ;');
+            left outer join meto_answers as active on active.question_id = 61 and active.student_id = s.id
+        ;
+        ");
     }
 
     /**

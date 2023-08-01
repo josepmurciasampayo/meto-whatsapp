@@ -3,19 +3,9 @@
 namespace App\Http\Livewire\Uni;
 
 use App\Enums\EnumGroup;
-use App\Enums\General\YesNo;
-use App\Enums\Student\Curriculum;
-use App\Enums\Student\Gender;
 use App\Models\Enums;
-use App\Models\Equivalency;
 use App\Models\Student;
-use App\Models\StudentUniversity;
-use App\Models\ViewStudentDetail;
-use App\Services\UniService;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
     Exportable,
@@ -47,11 +37,6 @@ final class StudentTable extends PowerGridComponent
     public function setUp(): array
     {
         return [
-            /*
-            Exportable::make('students')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            */
 //            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
@@ -64,7 +49,7 @@ final class StudentTable extends PowerGridComponent
         $uni = auth()->user()->getUni();
 
         return Student::query()
-            ->whereDoesntHave('connection', fn ($q) => $q->where('institution_id', $uni->id))
+            ->whereDoesntHave('connections', fn ($q) => $q->where('institution_id', $uni->id))
             ->where(function ($query) use ($uni) {
                 $query->whereNotNull('efc')
                     ->where('efc', '>=', $uni->efc);
@@ -72,7 +57,11 @@ final class StudentTable extends PowerGridComponent
             ->where(function ($query) use ($uni) {
                 $query->whereNotNull('equivalency')
                     ->where('equivalency', '>=', $uni->min_grade_equivalency);
-            });
+            })
+            ->where(function ($query) use ($uni) {
+                $query->whereNotNull('actively_applying_id')
+                    ->whereIn('actively_applying_id', [70, 71, 72, 73]);
+            })->distinct();
     }
 
     public function relationSearch(): array
@@ -90,15 +79,15 @@ final class StudentTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('details', function (Student $student) {
+            ->addColumn("details", function (Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$this->arrow</a><button type='button' id='refresh-records-btn' wire:click='refreshRecords' class='d-none'></button>";
             })
-            ->addColumn('connect', function (Student $student) {
-                $key = 'connect_student_' . $student->id;
-                $name = 'student_' . $student->id;
+            ->addColumn("connect", function (Student $student) {
+                $key = "connect_student_" . $student->id;
+                $name = "student_" . $student->id;
 
-                $maybeKey = 'maybe_student_' . $student->id;
-                $maybeName = 'student_' . $student->id;
+                $maybeKey = "maybe_student_" . $student->id;
+                $maybeName = "student_" . $student->id;
 
                 $noKey = 'archive_student_' . $student->id;
                 $noName = 'student_' . $student->id;
@@ -144,7 +133,7 @@ final class StudentTable extends PowerGridComponent
             ->addColumn('refugee', function (Student $student) {
                 return e($student->refugee);
             })
-            ->addColumn('disability', function (Student $student) {
+            ->addColumn("disability", function (Student $student) {
                 return e($student->disability);
             })
             ->addColumn('equivalency', function (Student $student) {
@@ -166,30 +155,25 @@ final class StudentTable extends PowerGridComponent
             });
     }
 
-    /**
-     * PowerGrid Columns.
-     *
-     * @return array<int, Column>
-     */
     public function columns(): array
     {
         return [
             Column::make('Connect', 'connect'),
             Column::make('Profile', 'details'),
-            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('EFC', 'efc')->sortable(),
             Column::make('Citizenship', 'citizenship')->searchable(),
             Column::make('HS Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
             Column::make('Approx Percentile', 'equivalency')->searchable()->sortable(),
             Column::make('Desired Destinations', 'destination')->searchable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
-            Column::make('Gender', 'gender')->searchable()->sortable(),
-            Column::make('Nationally Ranked', 'ranking')->searchable(),
-            Column::make('DET Score', 'det')->searchable()->sortable(),
-            Column::make('Other Testing', 'other_testing')->searchable(),
-            Column::make('Affiliations', 'affiliations')->searchable(),
-            Column::make('Refugee or Asylum-Seeker', 'refugee')->searchable(),
-            Column::make('Disability Disclosure', 'disability')->searchable(),
+            Column::make('Gender', 'gender')->sortable(),
+            Column::make('Nationally Ranked', 'ranking'),
+            Column::make('DET Score', 'det')->sortable(),
+            Column::make('Other Testing', 'other_testing')->sortable(),
+            Column::make('Affiliations', 'affiliations')->sortable(),
+            Column::make('Refugee or Asylum-Seeker', 'refugee')->sortable(),
+            Column::make('Disability Disclosure', 'disability'),
         ];
     }
 
@@ -210,18 +194,8 @@ final class StudentTable extends PowerGridComponent
                 ->dataSource(Enums::where('group_id', EnumGroup::STUDENT_CURRICULUM)->get())
                 ->optionValue('enum_id')
                 ->optionLabel('enum_desc'),
-//            Filter::inputText('equivalency', 'equivalency')
-//                ->operators(['min', 'max']),
             Filter::number('equivalency', 'equivalency')
                 ->placeholder('Min', 'Max')
-        ];
-    }
-
-    public function exportToCsv()
-    {
-        // TODO: Complete the export process
-        return [
-            'name'
         ];
     }
 

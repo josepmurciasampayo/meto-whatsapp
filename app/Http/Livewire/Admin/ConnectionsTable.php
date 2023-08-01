@@ -8,7 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConnectionController;
 use App\Models\Institution;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
@@ -71,16 +71,14 @@ final class ConnectionsTable extends PowerGridComponent
 
     public function bulkApprove()
     {
-        $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
-            ->pluck('id');
-        (new ConnectionController())->approveConnection($connections);
+        $connections = Connection::whereIn('id', $this->checkboxValues)->pluck('id');
+        (new ConnectionController())->approveConnections(Connection::find($connections));
     }
 
     public function bulkDeny()
     {
-        $connections = StudentUniversity::whereIn('id', $this->checkboxValues)
-            ->pluck('id');
-        (new ConnectionController())->denyConnection(StudentUniversity::find($connections));
+        $connections = Connection::whereIn('id', $this->checkboxValues)->pluck('id');
+        (new ConnectionController())->denyConnections(Connection::find($connections));
     }
 
     /*
@@ -94,11 +92,11 @@ final class ConnectionsTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\StudentUniversity>
+     * @return Builder<\App\Models\Connection>
      */
     public function datasource(): Collection
     {
-        return StudentUniversity::query()
+        return Connection::query()
             ->where('status', MatchStudentInstitution::REQUEST())
             ->get();
     }
@@ -117,40 +115,40 @@ final class ConnectionsTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('actions', function (StudentUniversity $connection) {
+            ->addColumn('actions', function (Connection $connection) {
                 return
                     '<button class="btn btn-success" onclick="approveConnection(this)" connection_id="' . $connection->id . '">Approve</button>'
                     . '<button class="btn btn-danger" onclick="denyConnection(this)" connection_id="' . $connection->id . '">Deny</button>';
             })
-            ->addColumn('student', function (StudentUniversity $connection) {
+            ->addColumn('student', function (Connection $connection) {
                 return $connection->student->user->getFullName();
             })
-            ->addColumn('email', function (StudentUniversity $connection) {
+            ->addColumn('email', function (Connection $connection) {
                 $email = $connection->student->user->email;
                 return "<a href='mailto:$email'>$email</a>";
             })
-            ->addColumn('institution', function (StudentUniversity $connection) {
+            ->addColumn('institution', function (Connection $connection) {
                 return $connection->institution->name;
             })
-            ->addColumn('status', function (StudentUniversity $connection) {
+            ->addColumn('status', function (Connection $connection) {
                 return MatchStudentInstitution::descriptions()[$connection->status];
             })
-            ->addColumn('student_curriculum', function (StudentUniversity $connection) {
+            ->addColumn('student_curriculum', function (Connection $connection) {
                 return $connection->student->curriculum;
             })
-            ->addColumn('student_equivalency', function (StudentUniversity $connection) {
+            ->addColumn('student_equivalency', function (Connection $connection) {
                 return $connection->student->equivalency;
             })
-            ->addColumn('student_efc', function (StudentUniversity $connection) {
+            ->addColumn('student_efc', function (Connection $connection) {
                 return $connection->student->efc;
             })
-            ->addColumn('institution_curriculum', function (StudentUniversity $connection) {
+            ->addColumn('institution_curriculum', function (Connection $connection) {
                 return Curriculum::descriptions()[$connection->institution->min_grade_curriculum] ?? '';
             })
-            ->addColumn('institution_equivalency', function (StudentUniversity $connection) {
+            ->addColumn('institution_equivalency', function (Connection $connection) {
                 return $connection->institution->min_grade_equivalency;
             })
-            ->addColumn('institution_efc', function (StudentUniversity $connection) {
+            ->addColumn('institution_efc', function (Connection $connection) {
                 return '$' . $connection->institution->efc;
             });
 

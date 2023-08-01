@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use App\Models\Institution;
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -43,15 +43,16 @@ class Matches
 
     private static function checkDupe($student, $institution) :bool
     {
+
         $existing = DB::select('
-            select id from meto_student_universities where student_id = ' . $student->id . ' and institution_id = ' . $institution->id . ';
+            select id from meto_connections where student_id = ' . $student->id . ' and institution_id = ' . $institution->id . ';
         ');
         return count($existing) > 0;
     }
 
     private static function importMatch($student, $institution) :void
     {
-        $match = new StudentUniversity();
+        $match = new Connection();
         $match->student_id = $student->id;
         $match->institution_id = $institution->id;
         $match->save();

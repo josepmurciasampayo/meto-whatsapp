@@ -13,12 +13,10 @@ use App\Mail\UniInvite;
 use App\Models\Institution;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
-use App\Models\Question;
-use App\Models\Student;
-use App\Models\StudentDetailView;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\User;
 use App\Models\ViewStudentDetail;
+use App\Services\StudentService;
 use App\Services\UniService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -306,11 +304,11 @@ class UniController extends Controller
 
     public static function students(int $highschool_id)
     {
-        $rawData = Student::getStudentsAtSchool($highschool_id);
+        $rawData = StudentService::getStudentsAtSchool($highschool_id);
         $data = "";
 
         foreach ($rawData as $key => $student) {
-            $connection = StudentUniversity::where('student_id', $student['student_id'])->first();
+            $connection = Connection::where('student_id', $student['student_id'])->first();
             if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
                 unset($rawData[$key]);
             }

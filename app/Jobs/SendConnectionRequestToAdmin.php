@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,22 +19,18 @@ class SendConnectionRequestToAdmin implements ShouldQueue
 
     public $admin;
 
-    public $student;
-
-    public $createdConnection;
+    public $connections;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($admin, Student $student, StudentUniversity $createdConnection)
+    public function __construct($admin, array $connections)
     {
         $this->admin = $admin;
 
-        $this->student = $student;
-
-        $this->createdConnection = $createdConnection;
+        $this->connections = $connections;
     }
 
     /**
@@ -45,6 +41,6 @@ class SendConnectionRequestToAdmin implements ShouldQueue
     public function handle()
     {
         return Mail::to($this->admin)
-            ->send(new SendConnectionRequestToAdminMail($this->student, $this->createdConnection));
+            ->send(new SendConnectionRequestToAdminMail($this->connections));
     }
 }

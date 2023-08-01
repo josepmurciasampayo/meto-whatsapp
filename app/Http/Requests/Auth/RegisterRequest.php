@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'first' => [
-                'required', 'string', 'max:255'
+                'required', 'string', 'max:255', 'doesnt_start_with:💳',
             ],
 
             'last' => [
@@ -33,8 +33,7 @@ class RegisterRequest extends FormRequest
             ],
 
             'email' => [
-                'required', 'string', 'email',
-                'max:255', 'unique:users', 'confirmed'
+                'required', 'string', 'email', 'max:255', 'unique:users', 'confirmed'
             ],
 
             'email_confirmation' => [

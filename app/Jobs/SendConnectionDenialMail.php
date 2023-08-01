@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\Connections\ConnectionWasDenied;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -24,7 +24,7 @@ class SendConnectionDenialMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
         $this->studentUniConnection = $connection;
     }
@@ -36,15 +36,7 @@ class SendConnectionDenialMail implements ShouldQueue
      */
     public function handle()
     {
-        $connection = $this->studentUniConnection;
-
-        $uniUsers = $connection->institution->users->pluck('id');
-
-        $users = User::query()
-            ->whereIn('id', $uniUsers)
-            ->get();
-
-        Mail::to($users)
-            ->send(new ConnectionWasDenied($connection));
+        Mail::to($this->studentUniConnection->requester)
+            ->send(new ConnectionWasDenied($this->studentUniConnection));
     }
 }

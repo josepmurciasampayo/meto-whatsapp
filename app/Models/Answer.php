@@ -16,13 +16,7 @@ class Answer extends Model
      * text
      */
 
-    public $fillable = [
-        'question_id',
-        'student_id',
-        'text',
-        'response_id',
-        'text_expanded'
-    ];
+    public $guarded = [];
 
     public function question(): BelongsTo
     {
@@ -37,5 +31,10 @@ class Answer extends Model
     public function response(): BelongsTo
     {
         return $this->belongsTo(Response::class);
+    }
+
+    public function updateStudent(): void
+    {
+        $this->student->updateFromAnswer($this);
     }
 }

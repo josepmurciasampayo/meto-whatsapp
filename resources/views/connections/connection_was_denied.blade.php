@@ -1,15 +1,13 @@
 <!--
- | @var $connection
+ | @var $studentUniversity
 -->
 
 <x-mail::message>
-# Introduction
+Dear {{ $studentUniversity->requester->first }},
 
-The body of your message.
+    We wanted to let you know that we denied your connection request for {{ $studentUniversity->student->user->getFullName() }}.
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+We are unable to provide more detailed information on email but you can get in touch with any questions.
 
 Thanks,<br>
 {{ config('app.name') }}

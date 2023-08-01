@@ -21,7 +21,17 @@ class Answers
             select max(question_id) as "id" from answers_table;
         ')[0]->id;
 
-        $studentLookup = Student::getLookupByGoogleID();
+        $array = Helpers::dbQueryArray('
+            select s.id as "student_id", u.google_id as "google_id"
+            from meto_students as s
+            join meto_users as u on u.id = s.user_id;
+        ');
+        $toReturn = array();
+        foreach ($array as $row) {
+            $toReturn[$row['google_id']] = $row['student_id'];
+        }
+
+        $studentLookup = $toReturn;
 
         for ($q = 1; $q <= $maxQuestionID; ++$q) {
             $answers = DB::connection($db)->select('

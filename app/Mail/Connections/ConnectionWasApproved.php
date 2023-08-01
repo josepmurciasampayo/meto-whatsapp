@@ -3,7 +3,7 @@
 namespace App\Mail\Connections;
 
 use App\Models\Student;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,16 +15,16 @@ class ConnectionWasApproved extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $connection;
+    public Connection $studentUniversity;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
-        $this->connection = $connection;
+        $this->studentUniversity = $connection;
     }
 
     /**
@@ -36,6 +36,7 @@ class ConnectionWasApproved extends Mailable
     {
         return new Envelope(
             subject: config('app.name') . ' College Connection',
+            cc: $this->studentUniversity->requester->email,
         );
     }
 
@@ -49,7 +50,7 @@ class ConnectionWasApproved extends Mailable
         return (new Content(
             markdown: 'connections.connection_was_approved',
         ))->with([
-            'connection' => $this->connection
+            'connection' => $this->studentUniversity
         ]);
     }
 
