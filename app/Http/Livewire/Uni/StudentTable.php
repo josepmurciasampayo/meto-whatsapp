@@ -64,18 +64,6 @@ final class StudentTable extends PowerGridComponent
             })->distinct();
     }
 
-    public function relationSearch(): array
-    {
-        return [
-            'user' => [
-                'first',
-                'last',
-                'email',
-                'phone_raw'
-            ]
-        ];
-    }
-
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
