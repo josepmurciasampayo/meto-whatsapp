@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\HighSchool\Role;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Services\AnswerService;
@@ -29,16 +30,11 @@ class UpdateSpecificAnswers extends Command
     public function handle()
     {
         $a = new AnswerService();
-        $question_ids = [
-            308,
-            260
-        ];
-        $questions = Question::with('answers')->find($question_ids);
+        $question = Question::find(260);
+        $answers = Answer::where('question_id', 260)->whereNull('text_expanded')->get();
 
-        foreach ($questions as $question) {
-            foreach ($question->answers as $answer) {
-                $a->store($question, explode(",",$answer->text), $answer->student_id);
-            }
+        foreach ($answers as $answer) {
+            $a->store($question, explode(",",$answer->text), $answer->student_id);
         }
     }
 }
