@@ -114,7 +114,8 @@ class Student extends Model
         switch ($answer->question_id) {
             case 318:
                 $this->curriculum = str_replace(" Curriculum", "", $answer->text);
-                $this->curriculum_id = \App\Models\Curriculum::where('response_id', $answer->responseID)->first()?->enum_id;
+                $c = \App\Models\Curriculum::where('response_id', $answer->response_id)->first();
+                $this->curriculum_id = $c?->enum_id;
                 break;
             case 244:
                 $this->efc = Helpers::stripNonNumeric($answer->text);
@@ -136,7 +137,7 @@ class Student extends Model
                 $this->refugee = $answer->text;
                 break;
             case 308:
-                $this->disability = $answer->textExpanded;
+                $this->disability = $answer->text_expanded;
                 break;
             case 312:
                 $this->submission_device = $answer->text;
@@ -154,7 +155,7 @@ class Student extends Model
                 $this->track = $answer->text;
                 break;
             case 260:
-                $this->destination = $answer->textExpanded;
+                $this->destination = $answer->text_expanded;
                 break;
             case 271:
                 $this->gender = $answer->text;

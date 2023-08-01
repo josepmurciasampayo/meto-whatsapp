@@ -6,6 +6,7 @@ use App\Enums\QuestionFormat;
 use App\Enums\Student\Curriculum;
 use App\Helpers;
 use App\Models\Answer;
+use App\Models\EnumCountry;
 use App\Models\Question;
 use App\Models\Response;
 use App\Models\Student;
@@ -15,9 +16,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AnswerService
 {
-    public function store(Question $question, mixed $input): Answer
+    public function store(Question $question, mixed $input, int $student_id = null): Answer
     {
-        $existing = Answer::where('question_id', $question->id)->where('student_id', Auth::user()->student_id())->first();
+        $student_id = $student_id ?? Auth::user()->student_id();
+        $existing = Answer::where('question_id', $question->id)->where('student_id', $student_id)->first();
         if (!$existing) {
             $existing = new Answer();
             $existing->student_id = Auth::user()->student_id();
@@ -52,8 +54,8 @@ class AnswerService
                 break;
             case QuestionFormat::COUNTRY_CHECKBOX():
                 $existing->text = implode(',', $input);
-                $responses = Response::select('text')->whereIn('id', $input)->get()->pluck('text')->toArray();
-                $existing->text_expanded = implode(", ", $responses);
+                $countries = EnumCountry::select('name')->whereIn('id', $input)->get()->pluck('name')->toArray();
+                $existing->text_expanded = implode(", ", $countries);
                 break;
             default:
         }

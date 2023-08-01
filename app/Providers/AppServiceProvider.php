@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Answer;
 use App\Observers\AnswerObserver;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
@@ -29,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Answer::observe(AnswerObserver::class);
+        Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
+        Model::preventAccessingMissingAttributes(! $this->app->isProduction());
     }
 }
