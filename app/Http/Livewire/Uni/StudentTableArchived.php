@@ -65,8 +65,11 @@ final class StudentTableArchived extends PowerGridComponent
             })
             ->addColumn('phone', function (Student $student) {
                 return '+' . e($student->user->phone_combined);
-            });
+            })
 //            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->user->getFullName())))
+            ->addColumn('other_testing', function (Student $student) {
+                return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
+            });
     }
 
     /**
