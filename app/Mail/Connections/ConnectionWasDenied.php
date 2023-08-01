@@ -2,7 +2,7 @@
 
 namespace App\Mail\Connections;
 
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,16 +14,16 @@ class ConnectionWasDenied extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $connection;
+    public Connection $studentUniversity;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(StudentUniversity $connection)
+    public function __construct(Connection $connection)
     {
-        $this->connection = $connection;
+        $this->studentUniversity = $connection;
     }
 
     /**
@@ -48,7 +48,7 @@ class ConnectionWasDenied extends Mailable
         return (new Content(
             markdown: 'connections.connection_was_denied',
         ))->with([
-            'connection' => $this->connection
+            'connection' => $this->studentUniversity
         ]);
     }
 

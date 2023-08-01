@@ -1,10 +1,12 @@
 @if ($row['curriculum_id'] == \App\Enums\Student\Curriculum::AMERICAN())
+    <!--
     <p class="detail">
-        <span class="fw-bold">Freshman-year GPA:</span> <span class="info">{{ $row['american_freshman'] }}</span>
+        <span class="fw-bold">Freshman-year GPA:</span> <span class="info">{{ $row['american_freshman'] ?? '-' }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bold">Sophomore-year GPA:</span> <span class="info">{{ $row['american_sophomore'] }}</span>
+        <span class="fw-bold">Sophomore-year GPA:</span> <span class="info">{{ $row['american_sophomore'] ?? '-' }}</span>
     </p>
+    -->
 
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::RWANDAN())
     <p class="detail">

@@ -352,7 +352,7 @@ class MessageState extends Model
                     default => PostMatchIntentOption::NOTSURE(),
                 };
                 DB::update('
-                    update meto_student_universities set intent = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
+                    update meto_connections set intent = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
                 ');
                 return;
             case Campaign::POSTMATCHHEARDOF:
@@ -362,7 +362,7 @@ class MessageState extends Model
                     default => -1,
                 };
                 DB::update('
-                    update meto_student_universities set heardOf = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
+                    update meto_connections set heardOf = ' . $value .' where student_id = ' . $student_id . ' and institution_id = 77;
                 ');
                 return;
             default:

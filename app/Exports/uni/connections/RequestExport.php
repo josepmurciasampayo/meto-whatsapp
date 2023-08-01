@@ -31,9 +31,9 @@ class RequestExport implements FromCollection, WithHeadings
         $data = [];
         $uniId = auth()->user()->getUni()->id;
         $students = Student::query()
-            ->whereHas('connection', function ($q) use ($uniId) {
+            ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->where('status', MatchStudentInstitution::REQUEST);
+                    ->where('status', MatchStudentInstitution::ACCEPTED);
             })->get();
 
         foreach ($students as $student) {
@@ -55,8 +55,6 @@ class RequestExport implements FromCollection, WithHeadings
                 'affiliations' => $student->affiliations,
                 'refugee' => isset(YesNo::descriptions()[$student->refugee]) ? YesNo::descriptions()[$student->refugee] : "",
                 'disability' => $student->disability,
-                'created_at' => $student->created_at,
-                'updated_at' => $student->updated_at
             ];
         }
 

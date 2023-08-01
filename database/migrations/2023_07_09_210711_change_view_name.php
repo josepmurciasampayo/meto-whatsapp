@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         DB::statement('
-            create or replace view meto_view_student_detail as
+            create or replace view meto_view_student_zdetail as
             select
             u.id as user_id, s.id as student_id,
             s.curriculum_id,

@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\TypeaheadController;
 use Illuminate\Support\Facades\Route;
-
-// Unathenticated routes
+use App\Http\Controllers\{
+    Auth\WelcomeController,
+    CounselorController
+};
 
 Route::middleware(['auth', 'consent', 'university'])->group(function () {
+    Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::get('/welcome', [\App\Http\Controllers\UniController::class, 'welcome'])->name('uni.welcome');
     Route::get('/uni-name', [\App\Http\Controllers\UniController::class, 'name'])->name('uni.name');
     Route::post('/uni-name', [\App\Http\Controllers\UniController::class, 'nameStore'])->name('uni.name.store');
@@ -30,7 +32,7 @@ Route::middleware(['auth', 'consent', 'university'])->group(function () {
     Route::get('/uni-newuser', [\App\Http\Controllers\UniController::class, 'newUser'])->name('uni.newuser');
     Route::post('/uni-newuser', [\App\Http\Controllers\UniController::class, 'newUserStore'])->name('uni.newuser.store');
 
-    Route::post('connection/decide', [\App\Http\Controllers\UniController::class, 'decide'])->name('uni.connection.decide');
+    Route::post('connection/decide', [\App\Http\Controllers\ConnectionController::class, 'decide'])->name('uni.connection.decide');
     Route::post('connection/reset', [\App\Http\Controllers\UniController::class, 'reset'])->name('uni.connection.reset');
     Route::get('/uni-student-fetch/{student}', [\App\Http\Controllers\UniController::class, 'fetchStudent'])->name('uni.student.fetch');
 });

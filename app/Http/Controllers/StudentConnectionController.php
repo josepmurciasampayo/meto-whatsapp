@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Student\AskQuestionRequest;
 use App\Http\Requests\Student\StudentConnectionDecisionRequest;
 use App\Mail\SendAskQuestionEmail;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use Illuminate\Support\Facades\Mail;
 
 class StudentConnectionController extends Controller
 {
-    public function ask(StudentUniversity $studentUniversity, AskQuestionRequest $request)
+    public function ask(Connection $studentUniversity, AskQuestionRequest $request)
     {
         $recipients = [$studentUniversity->requester->email];
 
@@ -24,7 +24,7 @@ class StudentConnectionController extends Controller
         return true;
     }
 
-    public function decide(StudentUniversity $studentUniversity, StudentConnectionDecisionRequest $request)
+    public function decide(Connection $studentUniversity, StudentConnectionDecisionRequest $request)
     {
         return $studentUniversity->update([
             'student_response' => $request->get('student_decision')

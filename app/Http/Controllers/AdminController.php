@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EnumGroup;
 use App\Enums\General\MatchStudentInstitution;
 use App\Helpers;
 use App\Jobs\SendConnectionApprovalMail;
@@ -10,7 +11,7 @@ use App\Models\Chat\MessageState;
 use App\Models\LogComms;
 use App\Models\LoginEvents;
 use App\Models\ResponseBranch;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\Question;
 use App\Models\Student;
 use App\Services\UniService;
@@ -72,7 +73,25 @@ class AdminController extends Controller
 
     public function matchData(): View
     {
-        $data = StudentUniversity::getMatchData();
+        $data = Helpers::dbQueryArray('
+            select
+                m.id as match_id,
+                m.student_id,
+                institution_id,
+                m.status as status_code,
+                enum_desc as match_status,
+                m.created_at as match_date,
+                u.first,
+                u.last,
+                i.name,
+                a.text as "school"
+            from meto_connections as m
+            join meto_students as s on student_id = s.id
+            join meto_users as u on s.user_id = u.id
+            join meto_institutions as i on institution_id = i.id
+            join meto_enum as match_status on match_status.group_id = ' . EnumGroup::GENERAL_MATCH() . ' and m.status = enum_id
+            left outer join meto_answers as a on a.student_id = s.id and a.question_id = 118;
+        ');
         return view('admin.match-data', ['data' => $data]);
     }
 
@@ -97,7 +116,7 @@ class AdminController extends Controller
 
     public function matches(int $student_id): View
     {
-        $matches = StudentUniversity::getByUserID($student_id);
+        $matches = Connection::getByUserID($student_id);
         return view('admin.match-data', ['data' => $matches]);
     }
 
@@ -157,7 +176,7 @@ class AdminController extends Controller
             'hs_local' => DB::select('select count(*) as c from meto_high_schools')[0]->c,
             'hs_google' => $hs + $hs_answer,
 
-            'match_local' => DB::select('select count(*) as c from meto_student_universities')[0]->c,
+            'match_local' => DB::select('select count(*) as c from meto_connections')[0]->c,
             'match_google' => DB::connection($google_db)->select('select count(*) as c from inst_student_relationships')[0]->c,
             'match_imported' => DB::connection($google_db)->select('select count(*) as c from inst_student_relationships where imported = 1')[0]->c,
 
@@ -168,53 +187,6 @@ class AdminController extends Controller
             'answer_google' => DB::connection($google_db)->select('select count(*) as c from answers_table')[0]->c,
             'answer_imported' => DB::connection($google_db)->select('select count(*) as c from answers_table where imported = 1')[0]->c,
         ]);
-    }
-
-    public function approveConnection($connections)
-    {
-        if ($connections instanceof Collection) {
-            $minutesToAdd = 1;
-            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
-                $this->processApproval($connection, $minutesToAdd);
-                $minutesToAdd += 1;
-            }
-        } else {
-            $connection = StudentUniversity::find($connections);
-            $this->processApproval($connection);
-        }
-    }
-
-    public function processApproval($connection, $minutesToAdd = 1)
-    {
-        $connection->update([
-            'status' => MatchStudentInstitution::ACCEPTED
-        ]);
-
-        SendConnectionApprovalMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
-    }
-
-    public function denyConnection($connections)
-    {
-        if ($connections instanceof Collection) {
-            $connections = $connections->pluck('id');
-            $minutesToAdd = 1;
-            foreach (StudentUniversity::whereIn('id', $connections->toArray())->get() as $connection) {
-                $this->processDenial($connection, $minutesToAdd);
-                $minutesToAdd += 1;
-            }
-        } else {
-            $connection = StudentUniversity::find($connections)->first();
-            $this->processDenial($connection);
-        }
-    }
-
-    public function processDenial($connection, $minutesToAdd = 1)
-    {
-        $connection->update([
-            'status' => MatchStudentInstitution::DENIED
-        ]);
-
-        SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 
     public function deleteStudent(Student $student)

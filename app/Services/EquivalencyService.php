@@ -16,6 +16,7 @@ class EquivalencyService
     public function update(Student $student): void
     {
         switch ($student->curriculum()) {
+
             case Curriculum::IB:
                 $this->updateIB($student);
                 break;
@@ -37,6 +38,7 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $this->updateNational($student);
                 break;
+
             default:
                 return;
         }
@@ -52,27 +54,27 @@ class EquivalencyService
             5924 => ScoreType::IBFINAL,
             5925 => ScoreType::IBPREDICTED,
             5926 => ScoreType::IBSEMESTER,
-            null => null,
-            default => null,
+            null => ScoreType::IBFINAL,
+            default => ScoreType::IBFINAL,
         };
-        if ($scoreType) {
-            $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
 
-            $answers = Answer::where('student_id', $student->id)
-                ->whereIn('question_id', $question_ids)
-                ->get();
-            $total = 0;
+        $question_ids = ($scoreType == ScoreType::IBFINAL) ? [34, 36, 38, 35, 33, 37, 459] : [34, 36, 38, 35, 33, 37];
 
-            foreach ($answers as $answer) {
-                if (is_null($answer->response_id)) {
-                    return;
-                }
-                $total += $answer->text;
+        $answers = Answer::where('student_id', $student->id)
+            ->whereIn('question_id', $question_ids)
+            ->get();
+        $total = 0;
+
+        foreach ($answers as $answer) {
+            if (is_null($answer->text)) {
+                return;
             }
-
-            $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
-            $student->save();
+            $total += $answer->text;
         }
+
+        $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
+        $student->save();
+
     }
 
     public function updateCambridge(Student $student): void
@@ -81,63 +83,101 @@ class EquivalencyService
             ->where('question_id', 460)
             ->first()
             ?->response_id;
-        if (is_null($answer)) {
-            return;
-        }
+
         $scoreType = match($answer) {
             5914 => ScoreType::CAMFINAL,
             5915 => ScoreType::CAMPREDICTED,
             5916 => ScoreType::CAMAS,
-            default => null,
-            null => null,
+            default => ScoreType::CAMFINAL,
         };
-        if ($scoreType) {
-            $answers = Answer::where('student_id', $student->id)
-                ->whereIn('question_id', [168, 169, 170])
-                ->get();
-            $final = array();
-            foreach ($answers as $answer) {
-                if (is_null($answer->response_id)) {
-                    return;
-                }
-                $final[] = $answer->text;
-            }
 
-            if (is_null($final)) {
+        $answers = Answer::where('student_id', $student->id)
+            ->whereIn('question_id', [168, 169, 170])
+            ->get();
+
+        if ($answers->isEmpty()) {
+            //echo "$student->user_id,";
+            return;
+        }
+
+        $final = [];
+        foreach ($answers as $answer) {
+            if (is_null($answer->text)) {
+                //echo "$student->user_id,";
                 return;
             }
-            sort($final);
-            $final = implode($final);
-            $student->equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
-            $student->save();
+            $final[] = substr($answer->text, 0, 1);
         }
+
+        sort($final);
+        $final = implode($final);
+        $equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+        if (is_null($equivalency)) {
+            //echo "$student->user_id,";
+            return;
+        }
+        $student->equivalency = $equivalency;
+        $student->save();
     }
 
     public function updateAmerican(Student $student): void
     {
-        $weighted = Answer::where('student_id', $student->id)
-            ->where('question_id', 452)
-            ->first()
-            ?->response_id == 5909;
+        $senior = $junior = $sophomore = null;
+
         $senior = Answer::where('student_id', $student->id)
             ->where('question_id', 150)
             ->first()
             ?->text;
-        if ($senior && $weighted) {
-            $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
-            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $senior);
-            $student->save();
+        if (str_contains($senior, "I have not")) {
+            $senior = null;
+        }
+
+        if (is_null($senior)) {
+            $junior = Answer::where('student_id', $student->id)
+                ->where('question_id', 143)
+                ->first()
+                ?->text;
+            if (str_contains($junior, "I")) {
+                $junior = null;
+            }
+        }
+
+        if (is_null($junior) && is_null($senior)) {
+            $sophomore = Answer::where('student_id', $student->id)
+                ->where('question_id', 154)
+                ->first()
+                ?->text;
+            if (str_contains($sophomore, "I")) {
+                $sophomore = null;
+            }
+        }
+
+        $score = $senior ?? $junior ?? $sophomore ?? null;
+        if (is_null($score)) {
             return;
         }
-        $junior = Answer::where('student_id', $student->id)
-            ->where('question_id', 143)
-            ->first()
-            ?->test;
-        if ($junior && $weighted) {
-            $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
-            $student->equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $junior);
-            $student->save();
+
+        if ($score > 4.0) {
+            $weighted = true;
+        } else {
+            $weighted = Answer::where('student_id', $student->id)
+                    ->where('question_id', 452)
+                    ->first()
+                    ?->response_id == 5909;
+            if (is_null($weighted)) {
+                $weighted = true;
+            }
         }
+
+        if ($senior) {
+            $scoreType = ($weighted) ? ScoreType::AMSENIORW : ScoreType::AMSENIORU;
+        } else {
+            $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
+        }
+
+        $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
+        $student->equivalency = $equivalency;
+        $student->save();
     }
 
     public function updateRwandan(Student $student): void
@@ -276,7 +316,9 @@ class EquivalencyService
             case Curriculum::NATIONAL:
                 $minGradeEquivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $uni->min_grade);
                 break;
-        };
+            default:
+                return;
+        }
 
         $uni->update([
             'min_grade_equivalency' => $minGradeEquivalency
@@ -287,9 +329,9 @@ class EquivalencyService
     {
         //dd("Curriculum: $curriculum->value ScoreType: $scoreType->value Sore: $score");
         $equivalency = Equivalency::where('curriculum_id', $curriculum())->
-        where('score_type', $scoreType())->
-        where('score', $score)->
-        first();
-        return ($equivalency?->percentile);
+            where('score_type', $scoreType())->
+            where('score', $score)->
+            first();
+        return $equivalency?->percentile;
     }
 }

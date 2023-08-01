@@ -32,10 +32,12 @@
             <div class="alert alert-danger d-none" id="mainErrorAlert">
                 <strong>Something went wrong.</strong>
             </div>
-            <livewire:students.student-connections-table/>
+            @if(\App\Http\Livewire\students\StudentConnectionsTable::getStudents()->count() > 0)
+                <livewire:students.student-connections-table/>
+            @endif
         </div>
 
-        <div class="flex justify-center ">
+        <div class="flex justify-center">
             <div class="w-50 my-10">
                 <!-- <x -connection-table/> -->
             </div>

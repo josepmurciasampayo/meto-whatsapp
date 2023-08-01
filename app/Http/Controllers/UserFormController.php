@@ -7,7 +7,7 @@ use App\Enums\Chat\Surveys\PostMatchIntentOption;
 use App\Enums\Chat\Surveys\PostMatchNotApplyOption;
 use App\Enums\Chat\Surveys\PostMatchNotSureOption;
 use App\Enums\General\Form;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Enums\General\MatchStudentInstitution as EnumMatch;
 use App\Models\User;
 use App\Models\UserForm;
@@ -39,7 +39,7 @@ class UserFormController extends Controller
 
     public function showEndOfCycle(UserForm $userForm) :View
     {
-        $matches = StudentUniversity::getByUserID($userForm->user_id);
+        $matches = Connection::getByUserID($userForm->user_id);
         Log::channel('form')->debug("Found " . count($matches) . " matches");
         $user = User::find($userForm->user_id);
         $data = [
@@ -58,30 +58,6 @@ class UserFormController extends Controller
         }
     }
 
-    public function showPostMatchApply(UserForm $userForm) :View
-    {
-        $intent = StudentUniversity::getIntentByUserAndUniversity($userForm->user_id, 77);
-        switch ($intent) {
-            case PostMatchIntentOption::YES():
-                return view('forms.postmatchapply', [
-                    'options' => PostMatchApplyOption::descriptions(),
-                    'url' => $userForm->url,
-                ]);
-            case PostMatchIntentOption::NO():
-                return view('forms.postmatchnotapply', [
-                    'options' => PostMatchNotApplyOption::descriptions(),
-                    'url' => $userForm->url,
-                ]);
-            case PostMatchIntentOption::NOTSURE():
-                return view('forms.postmatchnotsure', [
-                    'options' => PostMatchNotSureOption::descriptions(),
-                    'url' => $userForm->url,
-                ]);
-            default:
-                abort(404);
-        }
-    }
-
     public function update(Request $request) :View
     {
         $toStore = $request->toArray();
@@ -96,24 +72,15 @@ class UserFormController extends Controller
 
         switch($userForm->form_id) {
             case Form::ENDOFCYCLE():
-                $matches = StudentUniversity::getByUserID($userForm->user_id);
+                $matches = Connection::getByUserID($userForm->user_id);
                 if (count($matches) == 0) {
                     Log::channel('form')->error('No matches found for form URL: ' . $userForm->url);
                     return view('errors.404');
                 }
 
                 foreach ($request['matches'] as $match_id => $status) {
-                    StudentUniversity::updateMatchStatusByMatchID($match_id, $status, $userForm->user_id);
+                    Connection::updateMatchStatusByMatchID($match_id, $status, $userForm->user_id);
                 }
-                break;
-            case Form::POSTMATCH():
-                $factors = array();
-                for ($i = 1; $i<8; ++$i) {
-                    if ($request->$i) {
-                        $factors[] = $i;
-                    }
-                }
-                StudentUniversity::updateFactors($userForm->user_id, $factors);
                 break;
         }
 

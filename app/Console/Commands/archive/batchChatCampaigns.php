@@ -38,7 +38,7 @@ class batchChatCampaigns extends Command
             SELECT u1.id as user_id, u1.first, u1.last, u1.email, u1.phone_raw
             FROM meto_users AS u1
             join meto_students as s on s.user_id = u1.id
-            join meto_student_universities as su on s.id = su.student_id
+            join meto_connections as su on s.id = su.student_id
             JOIN (
                 SELECT u2.id
                 FROM meto_users as u2

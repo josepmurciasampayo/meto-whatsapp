@@ -13,12 +13,10 @@ use App\Mail\UniInvite;
 use App\Models\Institution;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
-use App\Models\Question;
-use App\Models\Student;
-use App\Models\StudentDetailView;
-use App\Models\StudentUniversity;
+use App\Models\Connection;
 use App\Models\User;
 use App\Models\ViewStudentDetail;
+use App\Services\StudentService;
 use App\Services\UniService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -306,11 +304,11 @@ class UniController extends Controller
 
     public static function students(int $highschool_id)
     {
-        $rawData = Student::getStudentsAtSchool($highschool_id);
+        $rawData = StudentService::getStudentsAtSchool($highschool_id);
         $data = "";
 
         foreach ($rawData as $key => $student) {
-            $connection = StudentUniversity::where('student_id', $student['student_id'])->first();
+            $connection = Connection::where('student_id', $student['student_id'])->first();
             if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
                 unset($rawData[$key]);
             }
@@ -328,140 +326,6 @@ class UniController extends Controller
         }
 
 //        return $rawData;
-    }
-
-    public function decide(Request $request)
-    {
-        if (count($request->all()) === 1) {
-            return redirect()->back();
-        }
-
-        $hasConnect = false;
-        foreach ($request->all() as $key => $value) {
-            if (!$hasConnect && $value === 'connect') $hasConnect = true;
-        }
-
-        if (!$hasConnect) {
-            return $this->handleMaybeAndArchiveStudents($request);
-        }
-
-        $request->validate([
-            'application_link' => [
-                'bail', 'required', 'url'
-            ],
-            'upcoming_deadline' => [
-                'bail', 'required', 'date',
-                'after:now'
-            ],
-            'upcoming_webinar_events' => [
-                'bail', 'nullable', 'string',
-                'max:1000'
-            ]
-        ]);
-
-        $items = $request->all();
-
-        $uniId = auth()->user()->getUni()->id;
-
-        $decisions = [
-            'connect' => [],
-            'maybe' => [],
-            'archive' => []
-        ];
-
-        foreach ($items as $key => $value) {
-            if (str_starts_with($key, 'student_')) {
-                $decisions[$value][] = trim($key, 'student_');
-            }
-        }
-
-        $admin = 'abraham@meto-intl.org';
-        $createdConnections = [];
-
-        foreach ($decisions as $action => $studentIds) {
-            foreach ($studentIds as $id) {
-                $student = Student::find($id);
-                // Create a new connection
-                if ($action === 'connect') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
-                } else if ($action === 'maybe') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::MAYBE, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
-                } else if ($action === 'archive') {
-                    $createdConnection = $this->createStudentInstitutionConnection($student, MatchStudentInstitution::ARCHIVED, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
-                }
-                $createdConnections[] = $createdConnection;
-            }
-        }
-
-        $createdConnections = array_filter($createdConnections, function ($connection) {
-            return $connection->status === MatchStudentInstitution::REQUEST;
-        });
-
-        // Send a request email to the admin
-        Mail::to($admin)->send(new SendConnectionRequestToAdmin($student, $createdConnections));
-
-        return back()->with('response', 'Requests sent successfully.');
-    }
-
-    public function handleMaybeAndArchiveStudents($request)
-    {
-        $items = $request->all();
-
-        $uniId = auth()->user()->getUni()->id;
-
-        $decisions = [
-            'maybe' => [],
-            'archive' => []
-        ];
-
-        foreach ($items as $key => $value) {
-            if (str_starts_with($key, 'student_')) {
-                $decisions[$value][] = trim($key, 'student_');
-            }
-        }
-
-        $admin = 'abraham@meto-intl.org';
-
-        foreach ($decisions as $action => $studentIds) {
-            foreach ($studentIds as $id) {
-                $student = Student::find($id);
-                // Create a new connection
-                if ($action === 'maybe') {
-                    $this->createStudentInstitutionConnection(
-                        $student,
-                        MatchStudentInstitution::MAYBE,
-                        $uniId,
-                        null,
-                        null,
-                        null
-                    );
-                } else if ($action === 'archive') {
-                    $this->createStudentInstitutionConnection(
-                        $student,
-                        MatchStudentInstitution::ARCHIVED,
-                        $uniId,
-                        null,
-                        null,
-                        null
-                    );
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public function createStudentInstitutionConnection(Student $student, MatchStudentInstitution $status, int $institutionId, string|null $link, string|null $deadline, string|null $events)
-    {
-        return StudentUniversity::create([
-            'student_id' => $student->id,
-            'institution_id' => $institutionId,
-            'requester_id' => auth()->id(),
-            'status' => $status(),
-            'application_link' => $link,
-            'deadline' => $deadline,
-            'events' => $events,
-        ]);
     }
 
     public function fetchStudent(Request $request)

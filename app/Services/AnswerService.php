@@ -26,8 +26,6 @@ class AnswerService
 
         switch ($question->format) {
             case QuestionFormat::DATE():
-                //dd($input);
-                //break;
             case QuestionFormat::INPUT():
             case QuestionFormat::TEXTAREA():
             case QuestionFormat::EMAIL():
@@ -79,74 +77,4 @@ class AnswerService
         return $answerArray;
     }
 
-    public function updateStudent(Student $student, int $question_id, string $answer, ?string $answerExpanded, ?int $responseID): void
-    {
-        switch ($question_id) {
-            case 244:
-                $student->efc = Helpers::stripNonNumeric($answer);
-                break;
-            case 104:
-                $student->countryHS = $answerExpanded;
-                break;
-            case 318:
-                $student->curriculum = substr($answer, strpos($answerExpanded, ''));
-                $student->curriculum_id = \App\Models\Curriculum::where('response_id', $responseID)->first()?->enum_id;
-                break;
-            case 288:
-                $student->citizenship = $answerExpanded;
-                break;
-            case 290:
-                $student->citizenship_extra = $answerExpanded;
-                break;
-            case 13:
-                $student->track = $answerExpanded;
-                break;
-            case 260:
-                $student->destination = $answerExpanded;
-                break;
-            case 271:
-                $student->gender = $answerExpanded;
-                break;
-            case 44:
-                $student->ranking = $answerExpanded;
-                break;
-            case 69:
-                $student->det = $answer;
-                break;
-            case 67:
-                $student->act = $answer;
-                break;
-            case 73:
-                $student->toefl = $answer;
-                break;
-            case 70:
-                $student->ielts = $answer;
-                break;
-            case 164:
-                $student->affiliations = $answer;
-                break;
-            case 285:
-                $student->refugee = $answer;
-                break;
-            case 308:
-                $student->disability = $answerExpanded;
-                break;
-            case 275:
-                $student->dob = $answer;
-                break;
-            case 296:
-                $student->email_owner = $answerExpanded;
-                break;
-            case 312:
-                $student->submission_device = $answerExpanded;
-                break;
-            case 283:
-                $student->birth_city = $answer;
-                break;
-            case 281:
-                $student->birth_country = $answer;
-                break;
-        }
-        $student->save();
-    }
 }

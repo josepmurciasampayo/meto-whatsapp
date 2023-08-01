@@ -12,7 +12,7 @@ use App\Services\EquivalencyService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class convertStudentAnswers extends Command
+class ConvertStudentAnswers extends Command
 {
     protected $signature = 'convert:studentAnswers';
 
@@ -22,11 +22,14 @@ class convertStudentAnswers extends Command
     {
         //$this->updateResponseIDs();
 
-        $this->updateQuestions();
+        // $this->updateQuestions();
 
         //$this->mergeQuestions();
+
         //$this->changeResponses();
-        //$this->calculateEquivalencies();
+
+        //$this->convertCambridge();
+
         return Command::SUCCESS;
     }
 
@@ -60,72 +63,6 @@ class convertStudentAnswers extends Command
         echo "\nResponse IDs are updated\n";
     }
 
-    public function updateQuestions(): void
-    {
-        /*
-        DB::update('update meto_students set
-                         efc = null,
-                         countryHS = null,
-                         curriculum = null,
-                         curriculum_id = null,
-                         citizenship = null,
-                         citizenship_extra = null,
-                         track = null,
-                         destination = null,
-                         gender = null,
-                         ranking = null,
-                         det = null,
-                         act = null,
-                         toefl = null,
-                         ielts = null,
-                         affiliations = null,
-                         refugee = null,
-                         disability = null,
-                         dob = null,
-                         email_owner = null,
-                         submission_device = null,
-                         birth_city = null,
-                         birth_country = null
-        ;');
-*/
-        // udpate student data
-        $questions = [
-            /* question ID => question column in the student table */
-            318 => 'curriculum',
-            /*
-            244 => 'efc',
-            104 => 'countryHS',
-            288 => 'citizenship',
-            290 => 'citizenship_extra',
-            13 => 'track',
-            260 => 'destination',
-            271 => 'gender',
-            44 => 'ranking',
-            69 => 'det',
-            67 => 'act',
-            73 => 'toefl',
-            70 => 'ielts',
-            164 => 'affiliations',
-            285 => 'refugee',
-            308 => 'disability',
-            275 => 'dob',
-            296 => 'email_owner',
-            312 => 'submission_device',
-            283 => 'birth_city',
-            281 => 'birth_country',
-            */
-        ];
-        foreach ($questions as $question_id => $field) {
-            $answers = Answer::where('question_id', $question_id)->get();
-            echo "\nAbout to update " . count($answers) . " answers into student table";
-            foreach ($answers as $answer) {
-                (new AnswerService())->updateStudent($answer->student, $answer->question_id, $answer->text, $answer->expanded_text, $answer->response_id);
-            }
-        }
-
-        echo "\nQuestions are updated\n";
-    }
-
     public function mergeQuestions(): void
     {
         // merge questions
@@ -153,17 +90,54 @@ class convertStudentAnswers extends Command
         DB::update("UPDATE meto_answers SET `text` = '$500' WHERE `text` = '500' AND question_id = 244;");
         DB::update("UPDATE meto_answers SET `text` = '$2000' WHERE `text` = '2000' AND question_id = 244;");
 
-        echo "\nQueries are run";
+        echo "\nEFC responses updated";
     }
 
-    public function calculateEquivalencies(): void
+    public function convertCambridge(): void
     {
-        echo "\nProcessing equivalencies";
-        $students = Student::all();
-        foreach ($students as $student) {
-            (new EquivalencyService())->update($student);
+        /*
+        $question_ids = [
+            174 => 399,
+            182 => 400,
+            183 => 402,
+            179 => 168,
+            180 => 169,
+            181 => 170,
+        ];
+        foreach ($question_ids as $old_id => $new_id) {
+            $answers = Answer::where('question_id', $old_id)->get();
+            foreach ($answers as $answer) {
+                $existing = Answer::where('student_id', $answer->student_id)->where('question_id', $old_id)->first();
+                $this->updateAnswer($answer->student_id, $new_id, $existing->text);
+            }
         }
-        echo "\nEquivalencies are processed";
+        */
+
+        $question_ids = [
+            171 => 168,
+            172 => 169,
+            173 => 170,
+        ];
+        foreach ($question_ids as $old_id => $new_id) {
+            $answers = Answer::where('question_id', $old_id)->get();
+            foreach ($answers as $answer) {
+                $existing = Answer::where('student_id', $answer->student_id)->where('question_id', $old_id)->first();
+                $this->updateAnswer($answer->student_id, $new_id, $existing->text);
+            }
+        }
+    }
+
+    public function updateAnswer(int $student_id, int $new_id, string $text): void {
+        $a = Answer::where('student_id', $student_id)->where('question_id', $new_id)->first();
+        if ($a) {
+            return;
+        }
+
+        $a = new Answer();
+        $a->question_id = $new_id;
+        $a->text = $text;
+        $a->student_id = $student_id;
+        $a->save();
     }
 
     public function mergeQuestion(Answer $answer, $new_question_id): void
