@@ -27,27 +27,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'first',
-        'middle',
-        'last',
-        'title',
-        'email',
-        'role',
-        'status',
-        'password',
-        'phone_raw',
-        'phone_country',
-        'phone_area',
-        'phone_local',
-        'phone_combined',
-        'phone_verified',
-        'whatsapp_used',
-        'whatsapp_consent',
-        'interest',
-        'phone_array',
-        'phone_owner'
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
