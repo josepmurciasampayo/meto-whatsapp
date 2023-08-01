@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Answer::observe(AnswerObserver::class);
-        Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
-        Model::preventAccessingMissingAttributes(! $this->app->isProduction());
+        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+        Model::preventAccessingMissingAttributes($this->app->isLocal());
     }
 }
