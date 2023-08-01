@@ -94,11 +94,11 @@ class HighSchool extends Model
 
     public function counselors()
     {
-        return $this->belongsToMany(
+        return $this->hasManyThrough(
             User::class,
-            'user_high_schools',
-            'id',
-            'user_id'
-        )->where('users.role', Role::COUNSELOR);
+            UserHighSchool::class,
+            'highschool_id',
+            'id'
+        )->whereIn('users.role', [Role::ADMIN, Role::COUNSELOR]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\General\MatchStudentInstitution;
 use App\Jobs\SendConnectionApprovalMail;
 use App\Jobs\SendConnectionDenialMail;
+use App\Mail\Connections\ConnectionWasApproved;
 use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\Student;
 use App\Models\Connection;
@@ -173,7 +174,9 @@ class ConnectionController extends Controller
             'status' => MatchStudentInstitution::ACCEPTED
         ]);
 
-        SendConnectionApprovalMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
+        $counselors = $connection->student?->user?->highSchool?->highSchool?->counselors;
+
+        SendConnectionApprovalMail::dispatch($connection, $counselors)->delay(now()->addMinutes($minutesToAdd));
     }
 
     public function denyConnections(Collection $connections)

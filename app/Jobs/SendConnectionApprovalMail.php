@@ -7,6 +7,7 @@ use App\Models\Connection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -18,14 +19,18 @@ class SendConnectionApprovalMail implements ShouldQueue
 
     public Connection $studentUniversity;
 
+    public Collection $counselors;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, Collection $counselors)
     {
         $this->studentUniversity = $connection;
+
+        $this->counselors = $counselors;
     }
 
     /**
@@ -37,8 +42,8 @@ class SendConnectionApprovalMail implements ShouldQueue
     {
         $mail = Mail::to($this->studentUniversity->student->user->email);
 
-        if ($counselors = $this->studentUniversity->student->user->highSchool->highSchool->counselors) {
-            $mail->cc($counselors->pluck('email'));
+        if ($this->counselors) {
+            $mail->cc($this->counselors->pluck('email'));
         }
 
         $mail->send(new ConnectionWasApproved($this->studentUniversity));
