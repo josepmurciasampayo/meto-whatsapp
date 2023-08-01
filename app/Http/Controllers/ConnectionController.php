@@ -116,7 +116,7 @@ class ConnectionController extends Controller
                 // Create a new connection
                 if ($action === 'maybe') {
                     $this->createConnection(
-                        $student,
+                        $student->id,
                         MatchStudentInstitution::MAYBE,
                         $uniId,
                         null,
@@ -125,7 +125,7 @@ class ConnectionController extends Controller
                     );
                 } else if ($action === 'archive') {
                     $this->createConnection(
-                        $student,
+                        $student->id,
                         MatchStudentInstitution::ARCHIVED,
                         $uniId,
                         null,
