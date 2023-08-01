@@ -97,9 +97,9 @@ class User extends Authenticatable
         return $this->hasMany(UserForm::class);
     }
 
-    public function highSchools()
+    public function highSchool()
     {
-        return $this->hasMany(UserHighSchool::class);
+        return $this->hasOne(UserHighSchool::class);
     }
 
     public static function getByPhone(string $phone): ?User

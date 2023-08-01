@@ -210,7 +210,7 @@ class AdminController extends Controller
 
             $user?->userForms()->delete();
 
-            $user?->highSchools()->delete();
+            $user?->highSchool()->delete();
 
             $student?->delete();
 

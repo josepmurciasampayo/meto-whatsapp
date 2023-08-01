@@ -54,6 +54,11 @@ final class StudentConnectionsTable extends PowerGridComponent
      */
     public function datasource(): array|\Illuminate\Database\Eloquent\Collection
     {
+        return $this->getStudents();
+    }
+
+    public static function getStudents()
+    {
         return Connection::query()
             ->where('student_id', auth()->id())
             ->get();

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\User\Role;
 use App\Helpers;
+use App\Models\Joins\UserHighSchool;
 use \Illuminate\Database\Eloquent\Model;
 
 class HighSchool extends Model
@@ -88,5 +90,15 @@ class HighSchool extends Model
             join meto_user_high_schools as m on m.user_id = u.id and m.highschool_id = ' . $school_id . '
             ;
         ')[0];
+    }
+
+    public function counselors()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_high_schools',
+            'id',
+            'user_id'
+        )->where('users.role', Role::COUNSELOR);
     }
 }
