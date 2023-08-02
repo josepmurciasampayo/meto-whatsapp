@@ -21,6 +21,7 @@ return new class extends Migration
             s.equivalency as cambridge_equivalency,
             cambridge_active.text as cambridge_active,
             cambridge_active.response_id as cambridge_active_id,
+            grad_cambridge.text as grad_cambridge,
             cambridge_desc.text as cambridge_desc,
             cambridge_A_subj.text as cambridge_A_subj,
             cambridge_A_score.text as cambridge_A_score,
@@ -31,6 +32,7 @@ return new class extends Migration
             from meto_users as u
             join meto_students as s on s.user_id = u.id and s.curriculum_id = 6
             left outer join meto_answers as cambridge_active on cambridge_active.question_id = 61 and cambridge_active.student_id = s.id
+            left outer join meto_answers as grad_cambridge on grad_cambridge.question_id = 53 and grad_cambridge.student_id = s.id
             left outer join meto_answers as cambridge_desc on cambridge_desc.question_id = 460 and cambridge_desc.student_id = s.id
             left outer join meto_answers as cambridge_A_subj on cambridge_A_subj.question_id = 399 and cambridge_A_subj.student_id = s.id
             left outer join meto_answers as cambridge_A_score on cambridge_A_score.question_id = 168 and cambridge_A_score.student_id = s.id
@@ -46,6 +48,7 @@ return new class extends Migration
 			s.equivalency as american_equivalency,
 			american_active.text as american_active,
 			american_active.response_id as american_active_id,
+			grad_american.text as grad_american,
             american_freshman.text as american_freshman,
             american_sophomore.text as american_sophomore,
             american_junior.text as american_junior,
@@ -53,6 +56,7 @@ return new class extends Migration
             from meto_users as u
             join meto_students as s on s.user_id = u.id and s.curriculum_id = 4
             left outer join meto_answers as american_active on american_active.question_id = 61 and american_active.student_id = s.id
+            left outer join meto_answers as grad_american on grad_american.question_id = 52 and grad_american.student_id = s.id
             left outer join meto_answers as american_freshman on american_freshman.question_id = 134 and american_freshman.student_id = s.id
             left outer join meto_answers as american_sophomore on american_sophomore.question_id = 154 and american_sophomore.student_id = s.id
             left outer join meto_answers as american_junior on american_junior.question_id = 143 and american_junior.student_id = s.id
@@ -189,6 +193,7 @@ create or replace view meto_view_student_ib as
             u.id as user_id,
             active.text as actively_applying,
             active.response_id as actively_applying_id,
+            s.curriculum,
             s.curriculum_id,
             hs.text as hs,
             hs_city.text as hs_city,

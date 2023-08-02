@@ -113,7 +113,7 @@ class Student extends Model
     {
         switch ($answer->question_id) {
             case 318:
-                $this->curriculum = str_replace(" Curriculum", "", $answer->text);
+                $this->curriculum = $answer->text;
                 $c = \App\Models\Curriculum::where('response_id', $answer->response_id)->first();
                 $this->curriculum_id = $c?->enum_id;
                 break;
