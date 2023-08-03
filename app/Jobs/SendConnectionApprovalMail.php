@@ -26,7 +26,7 @@ class SendConnectionApprovalMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Connection $connection, Collection $counselors)
+    public function __construct(Connection $connection, ?Collection $counselors)
     {
         $this->studentUniversity = $connection;
 
