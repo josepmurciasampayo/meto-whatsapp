@@ -19,7 +19,7 @@ class SendConnectionApprovalMail implements ShouldQueue
 
     public Connection $studentUniversity;
 
-    public Collection $counselors;
+    public ?Collection $counselors;
 
     /**
      * Create a new job instance.
