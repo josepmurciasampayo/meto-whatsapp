@@ -58,9 +58,9 @@ final class StudentTable extends PowerGridComponent
                 $query->whereNotNull('equivalency')
                     ->where('equivalency', '>=', $uni->min_grade_equivalency);
             })
-            ->where(function ($query) use ($uni) {
+            ->where(function ($query) {
                 $query->whereNotNull('actively_applying_id')
-                    ->whereIn('actively_applying_id', [70, 71, 72, 73]);
+                    ->whereIn('actively_applying_id', [70, 71]);
             })->distinct();
     }
 

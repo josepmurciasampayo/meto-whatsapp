@@ -39,6 +39,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('questions', \App\Http\Controllers\QuestionController::class);
     Route::resource('equivalencies', \App\Http\Controllers\EquivalencyController::class);
     Route::get('connections', [\App\Http\Controllers\ConnectionController::class, 'index'])->name('connections.index');
+    Route::get('requests', [\App\Http\Controllers\ConnectionController::class, 'requests'])->name('connections.requests');
     Route::resource('curriculum', CurriculumController::class);
 
     Route::get('/admin/answers/{question_id}', [AdminController::class, 'answers'])->name('answers');

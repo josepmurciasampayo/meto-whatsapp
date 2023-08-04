@@ -3,12 +3,30 @@
 namespace App\Models;
 
 use App\Enums\User\Role;
+use App\Enums\HighSchool\Role as HSRole;
 use App\Helpers;
 use App\Models\Joins\UserHighSchool;
+use Illuminate\Database\Eloquent\Collection;
 use \Illuminate\Database\Eloquent\Model;
 
 class HighSchool extends Model
 {
+    public function counselors()
+    {
+        /*
+        $ids = UserHighSchool::where('highschool_id', $this->id)->whereIn('role', [HSRole::ADMIN(), HSRole::COUNSELOR()])->pluck('user_id');
+        return User::find($ids);
+        */
+        return $this->hasManyThrough(
+            User::class,
+            UserHighSchool::class,
+            'highschool_id',
+            'id',
+            'id',
+            'user_id'
+        )->whereIn('user_high_schools.role', [HSRole::ADMIN(), HSRole::COUNSELOR()]);
+    }
+
     public static function getAdminData(int $id = null): array
     {
         $where = ($id) ? " where h.id = " . $id : '';
@@ -90,15 +108,5 @@ class HighSchool extends Model
             join meto_user_high_schools as m on m.user_id = u.id and m.highschool_id = ' . $school_id . '
             ;
         ')[0];
-    }
-
-    public function counselors()
-    {
-        return $this->hasManyThrough(
-            User::class,
-            UserHighSchool::class,
-            'highschool_id',
-            'id'
-        )->whereIn('users.role', [Role::ADMIN, Role::COUNSELOR]);
     }
 }

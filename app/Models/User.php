@@ -13,6 +13,8 @@ use App\Models\Chat\MessageState;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -72,14 +74,24 @@ class User extends Authenticatable
         return $this->hasMany(MessageState::class);
     }
 
-    public function userForms()
+    public function userForms(): HasMany
     {
         return $this->hasMany(UserForm::class);
     }
 
-    public function highSchool()
+    public function highSchool(): HighSchool
     {
-        return $this->hasOne(UserHighSchool::class);
+        $id = UserHighSchool::where('user_id', $this->id)->first()->highschool_id;
+        return HighSchool::find($id);
+        /*
+        return $this->hasOneThrough(
+            HighSchool::class,
+            UserHighSchool::class,
+            'user_id',
+            'id',
+            'id',
+            'highschool_id');
+        */
     }
 
     public static function getByPhone(string $phone): ?User

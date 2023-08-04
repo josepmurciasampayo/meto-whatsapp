@@ -19,16 +19,7 @@
         </tfoot>
 
         <tbody>
-        <?php foreach ($data as $row) { ?>
-        <?php $date = new DateTime($row['match_date']); ?>
-        <tr>
-            <td><?php echo $row['first'] . ' ' . $row['last'] ?></td>
-            <td><?php echo $row['name'] ?></td>
-            <td><?php echo $date->format('D, M j g:ia') ?></td>
-            <td><?php echo $row['match_status'] ?></td>
-        </tr>
-        <?php } ?>
+
         </tbody>
     </table>
-    <x-dataTable></x-dataTable>
 </x-app-layout>

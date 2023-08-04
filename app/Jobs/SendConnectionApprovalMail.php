@@ -43,7 +43,8 @@ class SendConnectionApprovalMail implements ShouldQueue
         $mail = Mail::to($this->studentUniversity->student->user->email);
 
         if ($this->counselors) {
-            $mail->cc($this->counselors->pluck('email'));
+            $emails = $this->counselors->pluck('email');
+            $mail->cc($emails);
         }
 
         $mail->send(new ConnectionWasApproved($this->studentUniversity));

@@ -33,74 +33,36 @@ final class StudentsTable extends PowerGridComponent
   <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
 </svg>';
 
-    public $equivalency = null;
+    public int $efc;
 
-    public $efc = null;
+    public int $equivalency;
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Features Setup
-    |--------------------------------------------------------------------------
-    | Setup Table's general features
-    |
-    */
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
-//            Exportable::make('export')
-//                ->striped()
-//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-//            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Datasource
-    |--------------------------------------------------------------------------
-    | Provides data to your Table using a Model or Collection
-    |
-    */
-
-    /**
-     * PowerGrid datasource.
-     *
-     * @param null $efc
-     * @param null $equivalency
-     * @return Builder<Student>
-     */
-    public function datasource($efc = null, $equivalency = null): Builder
+    public function datasource(): Builder
     {
-        $query = Student::query();
+        $efc = $this->efc;
+        $equivalency = $this->equivalency;
 
-        if ($efc = $this->efc) {
-            $query->where(function ($query) use ($efc) {
-
-                if (! empty($efc)) {
-                    $query->whereNotNull('efc')
-                        ->where('efc', '>=', $efc);
-                }
-            });
-        }
-
-        if ($equivalency = $this->equivalency) {
-
-            if (! empty($equivalency)) {
-                $query->where(function ($query) use ($equivalency) {
-                    $query->whereNotNull('equivalency')
-                        ->where('equivalency', '>=', $equivalency);
-                });
-            }
-        }
-
-        return $query->where(function ($query) {
+        return Student::query()
+        ->where(function ($query) use ($efc) {
+            $query->whereNotNull('efc')
+                ->where('efc', '>=', $efc);
+        })
+        ->where(function ($query) use ($equivalency) {
+            $query->whereNotNull('equivalency')
+                ->where('equivalency', '>=', $equivalency);
+        })
+        ->where(function ($query) {
             $query->whereNotNull('actively_applying_id')
-                ->whereIn('actively_applying_id', [70, 71, 72, 73]);
+                ->whereIn('actively_applying_id', [70, 71]);
         })->distinct();
     }
 
@@ -138,21 +100,6 @@ final class StudentsTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn("details", function (Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'>$this->arrow</a>";
-            })
-            ->addColumn("connect", function (Student $student) {
-                $key = "connect_student_" . $student->id;
-                $name = "student_" . $student->id;
-
-                $maybeKey = "maybe_student_" . $student->id;
-                $maybeName = "student_" . $student->id;
-
-                $noKey = 'archive_student_' . $student->id;
-                $noName = 'student_' . $student->id;
-
-                return
-                    '<input type="radio" value="connect" id="' . e($key) . '" name="' . e($name) . '"> <label for="' . e($key) . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="connect" onclick="selectOption(this)">Yes</label>'
-                    . '<input type="radio" value="maybe" id="' . $maybeKey . '" name="' . $maybeName . '"> <label for="' . $maybeKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="maybe" onclick="selectOption(this)">Maybe</label>'
-                    . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="archive" onclick="selectOption(this)">No</label>';
             })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . number_format($student->efc, 0, '.', ','));
@@ -212,24 +159,9 @@ final class StudentsTable extends PowerGridComponent
             });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Include Columns
-    |--------------------------------------------------------------------------
-    | Include the columns added columns, making them visible on the Table.
-    | Each column can be configured with properties, filters, actions...
-    |
-    */
-
-    /**
-     * PowerGrid Columns.
-     *
-     * @return array<int, Column>
-     */
     public function columns(): array
     {
         return [
-//            Column::make('Connect', 'connect'),
             Column::make('Profile', 'details'),
             Column::make('EFC', 'efc')->sortable(),
             Column::make('Citizenship', 'citizenship')->searchable(),
@@ -248,11 +180,6 @@ final class StudentsTable extends PowerGridComponent
         ];
     }
 
-    /**
-     * PowerGrid Filters.
-     *
-     * @return array<int, Filter>
-     */
     public function filters(): array
     {
         return [
@@ -272,10 +199,5 @@ final class StudentsTable extends PowerGridComponent
                 'filterResults'
             ]
         );
-    }
-
-    public function filterResults($efc, $equivalency)
-    {
-        $this->datasource($efc, $equivalency);
     }
 }

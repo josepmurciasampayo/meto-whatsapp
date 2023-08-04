@@ -16,7 +16,7 @@
             </div>
         </form>
 
-        <livewire:admin.students-table :efc="intval(request()->get('efc'))" :equivalency="intval(request()->get('equivalency'))" />
+        <livewire:admin.students-table :efc="intval(request()->get('efc') ?? 0)" :equivalency="intval(request()->get('equivalency') ?? 0)" />
 
         <div id="student-details-card-holder"></div>
     </div>
