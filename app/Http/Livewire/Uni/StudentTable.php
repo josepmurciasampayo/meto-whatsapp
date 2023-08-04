@@ -95,13 +95,13 @@ final class StudentTable extends PowerGridComponent
                 return e(substr($student->countryHS, 0, 10));
             })
             ->addColumn('curriculum', function (Student $student) {
-                return e(substr($student->curriculum, 0, strpos($student->curriculum, ' ')));
+                return e(str_replace(" Curriculum", "", $student->curriculum));
             })
             ->addColumn('curriculum_id', function (Student $student) {
                 return e($student->curriculum_id);
             })
             ->addColumn('destination', function (Student $student) {
-                return e(substr($student->destination, 0, 10));
+                return e($student->destination);
             })
             ->addColumn('track', function (Student $student) {
                 return e(substr($student->track, 0, 12));
