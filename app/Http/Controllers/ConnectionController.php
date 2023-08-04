@@ -20,7 +20,7 @@ class ConnectionController extends Controller
     public function index(): View
     {
         return view('connection.index', [
-            'connections' => Connection::all()
+            'connections' => Connection::with('student', 'institution')->all()
         ]);
     }
 
