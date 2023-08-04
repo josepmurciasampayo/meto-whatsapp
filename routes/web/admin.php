@@ -54,4 +54,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/connections/{id}/deny', [\App\Http\Controllers\ConnectionController::class, 'denyConnection']);
 
     Route::post('/admin/student/{student}/delete', [AdminController::class, 'deleteStudent'])->name('admin.student.delete');
+
+    Route::get('/students-table', [AdminController::class, 'showStudentsTable'])->name('admin.students-table');
 });

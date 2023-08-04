@@ -231,4 +231,9 @@ class AdminController extends Controller
             ->orWhere('to', $phone)
             ->delete();
     }
+
+    public function showStudentsTable()
+    {
+        return view('admin.students-table');
+    }
 }
