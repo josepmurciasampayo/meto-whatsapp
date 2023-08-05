@@ -66,35 +66,11 @@ final class StudentsTable extends PowerGridComponent
         })->distinct();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Relationship Search
-    |--------------------------------------------------------------------------
-    | Configure here relationships to be used by the Search and Table Filters.
-    |
-    */
-
-    /**
-     * Relationship search.
-     *
-     * @return array<string, array<int, string>>
-     */
     public function relationSearch(): array
     {
         return [];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Add Column
-    |--------------------------------------------------------------------------
-    | Make Datasource fields available to be used as columns.
-    | You can pass a closure to transform/modify the data.
-    |
-    | ❗ IMPORTANT: When using closures, you must escape any value coming from
-    |    the database using the `e()` Laravel Helper function.
-    |
-    */
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
@@ -156,6 +132,12 @@ final class StudentsTable extends PowerGridComponent
                 }
                 $toReturnString = ($toReturn) ? implode(", ", $toReturn) : "";
                 return e($toReturnString);
+            })
+            ->addColumn('applying', function (Student $student) {
+                return e($student->actively_applying);
+            })
+            ->addColumn('applying_id', function (Student $student) {
+                return e($student->actively_applying_id);
             });
     }
 
@@ -177,6 +159,8 @@ final class StudentsTable extends PowerGridComponent
             Column::make('Affiliations', 'affiliations')->sortable(),
             Column::make('Refugee or Asylum-Seeker', 'refugee')->sortable(),
             Column::make('Disability Disclosure', 'disability'),
+            Column::make('Actively Applying', 'applying'),
+            Column::make('Actively Applying ID', 'applying_id'),
         ];
     }
 

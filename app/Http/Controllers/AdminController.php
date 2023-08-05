@@ -114,12 +114,6 @@ class AdminController extends Controller
         return self::commsLog();
     }
 
-    public function matches(int $student_id): View
-    {
-        $matches = Connection::getByUserID($student_id);
-        return view('admin.match-data', ['data' => $matches]);
-    }
-
     public function answers(int $question_id): View
     {
         $data = Helpers::dbQueryArray('
