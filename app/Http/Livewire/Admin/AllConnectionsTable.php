@@ -38,9 +38,8 @@ final class AllConnectionsTable extends PowerGridComponent
     */
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
+//            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
@@ -80,7 +79,13 @@ final class AllConnectionsTable extends PowerGridComponent
      */
     public function relationSearch(): array
     {
-        return [];
+        return [
+//            'student' => [
+//                'user' => [
+//                    'first'
+//                ]
+//            ]
+        ];
     }
 
     /*
@@ -109,24 +114,6 @@ final class AllConnectionsTable extends PowerGridComponent
             })
             ->addColumn('status', function (Connection $connection) {
                 return MatchStudentInstitution::descriptions()[$connection->status];
-            })
-            ->addColumn('student_curriculum', function (Connection $connection) {
-                return $connection->student->curriculum;
-            })
-            ->addColumn('student_equivalency', function (Connection $connection) {
-                return $connection->student->equivalency;
-            })
-            ->addColumn('student_efc', function (Connection $connection) {
-                return $connection->student->efc;
-            })
-            ->addColumn('institution_curriculum', function (Connection $connection) {
-                return Curriculum::descriptions()[$connection->institution->min_grade_curriculum] ?? '';
-            })
-            ->addColumn('institution_equivalency', function (Connection $connection) {
-                return $connection->institution->min_grade_equivalency;
-            })
-            ->addColumn('institution_efc', function (Connection $connection) {
-                return '$' . $connection->institution->efc;
             });
     }
 
@@ -147,24 +134,10 @@ final class AllConnectionsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Student', 'student')->searchable()->sortable(),
-            Column::make('Email', 'email'),
-            Column::make('Institution', 'institution')->searchable()->sortable(),
-//            Column::make('Status application', 'status_application')->searchable()->sortable(),
-//            Column::make('Status enrollment', 'status_enrollment')->searchable(),
-            Column::make('Status', 'status')->sortable(),
-
-            Column::make('Student curriculum', 'student_curriculum')->searchable()->sortable(),
-            Column::make('Student equivalency', 'student_equivalency')->searchable()->sortable(),
-            Column::make('Student efc', 'student_efc')->searchable()->sortable(),
-
-            Column::make('Institution curriculum', 'institution_curriculum')->searchable()->sortable(),
-            Column::make('Institution equivalency', 'institution_equivalency')->searchable()->sortable(),
-            Column::make('Institution efc', 'institution_efc')->searchable()->sortable(),
-
-//            Column::make('Intent', 'intent'),
-//            Column::make('Heard Of', 'heard_of'),
-//            Column::make('Factors', 'factors'),
+            Column::make('Student', 'student')->searchable(),
+            Column::make('Email', 'email')->searchable(),
+            Column::make('Institution', 'institution')->searchable(),
+            Column::make('Status', 'status')
         ];
     }
 
@@ -175,66 +148,15 @@ final class AllConnectionsTable extends PowerGridComponent
      */
     public function filters(): array
     {
+        $statuses = MatchStudentInstitution::cases();
+        $statuses = array_filter($statuses, function ($status) {
+            return $status->value !== 5 && $status->value !== 4;
+        });
+
         return [
-            Filter::inputText('name'),
-            Filter::datepicker('created_at_formatted', 'created_at'),
+            Filter::enumSelect('status', 'status')
+                ->dataSource($statuses)
+                ->optionLabel('name')
         ];
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Actions Method
-    |--------------------------------------------------------------------------
-    | Enable the method below only if the Routes below are defined in your app.
-    |
-    */
-
-    /**
-     * PowerGrid Connection Action Buttons.
-     *
-     * @return array<int, Button>
-     */
-
-    /*
-    public function actions(): array
-    {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('connection.edit', ['connection' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('connection.destroy', ['connection' => 'id'])
-               ->method('delete')
-        ];
-    }
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | Actions Rules
-    |--------------------------------------------------------------------------
-    | Enable the method below to configure Rules for your Table and Action Buttons.
-    |
-    */
-
-    /**
-     * PowerGrid Connection Action Rules.
-     *
-     * @return array<int, RuleActions>
-     */
-
-    /*
-    public function actionRules(): array
-    {
-       return [
-
-           //Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($connection) => $connection->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }
