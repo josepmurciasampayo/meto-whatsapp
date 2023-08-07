@@ -57,4 +57,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/student/{student}/delete', [AdminController::class, 'deleteStudent'])->name('admin.student.delete');
 
     Route::get('/students-table', [AdminController::class, 'showStudentsTable'])->name('admin.students-table');
+
+    Route::get('/all-connections', [AdminController::class, 'showAllStudentsTable'])->name('admin.all-connections.index');
 });

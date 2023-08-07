@@ -104,13 +104,13 @@
                     ['label' => 'Questions', 'icon' => 'fas fa-question', 'href' => route('questions.index')],
                     ['label' => 'Curricula', 'icon' => 'fas fa-book', 'href' => route('curriculum.index')],
                     ['label' => 'Students', 'icon' => 'fas fa-user', 'href' => route('students')],
-                    ['label' => 'Students Table', 'icon' => 'fas fa-user-graduate', 'href' => route('admin.students-table')],
-                    ['label' => 'Review New Connections', 'icon' => 'fas fa-handshake', 'href' => route('connections.requests')],
-                    ['label' => 'All Connections', 'icon' => 'fas fa-link', 'href' => route('connections.index')],
+                    ['label' => 'Review New Connections', 'icon' => 'fas fa-handshake', 'href' => route('connections.index')],
                     ['label' => 'Universities', 'icon' => 'fas fa-building', 'href' => route('universities')],
                     ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
                     ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
                     ['label' => 'Work Requests', 'icon' => 'fas fa-network-wired', 'href' => route('workRequest'), 'target' => '_blank'],
+                    ['label' => 'All Connections', 'icon' => 'fas fa-link', 'href' => route('admin.all-connections.index'), 'target' => '_blank'],
+                    ['label' => 'Students Table', 'icon' => 'fas fa-user-graduate', 'href' => route('admin.students-table'), 'target' => '_blank']
                 ]" />
             </div>
         @endif

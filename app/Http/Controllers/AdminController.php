@@ -230,4 +230,9 @@ class AdminController extends Controller
     {
         return view('admin.students-table');
     }
+
+    public function showAllStudentsTable()
+    {
+        return view('admin.all-connections');
+    }
 }
