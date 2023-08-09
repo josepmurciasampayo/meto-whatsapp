@@ -79,19 +79,16 @@ class User extends Authenticatable
         return $this->hasMany(UserForm::class);
     }
 
-    public function highSchool(): HighSchool
+    public function highSchool()
     {
-        $id = UserHighSchool::where('user_id', $this->id)->first()->highschool_id;
-        return HighSchool::find($id);
-        /*
         return $this->hasOneThrough(
             HighSchool::class,
             UserHighSchool::class,
             'user_id',
             'id',
             'id',
-            'highschool_id');
-        */
+            'highschool_id'
+        );
     }
 
     public static function getByPhone(string $phone): ?User

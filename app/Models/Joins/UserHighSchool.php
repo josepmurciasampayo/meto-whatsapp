@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class UserHighSchool extends Model
 {
+    protected $guarded = [];
+
     public function highSchool()
     {
         return $this->belongsTo(

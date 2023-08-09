@@ -112,7 +112,7 @@ class ConnectionController extends Controller
 
     public function processApproval(Connection $connection)
     {
-        $highschool = $connection->student->user->highSchool();
+        $highschool = $connection->student->user->highSchool;
         $counselors = $highschool->counselors;
 
         $connection->update([
