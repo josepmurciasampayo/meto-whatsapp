@@ -111,6 +111,7 @@
                     ['label' => 'High Schools & Programs', 'icon' => 'fas fa-school', 'href' => route('highschools')],
                     ['label' => 'Reports', 'icon' => 'fas fa-chart-bar', 'href' => route('reports'), 'target' => '_blank'],
                     ['label' => 'Work Requests', 'icon' => 'fas fa-network-wired', 'href' => route('workRequest'), 'target' => '_blank'],
+                    ['label' => 'Data Quality', 'icon' => 'fas fa-database', 'href' => route('admin.data-quality'), 'target' => '_blank']
                 ]" />
             </div>
         @endif

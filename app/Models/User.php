@@ -91,6 +91,18 @@ class User extends Authenticatable
         );
     }
 
+    public function highSchools()
+    {
+        return $this->hasManyThrough(
+            HighSchool::class,
+            UserHighSchool::class,
+            'user_id',
+            'id',
+            'id',
+            'highschool_id'
+        );
+    }
+
     public static function getByPhone(string $phone): ?User
     {
         $phone = preg_replace('~\D~', '', $phone);

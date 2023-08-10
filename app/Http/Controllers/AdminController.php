@@ -235,4 +235,9 @@ class AdminController extends Controller
     {
         return view('admin.all-connections');
     }
+
+    public function showDataQuality()
+    {
+        return view('admin.data-quality');
+    }
 }

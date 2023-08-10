@@ -59,4 +59,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/students-table', [AdminController::class, 'showStudentsTable'])->name('admin.students-table');
 
     Route::get('/all-connections', [AdminController::class, 'showAllStudentsTable'])->name('admin.all-connections.index');
+
+    Route::get('/admin/data-quality', [AdminController::class, 'showDataQuality'])->name('admin.data-quality');
 });

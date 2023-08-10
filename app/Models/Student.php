@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EnumGroup;
 use App\Enums\Student\Curriculum;
 use App\Helpers;
+use App\Models\Joins\UserHighSchool;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
