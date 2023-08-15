@@ -53,10 +53,6 @@ class ConnectionController extends Controller
                     'bail', 'required', 'date',
                     'after:now'
                 ],
-                'upcoming_webinar_events' => [
-                    'bail', 'nullable', 'string',
-                    'max:1000'
-                ]
             ]);
         }
 
@@ -69,7 +65,7 @@ class ConnectionController extends Controller
             foreach ($studentIds as $student_id) {
                 // Create a new connection
                 if ($action === 'connect') {
-                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], $items['upcoming_webinar_events']);
+                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline']);
                     $requestCount++;
                 } else if ($action === 'maybe') {
                     $this->createConnection($student_id, MatchStudentInstitution::MAYBE, $uniId);

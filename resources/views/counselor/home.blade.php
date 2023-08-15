@@ -5,10 +5,10 @@
       Welcome, {{ Auth::user()->first }}. You are a Counselor at {{ $school->name }}.
   </h1>
   <p class="my-2 text-center">
-      Actively Applying: {{ $summaryCounts['active'] }} of {{ $summaryCounts['total'] }} Total Students
+
   </p></div>
-      
-      
+
+
       <div class="flex justify-center" style="margin-top: 12px;margin-bottom: 12px;">
               <x-status-icon-main href="{{ route('counselor-students', ['highschool_id' => $school->id] ) }}" icon="fa-solid fa-graduation-cap" text="My students"/>
               <x-status-icon-main href="{{ route('counselor-matches', ['highschool_id' => $school->id] ) }}" icon="fa-solid fa-handshake" text="View Matches"/>

@@ -3,7 +3,7 @@
         <x-notes-counselor :notes="$notes"></x-notes-counselor>
         <h3 class="my-2 display-7">Student Data</h3>
 
-        <form method="POST" action="{{ route('student.connection.decide') }}">
+        <form method="POST" action="">
             @csrf
             <div class="text-end mb-4">
                 <button class="btn btn-success rounded">Submit</button>

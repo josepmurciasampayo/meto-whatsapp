@@ -34,11 +34,9 @@ class HomeController extends Controller
 
         if ($user->isCounselor()) {
             $school = HighSchool::getByCounselorID(Auth()->user()->id);
-            $summaryCounts = HighSchool::getSummaryCounts($school->id);
             $notes = UserHighSchool::getNotes(Auth()->user()->id);
             return view('counselor.home', [
                 'school' => $school,
-                'summaryCounts' => $summaryCounts,
                 'notes' => $notes,
             ]);
         }

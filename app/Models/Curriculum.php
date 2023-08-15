@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Curriculum extends Model
 {
-    use HasFactory;
-
     public $table = 'curricula';
 
     public function questions(): BelongsToMany

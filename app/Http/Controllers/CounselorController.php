@@ -205,7 +205,6 @@ class CounselorController extends Controller
             'notes' => $notes,
             'matchStatuses' => MatchStudentInstitution::getCounselorChoices(),
             'student_id' => $student_id,
-
         ]);
     }
 
@@ -246,18 +245,13 @@ class CounselorController extends Controller
     public function invite(int $highschool_id, int $user_id = null) :View
     {
         if ($user_id) {
-            $result = Helpers::dbQueryArray('
-                select u.id as user_id, h.role
-                from meto_users as u
-                join meto_user_high_schools as h on h.user_id = u.id
-                where u.id = ' . $user_id . ';
-            ');
+            $join = UserHighSchool::where('user_id', $user_id)->where('highschool_id', $highschool_id)->first();
 
             return view('counselor.invite', [
                 'highschool_id' => $highschool_id,
                 'user_id' => $user_id,
-                'role' => $result[0]['role'],
-                'user' => User::find($result[0]['user_id']),
+                'role' => $join->role,
+                'user' => User::find($join->user_id),
                 'isInvite' => false,
             ]);
         } else {

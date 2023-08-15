@@ -47,9 +47,6 @@
                     <div class="mt-3">
                         <x-inputs.date saved="2023-09-01" name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
                     </div>
-                    <div class="mt-3">
-                        <x-inputs.textarea name="upcoming_webinar_events" label="Upcoming Webinar or Events" />
-                    </div>
 
                     <div class="row">
                         <div class="col">
@@ -147,8 +144,7 @@
         let url = "{{ route('uni.connection.decide') }}"
         let data = {
             application_link: modalForm.application_link.value,
-            upcoming_deadline: modalForm.upcoming_deadline.value,
-            upcoming_webinar_events: modalForm.upcoming_webinar_events.value
+            upcoming_deadline: modalForm.upcoming_deadline.value
         }
 
         let inputs = getSelectedStudents()

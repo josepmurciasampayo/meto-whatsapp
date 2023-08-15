@@ -17,7 +17,14 @@ class HighSchoolController extends Controller
     public function index(): View
     {
         return view('admin.highschools', [
-            'data' => HighSchool::getAdminData(),
+            'data' => Helpers::dbQueryArray('
+            select
+                h.id, h.name, h.verified, h.curriculum, h.country, h.city, h.type, count(*) as "students"
+            from meto_high_schools as h
+            join meto_user_high_schools as c on h.id = c.highschool_id
+             where h.id = " . $id
+            group by c.highschool_id
+        '),
         ]);
     }
 
