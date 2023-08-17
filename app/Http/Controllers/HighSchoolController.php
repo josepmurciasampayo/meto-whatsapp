@@ -87,7 +87,6 @@ class HighSchoolController extends Controller
                 u.id as "user_id",
                 concat(u.first, " ", u.last) as "name",
                 u.email,
-                gender.enum_desc as "gender",
                 s.dob,
                 u.phone_raw,
                 h.name as "school",
@@ -96,7 +95,6 @@ class HighSchoolController extends Controller
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             left outer join meto_user_high_schools as j on j.user_id = u.id
-            left outer join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
             left outer join meto_high_schools as h on j.highschool_id = h.id
             left outer join (
             	select s1.id, count(*) as "matches" from meto_students as s1 join meto_connections as m on s1.id = m.student_id group by s1.id
@@ -104,6 +102,9 @@ class HighSchoolController extends Controller
             	limit 2000;
         ');
         }
-        return view('admin.students', ['data' => $data]);
+        return view('admin.students', [
+            'data' => $data,
+            'highschool_id' => $highschool_id,
+        ]);
     }
 }

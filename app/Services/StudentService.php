@@ -13,7 +13,7 @@ class StudentService
             select
                 concat(u.first, " ", u.last) as "name",
                 u.email,
-                gender.enum_desc as "gender",
+                s.gender,
                 u.phone_raw as "phone",
                 u.phone_raw,
                 s.dob,
@@ -22,12 +22,11 @@ class StudentService
                 sub.matches,
                 -- u.id as "user_id",
                 s.id as "student_id",
-                ' . $id . ' as highschool_id,
                 "" as school
             from meto_students as s
             join meto_users as u on s.user_id = u.id
             join meto_user_high_schools as j on j.highschool_id = ' . $id . ' and j.user_id = s.user_id
-            join meto_enum as gender on gender.enum_id = s.gender and group_id = ' . EnumGroup::STUDENT_GENDER() . '
+
             left outer join (
             	    select s1.id, count(*) as "matches"
             	    from meto_students as s1
