@@ -29,7 +29,7 @@ class UpdateStudentDataFromAnswers extends Command
     {
         $students = Student::all();
         foreach ($students as $student) {
-            echo "\nUpdating student " . $student->id;
+            //echo "\nUpdating student " . $student->id;
             $student->updateFromAnswers();
         }
     }

@@ -9,28 +9,6 @@ return [
         'name' => 'backups',
 
         'source' => [
-            'files' => [
-                'include' => [
-                    base_path(),
-                ],
-
-                'exclude' => [
-                    base_path('vendor'),
-                    base_path('node_modules'),
-                    base_path('bootstrap'),
-                    base_path('storage'),
-                    base_path('bootstrap'),
-                    base_path('lang'),
-                    base_path('tests'),
-                ],
-
-                'follow_links' => false,
-
-                'ignore_unreadable_directories' => true,
-
-                'relative_path' => base_path(),
-            ],
-
             'databases' => [
                 'mysql' => [
                     'dump' => [
@@ -58,14 +36,8 @@ return [
 
         'destination' => [
 
-            /*
-             * The filename prefix used for the backup zip file.
-             */
             'filename_prefix' => '',
 
-            /*
-             * The disk names on which the backups will be stored.
-             */
             'disks' => [
                 'local',
             ],

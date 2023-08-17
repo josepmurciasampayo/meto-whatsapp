@@ -128,7 +128,7 @@ final class StudentTableMaybe extends PowerGridComponent
     {
         return [
             Button::add('reset')
-                ->caption(__('Reset'))
+                ->caption(__('Send Back to Review'))
                 ->emit('resetConnection', []),
 
             Button::add('refresh')

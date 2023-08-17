@@ -35,7 +35,7 @@ class ConnectionWasApproved extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: config('app.name') . ' College Connection',
+            subject: config('app.name') . ' University Connection',
             cc: $this->studentUniversity->requester?->email,
         );
     }

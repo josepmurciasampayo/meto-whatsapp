@@ -26,6 +26,7 @@ class Student extends Model
         285 => 'refugee',
         308 => 'disability',
         312 => 'submission_device',
+        119 => 'hs',
         104 => 'countryHS',
         288 => 'citizenship',
         290 => 'citizenship_extra',
@@ -37,6 +38,7 @@ class Student extends Model
         67 => 'act',
         73 => 'toefl',
         70 => 'ielts',
+        72 => 'sat',
         164 => 'affiliations',
     ];
 
@@ -128,6 +130,9 @@ class Student extends Model
             case 275:
                 $this->dob = $answer->text;
                 break;
+            case 119:
+                $this->hs = $answer->text;
+                break;
             case 283:
                 $this->birth_city = $answer->text;
                 break;
@@ -175,6 +180,9 @@ class Student extends Model
                 break;
             case 70:
                 $this->ielts = $answer->text;
+                break;
+            case 72:
+                $this->sat = $answer->text;
                 break;
             case 164:
                 $this->affiliations = $answer->text;

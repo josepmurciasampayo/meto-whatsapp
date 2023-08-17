@@ -35,12 +35,7 @@ final class StudentTableRequest extends PowerGridComponent
         ];
     }
 
-    /**
-     * PowerGrid datasource.
-     *
-     * @return Builder<\App\Models\Student>
-     */
-    public function datasource()
+    public function datasource(): Builder
     {
         $uniId = auth()->user()->getUni()->id;
 
@@ -83,6 +78,12 @@ final class StudentTableRequest extends PowerGridComponent
             ->addColumn('efc', function (Student $student) {
                 return e($student->efc);
             })
+            ->addColumn('dob', function (Student $student) {
+                return e($student->dob);
+            })
+            ->addColumn('hs', function (Student $student) {
+                return e($student->hs);
+            })
             ->addColumn('countryHS', function (Student $student) {
                 return e($student->countryHS);
             })
@@ -96,9 +97,13 @@ final class StudentTableRequest extends PowerGridComponent
                 return e($student->destination);
             })
             ->addColumn('gender', function (Student $student) {
-                return $student->gender
-                    ? collect(Gender::descriptions())->first(fn ($value, $key) => strtolower($value) === strtolower($student->gender))
-                    : null;
+                return match($student->gender) {
+                    "Female" => "F",
+                    "Male" => "M",
+                    "Other/Prefer not to say" => "Other",
+                    "Other / prefer not to say" => "Other",
+                    default => "",
+                };
             })
             ->addColumn('ranking', function (Student $student) {
                 return e(isset(YesNo::descriptions()[$student->ranking]) ? YesNo::descriptions()[$student->ranking] : "");
@@ -119,7 +124,21 @@ final class StudentTableRequest extends PowerGridComponent
                 return e($student->equivalency);
             })
             ->addColumn('other_testing', function (Student $student) {
-                return e("ACT: " . $student->act . " TOEFL: " . $student->toefl . " iELTS: " . $student->ielts);
+                $toReturn = [];
+                if ($student->act) {
+                    $toReturn[] = "ACT: $student->act";
+                }
+                if ($student->toefl) {
+                    $toReturn[] = "TOEFL $student->toefl";
+                }
+                if ($student->ielts) {
+                    $toReturn[] = "IELTS: $student->ielts";
+                }
+                if ($student->sat) {
+                    $toReturn[] = "SAT: $student->sat";
+                }
+                $toReturnString = ($toReturn) ? implode(", ", $toReturn) : "";
+                return e($toReturnString);
             });
     }
 
@@ -132,21 +151,18 @@ final class StudentTableRequest extends PowerGridComponent
     {
         return [
             Column::make('Details', 'details'),
-
-            Column::make('Name', 'name')
-                ->searchable(),
-
-            Column::make('Email', 'email')
-                ->searchable(),
-
-            Column::make('EFC', 'efc')->searchable()->sortable(),
+            Column::make('Name', 'name')->searchable(),
+            Column::make('Email', 'email')->searchable(),
+            Column::make('DOB', 'dob'),
+            Column::make('High School', 'hs'),
+            Column::make('EFC', 'efc')->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
-            Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
+            Column::make('Equivalency', 'equivalency')->sortable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
             Column::make('Desired Country Destinations', 'destination')->searchable(),
-            Column::make('Gender', 'gender')->searchable(),
-            Column::make('Nationally Ranked', 'ranking')->searchable(),
+            Column::make('Gender', 'gender')->sortable(),
+            Column::make('Nationally Ranked', 'ranking')->sortable(),
             Column::make('DET Score', 'det')->searchable()->sortable(),
             Column::make('Other Testing', 'other_testing')->searchable(),
             Column::make('Affiliations', 'affiliations')->searchable(),

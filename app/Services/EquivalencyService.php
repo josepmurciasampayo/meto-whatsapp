@@ -332,6 +332,10 @@ class EquivalencyService
             where('score_type', $scoreType())->
             where('score', $score)->
             first();
+        if (is_null($equivalency)) {
+            // echo "\n" . $curriculum->name . ", " . $scoreType->name . ", " . $score;
+            return null;
+        }
         return $equivalency?->percentile;
     }
 }

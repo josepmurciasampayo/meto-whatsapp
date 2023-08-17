@@ -29,7 +29,7 @@ class CalculateEquivalencies extends Command
     {
         echo "\nProcessing equivalencies";
         $students = Student::all();
-        //$students = Student::find([1481,5818,5517]);
+        //$students = Student::find([3741,1063]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);

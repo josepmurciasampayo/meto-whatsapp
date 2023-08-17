@@ -89,7 +89,7 @@ final class StudentTable extends PowerGridComponent
                 return e('$' . number_format($student->efc, 0, '.', ','));
             })
             ->addColumn('citizenship', function (Student $student) {
-                return e(substr($student->citizenship, 0, 10));
+                return e($student->citizenship);
             })
             ->addColumn('countryHS', function (Student $student) {
                 return e(substr($student->countryHS, 0, 10));
@@ -107,7 +107,13 @@ final class StudentTable extends PowerGridComponent
                 return e(substr($student->track, 0, 12));
             })
             ->addColumn('gender', function (Student $student) {
-                return e($student->gender);
+                return match($student->gender) {
+                    "Female" => "F",
+                    "Male" => "M",
+                    "Other/Prefer not to say" => "Other",
+                    "Other / prefer not to say" => "Other",
+                    default => "",
+                };
             })
             ->addColumn('ranking', function (Student $student) {
                 return e($student->ranking);
@@ -119,7 +125,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->affiliations);
             })
             ->addColumn('refugee', function (Student $student) {
-                return e($student->refugee);
+                return e(($student->refugee) == "Yes" ? "Yes" : "");
             })
             ->addColumn("disability", function (Student $student) {
                 return e($student->disability);
@@ -137,6 +143,9 @@ final class StudentTable extends PowerGridComponent
                 }
                 if ($student->ielts) {
                     $toReturn[] = "IELTS: $student->ielts";
+                }
+                if ($student->sat) {
+                    $toReturn[] = "SAT: $student->sat";
                 }
                 $toReturnString = ($toReturn) ? implode(", ", $toReturn) : "";
                 return e($toReturnString);
