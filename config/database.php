@@ -24,6 +24,19 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+                'excludeTables' => [
+                    'view_view_student_zdetail',
+                    'view_view_student_american',
+                    'view_view_student_cambridge',
+                    'view_view_student_detail',
+                    'view_view_student_ib',
+                    'view_view_student_other',
+                    'view_view_student_rwandan',
+                    'view_view_student_ugandan',
+                    'view_view_student_kenyan',
+                ]
+            ],
         ],
 
         'mysql-test' => [
