@@ -7,8 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9 mt-1">
-                    <iframe class="card-img-top" width="600" height="635" src="https://datastudio.google.com/embed/reporting/1ac8ccdd-a501-495d-9947-e14b9c75e715/page/iqd8C" frameborder="0" style="border:0" allowfullscreen></iframe>
-                </div>
+                <iframe width="890" height="600" src="https://lookerstudio.google.com/embed/reporting/0cc34c6f-e877-4242-983e-2665f38e35ad/page/rXzZD" frameborder="0" style="border:0" allowfullscreen></iframe>                </div>
                 <div class="col-sm-3">
                     <ul class="mb-5">
                         <div>
