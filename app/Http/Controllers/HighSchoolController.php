@@ -21,8 +21,7 @@ class HighSchoolController extends Controller
             select
                 h.id, h.name, h.verified, h.curriculum, h.country, h.city, h.type, count(*) as "students"
             from meto_high_schools as h
-            join meto_user_high_schools as c on h.id = c.highschool_id
-             where h.id = " . $id
+            left outer join meto_user_high_schools as c on h.id = c.highschool_id
             group by c.highschool_id
         '),
         ]);
