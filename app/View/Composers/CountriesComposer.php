@@ -21,7 +21,7 @@ class CountriesComposer
 
         if (is_null(self::$phoneCountries)) {
             foreach ($countries as $country) {
-                self::$phoneCountries[$country->id] = $country->name . ' (' . $country->code . ')';
+                self::$phoneCountries[$country->id] = $country->name;
             }
         }
     }

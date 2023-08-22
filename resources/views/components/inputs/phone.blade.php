@@ -27,9 +27,8 @@
 
 @php $required = ($req) ? "*" : ""  @endphp
 <label class="text-lg font-medium text-gray-800 mb-2">{{ $label }} {{ $required }}</label>
-@if ($help)
-    <div class="text-sm text-gray-600 mb-4">{{ $help }}</div>
-@endif
+<div class="text-sm text-gray-600 mb-4">Country code is automatically saved</div>
+
 <div class="flex flex-wrap items-center">
     @php $required = ($req) ? "required" : ""  @endphp
     <select name="{{ $name }}[code]" id="{{ $name }}[code]" class="block w-full sm:w-32 pr-2 py-2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-900 sm:text-sm" {{ $required }}>
