@@ -4,6 +4,6 @@
     </div>
     <div class="p-6" class="mb-16"> 
         <div>  
-        <iframe width="100%" height="750" src="https://datastudio.google.com/embed/reporting/1ac8ccdd-a501-495d-9947-e14b9c75e715/page/iqd8C" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <iframe width="890" height="600" src="https://lookerstudio.google.com/embed/reporting/0cc34c6f-e877-4242-983e-2665f38e35ad/page/rXzZD" frameborder="0" style="border:0" allowfullscreen></iframe>                </div>
         </div>
 </x-app-layout>
