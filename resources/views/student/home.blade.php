@@ -43,6 +43,10 @@
             </div>
         </div>
 
+        <p>
+            Even if you have completed your profile, not all of the sections will appear as 100% complete. We are working to solve this. However, as long as your data is visible when you click into each section, then your profile is complete.
+        </p>
+
         <div class="flex flex-wrap justify-center" style="margin-top: 12px;margin-bottom: 12px;">
             <x-status-icon href="/student-profile" icon="fa fa-user" text="Basic Information" />
             <x-status-icon href="/demographic" icon="fa fa-user-friends" text="Demographic" progress="{{ $demoProgress }}"/>

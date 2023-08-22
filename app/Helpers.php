@@ -25,7 +25,7 @@ class Helpers
 
         $end = now();
         $elapsed = $end->diffInMilliseconds($start);
-        if ($elapsed > 50) {
+        if ($elapsed > 150) {
             Log::channel('db')->debug('Query took ' . $elapsed . ' ms: ' . $query . "\n\n");
         }
         return ($toReturn);
