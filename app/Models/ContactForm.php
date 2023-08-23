@@ -9,6 +9,6 @@ use App\Mail\ContactMail;
 
 class ContactForm extends Model
 {
-    public $fillable = ['user_id', 'name', 'email', 'phone', 'message'];
+    public $guarded = [];
 
 }

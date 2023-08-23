@@ -34,6 +34,33 @@ enum ScoreType :int
     case OTHERPREVIOUS = 24;
     case IBUNI = 25;
     case CAMUNI = 26;
+    case FINAL_AVERAGE= 27;
+    case WASSCE_AVE= 28;
+    case HIGH_SCHOOL_AVE= 29;
+    case AVE_SCORE_SCALE_1= 30;
+    case AVE_SCORE_SCALE_2= 31;
+    case EXAME_NACIONAL= 32;
+    case WASSCE_AVE2 = 33;
+    case SEM_AVE= 34;
+    case RECENT_GRADE= 35;
+    case FINAL_GRADE= 36;
+    case MATRIC_AGG= 37;
+    case APS_AGG= 38;
+    case APS_SCORE= 39;
+    case HSC_ALIM_GPA= 40;
+    case RECENT_GPA= 41;
+    case THANAWEYA_AVE= 42;
+    case CNISE_MARKS= 43;
+    case FINAL_GRADE_SCALE_1= 44;
+    case FINAL_GRADE_SCALE_2= 45;
+    case SENIOR_SCORE= 46;
+    case NATIONAL_EXAM= 47;
+    case PREDICTED_EXAM= 48;
+    case GRADE_12= 49;
+    case CUM_GPA= 50;
+    case SLCE_GRADE= 51;
+    case SEE_RESULT= 52;
+    case OVERALL_GPA= 53;
 
     public static function getText(self $value) :string
     {

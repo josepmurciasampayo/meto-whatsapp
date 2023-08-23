@@ -33,6 +33,8 @@ class Connection extends Model
         return $this->belongsTo(User::class);
     }
 
+
+    // TODO: convert to eloquent
     public static function getByUserID(int $user_id) :array
     {
         return Helpers::dbQueryArray('
@@ -55,6 +57,7 @@ class Connection extends Model
         ');
     }
 
+    // TODO: refactor - does it need to be static?
     public static function updateMatchStatusByMatchID(int $match_id, int $status, int $user_id = null) :void
     {
         if (is_null($user_id)) { // run by system/admin/counselor

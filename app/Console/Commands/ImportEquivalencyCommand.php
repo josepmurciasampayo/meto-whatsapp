@@ -6,35 +6,38 @@ use App\Helpers;
 use App\Models\Equivalency;
 use Illuminate\Console\Command;
 
-class importEquivalencyCommand extends Command
+class ImportEquivalencyCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'import:equivalency';
+    protected $signature = 'app:import-equivalency';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         Equivalency::truncate();
+
+        // $this->importFirstSet();
+
+        $this->importExtended();
+    }
+
+    public function importExtended(): void
+    {
+        $summary = [];
+        $equivalencies = Helpers::arrayFromCSV(resource_path('data/equivalency_new.csv'));
+        foreach ($equivalencies as $e) {
+            $this->import($e);
+            $summary[$e['curriculum_id']][$e['score_type']] = 1;
+        }
+        dd($summary);
+    }
+
+    public function importFirstSet(): void
+    {
         $equivalencies = Helpers::arrayFromCSV(resource_path('data/equivalency_update.csv'));
         foreach ($equivalencies as $e) {
             $this->import($e);
         }
-        return Command::SUCCESS;
     }
 
     public function import(array $equivalency): void

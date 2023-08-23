@@ -18,33 +18,83 @@ class EquivalencyService
         switch ($student->curriculum()) {
 
             case Curriculum::IB:
-                $this->updateIB($student);
+                $this->updateIB($student, Curriculum::IB);
                 break;
             case Curriculum::CAMBRIDGE:
-                $this->updateCambridge($student);
+                $this->updateCambridge($student, Curriculum::CAMBRIDGE);
                 break;
             case Curriculum::AMERICAN:
-                $this->updateAmerican($student);
+                $this->updateAmerican($student, Curriculum::AMERICAN);
                 break;
             case Curriculum::RWANDAN:
-                $this->updateRwandan($student);
+                $this->updateRwandan($student, Curriculum::RWANDAN);
                 break;
             case Curriculum::KENYAN:
-                $this->updateKenyan($student);
+                $this->updateKenyan($student, Curriculum::KENYAN);
                 break;
             case Curriculum::UGANDAN:
-                $this->updateUgandan($student);
+                $this->updateUgandan($student, Curriculum::UGANDAN);
                 break;
             case Curriculum::NATIONAL:
-                $this->updateNational($student);
+                $this->updateNational($student, Curriculum::NATIONAL);
                 break;
-
+            case Curriculum::INDIA:
+                $this->updateIndian($student, Curriculum::INDIA);
+                break;
+            case Curriculum::VIETNAM:
+                $this->updateVietnamese($student, Curriculum::VIETNAM);
+                break;
+            case Curriculum::GHANA:
+                $this->updateGhanian($student, Curriculum::GHANA);
+                break;
+            case Curriculum::MEXICO:
+                $this->updateMexican($student, Curriculum::MEXICO);
+                break;
+            case Curriculum::NIGERIA:
+                $this->updateNigerian($student, Curriculum::NIGERIA);
+                break;
+            case Curriculum::ETHIOPIA:
+                $this->updateEthiopian($student, Curriculum::ETHIOPIA);
+                break;
+            case Curriculum::NEPAL:
+                $this->updateNepalese($student, Curriculum::NEPAL);
+                break;
+            case Curriculum::SAUDIARABIA:
+                $this->updateSaudiArabian($student, Curriculum::SAUDIARABIA);
+                break;
+            case Curriculum::IRAN:
+                $this->updateIranian($student, Curriculum::IRAN);
+                break;
+            case Curriculum::KUWAIT:
+                $this->updateKuwaiti($student, Curriculum::KUWAIT);
+                break;
+            case Curriculum::TURKIYE:
+                $this->updateTurkish($student, Curriculum::TURKIYE);
+                break;
+            case Curriculum::BANGLADESH:
+                $this->updateBangladeshi($student, Curriculum::BANGLADESH);
+                break;
+            case Curriculum::BRAZIL:
+                $this->updateBrazillian($student, Curriculum::BRAZIL);
+                break;
+            case Curriculum::INDONESIA:
+                $this->updateIndonesian($student, Curriculum::INDONESIA);
+                break;
+            case Curriculum::SOUTHAFRICA:
+                $this->updateSouthAfrican($student, Curriculum::SOUTHAFRICA);
+                break;
+            case Curriculum::MOROCCO:
+                $this->updateMoroccan($student, Curriculum::MOROCCO);
+                break;
+            case Curriculum::EGYPT:
+                $this->updateEgyptian($student, Curriculum::EGYPT);
+                break;
             default:
                 return;
         }
     }
 
-    public function updateIB(Student $student): void
+    public function updateIB(Student $student, Curriculum $curriculum): void
     {
         $scoreType = match(
             Answer::where('student_id', $student->id)
@@ -72,12 +122,11 @@ class EquivalencyService
             $total += $answer->text;
         }
 
-        $student->equivalency = $this->getPercentile(Curriculum::IB, $scoreType, $total);
+        $student->equivalency = $this->getPercentile($curriculum, $scoreType, $total);
         $student->save();
-
     }
 
-    public function updateCambridge(Student $student): void
+    public function updateCambridge(Student $student, Curriculum $curriculum): void
     {
         $answer = Answer::where('student_id', $student->id)
             ->where('question_id', 460)
@@ -111,7 +160,7 @@ class EquivalencyService
 
         sort($final);
         $final = implode($final);
-        $equivalency = $this->getPercentile(Curriculum::CAMBRIDGE, $scoreType, $final);
+        $equivalency = $this->getPercentile($curriculum, $scoreType, $final);
         if (is_null($equivalency)) {
             //echo "$student->user_id,";
             return;
@@ -120,7 +169,7 @@ class EquivalencyService
         $student->save();
     }
 
-    public function updateAmerican(Student $student): void
+    public function updateAmerican(Student $student, Curriculum $curriculum): void
     {
         $senior = $junior = $sophomore = null;
 
@@ -175,19 +224,19 @@ class EquivalencyService
             $scoreType = ($weighted) ? ScoreType::AMJUNIORW : ScoreType::AMJUNIORU;
         }
 
-        $equivalency = $this->getPercentile(Curriculum::AMERICAN, $scoreType, $score);
+        $equivalency = $this->getPercentile($curriculum, $scoreType, $score);
         $student->equivalency = $equivalency;
         $student->save();
     }
 
-    public function updateRwandan(Student $student): void
+    public function updateRwandan(Student $student, Curriculum $curriculum): void
     {
         $finalA = Answer::where('student_id', $student->id)
             ->where('question_id', 343)
             ->first()
             ?->text;
         if ($finalA) {
-            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALA, $finalA);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA, $finalA);
             $student->save();
             return;
         }
@@ -197,7 +246,7 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANMOCKA, $mock);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANMOCKA, $mock);
             $student->save();
             return;
         }
@@ -207,7 +256,7 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($finalOnew) {
-            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALON, $finalOnew);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALON, $finalOnew);
             $student->save();
             return;
         }
@@ -217,19 +266,19 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($finalOold) {
-            $student->equivalency = $this->getPercentile(Curriculum::RWANDAN, ScoreType::RWANFINALOO, $finalOold);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALOO, $finalOold);
             $student->save();
         }
     }
 
-    public function updateKenyan(Student $student): void
+    public function updateKenyan(Student $student, Curriculum $curriculum): void
     {
         $kcse = Answer::where('student_id', $student->id)
             ->where('question_id', 375)
             ->first()
             ?->text;
         if ($kcse) {
-            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENFINAL, $kcse);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::KENFINAL, $kcse);
             $student->save();
             return;
         }
@@ -239,7 +288,7 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENMOCK, $mock);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::KENMOCK, $mock);
             $student->save();
             return;
         }
@@ -249,19 +298,19 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($kcpe) {
-            $student->equivalency = $this->getPercentile(Curriculum::KENYAN, ScoreType::KENKCPE, $kcpe);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::KENKCPE, $kcpe);
             $student->save();
         }
     }
 
-    public function updateUgandan(Student $student): void
+    public function updateUgandan(Student $student, Curriculum $curriculum): void
     {
         $finalA = Answer::where('student_id', $student->id)
             ->where('question_id', 378)
             ->first()
             ?->text;
         if ($finalA) {
-            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANFINALA, $finalA);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANFINALA, $finalA);
             $student->save();
             return;
         }
@@ -271,7 +320,7 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANMOCK, $mock);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANMOCK, $mock);
             $student->save();
             return;
         }
@@ -281,20 +330,387 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($finalO) {
-            $student->equivalency = $this->getPercentile(Curriculum::UGANDAN, ScoreType::UGANFINALO, $finalO);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANFINALO, $finalO);
             $student->save();
         }
 
     }
 
-    public function updateNational(Student $student): void
+    public function updateNational(Student $student, Curriculum $curriculum): void
     {
         $answer = Answer::where('student_id', $student->id)
             ->where('question_id', 462)
             ->first();
 
         if ($answer?->text) {
-            $student->equivalency = $this->getPercentile(Curriculum::NATIONAL, ScoreType::OTHERLEAVING, $answer->text);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::OTHERLEAVING, $answer->text);
+            $student->save();
+        }
+    }
+
+    public function updateIndian(Student $student, Curriculum $curriculum): void
+    {
+        $answer = Answer::where('student_id', $student->id)
+            ->where('question_id', 839)
+            ->first();
+
+        if ($answer?->text) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SENIOR_SCORE, $answer->text);
+            $student->save();
+        }
+    }
+
+    public function updateVietnamese(Student $student, Curriculum $curriculum): void
+    {
+        $national1 = Answer::where('student_id', $student->id)
+            ->where('question_id', 490)
+            ->first()
+            ?->text;
+        $national2 = Answer::where('student_id', $student->id)
+            ->where('question_id', 491)
+            ->first()
+            ?->text;
+        if (is_numeric($national1) && is_numeric($national2)) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::NATIONAL_EXAM, round($national1/$national2,2));
+            $student->save();
+            return;
+        }
+
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 502)
+            ->first()
+            ?->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SEM_AVE, $mock);
+            $student->save();
+        }
+    }
+
+    public function updateGhanian(Student $student, Curriculum $curriculum): void
+    {
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 560)
+            ->first()
+            ?->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::WASSCE_AVE, $mock);
+            $student->save();
+        }
+
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 560)
+            ->first()
+            ?->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::HIGH_SCHOOL_AVE, $mock);
+            $student->save();
+        }
+    }
+
+    public function updateMexican(Student $student, Curriculum $curriculum): void
+    {
+        $avg = Answer::where('student_id', $student->id)
+            ->where('question_id', 487)
+            ->first()
+            ?->text;
+        if ($avg) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::FINAL_AVERAGE, $avg);
+            $student->save();
+        }
+    }
+
+    public function updateNigerian(Student $student, Curriculum $curriculum): void
+    {
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 560)
+            ->first()
+            ?->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::WASSCE_AVE, $mock);
+            $student->save();
+        }
+
+        $mock = Answer::where('student_id', $student->id)
+            ->where('question_id', 560)
+            ->first()
+            ?->text;
+        if ($mock) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::HIGH_SCHOOL_AVE, $mock);
+            $student->save();
+        }
+    }
+
+    public function updateEthiopian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 618)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::NATIONAL_EXAM, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 842)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::PREDICTED_EXAM, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 633)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SEM_AVE, $score);
+            $student->save();
+        }
+    }
+
+    public function updateNepalese(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 636)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SLCE_GRADE, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 638)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::NATIONAL_EXAM, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 641)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SEE_RESULT, $score);
+            $student->save();
+        }
+    }
+
+    public function updateSaudiArabian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 656)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::OVERALL_GPA, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 657)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RECENT_GPA, $score);
+            $student->save();
+            return;
+        }
+    }
+
+    public function updateIranian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 845)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::NATIONAL_EXAM, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 846)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RECENT_GPA, $score);
+            $student->save();
+        }
+    }
+
+    public function updateKuwaiti(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 849)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::GRADE_12, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 850)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::CUM_GPA, $score);
+            $student->save();
+        }
+    }
+
+    public function updateTurkish(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 662)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RECENT_GRADE, $score);
+            $student->save();
+        }
+    }
+
+    public function updateBangladeshi(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 683)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::HSC_ALIM_GPA, $score);
+            $student->save();
+        }
+    }
+
+    public function updateBrazillian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 738)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::PREDICTED_EXAM, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 633)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SEM_AVE, $score);
+            $student->save();
+        }
+    }
+
+    public function updateIndonesian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 760)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::FINAL_GRADE_SCALE_1, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 760)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::FINAL_GRADE_SCALE_2, $score);
+            $student->save();
+        }
+    }
+
+    public function updateSouthAfrican(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 778)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::MATRIC_AGG, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 778)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::APS_AGG, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 779)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::APS_SCORE, $score);
+            $student->save();
+        }
+    }
+
+    public function updateMoroccan(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 794)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::FINAL_GRADE, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 795)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RECENT_GRADE, $score);
+            $student->save();
+        }
+    }
+
+    public function updateEgyptian(Student $student, Curriculum $curriculum): void
+    {
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 811)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::THANAWEYA_AVE, $score);
+            $student->save();
+            return;
+        }
+
+        $score = Answer::where('student_id', $student->id)
+            ->where('question_id', 823)
+            ->first()
+            ?->text;
+        if ($score) {
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::CNISE_MARKS, $score);
             $student->save();
         }
     }
@@ -323,6 +739,19 @@ class EquivalencyService
         $uni->update([
             'min_grade_equivalency' => $minGradeEquivalency
         ]);
+    }
+
+    public function getScore(Student $student, array $question_ids): ?string
+    {
+        foreach ($question_ids as $question_id) {
+            $score = Answer::where('student_id', $student->id)
+                ->where('question_id', $question_id)
+                ->first()
+                ?->text;
+            if ($score) {
+                return $score;
+            }
+        }
     }
 
     public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int|null
