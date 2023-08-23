@@ -1,0 +1,2 @@
+
+                    <input type="radio" value="archive" id="archive_student_92" name="student_92"> <label for="archive_student_92" key="92" class="btn" target="archive" onclick="selectOption(this)">No</label><?php /**PATH /Users/hbakouane/Desktop/valet/meto/storage/framework/views/516e449b8ab231384cb7d28b63ac25605b75bf79.blade.php ENDPATH**/ ?>
