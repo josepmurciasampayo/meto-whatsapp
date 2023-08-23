@@ -180,7 +180,12 @@ final class StudentTable extends PowerGridComponent
             Button::add('refresh')
                 ->caption(__('Refresh'))
                 ->class('refresh-btn')
-                ->emit('refreshRecords', [])
+                ->emit('refreshRecords', []),
+
+            Button::add('Reset')
+                ->caption(__('Reset'))
+                ->class('reset-saved-options-btn')
+                ->emit('resetSavedRecords', []),
         ];
     }
 
@@ -214,5 +219,10 @@ final class StudentTable extends PowerGridComponent
     public function refreshOtherComponents()
     {
         $this->datasource();
+    }
+
+    public function resetSavedRecords()
+    {
+        // It's happening on the frontend
     }
 }

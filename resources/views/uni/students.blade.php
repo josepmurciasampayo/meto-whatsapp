@@ -161,10 +161,15 @@
             card.style.display = 'none'
         }
 
-        let selectSavedOptions = () => {
+        let selectSavedOptions = (unselect = false) => {
             JSON.parse(localStorage.getItem('selected_options')).forEach(option => {
-                if ((el = document.querySelector('[key="' + Object.keys(option)[0] + '"][target="' + Object.values(option)[0] + '"]')) && !el.getAttribute('selected_option')) {
+                let el = document.querySelector('[key="' + Object.keys(option)[0] + '"][target="' + Object.values(option)[0] + '"]')
+                if (unselect) {
                     el.click()
+                } else  {
+                    if (!el.getAttribute('selected_option')) {
+                        el.click()
+                    }
                 }
             })
         }
@@ -178,6 +183,19 @@
                 el.placeholder !== 'Max' ? el.placeholder = 'Max' : null
             }
         }, 50)
+
+        setTimeout(() => {
+            let btn = document.querySelector('.reset-saved-options-btn')
+
+            btn.type = 'button'
+
+            btn.setAttribute('onclick', 'resetSavedOptions()')
+        }, 500)
+
+        let resetSavedOptions = () => {
+            selectSavedOptions(true)
+            localStorage.setItem('selected_options', JSON.stringify([]))
+        }
     </script>
     </div>
 </x-app-layout>
