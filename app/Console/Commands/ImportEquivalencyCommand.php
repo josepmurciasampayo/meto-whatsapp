@@ -14,7 +14,7 @@ class ImportEquivalencyCommand extends Command
 
     public function handle()
     {
-        Equivalency::truncate();
+        // Equivalency::truncate();
 
         // $this->importFirstSet();
 
