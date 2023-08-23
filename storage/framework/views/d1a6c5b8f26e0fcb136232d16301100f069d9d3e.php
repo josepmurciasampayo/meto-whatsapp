@@ -1,2 +1,0 @@
-
-                    <input type="radio" value="maybe" id="maybe_student_95" name="student_95"> <label for="maybe_student_95" key="95" class="btn" target="maybe" onclick="selectOption(this)">Maybe</label><?php /**PATH /Users/hbakouane/Desktop/valet/meto/storage/framework/views/539e85d59f876a8f0f95ff834dc5a858dcd0efec.blade.php ENDPATH**/ ?>

@@ -1,2 +1,0 @@
-
-                    <input type="radio" value="maybe" id="maybe_student_70" name="student_70"> <label for="maybe_student_70" key="70" class="btn" target="maybe" onclick="selectOption(this)">Maybe</label>

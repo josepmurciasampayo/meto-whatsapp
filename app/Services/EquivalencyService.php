@@ -375,7 +375,6 @@ class EquivalencyService
             $student->save();
             return;
         }
-
         $mock = Answer::where('student_id', $student->id)
             ->where('question_id', 502)
             ->first()

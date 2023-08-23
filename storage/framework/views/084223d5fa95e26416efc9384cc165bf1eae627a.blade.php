@@ -1,2 +1,0 @@
-
-                    <input type="radio" value="archive" id="archive_student_72" name="student_72"> <label for="archive_student_72" key="72" class="btn" target="archive" onclick="selectOption(this)">No</label>
