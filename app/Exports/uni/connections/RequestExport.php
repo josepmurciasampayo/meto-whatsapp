@@ -40,6 +40,8 @@ class RequestExport implements FromCollection, WithHeadings
             $data[] = [
                 'name' => $student->user->getFullName(),
                 'email' => $student->user->email,
+                'dob' => $student->dob,
+                'high_school' => $student->hs,
                 'efc' => $student->efc,
                 'countryHS' => $student->countryHS,
                 'curriculum' => $student->curriculum,

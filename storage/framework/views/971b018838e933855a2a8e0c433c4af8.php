@@ -177,16 +177,6 @@
             })
         }
 
-        // setTimeout(() => {
-        //     selectSavedOptions()
-        //
-        //     document.querySelectorAll('li.page-item').forEach(el => {
-        //         el.addEventListener('click', () => {
-        //             setTimeout(() => selectSavedOptions(), 600)
-        //         })
-        //     })
-        // }, 200)
-
         setInterval(() => {
             selectSavedOptions()
         }, 500)
