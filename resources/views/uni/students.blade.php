@@ -165,11 +165,13 @@
             if (localStorage.getItem('selected_options')) {
                 JSON.parse(localStorage.getItem('selected_options')).forEach(option => {
                     let el = document.querySelector('[key="' + Object.keys(option)[0] + '"][target="' + Object.values(option)[0] + '"]')
-                    if (unselect) {
-                        el.click()
-                    } else {
-                        if (!el.getAttribute('selected_option')) {
+                    if (el) {
+                        if (unselect) {
                             el.click()
+                        } else {
+                            if (!el.getAttribute('selected_option')) {
+                                el.click()
+                            }
                         }
                     }
                 })
