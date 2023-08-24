@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Uni\Questions;
 
+use App\Models\Institution;
 use App\Services\EquivalencyService;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,17 @@ class MinGradeForm extends Component
 
     public $selectedScoreOption = null;
 
+    public Institution $uni;
+
+    public $selectedOptionHasBeenSet = false;
+
+    public function __construct()
+    {
+        $this->uni = auth()->user()->getUni();
+
+        $this->curriculum = $this->uni->min_grade_curriculum;
+    }
+
     public function render()
     {
         $curricula = Curriculum::getSchoolChoices();
@@ -27,6 +39,11 @@ class MinGradeForm extends Component
         if ($option = $this->curriculum) {
             $method = 'get' . $this->curricula[$option] . 'Curriculum';
             $this->scoreOptions = $this->$method();
+        }
+
+        if (!$this->selectedOptionHasBeenSet) {
+            $this->selectedScoreOption = collect($this->scoreOptions)->search($this->uni->min_grade) ?? null;
+            $this->selectedOptionHasBeenSet = true;
         }
 
         return view('livewire.uni.questions.min-grade-form');
