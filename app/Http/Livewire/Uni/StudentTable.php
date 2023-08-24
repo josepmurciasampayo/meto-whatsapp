@@ -116,7 +116,7 @@ final class StudentTable extends PowerGridComponent
                 };
             })
             ->addColumn('ranking', function (Student $student) {
-                return e($student->ranking);
+                return e($student->ranking == "Yes" ? "Yes" : "");
             })
             ->addColumn('det', function (Student $student) {
                 return e($student->det);
