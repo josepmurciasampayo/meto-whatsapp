@@ -53,6 +53,14 @@ class ConnectionController extends Controller
                     'bail', 'required', 'date',
                     'after:now'
                 ],
+                'cc_emails' => [
+                    'bail', 'array'
+                ],
+                'cc_emails.*' => [
+                    'email'
+                ]
+            ], [
+                'cc_emails.*' => 'CC emails are not valid.'
             ]);
         }
 
@@ -65,12 +73,12 @@ class ConnectionController extends Controller
             foreach ($studentIds as $student_id) {
                 // Create a new connection
                 if ($action === 'connect') {
-                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline']);
+                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], ccEmails: $request->get('cc_emails'));
                     $requestCount++;
                 } else if ($action === 'maybe') {
-                    $this->createConnection($student_id, MatchStudentInstitution::MAYBE, $uniId);
+                    $this->createConnection($student_id, MatchStudentInstitution::MAYBE, $uniId, ccEmails: $request->get('cc_emails'));
                 } else if ($action === 'archive') {
-                    $this->createConnection($student_id, MatchStudentInstitution::ARCHIVED, $uniId);
+                    $this->createConnection($student_id, MatchStudentInstitution::ARCHIVED, $uniId, ccEmails: $request->get('cc_emails'));
                 }
             }
         }
@@ -80,7 +88,7 @@ class ConnectionController extends Controller
         return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function createConnection(int $student_id, MatchStudentInstitution $status, int $institutionId, string $link = null, string $deadline = null, string $events = null)
+    public function createConnection(int $student_id, MatchStudentInstitution $status, int $institutionId, string $link = null, string $deadline = null, string $events = null, $ccEmails = [])
     {
         return Connection::create([
             'student_id' => $student_id,
@@ -90,6 +98,7 @@ class ConnectionController extends Controller
             'application_link' => $link,
             'deadline' => $deadline,
             'events' => $events,
+            'cc_emails' => implode(',', $ccEmails)
         ]);
     }
 
@@ -109,7 +118,7 @@ class ConnectionController extends Controller
     public function processApproval(Connection $connection)
     {
         $highschool = $connection->student->user->highSchool;
-        $counselors = $highschool->counselors;
+        $counselors = $highschool?->counselors;
 
         $connection->update([
             'status' => MatchStudentInstitution::ACCEPTED

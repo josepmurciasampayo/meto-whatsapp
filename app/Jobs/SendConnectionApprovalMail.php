@@ -44,6 +44,15 @@ class SendConnectionApprovalMail implements ShouldQueue
 
         if ($this->counselors) {
             $emails = $this->counselors->pluck('email');
+
+            if (filled($ccEmails = explode(',', $this->studentUniversity->cc_emails))) {
+                foreach ($ccEmails as $email) {
+                    $emails[] = $email;
+                }
+            }
+
+            $emails[] = $this->studentUniversity->requester?->email;
+
             $mail->cc($emails);
         }
 

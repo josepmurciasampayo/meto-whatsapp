@@ -1,5 +1,5 @@
-<form id="decision-form" class="pt-4" method="POST" action="{{ route('uni.connection.decide') }}">
-    @csrf
+<form id="decision-form" class="pt-4" method="POST" action="<?php echo e(route('uni.connection.decide')); ?>">
+    <?php echo csrf_field(); ?>
 
     <div class="alert alert-danger d-none" id="tableAlert"></div>
     <div class="alert alert-primary d-none" id="processingAlert">
@@ -9,7 +9,21 @@
         Your request has been proceeded successfully.
     </div>
 
-    <livewire:uni.student-table/>
+    <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
+} elseif ($_instance->childHasBeenRendered('cL559rF')) {
+    $componentId = $_instance->getRenderedChildComponentId('cL559rF');
+    $componentTag = $_instance->getRenderedChildComponentTagName('cL559rF');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('cL559rF');
+} else {
+    $response = \Livewire\Livewire::mount('uni.student-table', []);
+    $html = $response->html();
+    $_instance->logRenderedChild('cL559rF', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
 
     <div class="text-end my-4">
         <button class="btn btn-success submit-pending-btn rounded">Submit Requests</button>
@@ -29,9 +43,9 @@
                     <p class="mb-3 small fw-bold">
                         Dear [Student Name],
                         <br /><br />
-                        Greetings from {{ config('app.name') }}. {{ $uni->name }} has reviewed your {{ config('app.name') }} profile and determined you are a competitive candidate for admission and would like to invite you to apply.
+                        Greetings from <?php echo e(config('app.name')); ?>. <?php echo e($uni->name); ?> has reviewed your <?php echo e(config('app.name')); ?> profile and determined you are a competitive candidate for admission and would like to invite you to apply.
                         <br /><br />
-                        It is our pleasure to introduce you to {{ $user->first }} {{ $user->last }}{{ $user->title ? ', the ' . $user->title : '' }}. You may email them at {{ $user->email }}.
+                        It is our pleasure to introduce you to <?php echo e($user->first); ?> <?php echo e($user->last); ?><?php echo e($user->title ? ', the ' . $user->title : ''); ?>. You may email them at <?php echo e($user->email); ?>.
                         <br /><br />
                         Here is what you need to know to get started:
                     </p>
@@ -42,15 +56,57 @@
 
                 <form id="send-connection-form">
                     <div>
-                        <x-inputs.text name="application_link" type="url" label="Application Link" class="form-control" saved="{{ $uni->undergrad_url }}" />
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'application_link','type' => 'url','label' => 'Application Link','class' => 'form-control','saved' => ''.e($uni->undergrad_url).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('inputs.text'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'application_link','type' => 'url','label' => 'Application Link','class' => 'form-control','saved' => ''.e($uni->undergrad_url).'']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
                     </div>
 
                     <div class="mt-3">
-                        <x-inputs.date saved="2023-09-01" name="upcoming_deadline" label="Upcoming Deadline" class="form-control" />
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.date','data' => ['saved' => '2023-09-01','name' => 'upcoming_deadline','label' => 'Upcoming Deadline','class' => 'form-control']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('inputs.date'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['saved' => '2023-09-01','name' => 'upcoming_deadline','label' => 'Upcoming Deadline','class' => 'form-control']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
                     </div>
 
                     <div class="mt-3">
-                        <x-inputs.text name="cc_emails" placeholder="abcd@mail.com,efjh@mail.com" type="text" label="CC Emails" class="form-control" />
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','class' => 'form-control']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('inputs.text'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','class' => 'form-control']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
                     </div>
 
                     <div class="row">
@@ -94,7 +150,7 @@
         if (hasConnect(inputs)) {
             emailModalBtn.click()
         } else {
-            let url = "{{ route('uni.connection.decide') }}"
+            let url = "<?php echo e(route('uni.connection.decide')); ?>"
 
             let data = {}
 
@@ -146,7 +202,7 @@
         let errorAlert = document.querySelector('#errorHolder')
         let submitButtons = document.querySelectorAll('.submit-pending-btn')
         // Prepare the request
-        let url = "{{ route('uni.connection.decide') }}"
+        let url = "<?php echo e(route('uni.connection.decide')); ?>"
         let data = {
             application_link: modalForm.application_link.value,
             upcoming_deadline: modalForm.upcoming_deadline.value,
@@ -218,3 +274,4 @@
         $(emailModal).modal('hide')
     }
 </script>
+<?php /**PATH /Users/hbakouane/Desktop/valet/meto/resources/views/_partials/uni/students/pending.blade.php ENDPATH**/ ?>
