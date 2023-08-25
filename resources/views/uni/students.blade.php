@@ -209,7 +209,6 @@
             }
 
             // Handle the change of the curriculum filters
-            console.log('executing ...')
             setInterval(() => {
                 if ((selected = document.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== selected_curriculum_filters.length) {
                     let output = []
@@ -221,7 +220,12 @@
 
         let resetSavedOptions = () => {
             selectSavedOptions(true)
+
             localStorage.setItem('selected_options', JSON.stringify([]))
+
+            localStorage.setItem('selected_curriculum_filters', JSON.stringify([]))
+
+            window.location.reload()
         }
     </script>
     </div>
