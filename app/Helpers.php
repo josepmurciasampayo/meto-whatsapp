@@ -109,7 +109,7 @@ class Helpers
 
     public static function stripNonNumeric(string $from) :string
     {
-        return preg_replace("/[^0-9]/", "", $from);
+        return preg_replace("/[^0-9.]/", "", $from);
     }
 
     /**

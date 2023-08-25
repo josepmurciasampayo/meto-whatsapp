@@ -355,7 +355,7 @@ class EquivalencyService
             ->first();
 
         if ($answer?->text) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SENIOR_SCORE, $answer->text);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SENIOR_SCORE, round($answer->text,0));
             $student->save();
         }
     }
@@ -589,6 +589,7 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($score) {
+            $score = round(Helpers::stripNonNumeric($score), 1);
             $student->equivalency = $this->getPercentile($curriculum, ScoreType::HSC_ALIM_GPA, $score);
             $student->save();
         }

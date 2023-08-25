@@ -20,11 +20,10 @@
             <div class="tab-pane fade show active py-4" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <p class="mb-3">Recommended Use:</p>
                 <ul class="list-disc">
-                    <li class="my-2 ms-5">PLEASE NOTE: your ‘Yes’, ‘Maybe’, or ‘No’ decisions will NOT save if you filter/sort the table, click to the next page of students, or leave the page before clicking “Submit Requests”. We are working on this issue.</li>
-                    <li class="my-2 ms-5">Until it is fixed, please pre-set any filters you would like, select Yes Maybe or No, and click “Submit Requests” BEFORE leaving the page or setting any new filters/sorting</li>
-                    <li class="my-2 ms-5">This will submit ‘Yes’ students to Meto for review and move ‘Maybe’ and ‘No’ students to their respective tabs</li>
-                    <li class="my-2 ms-5">Connection emails to ‘Yes’ students will typically be sent within 24 hours, unless you would prefer to delay the emails. If you would prefer to delay your connection emails, please email <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a> and <a href="mailto:julie@meto-intl.org">julie@meto-intl.org</a>.</li>
-                    <li class="my-2 ms-5">Please go <a href="{{ route('uni.mingrade') }}">here </a> to change your academic filter and <a href="{{ route('uni.efc') }}">here</a> to change your EFC filter</li>
+                    <li class="my-2 ms-5">Please click "Submit Requests" once you have selected students you would like to move. This will submit ‘Yes’ students to {{ config('app.name') }} for review and move ‘Maybe’ and ‘No’ students to their respective tabs.</li>
+                    <li class="my-2 ms-5">Connection emails to ‘Yes’ students will typically be sent within 24 hours, unless you would prefer to delay the emails. If you would prefer to delay your connection emails, please email <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a> or <a href="mailto:julie@meto-intl.org">julie@meto-intl.org</a>.</li>
+                    <li class="my-2 ms-5">Please go <a href="{{ route('uni.mingrade') }}">here </a> to change your academic filter</li>
+                    <li class="my-2 ms-5">Please go <a href="{{ route('uni.efc') }}">here</a> to change your EFC filter</li>
                 </ul>
                 @include('_partials.uni.students.pending', ['user' => $user, 'uni' => $uni])
             </div>
