@@ -98,7 +98,7 @@ class ConnectionController extends Controller
             'application_link' => $link,
             'deadline' => $deadline,
             'events' => $events,
-            'cc_emails' => implode(',', $ccEmails)
+            'cc_emails' => implode(',', $ccEmails ?? [])
         ]);
     }
 

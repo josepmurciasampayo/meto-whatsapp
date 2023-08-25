@@ -228,8 +228,11 @@
 
         let resetSavedOptions = () => {
             selectSavedOptions(true)
+
             localStorage.setItem('selected_options', JSON.stringify([]))
+
             localStorage.setItem('selected_curriculum_filters', JSON.stringify([]))
+
             window.location.reload()
         }
     </script>
