@@ -590,8 +590,9 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($score) {
-            $score = round(Helpers::stripNonNumeric($score), 1);
+            $score = Helpers::stripNonNumeric($score);
             if (is_numeric($score)) {
+                $score = round($score, 1);
                 $student->equivalency = $this->getPercentile($curriculum, ScoreType::HSC_ALIM_GPA, $score);
                 $student->save();
             }
