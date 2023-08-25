@@ -179,6 +179,12 @@
 
         setInterval(() => {
             selectSavedOptions()
+
+            let btn = document.querySelector('.reset-saved-options-btn')
+
+            btn.type = 'button'
+
+            btn.setAttribute('onclick', 'resetSavedOptions()')
         }, 500)
 
         setInterval(() => {
@@ -188,12 +194,30 @@
         }, 50)
 
         setTimeout(() => {
-            let btn = document.querySelector('.reset-saved-options-btn')
+            // Handle the filters
+            let selected_curriculum_filters = (storage = localStorage.getItem('selected_curriculum_filters')) ? JSON.parse(storage) : JSON.parse("[]")
+            if (selected_curriculum_filters.length > 0 && (filters = document.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== (selected_curriculum_filters.length)) {
+                output = []
+                document.querySelector('.ts-control').click()
+                setTimeout(() => {
+                    selected_curriculum_filters.forEach(filter => {
+                        document.querySelector('[data-selectable][data-value="' + filter + '"]').click()
+                    })
 
-            btn.type = 'button'
+                    document.querySelector('tr td').click()
+                }, 500)
+            }
 
-            btn.setAttribute('onclick', 'resetSavedOptions()')
-        }, 500)
+            // Handle the change of the curriculum filters
+            console.log('executing ...')
+            setInterval(() => {
+                if ((selected = document.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== selected_curriculum_filters.length) {
+                    let output = []
+                    selected.forEach(el => output.push(el.getAttribute('data-value')))
+                    localStorage.setItem('selected_curriculum_filters', JSON.stringify(output))
+                }
+            }, 1000)
+        }, 1000)
 
         let resetSavedOptions = () => {
             selectSavedOptions(true)
