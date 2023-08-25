@@ -54,13 +54,13 @@ class ConnectionController extends Controller
                     'after:now'
                 ],
                 'cc_emails' => [
-                    'bail', 'array'
+                    'bail', 'nullable', 'array'
                 ],
                 'cc_emails.*' => [
                     'email'
                 ]
             ], [
-                'cc_emails.*' => 'CC emails are not valid.'
+//                'cc_emails.*' => 'CC emails are not valid.'
             ]);
         }
 

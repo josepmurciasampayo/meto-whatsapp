@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('4RIIPwp')) {
-    $componentId = $_instance->getRenderedChildComponentId('4RIIPwp');
-    $componentTag = $_instance->getRenderedChildComponentTagName('4RIIPwp');
+} elseif ($_instance->childHasBeenRendered('qgVCagc')) {
+    $componentId = $_instance->getRenderedChildComponentId('qgVCagc');
+    $componentTag = $_instance->getRenderedChildComponentTagName('qgVCagc');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('4RIIPwp');
+    $_instance->preserveRenderedChild('qgVCagc');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('4RIIPwp', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('qgVCagc', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -203,10 +203,11 @@ echo $html;
         let submitButtons = document.querySelectorAll('.submit-pending-btn')
         // Prepare the request
         let url = "<?php echo e(route('uni.connection.decide')); ?>"
+
         let data = {
             application_link: modalForm.application_link.value,
             upcoming_deadline: modalForm.upcoming_deadline.value,
-            cc_emails: modalForm.cc_emails.value.split(',')
+            cc_emails: (emails = modalForm.cc_emails.value.split(','))[0] === '' ? [] : emails
         }
 
         let inputs = getSelectedStudents()

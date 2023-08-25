@@ -147,10 +147,11 @@
         let submitButtons = document.querySelectorAll('.submit-pending-btn')
         // Prepare the request
         let url = "{{ route('uni.connection.decide') }}"
+
         let data = {
             application_link: modalForm.application_link.value,
             upcoming_deadline: modalForm.upcoming_deadline.value,
-            cc_emails: modalForm.cc_emails.value.split(',')
+            cc_emails: (emails = modalForm.cc_emails.value.split(','))[0] === '' ? [] : emails
         }
 
         let inputs = getSelectedStudents()
