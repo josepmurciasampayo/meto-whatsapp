@@ -350,12 +350,13 @@ class EquivalencyService
 
     public function updateIndian(Student $student, Curriculum $curriculum): void
     {
-        $answer = Answer::where('student_id', $student->id)
+        $score = Answer::where('student_id', $student->id)
             ->where('question_id', 839)
-            ->first();
+            ->first()?->text;
 
-        if ($answer?->text) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SENIOR_SCORE, round($answer->text,0));
+        if ($score) {
+            $score = round(Helpers::stripNonNumeric($score), 0);
+            $student->equivalency = $this->getPercentile($curriculum, ScoreType::SENIOR_SCORE, $score);
             $student->save();
         }
     }
