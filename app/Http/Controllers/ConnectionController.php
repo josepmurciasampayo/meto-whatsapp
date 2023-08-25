@@ -60,7 +60,7 @@ class ConnectionController extends Controller
                     'email'
                 ]
             ], [
-//                'cc_emails.*' => 'CC emails are not valid.'
+                'cc_emails.*' => 'CC emails are not valid.'
             ]);
         }
 
