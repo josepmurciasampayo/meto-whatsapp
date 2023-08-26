@@ -167,8 +167,14 @@
         axios.post(url, data)
             .then(res => {
                 clearErrors(data)
+
                 showSuccessAlert()
-                setTimeout(() => window.location.reload(), 700)
+
+                document.querySelector('.power-grid-button.refresh-btn').click()
+
+                closeModal()
+                
+                setTimeout(hideSuccessAlert(), 3000)
             })
             .catch(err => {
                 let errors = err.response.data.errors
@@ -213,6 +219,10 @@
 
     let showSuccessAlert = () => {
         document.querySelector('#successHolder').classList.remove('d-none')
+    }
+
+    let hideSuccessAlert = () => {
+        document.querySelector('#successHolder').classList.add('d-none')
     }
 
     let closeModal = () => {

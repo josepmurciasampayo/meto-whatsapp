@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('qgVCagc')) {
-    $componentId = $_instance->getRenderedChildComponentId('qgVCagc');
-    $componentTag = $_instance->getRenderedChildComponentTagName('qgVCagc');
+} elseif ($_instance->childHasBeenRendered('0IFUyAH')) {
+    $componentId = $_instance->getRenderedChildComponentId('0IFUyAH');
+    $componentTag = $_instance->getRenderedChildComponentTagName('0IFUyAH');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('qgVCagc');
+    $_instance->preserveRenderedChild('0IFUyAH');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('qgVCagc', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('0IFUyAH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -224,7 +224,10 @@ echo $html;
             .then(res => {
                 clearErrors(data)
                 showSuccessAlert()
-                setTimeout(() => window.location.reload(), 700)
+                // setTimeout(() => window.location.reload(), 700)
+                document.querySelector('.power-grid-button.refresh-btn').click()
+                closeModal()
+                setTimeout(hideSuccessAlert(), 3000)
             })
             .catch(err => {
                 let errors = err.response.data.errors
@@ -269,6 +272,10 @@ echo $html;
 
     let showSuccessAlert = () => {
         document.querySelector('#successHolder').classList.remove('d-none')
+    }
+
+    let hideSuccessAlert = () => {
+        document.querySelector('#successHolder').classList.add('d-none')
     }
 
     let closeModal = () => {
