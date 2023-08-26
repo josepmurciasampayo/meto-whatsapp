@@ -190,12 +190,18 @@ class StudentController extends Controller
         }
     }
 
-    public function invite(Request $request): RedirectResponse
+    public function invite(Request $request): bool
     {
+        $request->validate([
+            'inviteEmail' => [
+                'required', 'email'
+            ]
+        ]);
+
         if ($request->input('inviteEmail')) {
             Mail::to($request->input('inviteEmail'))->send(new InviteStudent(Auth::user()));
         }
-        return redirect(route('home'));
+        return true;
     }
 
 

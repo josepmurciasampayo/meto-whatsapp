@@ -8,13 +8,19 @@
     <div class="invite-popup">
         <h2 class="invite-popup-title display-8"><i class="fas fa-user-plus"></i> INVITE FRIENDS</h2>
         <p>Click the button to copy the invitation:</p>
-        <button class="invite-popup-copy-btn" onclick="copyToClipboard('{{ $inviteText }}')">Copy <i class="fa fa-copy"></i></button>
+        <button class="invite-popup-copy-btn" onclick='copyToClipboard("{{ $inviteText }}")'>Copy <i class="fa fa-copy"></i></button>
         <hr>
         <h3 class="invite-popup-title display-8"><i class="fa fa-envelope-open-text"></i> SEND EMAIL INVITATION</h3>
-        <form method="POST" action="{{ route('inviteFriends') }}">
+        <form onsubmit="submitInviteFriendForm(this, event)" method="POST" action="{{ route('inviteFriends') }}">
             @csrf
+
+            <div>
+                <p class="mb-0 pb-0 text-danger d-none" id="invite-popup-error-holder">This is an error</p>
+                <p class="mb-0 pb-0 text-success d-none" id="invite-popup-success-holder">This is an error</p>
+            </div>
+
             <div class="input-group">
-                <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address">
+                <input type="email" name="inviteEmail" class="invite-popup-input" placeholder="Enter email address" />
                 <button class="invite-popup-btn" onclick="inviteUser(event, '{{ $inviteText }}')">Invite <i class="fa fa-paper-plane"></i></button>
             </div>
         </form>
@@ -142,5 +148,31 @@ function inviteUser(inviteText) {
         const form = document.querySelector('form[action="{{ route('inviteFriends') }}"]');
         form.submit();
     }
+}
+
+function submitInviteFriendForm(form, event) {
+    event.preventDefault()
+
+    let errorHolder = form.querySelector('#invite-popup-error-holder')
+    let successHolder = form.querySelector('#invite-popup-success-holder')
+
+    errorHolder.classList.add('d-none')
+    successHolder.classList.add('d-none')
+
+    form.querySelector('.invite-popup-btn').setAttribute('disabled', true)
+
+    axios.post(form.getAttribute('action'), {
+        inviteEmail: form.inviteEmail.value
+    }).then(res => {
+        form.reset()
+        successHolder.classList.remove('d-none')
+        successHolder.textContent = 'Invitation was sent successfully.'
+
+        setTimeout(() => successHolder.classList.add('d-none'), 4000)
+    })
+    .catch(err => {
+        errorHolder.classList.remove('d-none')
+        errorHolder.textContent = err.response.data.message
+    }).finally(() => form.querySelector('.invite-popup-btn').removeAttribute('disabled'))
 }
 </script>
