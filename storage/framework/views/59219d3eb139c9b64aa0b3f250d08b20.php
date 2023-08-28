@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('0IFUyAH')) {
-    $componentId = $_instance->getRenderedChildComponentId('0IFUyAH');
-    $componentTag = $_instance->getRenderedChildComponentTagName('0IFUyAH');
+} elseif ($_instance->childHasBeenRendered('Wt8A1M5')) {
+    $componentId = $_instance->getRenderedChildComponentId('Wt8A1M5');
+    $componentTag = $_instance->getRenderedChildComponentTagName('Wt8A1M5');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('0IFUyAH');
+    $_instance->preserveRenderedChild('Wt8A1M5');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('0IFUyAH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('Wt8A1M5', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -223,10 +223,13 @@ echo $html;
         axios.post(url, data)
             .then(res => {
                 clearErrors(data)
+
                 showSuccessAlert()
-                // setTimeout(() => window.location.reload(), 700)
+
                 document.querySelector('.power-grid-button.refresh-btn').click()
+
                 closeModal()
+                
                 setTimeout(hideSuccessAlert(), 3000)
             })
             .catch(err => {

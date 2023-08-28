@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Uni;
 use App\Enums\General\YesNo;
 use App\Enums\Student\Gender;
 use App\Exports\uni\connections\RequestExport;
+use App\Models\EnumCountry;
+use App\Models\HighSchool;
 use App\Models\Student;
 use App\Models\Connection;
 use App\Services\UniService;
@@ -12,7 +14,15 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Facades\Excel;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use PowerComponents\LivewirePowerGrid\{Button,
+    Column,
+    Exportable,
+    Filters\Filter,
+    Footer,
+    Header,
+    PowerGrid,
+    PowerGridComponent,
+    PowerGridEloquent};
 use App\Enums\General\MatchStudentInstitution;
 
 final class StudentTableRequest extends PowerGridComponent
@@ -230,5 +240,19 @@ final class StudentTableRequest extends PowerGridComponent
             $now = Carbon::now();
             return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
         }
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::multiSelect('hs', 'hs')
+                ->dataSource(HighSchool::get())
+                ->optionValue('name')
+                ->optionLabel('name'),
+            Filter::multiSelect('countryHS', 'countryHS')
+                ->dataSource(EnumCountry::get())
+                ->optionValue('name')
+                ->optionLabel('name')
+        ];
     }
 }
