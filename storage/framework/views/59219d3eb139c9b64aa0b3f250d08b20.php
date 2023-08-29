@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('Wt8A1M5')) {
-    $componentId = $_instance->getRenderedChildComponentId('Wt8A1M5');
-    $componentTag = $_instance->getRenderedChildComponentTagName('Wt8A1M5');
+} elseif ($_instance->childHasBeenRendered('ASWnBPL')) {
+    $componentId = $_instance->getRenderedChildComponentId('ASWnBPL');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ASWnBPL');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('Wt8A1M5');
+    $_instance->preserveRenderedChild('ASWnBPL');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('Wt8A1M5', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ASWnBPL', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -145,6 +145,8 @@ echo $html;
             tableAlert.classList.add('d-none')
         }
 
+        let submitButtons = document.querySelectorAll('.submit-pending-btn')
+
         // Open the modal
         // Only if we have at least one connection
         if (hasConnect(inputs)) {
@@ -157,10 +159,13 @@ echo $html;
             inputs.forEach(input => {
                 data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
             })
-            console.log(data)
+
+            disableSubmitButtons(submitButtons)
+
             axios.post(url, data)
                 .then(res => {
                     document.querySelector('#refresh-records-btn').click()
+                    setTimeout(() => enableSubmitButtons(submitButtons), 1000)
                 })
                 .catch(err => {
                     processingAlert.classList.add('d-none')
@@ -229,7 +234,7 @@ echo $html;
                 document.querySelector('.power-grid-button.refresh-btn').click()
 
                 closeModal()
-                
+
                 setTimeout(hideSuccessAlert(), 3000)
             })
             .catch(err => {

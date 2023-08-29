@@ -89,6 +89,8 @@
             tableAlert.classList.add('d-none')
         }
 
+        let submitButtons = document.querySelectorAll('.submit-pending-btn')
+
         // Open the modal
         // Only if we have at least one connection
         if (hasConnect(inputs)) {
@@ -101,10 +103,13 @@
             inputs.forEach(input => {
                 data[Object.keys(input)[0]] = input[Object.keys(input)[0]]
             })
-            console.log(data)
+
+            disableSubmitButtons(submitButtons)
+
             axios.post(url, data)
                 .then(res => {
                     document.querySelector('#refresh-records-btn').click()
+                    setTimeout(() => enableSubmitButtons(submitButtons), 1000)
                 })
                 .catch(err => {
                     processingAlert.classList.add('d-none')
@@ -173,7 +178,7 @@
                 document.querySelector('.power-grid-button.refresh-btn').click()
 
                 closeModal()
-                
+
                 setTimeout(hideSuccessAlert(), 3000)
             })
             .catch(err => {
