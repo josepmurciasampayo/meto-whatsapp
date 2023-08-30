@@ -12,8 +12,9 @@ class CountriesComposer
 
     public function __construct()
     {
+        $countries = EnumCountry::get(['id', 'name', 'phone_code']);
+
         if (is_null(self::$countries)) {
-            $countries = EnumCountry::get(['id', 'name', 'code']);
             foreach ($countries as $country) {
                 self::$countries[] = $country->name;
             }
@@ -21,7 +22,7 @@ class CountriesComposer
 
         if (is_null(self::$phoneCountries)) {
             foreach ($countries as $country) {
-                self::$phoneCountries[$country->id] = $country->name;
+                self::$phoneCountries[$country->id] = "(+$country->phone_code) " . $country->name;
             }
         }
     }
