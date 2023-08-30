@@ -16,7 +16,7 @@ class CalculateEquivalencies extends Command
     {
         echo "\nProcessing equivalencies";
         $students = Student::all();
-        //$students = Student::find([3741,1063]);
+        //$students = Student::find([2,11,16,70]);
 
         foreach ($students as $student) {
             (new EquivalencyService())->update($student);

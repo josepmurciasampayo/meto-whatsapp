@@ -8,23 +8,10 @@ use Illuminate\Console\Command;
 
 class CheckForDirtyEmails extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'app:check-for-dirty-emails';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Iterates through all the users and check for the ones that have incorrect emails.';
+   protected $description = 'Iterates through all the users and check for the ones that have incorrect emails.';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $output = '--ID:--      --EMAIL--';

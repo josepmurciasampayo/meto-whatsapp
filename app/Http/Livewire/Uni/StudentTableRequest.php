@@ -245,10 +245,14 @@ final class StudentTableRequest extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::multiSelect('hs', 'hs')
+            /*
+             * Huge delay doing this, gotta be a faster way
+             *
+             Filter::multiSelect('hs', 'hs')
                 ->dataSource(HighSchool::get())
                 ->optionValue('name')
                 ->optionLabel('name'),
+            */
             Filter::multiSelect('countryHS', 'countryHS')
                 ->dataSource(EnumCountry::get())
                 ->optionValue('name')

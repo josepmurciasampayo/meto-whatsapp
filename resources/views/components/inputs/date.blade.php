@@ -26,7 +26,7 @@
             "autoUpdateInput": true,
             "showDropdowns": true,
             "autoApply": true,
-            "minYear": 2000,
+            "minYear": 1990,
             "maxYear": new Date().getFullYear() + 1,
             {!! $startDate !!}
             "locale": {

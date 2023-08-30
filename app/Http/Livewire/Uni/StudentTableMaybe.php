@@ -67,6 +67,9 @@ final class StudentTableMaybe extends PowerGridComponent
             ->addColumn('curriculum', function (Student $student) {
                 return e($student->curriculum);
             })
+            ->addColumn('citizenship', function (Student $student) {
+                return e(substr($student->citizenship, 0, 10));
+            })
             ->addColumn('track', function (Student $student) {
                 return e($student->track);
             })
@@ -111,6 +114,7 @@ final class StudentTableMaybe extends PowerGridComponent
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
+            Column::make('Citizenship', 'citizenship')->searchable(),
             Column::make('Equivalency', 'equivalency')->searchable()->sortable(),
             Column::make('Desired Academic Track', 'track')->searchable(),
             Column::make('Desired Country Destinations', 'destination')->searchable(),

@@ -236,37 +236,47 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($finalA) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA, $finalA);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA, $finalA);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $mock = Answer::where('student_id', $student->id)
-            ->where('question_id', 373)
+            ->where('question_id', 341)
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANMOCKA, $mock);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANMOCKA, $mock);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $finalOnew = Answer::where('student_id', $student->id)
-            ->where('question_id', 373)
+            ->where('question_id', 336)
             ->first()
             ?->text;
         if ($finalOnew) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALON, $finalOnew);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALON, $finalOnew);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $finalOold = Answer::where('student_id', $student->id)
-            ->where('question_id', 255)
+            ->where('question_id', 335)
             ->first()
             ?->text;
         if ($finalOold) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALOO, $finalOold);
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALOO, $finalOold);
+            $student->equivalency = $equivalency;
             $student->save();
         }
     }
@@ -745,22 +755,8 @@ class EquivalencyService
         ]);
     }
 
-    public function getScore(Student $student, array $question_ids): ?string
-    {
-        foreach ($question_ids as $question_id) {
-            $score = Answer::where('student_id', $student->id)
-                ->where('question_id', $question_id)
-                ->first()
-                ?->text;
-            if ($score) {
-                return $score;
-            }
-        }
-    }
-
     public function getPercentile(Curriculum $curriculum, ScoreType $scoreType, string $score): int|null
     {
-        //dd("Curriculum: $curriculum->value ScoreType: $scoreType->value Sore: $score");
         $equivalency = Equivalency::where('curriculum_id', $curriculum())->
             where('score_type', $scoreType())->
             where('score', $score)->

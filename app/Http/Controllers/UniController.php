@@ -292,6 +292,8 @@ class UniController extends Controller
                 $join->institution_id = $uni->id;
                 $join->save();
 
+                Mail::to($user)->send(new UniInvite($user, $uni));
+
                 break;
 
             case 4: // delete user

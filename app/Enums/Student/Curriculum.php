@@ -34,6 +34,7 @@ enum Curriculum :int
     case SOUTHAFRICA = 24;
     case MOROCCO = 25;
     case EGYPT = 26;
+    case NEWNATIONAL = 27;
 
     public static function getText(self $value) :string
     {
@@ -64,6 +65,7 @@ enum Curriculum :int
             self::SOUTHAFRICA => 'South Africa',
             self::MOROCCO => 'Moroccan',
             self::EGYPT => 'Egyptian',
+            self::NEWNATIONAL => 'Other National'
         };
     }
 

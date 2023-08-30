@@ -10,18 +10,18 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/php-info', [AdminController::class, 'info'])->name('php-info');
+    Route::get('php-info', [AdminController::class, 'info'])->name('php-info');
 
-    Route::get('/campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
-    Route::post('/campaigns', '\App\Http\Controllers\CampaignController@update');
+    Route::get('campaigns', '\App\Http\Controllers\CampaignController@show')->name('campaigns');
+    Route::post('campaigns', '\App\Http\Controllers\CampaignController@update');
 
-    Route::get('/admin/matches', [AdminController::class, 'matchData'])->name('matchData');
-    Route::get('/admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
+    Route::get('admin/matches', [AdminController::class, 'matchData'])->name('matchData');
+    Route::get('admin/matches/{id}', [CounselorController::class, 'matches'])->name('matches');
 
-    Route::get('/comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
-    Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send-message');
-    Route::post('/resetChatbot', [AdminController::class, 'resetChatbot'])->name('resetChatbot');
-    Route::post('/startChatbot', [AdminController::class, 'startChatbot'])->name('startChatbot');
+    Route::get('comms-log', [AdminController::class, 'commsLog'])->name('comms-log');
+    Route::post('send-message', [AdminController::class, 'sendMessage'])->name('send-message');
+    Route::post('resetChatbot', [AdminController::class, 'resetChatbot'])->name('resetChatbot');
+    Route::post('startChatbot', [AdminController::class, 'startChatbot'])->name('startChatbot');
 
     Route::get('/admin/universities', [AdminController::class, 'universities'])->name('universities');
     Route::get('/admin/uni/{id}', [\App\Http\Controllers\UniController::class, 'get'])->name('uni');
