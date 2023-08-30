@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EnumCountry extends Model
 {
+    public $guarded = [];
+
     public static function getArray(bool $idFirst = true) :array
     {
         $toReturn = Helpers::dbQueryArray('
