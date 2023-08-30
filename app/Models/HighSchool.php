@@ -11,8 +11,35 @@ use \Illuminate\Database\Eloquent\Model;
 
 class HighSchool extends Model
 {
+    public $guarded = [];
+
+    public function admin()
+    {
+        return $this->hasOneThrough(
+            User::class,
+            UserHighSchool::class,
+            'highschool_id',
+            'id',
+            'id',
+            'user_id'
+        )->where('user_high_schools.role', HSRole::ADMIN);
+    }
+
+    public function students()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserHighSchool::class,
+            'highschool_id',
+            'id',
+            'id',
+            'user_id'
+        )->where('user_high_schools.role', HSRole::STUDENT);
+    }
+
     public function counselors()
     {
+        // TODO: separate admin from counselors and make sure we modify that in the cc too
         /*
         $ids = UserHighSchool::where('highschool_id', $this->id)->whereIn('role', [HSRole::ADMIN(), HSRole::COUNSELOR()])->pluck('user_id');
         return User::find($ids);
