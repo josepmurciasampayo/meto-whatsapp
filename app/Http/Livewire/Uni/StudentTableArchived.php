@@ -10,7 +10,15 @@ use App\Services\UniService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use PowerComponents\LivewirePowerGrid\{Button,
+    Column,
+    Exportable,
+    Filters\Filter,
+    Footer,
+    Header,
+    PowerGrid,
+    PowerGridComponent,
+    PowerGridEloquent};
 
 final class StudentTableArchived extends PowerGridComponent
 {
@@ -120,6 +128,14 @@ final class StudentTableArchived extends PowerGridComponent
                 ->caption(__('Send Back to Review'))
                 ->class('btn btn-outline-success mb-3')
                 ->emit('resetConnection', []),
+        ];
+    }
+
+    public function filters() :array
+    {
+        return [
+            Filter::inputText('destination', 'destination')
+                ->operators(['contains'])
         ];
     }
 

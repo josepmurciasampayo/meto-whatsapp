@@ -197,7 +197,9 @@ final class StudentTable extends PowerGridComponent
                 ->optionValue('enum_id')
                 ->optionLabel('enum_desc'),
             Filter::number('equivalency', 'equivalency')
-                ->placeholder('Min', 'Max')
+                ->placeholder('Min', 'Max'),
+            Filter::inputText('destination', 'destination')
+                ->operators(['contains'])
         ];
     }
 

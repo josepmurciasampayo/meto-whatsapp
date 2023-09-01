@@ -259,7 +259,9 @@ final class StudentTableRequest extends PowerGridComponent
             Filter::multiSelect('countryHS', 'countryHS')
                 ->dataSource(EnumCountry::get())
                 ->optionValue('name')
-                ->optionLabel('name')
+                ->optionLabel('name'),
+            Filter::inputText('destination', 'destination')
+                ->operators(['contains'])
         ];
     }
 }
