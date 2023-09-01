@@ -20,7 +20,10 @@ class ConnectionController extends Controller
     public function index(): View
     {
         return view('connection.index', [
-            'connections' => Connection::with('student', 'institution')->get()
+            'connections' => Connection::with('student', 'institution')
+                ->where('status', MatchStudentInstitution::REQUEST())
+                ->orderBy('institution_id')
+                ->get()
         ]);
     }
 

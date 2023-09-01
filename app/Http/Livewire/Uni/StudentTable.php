@@ -179,12 +179,12 @@ final class StudentTable extends PowerGridComponent
         return [
             Button::add('refresh')
                 ->caption(__('Refresh'))
-                ->class('refresh-btn')
+                ->class('btn btn-outline-primary refresh-btn mb-3 me-3')
                 ->emit('refreshRecords', []),
 
             Button::add('Reset')
                 ->caption(__('Reset'))
-                ->class('reset-saved-options-btn')
+                ->class('btn btn-outline-warning mb-3')
                 ->emit('resetSavedRecords', []),
         ];
     }

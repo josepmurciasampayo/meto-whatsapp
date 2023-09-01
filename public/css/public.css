@@ -6,6 +6,7 @@
     --success: #198754;
     --warning: #ffc107;
     --secondary: #6c757d;
+    --bs-pagination-active-bg: #00bd00;
 }
 
 body {
@@ -174,6 +175,7 @@ label[selected_option="true"].archive {
     background: var(--main) !important;
 }
 
+/*
 .power-grid-button {
     color: #787878 !important;
     background-color: #2125290f !important;
@@ -181,6 +183,7 @@ label[selected_option="true"].archive {
     border-radius: 5px;
     border: 1px solid #787878 !important;
 }
+*/
 
 .single-student-card {
     .close-btn {

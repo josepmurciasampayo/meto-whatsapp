@@ -111,14 +111,15 @@ final class StudentTableArchived extends PowerGridComponent
     public function header(): array
     {
         return [
-            Button::add('reset')
-                ->caption(__('Send Back to Review'))
-                ->emit('resetConnection', []),
-
             Button::add('refresh')
                 ->caption(__('Refresh'))
-                ->class('refresh-btn')
+                ->class('btn btn-outline-primary refresh-btn me-3 mb-3')
                 ->emit('refreshRecords', []),
+
+            Button::add('reset')
+                ->caption(__('Send Back to Review'))
+                ->class('btn btn-outline-success mb-3')
+                ->emit('resetConnection', []),
         ];
     }
 

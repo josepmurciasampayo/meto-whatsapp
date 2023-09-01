@@ -89,6 +89,7 @@ let showStudentCard = el => {
             let student = data.data.student;
 
             card.style.display = 'block'
+            card.classList.remove('d-none');
             card.innerHTML = data.view
 
             // card.querySelector('#name').textContent = student.user.first + ' ' + student.user.last
@@ -126,16 +127,6 @@ let selectSavedOptions = (unselect = false) => {
         })
     }
 }
-
-setInterval(() => {
-    selectSavedOptions()
-
-    let btn = document.querySelector('.reset-saved-options-btn')
-
-    btn.type = 'button'
-
-    btn.setAttribute('onclick', 'resetSavedOptions()')
-}, 500)
 
 setInterval(() => {
     if (el = document.querySelectorAll('[placeholder="Min"]')[1]) {
@@ -212,6 +203,7 @@ setTimeout(() => {
     }
 
     // Handle the changes of the high school filter
+    /*
     setInterval(() => {
         if ((selected = document.querySelector('#tomselect-3').parentElement.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== selected_high_school_country_filters.length) {
             let output = []
@@ -219,6 +211,8 @@ setTimeout(() => {
             localStorage.setItem('selected_high_school_country_filters', JSON.stringify(output))
         }
     }, 1000)
+    */
+
 }, 1500)
 
 let resetSavedOptions = () => {

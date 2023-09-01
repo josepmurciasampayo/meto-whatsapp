@@ -71,6 +71,7 @@ return new class extends Migration
                 IB_active.response_id as IB_active_id,
                 s.equivalency as ib_equivalency,
                 which_IB.text as which_IB,
+                grad_IB.text as grad_IB,
                 IB_1.text as IB_1,
                 IB_2.text as IB_2,
                 IB_3.text as IB_3,
@@ -92,6 +93,7 @@ return new class extends Migration
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id and curriculum_id = 5
                 left outer join meto_answers as IB_active on IB_active.question_id = 61 and IB_active.student_id = s.id
+                left outer join meto_answers as grad_IB on dob.question_id = 54 and grad_IB.student_id = s.id
                 left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
                 left outer join meto_answers as IB_1 on IB_1.question_id = 34 and IB_1.student_id = s.id
                 left outer join meto_answers as IB_2 on IB_2.question_id = 36 and IB_2.student_id = s.id
@@ -157,7 +159,7 @@ return new class extends Migration
                 other_final1.text as other_final1,
                 other_final2.text as other_final2
                 from meto_users as u
-                join meto_students as s on s.user_id = u.id and s.curriculum_id = 8
+                join meto_students as s on s.user_id = u.id and s.curriculum_id = 27
                 left outer join meto_answers as grad_other on grad_other.question_id = 256 and grad_other.student_id = s.id
                 left outer join meto_answers as other_current on other_current.question_id = 462 and other_current.student_id = s.id
                 left outer join meto_answers as other_final1 on other_final1.question_id = 325 and other_final1.student_id = s.id
@@ -172,14 +174,16 @@ return new class extends Migration
                 rwandan_olevel1.text as rwandan_olevel1,
                 rwandan_olevel2.text as rwandan_olevel2,
                 rwandan_mock.text as rwandan_mock,
-                rwandan_A.text as rwandan_A
+                rwandan_A1.text as rwandan_A1,
+                rwandan_A2.text as rwandan_A2
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id and s.curriculum_id = 3
                 left outer join meto_answers as grad_rwandan on grad_rwandan.question_id = 339 and grad_rwandan.student_id = s.id
                 left outer join meto_answers as rwandan_olevel1 on rwandan_olevel1.question_id = 335 and rwandan_olevel1.student_id = s.id
                 left outer join meto_answers as rwandan_olevel2 on rwandan_olevel2.question_id = 336 and rwandan_olevel2.student_id = s.id
                 left outer join meto_answers as rwandan_mock on rwandan_mock.question_id = 341 and rwandan_mock.student_id = s.id
-                left outer join meto_answers as rwandan_A on rwandan_A.question_id = 343 and rwandan_A.student_id = s.id
+                left outer join meto_answers as rwandan_A1 on rwandan_A1.question_id = 346 and rwandan_A1.student_id = s.id
+                left outer join meto_answers as rwandan_A2 on rwandan_A2.question_id = 343 and rwandan_A2.student_id = s.id
                 ;
 
             create or replace view meto_view_student_indian as

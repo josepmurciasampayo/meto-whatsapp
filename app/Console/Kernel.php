@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('command:startLoop')->everyMinute();
         $schedule->command('backup:run')->daily()->at('11:30');
         $schedule->command('import:google')->hourly();
-        $schedule->exec('. permissions.sh')->hourly();
+        $schedule->command('app::fix-permissions')->hourly();
         //$schedule->command('verify:whatsapp')->everyMinute()->withoutOverlapping()->runInBackground();
     }
 

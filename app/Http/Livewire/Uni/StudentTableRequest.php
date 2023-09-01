@@ -202,11 +202,12 @@ final class StudentTableRequest extends PowerGridComponent
 
             Button::add('refresh')
                 ->caption(__('Refresh'))
-                ->class('refresh-btn')
+                ->class('btn btn-outline-primary refresh-btn me-3 mb-3')
                 ->emit('refreshRecords', []),
 
             Button::add('exportCsv')
                 ->caption(__('Export'))
+                ->class('btn btn-outline-secondary mb-3')
                 ->emit('exportCsv', [])
         ];
     }
@@ -234,6 +235,7 @@ final class StudentTableRequest extends PowerGridComponent
         $this->datasource();
     }
 
+    /*
     public function exportCsv()
     {
         if (filled($this->datasource()->get())) {
@@ -241,6 +243,7 @@ final class StudentTableRequest extends PowerGridComponent
             return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
         }
     }
+    */
 
     public function filters(): array
     {

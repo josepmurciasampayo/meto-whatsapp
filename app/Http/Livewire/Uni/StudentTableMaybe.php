@@ -131,14 +131,15 @@ final class StudentTableMaybe extends PowerGridComponent
     public function header()
     {
         return [
-            Button::add('reset')
-                ->caption(__('Send Back to Review'))
-                ->emit('resetConnection', []),
-
             Button::add('refresh')
                 ->caption(__('Refresh'))
-                ->class('refresh-btn')
+                ->class('btn btn-outline-primary refresh-btn mb-3 me-3')
                 ->emit('refreshRecords', []),
+
+            Button::add('reset')
+                ->caption(__('Send Back to Review'))
+                ->class('btn btn-outline-success mb-3')
+                ->emit('resetConnection', []),
         ];
     }
 

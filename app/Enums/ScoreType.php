@@ -19,7 +19,8 @@ enum ScoreType :int
     case AMSENIORU = 9;
     case AMJUNIORW = 10;
     case AMJUNIORU = 11;
-    case RWANFINALA = 12;
+    case RWANFINALA1 = 12;
+    case RWANFINALA2 = 54;
     case RWANMOCKA = 13;
     case RWANFINALON = 14;
     case RWANFINALOO = 15;

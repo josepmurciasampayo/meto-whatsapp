@@ -232,11 +232,24 @@ class EquivalencyService
     public function updateRwandan(Student $student, Curriculum $curriculum): void
     {
         $finalA = Answer::where('student_id', $student->id)
+            ->where('question_id', 346)
+            ->first()
+            ?->text;
+        if ($finalA) {
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA1, $finalA);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
+        }
+
+        $finalA = Answer::where('student_id', $student->id)
             ->where('question_id', 343)
             ->first()
             ?->text;
         if ($finalA) {
-            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA, $finalA);
+            $equivalency = $this->getPercentile($curriculum, ScoreType::RWANFINALA2, $finalA);
             if ($equivalency) {
                 $student->equivalency = $equivalency;
                 $student->save();

@@ -24,7 +24,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial Meto Email to Students</h1>
+                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial {{ config('app.name') }} Email to Students</h1>
+                <h3></h3>
                 <div>
                     <p class="mb-3 small fw-bold">
                         Dear [Student Name],
