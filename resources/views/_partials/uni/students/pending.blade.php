@@ -24,7 +24,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial {{ config('app.name') }} Email to Students</h1>
+                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">
+                    Initial {{ config('app.name') }} Email to Students
+                    <span id="selected-students-count">(<span id="number">0</span>)</span>
+                </h1>
                 <h3></h3>
                 <div>
                     <p class="mb-3 small fw-bold">
@@ -111,6 +114,7 @@
                 .then(res => {
                     document.querySelector('#refresh-records-btn').click()
                     setTimeout(() => enableSubmitButtons(submitButtons), 1000)
+                    clearSelectedOptionsStorage()
                 })
                 .catch(err => {
                     processingAlert.classList.add('d-none')
@@ -153,6 +157,16 @@
             })
         })
 
+        // Change the count on the title that's on the pop up
+        let countHolder = document.querySelector('#selected-students-count')
+        let number = countHolder.querySelector('#number')
+        if (inputs.length === 0) {
+            countHolder.classList.add('d-none')
+        } else {
+            countHolder.classList.remove('d-none')
+            number.textContent = inputs.length + ' selected'
+        }
+
         return inputs;
     }
 
@@ -192,6 +206,8 @@
                 closeModal()
 
                 setTimeout(hideSuccessAlert(), 3000)
+
+                clearSelectedOptionsStorage()
             })
             .catch(err => {
                 let errors = err.response.data.errors
@@ -244,5 +260,9 @@
 
     let closeModal = () => {
         $(emailModal).modal('hide')
+    }
+
+    let clearSelectedOptionsStorage = () => {
+        localStorage.setItem('selected_options', JSON.stringify([]))
     }
 </script>

@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('ouX0SXs')) {
-    $componentId = $_instance->getRenderedChildComponentId('ouX0SXs');
-    $componentTag = $_instance->getRenderedChildComponentTagName('ouX0SXs');
+} elseif ($_instance->childHasBeenRendered('RbTDFkM')) {
+    $componentId = $_instance->getRenderedChildComponentId('RbTDFkM');
+    $componentTag = $_instance->getRenderedChildComponentTagName('RbTDFkM');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('ouX0SXs');
+    $_instance->preserveRenderedChild('RbTDFkM');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('ouX0SXs', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('RbTDFkM', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -38,7 +38,10 @@ echo $html;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial <?php echo e(config('app.name')); ?> Email to Students</h1>
+                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">
+                    Initial <?php echo e(config('app.name')); ?> Email to Students
+                    <span id="selected-students-count">(<span id="number">0</span>)</span>
+                </h1>
                 <h3></h3>
                 <div>
                     <p class="mb-3 small fw-bold">
@@ -167,6 +170,7 @@ echo $html;
                 .then(res => {
                     document.querySelector('#refresh-records-btn').click()
                     setTimeout(() => enableSubmitButtons(submitButtons), 1000)
+                    clearSelectedOptionsStorage()
                 })
                 .catch(err => {
                     processingAlert.classList.add('d-none')
@@ -209,6 +213,16 @@ echo $html;
             })
         })
 
+        // Change the count on the title that's on the pop up
+        let countHolder = document.querySelector('#selected-students-count')
+        let number = countHolder.querySelector('#number')
+        if (inputs.length === 0) {
+            countHolder.classList.add('d-none')
+        } else {
+            countHolder.classList.remove('d-none')
+            number.textContent = inputs.length + ' selected'
+        }
+
         return inputs;
     }
 
@@ -248,6 +262,8 @@ echo $html;
                 closeModal()
 
                 setTimeout(hideSuccessAlert(), 3000)
+
+                clearSelectedOptionsStorage()
             })
             .catch(err => {
                 let errors = err.response.data.errors
@@ -300,6 +316,10 @@ echo $html;
 
     let closeModal = () => {
         $(emailModal).modal('hide')
+    }
+
+    let clearSelectedOptionsStorage = () => {
+        localStorage.setItem('selected_options', JSON.stringify([]))
     }
 </script>
 <?php /**PATH /Users/hbakouane/Desktop/valet/meto/resources/views/_partials/uni/students/pending.blade.php ENDPATH**/ ?>
