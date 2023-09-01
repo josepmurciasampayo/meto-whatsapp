@@ -86,7 +86,7 @@ final class StudentTableRequest extends PowerGridComponent
                 return e($student->user->email);
             })
             ->addColumn('efc', function (Student $student) {
-                return e($student->efc);
+                return e('$' . number_format($student->efc, 0, '.', ','));
             })
             ->addColumn('dob', function (Student $student) {
                 return e($student->dob);

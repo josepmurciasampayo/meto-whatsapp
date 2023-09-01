@@ -67,7 +67,7 @@ final class StudentTableMaybe extends PowerGridComponent
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
             ->addColumn('efc', function (Student $student) {
-                return e($student->efc);
+                return e('$' . number_format($student->efc, 0, '.', ','));
             })
             ->addColumn('countryHS', function (Student $student) {
                 return e($student->countryHS);

@@ -93,7 +93,7 @@ return new class extends Migration
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id and curriculum_id = 5
                 left outer join meto_answers as IB_active on IB_active.question_id = 61 and IB_active.student_id = s.id
-                left outer join meto_answers as grad_IB on dob.question_id = 54 and grad_IB.student_id = s.id
+                left outer join meto_answers as grad_IB on grad_IB.question_id = 54 and grad_IB.student_id = s.id
                 left outer join meto_answers as which_IB on which_IB.question_id = 457 and which_IB.student_id = s.id
                 left outer join meto_answers as IB_1 on IB_1.question_id = 34 and IB_1.student_id = s.id
                 left outer join meto_answers as IB_2 on IB_2.question_id = 36 and IB_2.student_id = s.id

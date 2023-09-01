@@ -120,7 +120,7 @@ final class StudentConnectionsTable extends PowerGridComponent
                 return '+' . e($student->user->phone_combined);
             })
             ->addColumn('efc', function (Student $student) {
-                return e($student->efc);
+                return e('$' . number_format($student->efc, 0, '.', ','));
             })
             ->addColumn('countryHS', function (Student $student) {
                 return e($student->countryHS);
