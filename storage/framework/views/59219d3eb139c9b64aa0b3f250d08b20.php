@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('ASWnBPL')) {
-    $componentId = $_instance->getRenderedChildComponentId('ASWnBPL');
-    $componentTag = $_instance->getRenderedChildComponentTagName('ASWnBPL');
+} elseif ($_instance->childHasBeenRendered('ouX0SXs')) {
+    $componentId = $_instance->getRenderedChildComponentId('ouX0SXs');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ouX0SXs');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('ASWnBPL');
+    $_instance->preserveRenderedChild('ouX0SXs');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('ASWnBPL', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ouX0SXs', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -38,7 +38,8 @@ echo $html;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial Meto Email to Students</h1>
+                <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">Initial <?php echo e(config('app.name')); ?> Email to Students</h1>
+                <h3></h3>
                 <div>
                     <p class="mb-3 small fw-bold">
                         Dear [Student Name],
@@ -175,27 +176,38 @@ echo $html;
     })
 
     let getSelectedStudents = () => {
-        let inputs = []
-        Object.values(document.querySelector('#decision-form').elements).forEach(el => {
-            if (el) {
-                if ($(el).attr('name') && $(el).attr('name').includes('student_')) {
-                    if (decision = document.querySelector('[name="' + $(el).attr('name') + '"]:checked')) {
-                        let alreadyExists = false
-                        inputs.forEach(input => {
-                            if (Object.keys(input)[0] === $(decision).attr('name')) {
-                                alreadyExists = true
-                            }
-                        })
+        // This codes get just the selected records of the page where you're at
+        // let inputs = []
+        // Object.values(document.querySelector('#decision-form').elements).forEach(el => {
+        //     if (el) {
+        //         if ($(el).attr('name') && $(el).attr('name').includes('student_')) {
+        //             if (decision = document.querySelector('[name="' + $(el).attr('name') + '"]:checked')) {
+        //                 let alreadyExists = false
+        //                 inputs.forEach(input => {
+        //                     if (Object.keys(input)[0] === $(decision).attr('name')) {
+        //                         alreadyExists = true
+        //                     }
+        //                 })
+        //
+        //                 if (!alreadyExists) {
+        //                     inputs.push({
+        //                         [$(decision).attr('name')]: $(decision).attr('value')
+        //                     })
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
 
-                        if (!alreadyExists) {
-                            inputs.push({
-                                [$(decision).attr('name')]: $(decision).attr('value')
-                            })
-                        }
-                    }
-                }
-            }
-        });
+        // Get all the selected records (even on the hidden pages)
+        let selectedOptions = JSON.parse(localStorage.getItem('selected_options'))
+        let inputs = []
+
+        selectedOptions.forEach(el => {
+            inputs.push({
+                ['student_' + Object.keys(el)[0]]: Object.values(el)[0]
+            })
+        })
 
         return inputs;
     }

@@ -129,6 +129,17 @@ let selectSavedOptions = (unselect = false) => {
 }
 
 setInterval(() => {
+    selectSavedOptions()
+
+    let btn = document.querySelector('.reset-saved-options-btn')
+
+    btn.type = 'button'
+
+    btn.setAttribute('onclick', 'resetSavedOptions()')
+}, 500)
+
+
+setInterval(() => {
     if (el = document.querySelectorAll('[placeholder="Min"]')[1]) {
         el.placeholder !== 'Max' ? el.placeholder = 'Max' : null
     }
@@ -189,18 +200,18 @@ setTimeout(() => {
 
     // High school country
     // Handle the multiselect high school filters
-    let selected_high_school_country_filters = (storage = localStorage.getItem('selected_high_school_country_filters')) ? JSON.parse(storage) : JSON.parse("[]")
-    if (selected_high_school_country_filters.length > 0 && (filters = document.querySelector('#tomselect-3').parentElement.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== (selected_high_school_country_filters.length)) {
-        output = []
-        if (select = document.querySelectorAll('.ts-control')[2]) select.click()
-        setTimeout(() => {
-            selected_high_school_country_filters.forEach(filter => {
-                document.querySelector('#tomselect-3-ts-dropdown [data-selectable][data-value="' + filter + '"]').click()
-            })
-
-            document.querySelector('tr td').click()
-        }, 500)
-    }
+    // let selected_high_school_country_filters = (storage = localStorage.getItem('selected_high_school_country_filters')) ? JSON.parse(storage) : JSON.parse("[]")
+    // if (selected_high_school_country_filters.length > 0 && (filters = document.querySelector('#tomselect-3').parentElement.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== (selected_high_school_country_filters.length)) {
+    //     output = []
+    //     if (select = document.querySelectorAll('.ts-control')[2]) select.click()
+    //     setTimeout(() => {
+    //         selected_high_school_country_filters.forEach(filter => {
+    //             document.querySelector('#tomselect-3-ts-dropdown [data-selectable][data-value="' + filter + '"]').click()
+    //         })
+    //
+    //         document.querySelector('tr td').click()
+    //     }, 500)
+    // }
 
     // Handle the changes of the high school filter
     /*

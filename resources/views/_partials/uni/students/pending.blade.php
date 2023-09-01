@@ -120,27 +120,38 @@
     })
 
     let getSelectedStudents = () => {
-        let inputs = []
-        Object.values(document.querySelector('#decision-form').elements).forEach(el => {
-            if (el) {
-                if ($(el).attr('name') && $(el).attr('name').includes('student_')) {
-                    if (decision = document.querySelector('[name="' + $(el).attr('name') + '"]:checked')) {
-                        let alreadyExists = false
-                        inputs.forEach(input => {
-                            if (Object.keys(input)[0] === $(decision).attr('name')) {
-                                alreadyExists = true
-                            }
-                        })
+        // This codes get just the selected records of the page where you're at
+        // let inputs = []
+        // Object.values(document.querySelector('#decision-form').elements).forEach(el => {
+        //     if (el) {
+        //         if ($(el).attr('name') && $(el).attr('name').includes('student_')) {
+        //             if (decision = document.querySelector('[name="' + $(el).attr('name') + '"]:checked')) {
+        //                 let alreadyExists = false
+        //                 inputs.forEach(input => {
+        //                     if (Object.keys(input)[0] === $(decision).attr('name')) {
+        //                         alreadyExists = true
+        //                     }
+        //                 })
+        //
+        //                 if (!alreadyExists) {
+        //                     inputs.push({
+        //                         [$(decision).attr('name')]: $(decision).attr('value')
+        //                     })
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
 
-                        if (!alreadyExists) {
-                            inputs.push({
-                                [$(decision).attr('name')]: $(decision).attr('value')
-                            })
-                        }
-                    }
-                }
-            }
-        });
+        // Get all the selected records (even on the hidden pages)
+        let selectedOptions = JSON.parse(localStorage.getItem('selected_options'))
+        let inputs = []
+
+        selectedOptions.forEach(el => {
+            inputs.push({
+                ['student_' + Object.keys(el)[0]]: Object.values(el)[0]
+            })
+        })
 
         return inputs;
     }

@@ -11,27 +11,30 @@
 
     <div style="font-size: 14px">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <script type="text/javascript">
+                function hideDetail() {
+                    document.getElementById('student-details-card-holder').classList.add('d-none');
+                }
+            </script>
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">To Review</button>
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" onclick="hideDetail()">To Review</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="request-tab" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button" role="tab" aria-controls="request-tab-pane" aria-selected="false">Yes</button>
+                <button class="nav-link" id="request-tab" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button" role="tab" aria-controls="request-tab-pane" aria-selected="false" onclick="hideDetail()">Yes</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="maybe-tab" data-bs-toggle="tab" data-bs-target="#maybe-tab-pane" type="button" role="tab" aria-controls="maybe-tab-pane" aria-selected="false">Maybe</button>
+                <button class="nav-link" id="maybe-tab" data-bs-toggle="tab" data-bs-target="#maybe-tab-pane" type="button" role="tab" aria-controls="maybe-tab-pane" aria-selected="false" onclick="hideDetail()">Maybe</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived-tab-pane" type="button" role="tab" aria-controls="archived-tab-pane" aria-selected="false">No</button>
+                <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived-tab-pane" type="button" role="tab" aria-controls="archived-tab-pane" aria-selected="false" onclick="hideDetail()">No</button>
             </li>
         </ul>
         <div class="tab-content" id="students-tables">
             <div class="tab-pane fade show active py-4" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <p class="mb-3">Recommended Use:</p>
                 <ul class="list-disc">
-                    <li class="my-2 ms-5">Please click "Submit Requests" once you have selected students you would like to move. This will submit ‘Yes’ students to <?php echo e(config('app.name')); ?> for review and move ‘Maybe’ and ‘No’ students to their respective tabs.</li>
-                    <li class="my-2 ms-5">Connection emails to ‘Yes’ students will typically be sent within 24 hours, unless you would prefer to delay the emails. If you would prefer to delay your connection emails, please email <a href="mailto:bthomsen@meto-intl.org">bthomsen@meto-intl.org</a> or <a href="mailto:julie@meto-intl.org">julie@meto-intl.org</a>.</li>
-                    <li class="my-2 ms-5">Please go <a href="<?php echo e(route('uni.mingrade')); ?>">here </a> to change your academic filter</li>
-                    <li class="my-2 ms-5">Please go <a href="<?php echo e(route('uni.efc')); ?>">here</a> to change your EFC filter</li>
+                    <li class="my-2 ms-5">IMPORTANT: When submitting student connection requests, ensure all your “Yes” connections are located on the same page (not across multiple pages) then click “Submit Requests” in the bottom right of the screen. This will ensure all “Yes” students are submitted. The easiest way to do this is changing the view to 500 records per page at the bottom left corner of your screen.</li>
+                    <li class="my-2 ms-5">Please go <a style="color:blue" class="text-decoration-underline" href="<?php echo e(route('uni.mingrade')); ?>">here </a> to change your academic filter and <a style="color:blue" class="text-decoration-underline" href="<?php echo e(route('uni.efc')); ?>">here</a> to change your EFC filter</li>
                 </ul>
                 <?php echo $__env->make('_partials.uni.students.pending', ['user' => $user, 'uni' => $uni], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>

@@ -184,7 +184,7 @@ final class StudentTable extends PowerGridComponent
 
             Button::add('Reset')
                 ->caption(__('Reset'))
-                ->class('btn btn-outline-warning mb-3')
+                ->class('btn btn-outline-warning mb-3 reset-saved-options-btn')
                 ->emit('resetSavedRecords', []),
         ];
     }
