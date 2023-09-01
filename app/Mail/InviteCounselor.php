@@ -39,7 +39,7 @@ class InviteCounselor extends Mailable
      */
     public function envelope()
     {
-        $subject = (Auth()->user()->role == Role::ADMIN()) ? "Welcome to ". config('app.name') . " counselor portal; your students await!" : "You've been invited to join your colleagues on Meto";
+        $subject = (Auth()->user()->role == Role::ADMIN()) ? "Welcome to ". config('app.name') . " Counselor Portal; your students await!" : "You've been invited to join your colleagues on Meto";
         return new Envelope(
             subject: $subject,
         );
