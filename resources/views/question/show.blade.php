@@ -187,6 +187,16 @@
                 <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
             </div>
 
+            <div id="input-validation" class="my-4 border border-secondary bg-light rounded-md p-2 {{ $question->format !== 13 ? 'd-none' : '' }}">
+                <x-inputs.radio label="Numeric input with validation" :options="$yes" name="has_validation" saved="{{ $question->has_validation }}"></x-inputs.radio>
+
+                <div id="min-and-max-holder" class="{{ $question->has_validation !== 1 ? 'd-none' : '' }} mt-4">
+                    <x-inputs.text label="Min" name="min" saved="{{ $question->min }}"></x-inputs.text>
+                    <br />
+                    <x-inputs.text label="Max" name="max" saved="{{ $question->max }}"></x-inputs.text>
+                </div>
+            </div>
+
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
                 <x-inputs.text label="Help Text" name="help" saved="{{ $question->help }}"></x-inputs.text>
             </div>
@@ -200,4 +210,37 @@
             </div>
         </form>
     </div>
+
+    @push('js')
+        <script>
+            // Show the validation input only when the input format is Number
+            let format = document.querySelector('#format')
+            let validationInputHolder = document.querySelector('#input-validation')
+            let minAndMaxHolder = document.querySelector('#min-and-max-holder')
+
+            format.addEventListener('change', () => {
+                if (format.value === '13') {
+                    validationInputHolder.classList.remove('d-none')
+                } else {
+                    validationInputHolder.classList.add('d-none')
+                }
+            })
+
+
+            let radios = document.querySelectorAll('[name="has_validation"]')
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    let choice = Object.values(radios).filter(radio => radio.checked === true)[0]
+
+                    if (parseInt(choice.value) === 1) {
+                        // Show the min and max inputs
+                        minAndMaxHolder.classList.remove('d-none')
+                    } else {
+                        // Hide the min and max inputs
+                        minAndMaxHolder.classList.add('d-none')
+                    }
+                })
+            })
+        </script>
+    @endpush
 </x-app-layout>

@@ -32,7 +32,7 @@
     @elseif ($question->format === App\Enums\QuestionFormat::PHONE())
         <x-inputs.phone label="{!! $question->text !!}" name="{!! $question->id !!}" :saved="$answer" help="{!! $question->help !!}" req="{{ $question->required == 1 }}"></x-inputs.phone>
     @elseif ($question->format === App\Enums\QuestionFormat::NUMBER())
-        <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}"></x-inputs.number>
+        <x-inputs.number label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" saved="{!! $answer?->text !!}" req="{{ $question->required == 1 }}" :validation="['has_validation' => $question->has_validation, 'min' => $question->min, 'max' => $question->max]"></x-inputs.number>
     @elseif ($question->format === App\Enums\QuestionFormat::SELECTWITHOTHER())
         <x-inputs.select-other label="{!! $question->text !!}" name="{!! $question->id !!}" help="{!! $question->help !!}" :saved="$answer" req="{{ $question->required == 1 }}"></x-inputs.select-other>
     @elseif ($question->format == \App\Enums\QuestionFormat::LOOKUP())

@@ -95,6 +95,9 @@ class QuestionService
         $question->status = $request->input('active');
         $question->order = (is_array($request->input('order'))) ? null : $request->input('order');
         $question->notes = $request->input('notes');
+        $question->has_validation = $request->input('has_validation');
+        $question->min = $request->input('min');
+        $question->max = $request->input('max');
 
         $question->save();
 
