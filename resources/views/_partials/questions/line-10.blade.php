@@ -63,17 +63,17 @@
 
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::IB())
     <!-- Determine if the grade is semester, predicted or final -->
-    @if ($row['whichIB'] == 5926) <!-- Semester -->
+    @if ($row['which_IB'] == 5926) <!-- Semester -->
     @php $total = $row['IB_1'] + $row['IB_2'] + $row['IB_3'] + $row['IB_4'] + $row['IB_5'] + $row['IB_6'] @endphp
         <p class="detail">
             <span class="fw-bold">Class / Semester Grades:</span> <span class="info">{{ $total }} / 42</span>
         </p>
-    @elseif ($row['whichIB'] == 5925) <!-- Predicted -->
+    @elseif ($row['which_IB'] == 5925) <!-- Predicted -->
     @php $total = $row['IB_1'] + $row['IB_2'] + $row['IB_3'] + $row['IB_4'] + $row['IB_5'] + $row['IB_6'] @endphp
         <p class="detail">
             <span class="fw-bold">Predicted IB:</span> <span class="info">(qid=34+qid=36+qid=38+qid=35+qid=33+qid=37 )___ / 42</span>
         </p>
-    @elseif ($row['whichIB'] == 5924) <!-- Final -->
+    @elseif ($row['which _IB'] == 5924) <!-- Final -->
     @php $total = $row['IB_1'] + $row['IB_2'] + $row['IB_3'] + $row['IB_4'] + $row['IB_5'] + $row['IB_6'] + $row['IB_TOK'] @endphp
         <p class="detail">
             <span class="fw-bold">Final IB:</span> <span class="info">(qid=34+qid=36+qid=38+qid=35+qid=33+qid=37 +qid=459 ) ___ / 45</span>
