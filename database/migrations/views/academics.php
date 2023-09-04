@@ -150,20 +150,21 @@ return new class extends Migration
                 left outer join meto_answers as kenyan_exam on kenyan_exam.question_id = 375 and kenyan_exam.student_id = s.id
                 ;
 
-            create or replace view meto_view_student_other as
+            create or replace view meto_view_student_newnational as
                 select
-                s.id as other_student_id,
-                s.equivalency as other_equivalency,
-                grad_other.text as grad_other,
-                other_current.text as other_current,
-                other_final1.text as other_final1,
-                other_final2.text as other_final2
+                s.id as newnational_student_id,
+                newnational_numerator.text as newnational_numerator,
+                newnational_denominator.text as newnational_denominator,
+                newnational_curriculum.text as newnational_curriculum,
+                newnational_scoretype.text as newnational_scoretype,
+                newnational_scorelevel.text as newnational_scorelevel
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id and s.curriculum_id = 27
-                left outer join meto_answers as grad_other on grad_other.question_id = 256 and grad_other.student_id = s.id
-                left outer join meto_answers as other_current on other_current.question_id = 462 and other_current.student_id = s.id
-                left outer join meto_answers as other_final1 on other_final1.question_id = 325 and other_final1.student_id = s.id
-                left outer join meto_answers as other_final2 on other_final2.question_id = 324 and other_final2.student_id = s.id
+                left outer join meto_answers as newnational_numerator on newnational_numerator.question_id = 325 and newnational_numerator.student_id = s.id
+                left outer join meto_answers as newnational_denominator on newnational_denominator.question_id = 324 and newnational_denominator.student_id = s.id
+                left outer join meto_answers as newnational_curriculum on newnational_curriculum.question_id = 461 and newnational_curriculum.student_id = s.id
+                left outer join meto_answers as newnational_scoretype on newnational_scoretype.question_id = 185 and newnational_scoretype.student_id = s.id
+                left outer join meto_answers as newnational_scorelevel on newnational_scorelevel.question_id = 462 and newnational_scorelevel.student_id = s.id
                 ;
 
             create or replace view meto_view_student_rwandan as
@@ -453,7 +454,7 @@ return new class extends Migration
                 rwandan.*,
                 ib.*,
                 cambridge.*,
-                other.*
+                newnational.*
 
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id
@@ -467,7 +468,7 @@ return new class extends Migration
                 left outer join meto_answers as gender on gender.question_id = 271 and gender.student_id = s.id
                 left outer join meto_answers as dob on dob.question_id = 275 and dob.student_id = s.id
 
-                left outer join meto_view_student_other as other on other.other_student_id = s.id
+                left outer join meto_view_student_newnational as newnational on newnational.newnational_student_id = s.id
                 left outer join meto_view_student_cambridge as cambridge on cambridge.cambridge_student_id = s.id
                 left outer join meto_view_student_american as american on american.american_student_id = s.id
                 left outer join meto_view_student_ugandan as ugandan on ugandan.ugandan_student_id = s.id

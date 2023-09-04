@@ -35,9 +35,6 @@ class EquivalencyService
             case Curriculum::UGANDAN:
                 $this->updateUgandan($student, Curriculum::UGANDAN);
                 break;
-            case Curriculum::NATIONAL:
-                $this->updateNational($student, Curriculum::NATIONAL);
-                break;
             case Curriculum::INDIA:
                 $this->updateIndian($student, Curriculum::INDIA);
                 break;
@@ -89,6 +86,8 @@ class EquivalencyService
             case Curriculum::EGYPT:
                 $this->updateEgyptian($student, Curriculum::EGYPT);
                 break;
+            case Curriculum::NEWNATIONAL:
+                $this->updateNewNational($student, Curriculum::NEWNATIONAL);
             default:
                 return;
         }
@@ -740,6 +739,25 @@ class EquivalencyService
             $student->equivalency = $this->getPercentile($curriculum, ScoreType::CNISE_MARKS, $score);
             $student->save();
         }
+    }
+
+    public function updateNewNational(Student $student, Curriculum $curriculum): void
+    {
+        $numerator = Answer::where('student_id', $student->id)
+            ->where('question_id', 325)
+            ->first()
+            ?->text;
+
+        $denominator = Answer::where('student_id', $student->id)
+            ->where('question_id', 324)
+            ->first()
+            ?->text;
+
+        if (is_null($numerator) || is_null($denominator)) {
+            return;
+        }
+
+
     }
 
     public function updateUni(Institution $uni): void

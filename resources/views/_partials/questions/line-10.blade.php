@@ -61,7 +61,6 @@
         <span class="fw-bold">Final High School Exam Scores:</span> <span class="info">{{ $row['other_final1'] }} / {{ $row['other_final2'] }}</span>
     </p>
 
-
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::IB())
     <!-- Determine if the grade is semester, predicted or final -->
     @if ($row['whichIB'] == 5926) <!-- Semester -->
@@ -99,5 +98,20 @@
     <p class="detail">
         <span class="fw-bold">{{$row['IB_S6']}} ({{$row['IB_L6']}}):</span> <span class="info">{{$row['IB_6']}}</span>
     </p>
-
+@elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::NEWNATIONAL())
+    <p class="detail">
+        <span class="fw-bod">Curriculum: </span><span class="info">{{ $row['new_national_curriculum'] }}</span>
+    </p>
+    <p class="detail">
+        <span class="fw-bod">Score Type: </span><span class="info">{{ $row['new_national_scoretype'] }}</span>
+    </p>
+    <p class="detail">
+        <span class="fw-bod">Score Level: </span><span class="info">{{ $row['new_national_scorelevel'] }}</span>
+    </p>
+    <p class="detail">
+        <span class="fw-bod">Student Score: </span><span class="info">{{ $row['new_national_numerator'] }}</span>
+    </p>
+    <p class="detail">
+        <span class="fw-bod">Highest Possible Score: </span><span class="info">{{ $row['new_national_denominator'] }}</span>
+    </p>
 @endif
