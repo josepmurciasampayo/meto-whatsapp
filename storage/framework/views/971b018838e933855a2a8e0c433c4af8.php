@@ -33,7 +33,6 @@
             <div class="tab-pane fade show active py-4" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <p class="mb-3">Recommended Use:</p>
                 <ul class="list-disc">
-                    <li class="my-2 ms-5">IMPORTANT: When submitting student connection requests, ensure all your “Yes” connections are located on the same page (not across multiple pages) then click “Submit Requests” in the bottom right of the screen. This will ensure all “Yes” students are submitted. The easiest way to do this is changing the view to 500 records per page at the bottom left corner of your screen.</li>
                     <li class="my-2 ms-5">Please go <a style="color:blue" class="text-decoration-underline" href="<?php echo e(route('uni.mingrade')); ?>">here </a> to change your academic filter and <a style="color:blue" class="text-decoration-underline" href="<?php echo e(route('uni.efc')); ?>">here</a> to change your EFC filter</li>
                 </ul>
                 <?php echo $__env->make('_partials.uni.students.pending', ['user' => $user, 'uni' => $uni], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

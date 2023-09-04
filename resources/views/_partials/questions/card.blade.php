@@ -1,4 +1,4 @@
-<div class="my-5 mx-2 single-student-card" style="font-size: 14px;">
+<div id="single-student-card" class="my-5 mx-2 single-student-card" style="font-size: 14px;">
     <div>
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">

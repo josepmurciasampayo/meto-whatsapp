@@ -34,7 +34,7 @@
         <span class="fw-bold">Mock Exam Score:</span> <span class="info">{{ $row['rwandan_mock'] }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bold">A-level Exam Score:</span> <span class="info">{{ $row['rwandan_A'] }}</span>
+        <span class="fw-bold">A-level Exam Score:</span> <span class="info">{{ $row['rwandan_A2'] }}</span>
     </p>
 
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::UGANDAN())
