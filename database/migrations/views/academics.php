@@ -153,6 +153,7 @@ return new class extends Migration
             create or replace view meto_view_student_newnational as
                 select
                 s.id as newnational_student_id,
+                s.equivalency as newnational_equivalency,
                 newnational_numerator.text as newnational_numerator,
                 newnational_denominator.text as newnational_denominator,
                 newnational_curriculum.text as newnational_curriculum,

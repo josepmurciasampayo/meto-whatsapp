@@ -300,9 +300,12 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($kcse) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::KENFINAL, $kcse);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::KENFINAL, $kcse);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $mock = Answer::where('student_id', $student->id)
@@ -310,9 +313,12 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::KENMOCK, $mock);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::KENMOCK, $mock);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $kcpe = Answer::where('student_id', $student->id)
@@ -332,9 +338,12 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($finalA) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANFINALA, $finalA);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::UGANFINALA, $finalA);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $mock = Answer::where('student_id', $student->id)
@@ -342,9 +351,12 @@ class EquivalencyService
             ->first()
             ?->text;
         if ($mock) {
-            $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANMOCK, $mock);
-            $student->save();
-            return;
+            $equivalency = $this->getPercentile($curriculum, ScoreType::UGANMOCK, $mock);
+            if ($equivalency) {
+                $student->equivalency = $equivalency;
+                $student->save();
+                return;
+            }
         }
 
         $finalO = Answer::where('student_id', $student->id)
@@ -355,7 +367,6 @@ class EquivalencyService
             $student->equivalency = $this->getPercentile($curriculum, ScoreType::UGANFINALO, $finalO);
             $student->save();
         }
-
     }
 
     public function updateNational(Student $student, Curriculum $curriculum): void
@@ -757,7 +768,7 @@ class EquivalencyService
             return;
         }
 
-        $student->equivalency = round($numerator/$denominator);
+        $student->equivalency = round($numerator/$denominator, 2) * 100;
         $student->save();
     }
 
