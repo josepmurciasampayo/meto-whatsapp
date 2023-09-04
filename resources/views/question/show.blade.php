@@ -41,6 +41,7 @@
                     }
                 }
             </script>
+
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
                 <x-inputs.select onchange="" label="Format" :options="$formats" name="format" saved="{{ $question->format }}"></x-inputs.select>
             </div>
@@ -103,16 +104,16 @@
                 <x-inputs.select onchange="initialCurriculum()" label="Category" :options="$categories" name="category" saved="{{ $question->type }}"></x-inputs.select>
             </div>
 
-            <div class="d-none" id="initialCurriculum">
+            @php ($displayCurriculum = $question->type == \App\Enums\Student\QuestionType::ACADEMIC()) ? "" : "d-none"; @endphp
+            <div class={{ $displayCurriculum }} id="initialCurriculum">
                 <div class="my-4 border border-secondary bg-light rounded-md p-2">
                     <x-inputs.select name="addCurricula" :options="$curricula" label="Initial Curriculum"></x-inputs.select>
                 </div>
             </div>
 
             @if ($question->type == \App\Enums\Student\QuestionType::ACADEMIC())
-                <div class="border border-secondary p-4 bg-light">
-                    @if (count($question->academic) > 0)
-
+                @if (count($question->academic) > 0)
+                    <div class="border border-secondary p-4 bg-light">
                         <div class="row fw-bold mb-4">
                             <div class="col text-center">Curriculum</div>
                             <div class="col text-center">Branching</div>
@@ -166,8 +167,8 @@
                                 @endforeach
                             @endif
                         @endforeach
-                    @endif
-                </div>
+                    </div>
+                @endif
 
             @else
                 <div id="orderQuestion" class="my-4 border border-secondary bg-light rounded-md p-2">
@@ -187,15 +188,17 @@
                 <x-inputs.radio label="Active" :options="$active" name="active" saved="{{ $question->status }}"></x-inputs.radio>
             </div>
 
-            <div id="input-validation" class="my-4 border border-secondary bg-light rounded-md p-2 {{ $question->format !== 13 ? 'd-none' : '' }}">
-                <x-inputs.radio label="Numeric input with validation" :options="$yes" name="has_validation" saved="{{ $question->has_validation }}"></x-inputs.radio>
+            @if ($question->format == \App\Enums\QuestionFormat::NUMBER())
+                <div id="input-validation" class="my-4 border border-secondary bg-light rounded-md p-2">
+                    <x-inputs.radio label="Numeric Validation" :options="$yes" name="has_validation" saved="{{ $question->has_validation }}"></x-inputs.radio>
 
-                <div id="min-and-max-holder" class="{{ $question->has_validation !== 1 ? 'd-none' : '' }} mt-4">
-                    <x-inputs.text label="Min" name="min" saved="{{ $question->min }}"></x-inputs.text>
-                    <br />
-                    <x-inputs.text label="Max" name="max" saved="{{ $question->max }}"></x-inputs.text>
+                    <div id="min-and-max-holder" class="{{ $question->has_validation !== \App\Enums\General\YesNo::YES() ? 'd-none' : '' }} mt-4">
+                        <x-inputs.text label="Min" name="min" saved="{{ $question->min }}"></x-inputs.text>
+                        <br />
+                        <x-inputs.text label="Max" name="max" saved="{{ $question->max }}"></x-inputs.text>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="my-4 border border-secondary bg-light rounded-md p-2">
                 <x-inputs.text label="Help Text" name="help" saved="{{ $question->help }}"></x-inputs.text>
