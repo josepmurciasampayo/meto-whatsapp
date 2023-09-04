@@ -757,7 +757,8 @@ class EquivalencyService
             return;
         }
 
-
+        $student->equivalency = round($numerator/$denominator);
+        $student->save();
     }
 
     public function updateUni(Institution $uni): void

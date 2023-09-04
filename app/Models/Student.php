@@ -79,7 +79,7 @@ class Student extends Model
             49 => Curriculum::UGANDAN,
             50 => Curriculum::KENYAN,
             51 => Curriculum::RWANDAN,
-            52 => Curriculum::NATIONAL,
+            52 => Curriculum::NEWNATIONAL,
 
             111049 => Curriculum::BANGLADESH,
             111048 => Curriculum::BRAZIL,

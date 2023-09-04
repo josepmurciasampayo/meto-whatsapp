@@ -114,4 +114,11 @@
     <p class="detail">
         <span class="fw-bod">Highest Possible Score: </span><span class="info">{{ $row['new_national_denominator'] }}</span>
     </p>
+    <br>
+    <p>
+        Note: The equivalency score is based on the student's self-reported highest possible score and their actual score in their national system.
+        It's a rough estimate meant for sorting purposes. As we gain insights into individual national education contexts, we aim to refine this model.
+        If you have expertise in a specific country's curriculum and wish to contribute to Meto's research,
+        please reach out to <a href="mailto:tealee@meto-intl.org">tealee@meto-intl.org</a>.
+    </p>
 @endif
