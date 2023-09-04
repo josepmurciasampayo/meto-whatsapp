@@ -164,7 +164,7 @@ final class StudentTableRequest extends PowerGridComponent
             Column::make('Name', 'name')->searchable(),
             Column::make('Email', 'email')->searchable(),
             Column::make('DOB', 'dob'),
-            Column::make('High School', 'hs'),
+            Column::make('High School', 'hs')->searchable(),
             Column::make('EFC', 'efc')->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),

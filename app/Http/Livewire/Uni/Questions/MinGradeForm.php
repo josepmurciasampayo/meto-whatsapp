@@ -25,24 +25,34 @@ class MinGradeForm extends Component
 
     public function __construct()
     {
+        // Get the uni of the authenticated user
         $this->uni = auth()->user()->getUni();
-
-        $this->curriculum = $this->uni->min_grade_curriculum;
+        // Set the $curriculum value to the university's min grade curriculum
+        // if it doesn't exist, let's take the first one on the list of $curricula
+        $this->curriculum = $this->uni->min_grade_curriculum ?? collect($this->curricula)->first();
     }
 
     public function render()
     {
+        // Get the list of curricula
         $curricula = Curriculum::getSchoolChoices();
+        // Remove the "other" option
         unset($curricula[$other = Curriculum::OTHER()]);
-
         $this->curricula = $curricula;
+
+        // Get the options for the selected curriculum
         if ($option = $this->curriculum) {
-            $method = 'get' . $this->curricula[$option] . 'Curriculum';
+            $method = 'get' . $this->curricula[$option] . 'Curriculum'; // ex: getIbCurriculum()
             $this->scoreOptions = $this->$method();
+            $this->selectedScoreOption ??= collect($this->scoreOptions)->search($this->uni->min_grade);
+            $this->selectedOptionHasBeenSet = true;
         }
 
         if (!$this->selectedOptionHasBeenSet) {
+            $this->curriculum = collect($this->curricula)->keys()->first();
             $this->selectedScoreOption = collect($this->scoreOptions)->search($this->uni->min_grade) ?? null;
+            $method = 'get' . $this->curricula[$this->curriculum] . 'Curriculum';
+            $this->scoreOptions = $this->$method();
             $this->selectedOptionHasBeenSet = true;
         }
 
