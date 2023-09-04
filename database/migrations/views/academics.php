@@ -41,6 +41,12 @@ return new class extends Migration
                 left outer join meto_answers as cambridge_B_score on cambridge_B_score.question_id = 169 and cambridge_B_score.student_id = s.id
                 left outer join meto_answers as cambridge_C_subj on cambridge_C_subj.question_id = 402 and cambridge_C_subj.student_id = s.id
                 left outer join meto_answers as cambridge_C_score on cambridge_C_score.question_id = 170 and cambridge_C_score.student_id = s.id
+                left outer join meto_answers as cambridge_D_subj on cambridge_D_subj.question_id = 934 and cambridge_D_subj.student_id = s.id
+                left outer join meto_answers as cambridge_D_score on cambridge_D_score.question_id = 937 and cambridge_D_score.student_id = s.id
+                left outer join meto_answers as cambridge_E_subj on cambridge_E_subj.question_id = 935 and cambridge_E_subj.student_id = s.id
+                left outer join meto_answers as cambridge_E_score on cambridge_E_score.question_id = 938 and cambridge_E_score.student_id = s.id
+                left outer join meto_answers as cambridge_F_subj on cambridge_F_subj.question_id = 936 and cambridge_F_subj.student_id = s.id
+                left outer join meto_answers as cambridge_F_score on cambridge_F_score.question_id = 939 and cambridge_F_score.student_id = s.id
                 ;
 
             create or replace view meto_view_student_american as

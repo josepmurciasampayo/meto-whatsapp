@@ -6,7 +6,7 @@
         <span class="fw-bold">Senior-year GPA:</span> <span class="info">{{ $row['american_senior'] }}</span>
     </p>
 
-@elseif ($row['curriculum'] == \App\Enums\Student\Curriculum::CAMBRIDGE())
+@elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::CAMBRIDGE())
     <p class="detail">
         <span class="fw-bold">Score Description:</span> <span class="info">{{ $row['cambridge_desc'] }}</span>
     </p>
@@ -28,6 +28,30 @@
     <p class="detail">
         <span class="fw-bold">Score:</span> <span class="info">{{ $row['cambridge_C_score'] }}</span>
     </p>
+    @if ($row['cambridge_D_score'])
+        <p class="detail">
+            <span class="fw-bold">A-level Subject 4:</span> <span class="info">{{ $row['cambridge_D_subject'] }}</span>
+        </p>
+        <p class="detail">
+            <span class="fw-bold">Score:</span> <span class="info">{{ $row['cambridge_D_score'] }}</span>
+        </p>
+    @endif
+    @if ($row['cambridge_E_score'])
+        <p class="detail">
+            <span class="fw-bold">A-level Subject 5:</span> <span class="info">{{ $row['cambridge_D_subject'] }}</span>
+        </p>
+        <p class="detail">
+            <span class="fw-bold">Score:</span> <span class="info">{{ $row['cambridge_E_score'] }}</span>
+        </p>
+    @endif
+    @if ($row['cambridge_F_score'])
+        <p class="detail">
+            <span class="fw-bold">A-level Subject 6:</span> <span class="info">{{ $row['cambridge_F_subject'] }}</span>
+        </p>
+        <p class="detail">
+            <span class="fw-bold">Score:</span> <span class="info">{{ $row['cambridge_F_score'] }}</span>
+        </p>
+    @endif
 
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::RWANDAN())
     <p class="detail">

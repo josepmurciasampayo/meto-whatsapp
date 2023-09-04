@@ -22,7 +22,7 @@ class CountriesComposer
 
         if (is_null(self::$phoneCountries)) {
             foreach ($countries as $country) {
-                self::$phoneCountries[$country->id] = "(+$country->phone_code) " . $country->name;
+                self::$phoneCountries[$country->id] = $country->name . " (+$country->phone_code)";
             }
         }
     }
