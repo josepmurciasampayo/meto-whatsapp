@@ -52,10 +52,11 @@ final class ConnectionsTable extends PowerGridComponent
         return [
             Button::add('approve')
                 ->caption(__('Bulk approve'))
-                ->class('cursor-pointer block bg-indigo-500 text-white')
+                ->class('cursor-pointer block btn btn-outline-success')
                 ->emit('bulkApprove', []),
             Button::add('deny')
                 ->caption(__('Bulk deny'))
+                ->class('btn btn-outline-danger')
                 ->emit('bulkDeny', []),
         ];
     }
