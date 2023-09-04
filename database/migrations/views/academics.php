@@ -29,7 +29,13 @@ return new class extends Migration
                 cambridge_B_subj.text as cambridge_B_subj,
                 cambridge_B_score.text as cambridge_B_score,
                 cambridge_C_subj.text as cambridge_C_subj,
-                cambridge_C_score.text as cambridge_C_score
+                cambridge_C_score.text as cambridge_C_score,
+                cambridge_D_subj.text as cambridge_D_subj,
+                cambridge_D_score.text as cambridge_D_score,
+                cambridge_E_subj.text as cambridge_E_subj,
+                cambridge_E_score.text as cambridge_E_score,
+                cambridge_F_subj.text as cambridge_F_subj,
+                cambridge_F_score.text as cambridge_F_score
                 from meto_users as u
                 join meto_students as s on s.user_id = u.id and s.curriculum_id = 6
                 left outer join meto_answers as cambridge_active on cambridge_active.question_id = 61 and cambridge_active.student_id = s.id
