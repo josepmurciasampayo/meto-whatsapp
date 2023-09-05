@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="my-3 text-end">
-                    <x-button>Add Responses</x-button>
+                    <x-button class="submit-form-btn">Add Responses</x-button>
                 </div>
 
                 {{-- each response gets a row in the table --}}
@@ -85,7 +85,7 @@
                             <input class="block w-full border border-gray-400 rounded-md h-10 px-3" name="response[{{ $response->id }}]" id="response[{{ $response->id }}]" value="{{ $response->text }}" />
                         </div>
                         <div class="col-2">
-                            <input class="block w-full border border-gray-400 rounded-md h-10 px-3" name="orders[{{ $response->id }}]" id="orders[{{ $response->id }}]" placeholder="Order" value="{{ $response->order }}" @if($response->order > 0) min="{{ 0 }}" @endif max="{{ count($responses) }}" />
+                            <input class="block w-full border border-gray-400 rounded-md h-10 px-3 response-order" type="number" name="orders[{{ $response->id }}]" id="orders[{{ $response->id }}]" placeholder="Order" value="{{ $response->order }}" @if($response->order > 0) min="{{ 0 }}" @endif max="{{ count($responses) }}" />
                         </div>
                     </div>
                 @endforeach
@@ -212,7 +212,7 @@
             </div>
 
             <div class="text-center mt-2">
-                <x-button>Update Question</x-button>
+                <x-button class="submit-form-btn">Update Question</x-button>
             </div>
         </form>
     </div>
@@ -247,6 +247,33 @@
                     }
                 })
             })
+
+            let enableButtons = buttons => {
+                buttons.forEach(btn => btn.setAttribute('disabled', true))
+            }
+
+            let disableButtons = buttons => {
+                buttons.forEach(btn => btn.removeAttribute('disabled'))
+            }
+
+            let watchForOrderInputs = () => {
+                let orderInputs = Object.values(document.querySelectorAll('.response-order'))
+                let filledOrders = orderInputs.filter(el => el.value !== '')
+                let submitButtons = document.querySelectorAll('.submit-form-btn')
+
+                if (filledOrders.length > 0) {
+                    orderInputs.filter(el => el.value === '').forEach(el => el.classList.add('form-control', 'border-danger', 'is-invalid'))
+                    enableButtons(submitButtons)
+                }
+
+                if (filledOrders.length === orderInputs.length) {
+                    disableButtons(submitButtons)
+                }
+
+                filledOrders.forEach(el => el.classList.remove('form-control', 'border-danger', 'is-invalid'))
+            }
+
+            setInterval(() => watchForOrderInputs(), 100)
         </script>
     @endpush
 </x-app-layout>
