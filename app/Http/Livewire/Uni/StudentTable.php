@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Uni;
 
 use App\Enums\EnumGroup;
+use App\Models\Curriculum;
 use App\Models\Enums;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Builder;
@@ -193,9 +194,9 @@ final class StudentTable extends PowerGridComponent
     {
         return [
             Filter::multiSelect('curriculum', 'curriculum_id')
-                ->dataSource(Enums::where('group_id', EnumGroup::STUDENT_CURRICULUM)->get())
-                ->optionValue('enum_id')
-                ->optionLabel('enum_desc'),
+                ->dataSource(Curriculum::whereIn('id', [5, 4, 6, 1, 3, 2, 27])->get())
+                ->optionValue('id')
+                ->optionLabel('name'),
             Filter::number('equivalency', 'equivalency')
                 ->placeholder('Min', 'Max'),
             Filter::inputText('destination', 'destination')

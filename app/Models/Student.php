@@ -169,6 +169,9 @@ class Student extends Model
             case 44:
                 $this->ranking = $answer->text;
                 break;
+            case 120:
+                $this->ranking_detail = $answer->text;
+                break;
             case 69:
                 $this->det = $answer->text;
                 break;
@@ -187,6 +190,7 @@ class Student extends Model
             case 164:
                 $this->affiliations = $answer->text;
                 break;
+
             default: return;
         }
         $this->save();
