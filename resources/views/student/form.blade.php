@@ -14,7 +14,7 @@
 
                     <div class="my-1">
                         @if (($question->hasResponses()))
-                            <x-question :question="$question" :answer="$a" :responses="$question->responses"></x-question>
+                            <x-question :question="$question" :answer="$a" :responses="$question->responses()->orderBy('order', 'ASC')->get()"></x-question>
                         @else
                             <x-question :question="$question" :answer="$a"></x-question>
                         @endif

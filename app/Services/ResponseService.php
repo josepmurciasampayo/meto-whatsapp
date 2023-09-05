@@ -44,6 +44,7 @@ class ResponseService
                 $response = Response::find($id);
                 if ($response) {
                     $response->text = $r;
+                    $response->order = intval($request->get('orders')[$response->id]);
                     $response->save();
                 }
             }

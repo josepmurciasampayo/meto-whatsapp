@@ -71,7 +71,7 @@
                 </div>
 
                 {{-- each response gets a row in the table --}}
-                @foreach ($responses as $response)
+                @foreach ($responses as $key => $response)
                     <div class="row my-1">
                         <div class="col col-lg-2">
                             <x-button onclick="deleteResponse({{ $response->id }})">
@@ -81,8 +81,11 @@
                                 Delete
                             </x-button>
                         </div>
-                        <div class="col">
+                        <div class="col-8">
                             <input class="block w-full border border-gray-400 rounded-md h-10 px-3" name="response[{{ $response->id }}]" id="response[{{ $response->id }}]" value="{{ $response->text }}" />
+                        </div>
+                        <div class="col-2">
+                            <input class="block w-full border border-gray-400 rounded-md h-10 px-3" name="orders[{{ $response->id }}]" id="orders[{{ $response->id }}]" placeholder="Order" value="{{ $response->order }}" @if($response->order > 0) min="{{ 0 }}" @endif max="{{ count($responses) }}" />
                         </div>
                     </div>
                 @endforeach

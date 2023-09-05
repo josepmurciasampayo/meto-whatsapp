@@ -11,6 +11,8 @@ class Response extends Model
 {
     use HasFactory;
 
+    public $guarded = [];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
