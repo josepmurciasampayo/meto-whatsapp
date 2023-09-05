@@ -124,19 +124,19 @@
     </p>
 @elseif ($row['curriculum_id'] == \App\Enums\Student\Curriculum::NEWNATIONAL())
     <p class="detail">
-        <span class="fw-bod">Curriculum: </span><span class="info">{{ $row['new_national_curriculum'] }}</span>
+        <span class="fw-bod">Curriculum: </span><span class="info">{{ $row['newnational_curriculum'] }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bod">Score Type: </span><span class="info">{{ $row['new_national_scoretype'] }}</span>
+        <span class="fw-bod">Score Type: </span><span class="info">{{ $row['newnational_scoretype'] }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bod">Score Level: </span><span class="info">{{ $row['new_national_scorelevel'] }}</span>
+        <span class="fw-bod">Score Level: </span><span class="info">{{ $row['newnational_scorelevel'] }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bod">Student Score: </span><span class="info">{{ $row['new_national_numerator'] }}</span>
+        <span class="fw-bod">Student Score: </span><span class="info">{{ $row['newnational_numerator'] }}</span>
     </p>
     <p class="detail">
-        <span class="fw-bod">Highest Possible Score: </span><span class="info">{{ $row['new_national_denominator'] }}</span>
+        <span class="fw-bod">Highest Possible Score: </span><span class="info">{{ $row['newnational_denominator'] }}</span>
     </p>
     <br>
     <p>

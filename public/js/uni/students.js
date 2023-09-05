@@ -92,7 +92,7 @@ let showStudentCard = el => {
             card.classList.remove('d-none');
             card.innerHTML = data.view
 
-            window.location.href = '/#student-details-card-holder'
+            card.scrollIntoView();
 
             // card.querySelector('#name').textContent = student.user.first + ' ' + student.user.last
             // card.querySelector('#age').textContent = student.age
