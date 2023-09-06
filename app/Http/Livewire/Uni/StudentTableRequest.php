@@ -235,7 +235,6 @@ final class StudentTableRequest extends PowerGridComponent
         $this->datasource();
     }
 
-    /*
     public function exportCsv()
     {
         if (filled($this->datasource()->get())) {
@@ -243,7 +242,6 @@ final class StudentTableRequest extends PowerGridComponent
             return Excel::download(new RequestExport(), 'meto-' . $now->month . '-' . $now->day . '.csv');
         }
     }
-    */
 
     public function filters(): array
     {
