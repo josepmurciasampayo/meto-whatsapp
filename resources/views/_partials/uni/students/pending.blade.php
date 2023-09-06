@@ -26,7 +26,7 @@
             <div class="modal-body">
                 <h1 class="modal-title fs-5 text-center fw-bold h2 my-3" id="emailModalLabel">
                     Initial {{ config('app.name') }} Email to Students
-                    <span id="selected-students-count">(<span id="number">0</span>)</span>
+                    <!-- span id="selected-students-count">(<span id="number">0</span>)</span -->
                 </h1>
                 <h3></h3>
                 <div>

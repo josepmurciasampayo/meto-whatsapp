@@ -152,6 +152,6 @@ class ConnectionController extends Controller
             'status' => MatchStudentInstitution::DENIED
         ]);
 
-        SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
+        // SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));
     }
 }
