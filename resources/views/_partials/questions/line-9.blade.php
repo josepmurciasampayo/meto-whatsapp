@@ -18,3 +18,9 @@
         <span class="fw-bold">KCPE Exam Score:</span> <span class="info">{{ $row['kcpe'] }}</span>
     </p>
 @endif
+
+@if($row['student']['ranking'] === \App\Enums\General\YesNo::getText(\App\Enums\General\YesNo::YES))
+    <p class="detail">
+        <span class="fw-bold">Ranking detail: </span><span class="info">{{ $row['student']['ranking_detail'] }}</span>
+    </p>
+@endif
