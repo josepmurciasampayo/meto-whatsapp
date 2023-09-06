@@ -25,7 +25,7 @@
             <div class="tab-pane fade show active py-4" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <p class="mb-3">Recommended Use:</p>
                 <ul class="list-disc">
-                    <li class="my-2 ms-5">"Yes," "Maybe," "No" decisions will save on your browser, but the safest way to ensure your work is not lost is to either click “Submit Requests” at the end of each session. If you want to invite a colleague to review students of interest before connection emails are sent, please move students to the "Maybe" tab, where they will be saved and visible to colleagues.</li>
+                    <li class="my-2 ms-5">"Yes," "Maybe," "No" decisions will save on your browser, but the safest way to ensure your work is not lost is to click “Submit Requests” at the end of each session. If you want to invite a colleague to review students of interest before connection emails are sent, please move students to the "Maybe" tab, where they will be saved and visible to colleagues.</li>
                     <li class="my-2 ms-5">Please go <a style="color:blue" class="text-decoration-underline" href="{{ route('uni.mingrade') }}">here </a> to change your academic filter and <a style="color:blue" class="text-decoration-underline" href="{{ route('uni.efc') }}">here</a> to change your EFC filter</li>
                 </ul>
                 @include('_partials.uni.students.pending', ['user' => $user, 'uni' => $uni])
