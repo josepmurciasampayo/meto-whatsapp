@@ -150,7 +150,7 @@ setInterval(() => {
 // Handle saving the filters for the first tab
 setTimeout(() => {
     // Handle the multiselect filters
-    let selected_curriculum_filters = (storage = localStorage.getItem('selected_curriculum_filters')) ? JSON.parse(storage) : JSON.parse("[]")
+        let selected_curriculum_filters = (storage = localStorage.getItem('selected_curriculum_filters')) ? JSON.parse(storage) : JSON.parse("[]")
     if (selected_curriculum_filters.length > 0 && (filters = document.querySelector('#tomselect-1').parentElement.querySelectorAll('.ts-wrapper .ts-control [data-value]')).length !== (selected_curriculum_filters.length)) {
         output = []
         if (select = document.querySelector('.ts-control')) select.click()
