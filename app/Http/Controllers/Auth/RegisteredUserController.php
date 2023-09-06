@@ -56,6 +56,7 @@ class RegisteredUserController extends Controller
 
         $student = new Student();
         $student->user_id = $user->id;
+        $student->display_id = Student::max('display_id') + 1;
         $student->save();
 
         event(new Registered($user));
