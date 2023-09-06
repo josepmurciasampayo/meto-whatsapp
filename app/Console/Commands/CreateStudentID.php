@@ -12,7 +12,7 @@ class CreateStudentID extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create-student-i-d';
+    protected $signature = 'app:create-student-id';
 
     /**
      * The console command description.
