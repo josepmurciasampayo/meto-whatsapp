@@ -160,11 +160,14 @@
         // Change the count on the title that's on the pop up
         let countHolder = document.querySelector('#selected-students-count')
         let number = countHolder.querySelector('#number')
+
+        let yesInputs = Object.values(inputs).filter(action => Object.values(action)[0] === 'connect')
+
         if (inputs.length === 0) {
             countHolder.classList.add('d-none')
         } else {
             countHolder.classList.remove('d-none')
-            number.textContent = inputs.length + ' selected'
+            number.textContent = yesInputs.length + ' selected'
         }
 
         return inputs;

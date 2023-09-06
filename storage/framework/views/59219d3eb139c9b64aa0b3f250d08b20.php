@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('RbTDFkM')) {
-    $componentId = $_instance->getRenderedChildComponentId('RbTDFkM');
-    $componentTag = $_instance->getRenderedChildComponentTagName('RbTDFkM');
+} elseif ($_instance->childHasBeenRendered('n7HFe8F')) {
+    $componentId = $_instance->getRenderedChildComponentId('n7HFe8F');
+    $componentTag = $_instance->getRenderedChildComponentTagName('n7HFe8F');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('RbTDFkM');
+    $_instance->preserveRenderedChild('n7HFe8F');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table', []);
     $html = $response->html();
-    $_instance->logRenderedChild('RbTDFkM', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('n7HFe8F', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -216,11 +216,14 @@ echo $html;
         // Change the count on the title that's on the pop up
         let countHolder = document.querySelector('#selected-students-count')
         let number = countHolder.querySelector('#number')
+
+        let yesInputs = Object.values(inputs).filter(action => Object.values(action)[0] === 'connect')
+
         if (inputs.length === 0) {
             countHolder.classList.add('d-none')
         } else {
             countHolder.classList.remove('d-none')
-            number.textContent = inputs.length + ' selected'
+            number.textContent = yesInputs.length + ' selected'
         }
 
         return inputs;
