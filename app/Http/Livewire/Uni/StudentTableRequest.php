@@ -88,6 +88,9 @@ final class StudentTableRequest extends PowerGridComponent
             ->addColumn('efc', function (Student $student) {
                 return e('$' . number_format($student->efc, 0, '.', ','));
             })
+            ->addColumn('id', function (Student $student) {
+                return e($student->display_id);
+            })
             ->addColumn('dob', function (Student $student) {
                 return e($student->dob);
             })
@@ -161,6 +164,7 @@ final class StudentTableRequest extends PowerGridComponent
     {
         return [
             Column::make('Details', 'details'),
+            Column::make('ID', 'id'),
             Column::make('Name', 'name')->searchable(),
             Column::make('Email', 'email')->searchable(),
             Column::make('DOB', 'dob'),

@@ -3,7 +3,9 @@
         <div class="row bg-light p-3 rounded border">
             <div class="col-md-3">
                 <p class="detail">
-                    <!-- User ID: {{ $row['user_id'] }} Student ID: {{ $row['student_id'] }} -->
+                    <span class="fw-bold">Student ID:</span> <span class="info">{{ $row['student']['display_id'] }}</span>
+                </p>
+                <p class="detail">
                     <span class="fw-bold">High School Name:</span>
                     <br />
                     <span class="info">{{ $row['hs'] }}</span>

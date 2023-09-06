@@ -86,6 +86,9 @@ final class StudentTable extends PowerGridComponent
                     . '<input type="radio" value="maybe" id="' . $maybeKey . '" name="' . $maybeName . '"> <label for="' . $maybeKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="maybe" onclick="selectOption(this)">Maybe</label>'
                     . '<input type="radio" value="archive" id="' . $noKey . '" name="' . $noName . '"> <label for="' . $noKey . '" key="' . $student->id . '" class="btn" style="font-size: 12px" target="archive" onclick="selectOption(this)">No</label>';
             })
+            ->addColumn('id', function (Student $student) {
+                return e($student->display_id);
+            })
             ->addColumn('efc', function (Student $student) {
                 return e('$' . number_format($student->efc, 0, '.', ','));
             })
@@ -158,6 +161,7 @@ final class StudentTable extends PowerGridComponent
         return [
             Column::make('Connect', 'connect'),
             Column::make('Profile', 'details'),
+            Column::make('ID', 'id'),
             Column::make('EFC', 'efc')->sortable(),
             Column::make('Citizenship', 'citizenship')->searchable(),
             Column::make('HS Country', 'countryHS')->searchable()->sortable(),

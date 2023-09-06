@@ -65,6 +65,9 @@ final class StudentTableArchived extends PowerGridComponent
             ->addColumn('details', function (Student $student) {
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
+            ->addColumn('id', function (Student $student) {
+                return e($student->display_id);
+            })
             ->addColumn('gender', function (Student $student) {
                 return $student->gender ?? "";
             })
@@ -89,6 +92,7 @@ final class StudentTableArchived extends PowerGridComponent
     {
         return [
             Column::make('Details', 'details')->searchable(),
+            Column::make('ID', 'id'),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
