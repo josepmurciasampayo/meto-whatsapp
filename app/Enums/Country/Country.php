@@ -792,9 +792,6 @@ enum Country :int
             default => 0,
         };
 
-        if ($match == 0) {
-            Log::channel('import')->error("Country not found: " . $name);
-        }
         return $match;
     }
 
