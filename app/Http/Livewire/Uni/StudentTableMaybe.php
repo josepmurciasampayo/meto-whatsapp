@@ -67,6 +67,9 @@ final class StudentTableMaybe extends PowerGridComponent
                 return "<a class='pointer' data-student-id='$student->id' onclick='showStudentCard(this)'><u>Details</u></a>";
             })
             ->addColumn('id', function (Student $student) {
+                return e($student->id);
+            })
+            ->addColumn('display_id', function (Student $student) {
                 return e($student->display_id);
             })
             ->addColumn('efc', function (Student $student) {
@@ -122,7 +125,7 @@ final class StudentTableMaybe extends PowerGridComponent
     {
         return [
             Column::make('Details', 'details'),
-            Column::make('ID', 'id'),
+            Column::make('ID', 'display_id'),
             Column::make('EFC', 'efc')->searchable()->sortable(),
             Column::make('High School Country', 'countryHS')->searchable()->sortable(),
             Column::make('Curriculum', 'curriculum')->searchable(),
