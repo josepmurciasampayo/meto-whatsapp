@@ -2,46 +2,56 @@
     <div class="p-6 bg-white border-b border-gray-200 display-7">
         <?php echo $school['name'] ?> - Administration
     </div>
-    <div class="mt-4 mb-4 text-end"><a href="{{ route('invite', ['highschool_id' => $school['id']]) }}"><x-button class="btn btn-info"><i class="fas fa-user-plus"></i> Invite Counselor</x-button></a></div>
-    <?php if (Auth::user()->isAdmin() && count($counselors) > 0) { ?>
-    <div class="mt-2 mb-4">
-        <div class="ml-3">
-            <h3>Existing Counselors</h3>
-            <ul>
-            <?php foreach ($counselors as $counselor) { ?>
-                <li>
-                    <a href="{{ route('invite', ['highschool_id' => $school['id'], 'user_id' => $counselor['user_id']]) }}">
-                            <?php echo $counselor['name'] . '(' . $counselor['email'] . ')' ?>
-                    </a>
-                </li>
-            <?php } ?>
-            </ul>
-        </div>
+
+    <div class="mt-4 mb-4 text-end">
+        <a href="{{ route('invite', ['highschool_id' => $school['id']]) }}"><x-button class="btn btn-info"><i class="fas fa-user-plus"></i> Invite Counselor</x-button></a>
     </div>
-    <?php } ?>
+
+    @if (Auth::user()->isAdmin() && count($counselors) > 0)
+        <div class="mt-2 mb-4">
+            <div class="ml-3">
+                <h3>Existing Counselors</h3>
+                <ul>
+                @foreach ($counselors as $counselor)
+                    <div class="row">
+                        <div class="col">
+                            <a href="{{ route('invite', ['highschool_id' => $school['id'], 'user_id' => $counselor['user_id']]) }}">
+                                {{ $counselor['name'] . '(' . $counselor['email'] . ')' }}
+                            </a>
+                        </div>
+                        <div class="col">
+                            <x-button>Remove From School</x-button>
+                        </div>
+                    </div>
+                @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
+
     <div class="p-6">
         <form  method="POST" action="{{ route('highschool.update') }}" name="highschool" id="highschool">
-            @csrf
             <input type="hidden" value="{{ $school['id'] }}" name="highschool_id" id="highschool_id">
+            @csrf
 
             <div class="mb-4">
                 <x-label for="name" value="Institution Name - This should be the full, official name of your institution" />
-                <x-input class="block mt-1 w-full" id="name" name="name" type="text" :value="$school['name']" autofocus />
+                <x-input class="block mt-1 w-full" name="name" type="text" saved="{{ $school['name'] }}" autofocus />
             </div>
 
             <div class="mb-4">
                 <x-label for="url" value="Website" />
-                <x-input class="block mt-1 w-full" id="url" name="url" type="text" :value="$school['url']" autofocus />
+                <x-input class="block mt-1 w-full" id="url" name="url" type="text" saved="{{ $school['url'] }}" autofocus />
             </div>
 
             <div class="mb-4">
                 <x-label for="url" value="Institution General Email Address" />
-                <x-input class="block mt-1 w-full" id="email" name="email" type="text" :value="$school['general_email']" autofocus />
+                <x-input class="block mt-1 w-full" id="email" name="email" type="text" saved="{{ $school['general_email']}} " autofocus />
             </div>
 
             <div class="mb-4">
                 <x-label for="city" value="City" />
-                <x-input class="block mt-1 w-full" id="city" name="city" type="text" :value="$school['city']" />
+                <x-input class="block mt-1 w-full" id="city" name="city" type="text" saved="{{ $school['city'] }}" />
             </div>
 
             <div class="mb-4">
