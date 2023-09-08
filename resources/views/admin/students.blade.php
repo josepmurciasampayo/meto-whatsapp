@@ -25,7 +25,13 @@
                 <td><?php echo $row['email'] ?></td>
                 <td><a href=""><?php echo $row['phone_raw'] ?></a></td>
                 <td><?php echo $row['dob'] ?></td>
-                <td><a href="{{ route('highschool', ['highschool_id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a></td>
+                <td>
+                    @if (isset($row['highschool_id']))
+                        <a href="{{ route('highschool', ['highschool_id' => $row['highschool_id']]) }}"><?php echo $row['school'] ?></a>
+                    @else
+                        --
+                    @endif
+                </td>
                 <td class="text-center"><a href="{{ route('matches', ["id" => $row['student_id']]) }}"><?php echo $row['matches'] ?></a></td>
             </tr>
             <?php } ?>
