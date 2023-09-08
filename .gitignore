@@ -1,8 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
-/storage/*.key
-/storage/framework/views/*
+/storage/**
 /vendor
 .env
 .env.backup
@@ -17,7 +16,4 @@ yarn-error.log
 /nbproject/private/
 nginx-meto
 /nbproject
-.DS_Store
-/public/.DS_Store
-/storage/.DS_Store
 **/.DS_Store
