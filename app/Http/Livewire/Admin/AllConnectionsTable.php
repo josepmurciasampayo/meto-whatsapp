@@ -103,10 +103,10 @@ final class AllConnectionsTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('student', function (Connection $connection) {
-                return $connection->student->user->getFullName();
+                return $connection->student?->user->getFullName();
             })
             ->addColumn('email', function (Connection $connection) {
-                $email = $connection->student->user->email;
+                $email = $connection->student?->user->email;
                 return "<a href='mailto:$email'>$email</a>";
             })
             ->addColumn('institution', function (Connection $connection) {

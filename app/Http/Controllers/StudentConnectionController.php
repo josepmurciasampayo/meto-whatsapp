@@ -10,16 +10,15 @@ use Illuminate\Support\Facades\Mail;
 
 class StudentConnectionController extends Controller
 {
-    public function ask(Connection $studentUniversity, AskQuestionRequest $request)
+    public function ask(Connection $connection, AskQuestionRequest $request)
     {
-        $recipients = [$studentUniversity->requester->email];
+        $recipients = [$connection->requester->email];
 
         if (($emailCopy = $request->get('email_me_a_copy')) && $emailCopy === true) {
             $recipients[] = auth()->user()->email;
         }
 
-        Mail::to($recipients)
-            ->send(new SendAskQuestionEmail($studentUniversity, $request->get('question')));
+        Mail::to($recipients)->send(new SendAskQuestionEmail($connection, $request->get('question')));
 
         return true;
     }
