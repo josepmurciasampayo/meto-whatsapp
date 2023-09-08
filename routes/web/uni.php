@@ -33,5 +33,9 @@ Route::middleware(['auth', 'consent', 'university'])->group(function () {
 
     Route::post('connection/decide', [\App\Http\Controllers\ConnectionController::class, 'decide'])->name('uni.connection.decide');
     Route::post('connection/reset', [\App\Http\Controllers\UniController::class, 'reset'])->name('uni.connection.reset');
+
+});
+
+Route::middleware(['auth'])->group(function() {
     Route::get('/uni-student-fetch/{student}', [\App\Http\Controllers\UniController::class, 'fetchStudent'])->name('uni.student.fetch');
 });

@@ -33,13 +33,9 @@ class SendConnectionApprovalMail implements ShouldQueue
         $this->counselors = $counselors;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
+
         $mail = Mail::to($this->studentUniversity->student->user->email);
 
         if ($this->counselors) {
