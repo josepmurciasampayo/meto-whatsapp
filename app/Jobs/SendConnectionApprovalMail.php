@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Mail\Connections\ConnectionWasApproved;
 use App\Models\Connection;
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,24 +37,30 @@ class SendConnectionApprovalMail implements ShouldQueue
 
     public function handle()
     {
+        $validator = new EmailValidator();
+        $email = $this->studentUniversity->student->user->email;
 
-        $mail = Mail::to($this->studentUniversity->student->user->email);
+        if ($validator->isValid($email, new RFCValidation())) {
+            $mail = Mail::to($email);
 
-        if ($this->counselors) {
-            $emails = $this->counselors->pluck('email');
+            if ($this->counselors) {
+                $emails = $this->counselors->pluck('email');
 
-            $ccEmails = ($this->studentUniversity->cc_emails) ? explode(',', $this->studentUniversity->cc_emails) : null;
-            if ($ccEmails) {
-                foreach ($ccEmails as $email) {
-                    $emails[] = $email;
+                $ccEmails = ($this->studentUniversity->cc_emails) ? explode(',', $this->studentUniversity->cc_emails) : null;
+                if ($ccEmails) {
+                    foreach ($ccEmails as $email) {
+                        if ($validator->isValid($email, new RFCValidation())) {
+                            $emails[] = $email;
+                        }
+                    }
                 }
+
+                $emails[] = $this->studentUniversity->requester?->email;
+
+                $mail->cc($emails);
             }
 
-            $emails[] = $this->studentUniversity->requester?->email;
-
-            $mail->cc($emails);
+            $mail->send(new ConnectionWasApproved($this->studentUniversity));
         }
-
-        $mail->send(new ConnectionWasApproved($this->studentUniversity));
     }
 }

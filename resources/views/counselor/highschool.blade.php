@@ -20,7 +20,7 @@
                             </a>
                         </div>
                         <div class="col">
-                            <x-button>Remove From School</x-button>
+                            <x-button onclick="alert('Does not work yet!')">Remove From School</x-button>
                         </div>
                     </div>
                 @endforeach
