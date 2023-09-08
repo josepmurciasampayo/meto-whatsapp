@@ -41,7 +41,7 @@
                     <tbody>
                     <?php foreach ($data as $row) { ?>
                     <tr>
-                        <td><p class="my-link" data-student-id="{{ $row['student_id'] }}" onclick="showStudentCard(this)">{{ $row['name'] }}</p></td>
+                        <td><p class="my-link" data-student-id="{{ $row['student_id'] }}">{{ $row['name'] }}</p></td>
                         <td>{{ $row['gender'] }}</td>
                         <td>{{ $row['email'] }}</td>
                         <td>{{ $row['phone'] }}</td>
