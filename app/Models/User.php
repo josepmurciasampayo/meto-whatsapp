@@ -13,8 +13,10 @@ use App\Models\Chat\MessageState;
 use App\Models\Joins\UserHighSchool;
 use App\Models\Joins\UserInstitution;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -24,32 +26,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, \Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
-        'role',
         'status',
         'email_status',
-        'google_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'phone_array' => 'array'
     ];
@@ -134,9 +119,9 @@ class User extends Authenticatable
         return ($this->role == Role::STUDENT());
     }
 
-    public function student(): ?Student
+    public function student(): HasOne
     {
-        return Student::where('user_id', $this->id)->first();
+        return $this->hasOne(Student::class);
     }
 
     public function student_id(): ?int

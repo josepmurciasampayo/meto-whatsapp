@@ -15,6 +15,7 @@ use App\Enums\Student\Curriculum;
 use App\Enums\User\Role;
 use App\Enums\User\Status;
 use App\Helpers;
+use App\Imports\StudentHighSchools;
 use App\Mail\InviteCounselor;
 use App\Mail\SendConnectionRequestToAdmin as SendConnectionRequestToAdminMail;
 use App\Models\EnumCountry;
@@ -28,6 +29,7 @@ use App\Services\StudentService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
@@ -80,30 +82,10 @@ class CounselorController extends Controller
 
     public function students(int $highschool_id) :View
     {
-        $rawData = StudentService::getStudentsAtSchool($highschool_id);
-        $data = "";
-
-        foreach ($rawData as $key => $student) {
-            $connection = Connection::where('student_id', $student['student_id'])->first();
-            if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
-
-            }
-        }
-
-        foreach ($rawData as $row) {
-            $data .= "[";
-            foreach ($row as $value) {
-                if (is_null($value)) {
-                    $value = '';
-                }
-                $data .= "'" . htmlspecialchars($value) . "',";
-            }
-            $data .= "],";
-        }
-
+        $students = UserHighSchool::with('user')->students($highschool_id)->get();
         return view('counselor.students', [
-            'data' => $rawData,
-            'notes' => UserHighSchool::getNotes(Auth()->user()->id),
+            'students' => $students,
+            'notes' => UserHighSchool::getNotes(Auth::user()->id),
         ]);
     }
 

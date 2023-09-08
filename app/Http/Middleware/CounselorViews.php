@@ -5,24 +5,18 @@ namespace App\Http\Middleware;
 use App\Models\HighSchool;
 use App\Models\Student;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CounselorViews
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): RedirectResponse|Response
     {
         if (Auth()->user()->isAdmin()) {
             return $next($request);
         }
         if (Auth()->user()->isCounselor()) {
-
             $params = $request->route()->parameters();
             if (isset($params['highschool_id'])) {
                 $this->checkSchool($params['highschool_id']);

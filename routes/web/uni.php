@@ -7,7 +7,6 @@ use App\Http\Controllers\{
 };
 
 Route::middleware(['auth', 'consent', 'university'])->group(function () {
-    Route::get('/student/{student_id}', [CounselorController::class, 'student'])->name('counselor-student');
     Route::get('/welcome', [\App\Http\Controllers\UniController::class, 'welcome'])->name('uni.welcome');
     Route::get('/uni-name', [\App\Http\Controllers\UniController::class, 'name'])->name('uni.name');
     Route::post('/uni-name', [\App\Http\Controllers\UniController::class, 'nameStore'])->name('uni.name.store');

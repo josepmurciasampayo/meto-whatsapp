@@ -5,20 +5,30 @@ namespace App\Models\Joins;
 use App\Enums\HighSchool\Role;
 use App\Helpers;
 use App\Models\HighSchool;
+use App\Models\Student;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
 class UserHighSchool extends Model
 {
     protected $guarded = [];
 
-    public function highSchool()
+    public function highSchool(): BelongsTo
     {
-        return $this->belongsTo(
-            HighSchool::class,
-            'highschool_id'
-        );
+        return $this->belongsTo(HighSchool::class, 'highschool_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeStudents(Builder $query, int $highschool_id): Builder
+    {
+        return $query->where('highschool_id', $highschool_id)->where('role', Role::STUDENT())->select('user_id')->distinct('');
     }
 
     public static function joinUserHighSchool(int $user_id, int $highschool_id, Role $role) :UserHighSchool

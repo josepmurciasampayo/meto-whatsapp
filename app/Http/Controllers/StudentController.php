@@ -169,7 +169,7 @@ class StudentController extends Controller
             }
 
             if ($question->equivalency == YesNo::YES()) {
-                $equivalencyService->update(Auth::user()->student());
+                $equivalencyService->update(Auth::user()->student);
             }
         }
 

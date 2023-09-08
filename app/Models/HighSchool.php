@@ -76,7 +76,8 @@ class HighSchool extends Model
 
     public static function getByStudentID(int $student_id): ?HighSchool
     {
-        $join = UserHighSchool::where('user_id', $student_id)->first();
+        $user = Student::find($student_id)->user;
+        $join = UserHighSchool::where('user_id', $user->id)->first();
         if ($join) {
             return HighSchool::find($join->highschool_id);
         }

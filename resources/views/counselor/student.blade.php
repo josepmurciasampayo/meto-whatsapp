@@ -7,57 +7,56 @@
             <div class="my-4"><x-button type="submit"><i class="fas fa-trash-alt"></i>Remove Student From School</x-button></div>
         </form>
 
-        <h2 class="my-2 display-7">Matches: {{ $data[0]['name'] }}</h2>
-        <x-button-nav href="#raw" class="block text-xl sm:text-2xl lg:text-5xl mb-3 sm:mb-0 sm:w-1/2 lg:w-1/3 px-3 py-2">
-            <i class="fa fa-arrow-down"></i> Jump to Summary Data <i class="fas fa-chart-pie"></i>
-        </x-button-nav>
+        @if ($matches)
+            <h2 class="my-2">Matches: {{ $data[0]['name'] }}</h2>
+            <form class="mb-2" id="submitMatches" method="POST" action="{{ route('saveStudentMatches') }}">
+                @csrf
+                <input type="hidden" id="student_id" name="student_id" value="{{ $student_id }}">
 
-        <form class="mb-2" id="submitMatches" method="POST" action="{{ route('saveStudentMatches') }}">
-            @csrf
-            <input type="hidden" id="student_id" name="student_id" value="{{ $student_id }}">
+                <div class="table-container" style="overflow-y: scroll;">
+                    <x-dataTable></x-dataTable>
+                    <table id="matches" class="table bg-white ">
+                        <thead>
+                        <tr>
+                            <th>University</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($matches as $match) {?>
+                        <tr>
+                            <td>{{ $match['name'] }}</td>
+                            <td>
+                                <select id="match-{{ $match['match_id'] }}" name="match-{{ $match['match_id'] }}">
+                                        <?php foreach ($matchStatuses as $status_id => $status) { ?>
+                                    {{ $selected = ($match['status'] == $status) ? 'selected' : '' }}
+                                    <option value="{{ $status_id }}" {{ $selected }}>{{ $status }}</option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end">
+                    <x-button>Submit</x-button>
+                </div>
+            </form>
+        @endif
 
-            <div class="table-container" style="height: 400px; overflow-y: scroll;">
-
-                <x-dataTable></x-dataTable>
-                <table id="matches" class="table bg-white ">
-                    <thead>
-                    <tr>
-                        <th>University</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($matches as $match) {?>
-                    <tr>
-                        <td>{{ $match['name'] }}</td>
-                        <td>
-                            <select id="match-{{ $match['match_id'] }}" name="match-{{ $match['match_id'] }}">
-                                    <?php foreach ($matchStatuses as $status_id => $status) { ?>
-                                {{ $selected = ($match['status'] == $status) ? 'selected' : '' }}
-                                <option value="{{ $status_id }}" {{ $selected }}>{{ $status }}</option>
-                                <?php } ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
+        @if (Auth()->user()->role == \App\Enums\User\Role::ADMIN())
+            <div class="d-flex">
+                <div class="col">
+                    <form method="POST" action="{{ route('admin.student.delete', request('student_id')) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-danger rounded-5">Delete</button>
+                    </form>
+                </div>
             </div>
-        </form>
+        @endif
 
-        <div class="d-flex">
-            <div class="col">
-                <form method="POST" action="{{ route('admin.student.delete', request('student_id')) }}">
-                    @csrf
-                    <button type="submit" class="btn btn-danger rounded-5">Delete</button>
-                </form>
-            </div>
-            <div class="col text-end">
-                <x-button>Submit Updates</x-button>
-            </div>
-        </div>
-
-        <h2 id="raw" class="my-2 display-7">Summary Data: {{ $data[0]['name'] }}</h2>
+        <h2 id="raw" class="my-2 display-7">{{ $data[0]['name'] }}</h2>
         <div class="bg-gray-100 p-4 rounded-lg shadow-lg my-5">
             <?php foreach ($data as $row) { ?>
             <div class="py-4 border-b border-gray-300">
@@ -73,7 +72,6 @@
             <?php } ?>
         </div>
         <form id="verify" name="verify" action="{{ route('saveVerify') }}" method="POST">
-
             @csrf
 
             <input type="hidden" name="student_id" id="student-id" value="{{ $student_id }}">
@@ -132,6 +130,5 @@
                 <x-button>Submit Request to {{ config('app.name') }}</x-button>
             </div>
     <?php } ?>
-
 
 </x-app-layout>
