@@ -23,9 +23,9 @@ use PowerComponents\LivewirePowerGrid\{Button,
     PowerGrid,
     PowerGridComponent,
     PowerGridEloquent};
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 
-final class StudentTableRequest extends PowerGridComponent
+final class StudentTableYes extends PowerGridComponent
 {
     use ActionButton;
 
@@ -50,9 +50,10 @@ final class StudentTableRequest extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            ->with('user')
             ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->whereIn('status', [MatchStudentInstitution::ACCEPTED]);
+                    ->whereIn('status', [ConnectionStatus::ACCEPTED]);
             });
     }
 

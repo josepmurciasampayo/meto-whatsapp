@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\Student\Curriculum;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConnectionController;
@@ -19,21 +19,14 @@ use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
-final class ConnectionsTable extends PowerGridComponent
+final class ReviewNewConnectionsTable extends PowerGridComponent
 {
     use ActionButton;
 
-    public int $perPage = 25;
+    public int $perPage = 50;
 
     public $perPageValues = [25, 50, 150, 250, 500];
 
-    /*
-    |--------------------------------------------------------------------------
-    |  Features Setup
-    |--------------------------------------------------------------------------
-    | Setup Table's general features
-    |
-    */
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -51,11 +44,11 @@ final class ConnectionsTable extends PowerGridComponent
     {
         return [
             Button::add('approve')
-                ->caption(__('Bulk approve'))
+                ->caption(__('Bulk Approve'))
                 ->class('cursor-pointer block btn btn-outline-success')
                 ->emit('bulkApprove', []),
             Button::add('deny')
-                ->caption(__('Bulk deny'))
+                ->caption(__('Bulk Deny'))
                 ->class('btn btn-outline-danger')
                 ->emit('bulkDeny', []),
         ];
@@ -72,23 +65,13 @@ final class ConnectionsTable extends PowerGridComponent
 
     public function bulkApprove()
     {
-        $connections = Connection::whereIn('id', $this->checkboxValues)->pluck('id');
-        (new ConnectionController())->approveConnections(Connection::find($connections));
+        (new ConnectionController())->approveConnections(Connection::with('student.user.highSchool.counselors')->find($this->checkboxValues)->pluck('id'));
     }
 
     public function bulkDeny()
     {
-        $connections = Connection::whereIn('id', $this->checkboxValues)->pluck('id');
-        (new ConnectionController())->denyConnections(Connection::find($connections));
+        (new ConnectionController())->denyConnections(Connection::find($this->checkboxValues)->pluck('id'));
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    |  Datasource
-    |--------------------------------------------------------------------------
-    | Provides data to your Table using a Model or Collection
-    |
-    */
 
     /**
      * PowerGrid datasource.
@@ -98,7 +81,8 @@ final class ConnectionsTable extends PowerGridComponent
     public function datasource(): Collection
     {
         return Connection::query()
-            ->where('status', MatchStudentInstitution::REQUEST())
+            ->with('student.user', 'institution')
+            ->where('status', ConnectionStatus::REQUEST())
             ->get();
     }
 
@@ -130,9 +114,6 @@ final class ConnectionsTable extends PowerGridComponent
             })
             ->addColumn('institution', function (Connection $connection) {
                 return $connection->institution->name;
-            })
-            ->addColumn('status', function (Connection $connection) {
-                return MatchStudentInstitution::descriptions()[$connection->status];
             })
             ->addColumn('student_curriculum', function (Connection $connection) {
                 return $connection->student->curriculum;
@@ -184,12 +165,10 @@ final class ConnectionsTable extends PowerGridComponent
             Column::make('Institution', 'institution')->searchable()->sortable(),
 //            Column::make('Status application', 'status_application')->searchable()->sortable(),
 //            Column::make('Status enrollment', 'status_enrollment')->searchable(),
-            Column::make('Status', 'status')->sortable(),
 
             Column::make('Student curriculum', 'student_curriculum')->searchable()->sortable(),
             Column::make('Student equivalency', 'student_equivalency')->searchable()->sortable(),
             Column::make('Student efc', 'student_efc')->searchable()->sortable(),
-
             Column::make('Institution curriculum', 'institution_curriculum')->searchable()->sortable(),
             Column::make('Institution equivalency', 'institution_equivalency')->searchable()->sortable(),
             Column::make('Institution efc', 'institution_efc')->searchable()->sortable(),
@@ -200,7 +179,7 @@ final class ConnectionsTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $statuses = MatchStudentInstitution::cases();
+        $statuses = ConnectionStatus::cases();
         $statuses = array_filter($statuses, function ($status) {
             return $status->value !== 5 && $status->value !== 4;
         });

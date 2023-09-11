@@ -4,7 +4,7 @@ namespace App\Enums\General;
 
 use ArchTech\Enums\{InvokableCases, Options, Values, Names, Strings};
 
-enum MatchStudentInstitution :int
+enum ConnectionStatus :int
 {
     use InvokableCases, Options, Values, Names, Strings;
 

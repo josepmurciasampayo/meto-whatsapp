@@ -19,7 +19,7 @@ use PowerComponents\LivewirePowerGrid\{Button,
 use PowerComponents\LivewirePowerGrid\Rules\{RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
-final class StudentTable extends PowerGridComponent
+final class StudentTableReview extends PowerGridComponent
 {
     use ActionButton;
 
@@ -96,7 +96,7 @@ final class StudentTable extends PowerGridComponent
                 return e($student->citizenship);
             })
             ->addColumn('countryHS', function (Student $student) {
-                return e(substr($student->countryHS, 0, 10));
+                return ($student->countryHS) ? e(substr($student->countryHS, 0, 10)) : '';
             })
             ->addColumn('curriculum', function (Student $student) {
                 return e(str_replace(" Curriculum", "", $student->curriculum));

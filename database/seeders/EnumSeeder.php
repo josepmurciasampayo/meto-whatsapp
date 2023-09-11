@@ -10,7 +10,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Enums\Chat\{Campaign, State};
 use App\Enums\Country\{Country, Region, SubRegion};
-use App\Enums\General\{Channel, Form, FormStatus, LoginEventType, MatchStudentInstitution, Method, Month, SocialNetwork, Subject, TagGroups};
+use App\Enums\General\{Channel, Form, FormStatus, LoginEventType, ConnectionStatus, Method, Month, SocialNetwork, Subject, TagGroups};
 use App\Enums\Institution\{TagsInstitution, Type, Size};
 use App\Enums\Institution\Role as InstRole;
 use App\Enums\Student\{Curriculum, Disability, Gender, Owner, QuestionType, Refugee, SubmissionDevice, TagsStudent};
@@ -31,7 +31,7 @@ class EnumSeeder extends Seeder
         self::loadToTable(Form::options(),EnumGroup::GENERAL_FORM, Form::descriptions());
         self::loadToTable(FormStatus::options(),EnumGroup::GENERAL_FORMSTATUS, FormStatus::descriptions());
         self::loadToTable(LoginEventType::options(), EnumGroup::GENERAL_LOGINEVENTTYPE, LoginEventType::descriptions());
-        self::loadToTable(MatchStudentInstitution::options(), EnumGroup::GENERAL_MATCH, MatchStudentInstitution::descriptions());
+        self::loadToTable(ConnectionStatus::options(), EnumGroup::GENERAL_MATCH, ConnectionStatus::descriptions());
         self::loadToTable(Method::options(),EnumGroup::GENERAL_METHOD, Method::descriptions());
         self::loadToTable(Month::options(),EnumGroup::GENERAL_MONTH, Month::descriptions());
         self::loadToTable(QuestionType::options(),EnumGroup::GENERAL_QUESTIONTYPE, QuestionType::descriptions());

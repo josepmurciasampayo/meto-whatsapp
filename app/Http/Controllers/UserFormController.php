@@ -8,7 +8,7 @@ use App\Enums\Chat\Surveys\PostMatchNotApplyOption;
 use App\Enums\Chat\Surveys\PostMatchNotSureOption;
 use App\Enums\General\Form;
 use App\Models\Connection;
-use App\Enums\General\MatchStudentInstitution as EnumMatch;
+use App\Enums\General\ConnectionStatus as EnumMatch;
 use App\Models\User;
 use App\Models\UserForm;
 use Illuminate\Database\Eloquent\Collection;

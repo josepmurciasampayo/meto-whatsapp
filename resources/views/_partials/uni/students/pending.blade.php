@@ -9,7 +9,7 @@
         Your request has been proceeded successfully.
     </div>
 
-    <livewire:uni.student-table/>
+    <livewire:uni.student-table-review/>
 
     <div class="text-end my-4">
         <button class="btn btn-success submit-pending-btn rounded">Submit Requests</button>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Uni;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\General\YesNo;
 use App\Enums\Student\Gender;
 use App\Models\Student;
@@ -54,9 +54,10 @@ final class StudentTableMaybe extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            ->with('user')
             ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->where('status', MatchStudentInstitution::MAYBE);
+                    ->where('status', ConnectionStatus::MAYBE);
             });
     }
 

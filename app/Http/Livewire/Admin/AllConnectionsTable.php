@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\Student\Curriculum;
 use App\Models\Connection;
 use Illuminate\Support\Carbon;
@@ -113,7 +113,7 @@ final class AllConnectionsTable extends PowerGridComponent
                 return $connection->institution->name;
             })
             ->addColumn('status', function (Connection $connection) {
-                return MatchStudentInstitution::descriptions()[$connection->status];
+                return ConnectionStatus::descriptions()[$connection->status];
             });
     }
 
@@ -148,7 +148,7 @@ final class AllConnectionsTable extends PowerGridComponent
      */
     public function filters(): array
     {
-        $statuses = MatchStudentInstitution::cases();
+        $statuses = ConnectionStatus::cases();
         $statuses = array_filter($statuses, function ($status) {
             return $status->value !== 5 && $status->value !== 4;
         });

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\EnumGroup;
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\General\Month;
 use App\Enums\HighSchool\Boarding;
 use App\Enums\HighSchool\ClassSize;
@@ -128,14 +128,14 @@ class CounselorController extends Controller
             'active' => '',
             'student_id' => '',
             'user_id' => '',
-            MatchStudentInstitution::UNKNOWN() => 0,
-            MatchStudentInstitution::MATCHED() => 0,
-            MatchStudentInstitution::NOTINTERESTED() => 0,
-            MatchStudentInstitution::APPLIED() => 0,
-            MatchStudentInstitution::ACCEPTED() => 0,
-            MatchStudentInstitution::DENIED() => 0,
-            MatchStudentInstitution::ENROLLED() => 0,
-            MatchStudentInstitution::WAITLISTED() => 0,
+            ConnectionStatus::UNKNOWN() => 0,
+            ConnectionStatus::MATCHED() => 0,
+            ConnectionStatus::NOTINTERESTED() => 0,
+            ConnectionStatus::APPLIED() => 0,
+            ConnectionStatus::ACCEPTED() => 0,
+            ConnectionStatus::DENIED() => 0,
+            ConnectionStatus::ENROLLED() => 0,
+            ConnectionStatus::WAITLISTED() => 0,
         ];
         foreach ($data as $row) {
             // inititialize $toReturn with 0's in every spot
@@ -185,7 +185,7 @@ class CounselorController extends Controller
             'data' => $data,
             'matches' => $matches,
             'notes' => $notes,
-            'matchStatuses' => MatchStudentInstitution::getCounselorChoices(),
+            'matchStatuses' => ConnectionStatus::getCounselorChoices(),
             'student_id' => $student_id,
         ]);
     }

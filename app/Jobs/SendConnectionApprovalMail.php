@@ -41,6 +41,7 @@ class SendConnectionApprovalMail implements ShouldQueue
         $email = $this->studentUniversity->student->user->email;
 
         if ($validator->isValid($email, new RFCValidation())) {
+        //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $mail = Mail::to($email);
 
             if ($this->counselors) {
@@ -50,13 +51,18 @@ class SendConnectionApprovalMail implements ShouldQueue
                 if ($ccEmails) {
                     foreach ($ccEmails as $email) {
                         if ($validator->isValid($email, new RFCValidation())) {
+                        //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                             $emails[] = $email;
                         }
                     }
                 }
 
-                $emails[] = $this->studentUniversity->requester?->email;
+                if ($validator->isValid($this->studentUniversity->requester?->email, new RFCValidation())) {
+                //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $emails[] = $this->studentUniversity->requester?->email;
+                }
 
+                //$emails = array_unique($emails);
                 $mail->cc($emails);
             }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\EnumGroup;
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Helpers;
 use App\Jobs\SendConnectionApprovalMail;
 use App\Jobs\SendConnectionDenialMail;

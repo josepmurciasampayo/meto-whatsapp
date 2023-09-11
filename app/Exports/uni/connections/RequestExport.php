@@ -2,7 +2,7 @@
 
 namespace App\Exports\uni\connections;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\General\YesNo;
 use App\Enums\Student\Gender;
 use App\Models\Student;
@@ -33,7 +33,7 @@ class RequestExport implements FromCollection, WithHeadings
         $students = Student::query()
             ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->where('status', MatchStudentInstitution::ACCEPTED);
+                    ->where('status', ConnectionStatus::ACCEPTED);
             })->get();
 
         foreach ($students as $student) {

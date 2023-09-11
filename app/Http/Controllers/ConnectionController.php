@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Jobs\SendConnectionApprovalMail;
 use App\Jobs\SendConnectionDenialMail;
 use App\Mail\Connections\ConnectionWasApproved;
@@ -21,7 +21,7 @@ class ConnectionController extends Controller
     {
         return view('connection.index', [
             'connections' => Connection::with('student', 'institution')
-                ->where('status', MatchStudentInstitution::REQUEST())
+                ->where('status', ConnectionStatus::REQUEST())
                 ->orderBy('institution_id')
                 ->get()
         ]);
@@ -76,12 +76,12 @@ class ConnectionController extends Controller
             foreach ($studentIds as $student_id) {
                 // Create a new connection
                 if ($action === 'connect') {
-                    $this->createConnection($student_id, MatchStudentInstitution::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], ccEmails: $request->get('cc_emails'));
+                    $this->createConnection($student_id, ConnectionStatus::REQUEST, $uniId, $items['application_link'], $items['upcoming_deadline'], ccEmails: $request->get('cc_emails'));
                     $requestCount++;
                 } else if ($action === 'maybe') {
-                    $this->createConnection($student_id, MatchStudentInstitution::MAYBE, $uniId, ccEmails: $request->get('cc_emails'));
+                    $this->createConnection($student_id, ConnectionStatus::MAYBE, $uniId, ccEmails: $request->get('cc_emails'));
                 } else if ($action === 'archive') {
-                    $this->createConnection($student_id, MatchStudentInstitution::ARCHIVED, $uniId, ccEmails: $request->get('cc_emails'));
+                    $this->createConnection($student_id, ConnectionStatus::ARCHIVED, $uniId, ccEmails: $request->get('cc_emails'));
                 }
             }
         }
@@ -91,7 +91,7 @@ class ConnectionController extends Controller
         return back()->with('response', 'Requests sent successfully.');
     }
 
-    public function createConnection(int $student_id, MatchStudentInstitution $status, int $institutionId, string $link = null, string $deadline = null, string $events = null, $ccEmails = [])
+    public function createConnection(int $student_id, ConnectionStatus $status, int $institutionId, string $link = null, string $deadline = null, string $events = null, $ccEmails = [])
     {
         return Connection::create([
             'student_id' => $student_id,
@@ -114,8 +114,7 @@ class ConnectionController extends Controller
 
     public function approveConnection(int $id)
     {
-        $connection = Connection::find($id);
-        $this->processApproval($connection);
+        $this->processApproval(Connection::with('student.user.highSchool.counselors')->find($id));
     }
 
     public function processApproval(Connection $connection)
@@ -124,7 +123,7 @@ class ConnectionController extends Controller
         $counselors = $highschool?->counselors;
 
         $connection->update([
-            'status' => MatchStudentInstitution::ACCEPTED
+            'status' => ConnectionStatus::ACCEPTED
         ]);
 
         SendConnectionApprovalMail::dispatch($connection, $counselors);
@@ -149,7 +148,7 @@ class ConnectionController extends Controller
     public function processDenial(Connection $connection, $minutesToAdd = 1)
     {
         $connection->update([
-            'status' => MatchStudentInstitution::DENIED
+            'status' => ConnectionStatus::DENIED
         ]);
 
         // SendConnectionDenialMail::dispatch($connection)->delay(now()->addMinutes($minutesToAdd));

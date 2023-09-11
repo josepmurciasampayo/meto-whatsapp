@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 
 return new class extends Migration
 {
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('institution_id');
             $table->unsignedTinyInteger('status_application')->nullable();
             $table->unsignedTinyInteger('enrollment_application')->nullable();
-            $table->unsignedTinyInteger('status')->default(MatchStudentInstitution::UNKNOWN())->comment(MatchStudentInstitution::toString());
+            $table->unsignedTinyInteger('status')->default(ConnectionStatus::UNKNOWN())->comment(ConnectionStatus::toString());
             $table->timestamps();
 
             $table->index('student_id');

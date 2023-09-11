@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Uni;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\Student\Gender;
 use App\Models\Student;
 use App\Models\Connection;
@@ -53,9 +53,10 @@ final class StudentTableArchived extends PowerGridComponent
         $uniId = auth()->user()->getUni()->id;
 
         return Student::query()
+            ->with('user')
             ->whereHas('connections', function ($q) use ($uniId) {
                 return $q->where('institution_id', $uniId)
-                    ->where('status', MatchStudentInstitution::ARCHIVED);
+                    ->where('status', ConnectionStatus::ARCHIVED);
             });
     }
 

@@ -27,12 +27,14 @@ class AnswerService
         }
 
         switch ($question->format) {
+            case QuestionFormat::LOOKUP():
+
+                break;
             case QuestionFormat::DATE():
             case QuestionFormat::INPUT():
             case QuestionFormat::TEXTAREA():
             case QuestionFormat::EMAIL():
             case QuestionFormat::NUMBER():
-            case QuestionFormat::LOOKUP():
             case QuestionFormat::LOOKUPORG():
             case QuestionFormat::COUNTRY():
                 $existing->text = $input;

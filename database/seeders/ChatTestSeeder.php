@@ -114,21 +114,21 @@ class ChatTestSeeder extends Seeder
        $match = new Connection([
            'student_id' => $greg_id,
            'institution_id' => 2,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED()
+           'status' => \App\Enums\General\ConnectionStatus::DENIED()
        ]);
        $match->save();
 
        $match = new Connection([
            'student_id' => $greg_id,
            'institution_id' => 4,
-           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED()
+           'status' => \App\Enums\General\ConnectionStatus::ACCEPTED()
        ]);
        $match->save();
 
        $match = new Connection([
            'student_id' => $greg_id,
            'institution_id' => 8,
-           'status' => \App\Enums\General\MatchStudentInstitution::APPLIED()
+           'status' => \App\Enums\General\ConnectionStatus::APPLIED()
        ]);
        $match->save();
 
@@ -145,7 +145,7 @@ class ChatTestSeeder extends Seeder
        $match = new Connection([
            'student_id' => $ryan_id,
            'institution_id' => 10,
-           'status' => \App\Enums\General\MatchStudentInstitution::DENIED()
+           'status' => \App\Enums\General\ConnectionStatus::DENIED()
        ]);
        $match->save();
 
@@ -198,14 +198,14 @@ class ChatTestSeeder extends Seeder
        $match = new Connection([
            'student_id' => $abraham_id,
            'institution_id' => 29,
-           'status' => \App\Enums\General\MatchStudentInstitution::ENROLLED
+           'status' => \App\Enums\General\ConnectionStatus::ENROLLED
        ]);
        $match->save();
 
        $match = new Connection([
            'student_id' => $abraham_id,
            'institution_id' => 33,
-           'status' => \App\Enums\General\MatchStudentInstitution::ACCEPTED
+           'status' => \App\Enums\General\ConnectionStatus::ACCEPTED
        ]);
        $match->save();
    }

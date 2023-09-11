@@ -36,7 +36,7 @@ class HistoricalStudents
                 $match = new Connection();
                 $match->student_id = $student->id;
                 $match->institution_id = $institution->id;
-                $match->status = \App\Enums\General\MatchStudentInstitution::MATCHED();
+                $match->status = \App\Enums\General\ConnectionStatus::MATCHED();
                 $match->save();
 
             }

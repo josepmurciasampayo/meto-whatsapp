@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Enums\User\Role;
 use App\Helpers;
 use App\Http\Requests\Uni\UniApplicationRequest;
@@ -311,7 +311,7 @@ class UniController extends Controller
 
         foreach ($rawData as $key => $student) {
             $connection = Connection::where('student_id', $student['student_id'])->first();
-            if ($connection && $connection->status === MatchStudentInstitution::ARCHIVED) {
+            if ($connection && $connection->status === ConnectionStatus::ARCHIVED) {
                 unset($rawData[$key]);
             }
         }

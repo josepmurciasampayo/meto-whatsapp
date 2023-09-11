@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\General\MatchStudentInstitution;
+use App\Enums\General\ConnectionStatus;
 use App\Jobs\SendConnectionApprovalMail;
 use App\Models\Connection;
 use Illuminate\Console\Command;
@@ -16,12 +16,12 @@ class SendConnectionEmailManually extends Command
     public function handle()
     {
         $aug25 = Connection::with('student', 'institution')
-            ->where('status', MatchStudentInstitution::ACCEPTED())
+            ->where('status', ConnectionStatus::ACCEPTED())
             ->whereDate('updated_at', '2023-08-25')
             ->get();
 
         $colgate = Connection::with('student', 'institution')
-            ->where('status', MatchStudentInstitution::ACCEPTED())
+            ->where('status', ConnectionStatus::ACCEPTED())
             ->where('institution_id', 25)
             ->get();
 
