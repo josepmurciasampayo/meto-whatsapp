@@ -11,16 +11,16 @@
 
     <?php
 if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('uni.student-table', [])->html();
-} elseif ($_instance->childHasBeenRendered('7qWOS90')) {
-    $componentId = $_instance->getRenderedChildComponentId('7qWOS90');
-    $componentTag = $_instance->getRenderedChildComponentTagName('7qWOS90');
+    $html = \Livewire\Livewire::mount('uni.student-table-review', [])->html();
+} elseif ($_instance->childHasBeenRendered('CJtw0P8')) {
+    $componentId = $_instance->getRenderedChildComponentId('CJtw0P8');
+    $componentTag = $_instance->getRenderedChildComponentTagName('CJtw0P8');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('7qWOS90');
+    $_instance->preserveRenderedChild('CJtw0P8');
 } else {
-    $response = \Livewire\Livewire::mount('uni.student-table', []);
+    $response = \Livewire\Livewire::mount('uni.student-table-review', []);
     $html = $response->html();
-    $_instance->logRenderedChild('7qWOS90', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('CJtw0P8', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

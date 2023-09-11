@@ -1,1 +1,1 @@
-<livewire:uni.student-table-request />
+<livewire:uni.student-table-yes />

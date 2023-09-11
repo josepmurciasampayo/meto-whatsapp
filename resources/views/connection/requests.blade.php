@@ -3,7 +3,7 @@
         <div class="alert alert-danger d-none mb-5" id="errorHolder">
             Something went wrong.
         </div>
-        <livewire:admin.connections-table />
+        <livewire:admin.review-new-connections-table />
     </div>
 
     <script>
