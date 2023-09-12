@@ -72,6 +72,7 @@ final class ReviewNewConnectionsTable extends PowerGridComponent
     public function bulkDeny()
     {
         (new ConnectionController())->denyConnections(Connection::find($this->checkboxValues));
+        $this->checkboxValues = [];
     }
 
     /**
