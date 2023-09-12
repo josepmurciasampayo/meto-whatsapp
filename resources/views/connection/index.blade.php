@@ -39,7 +39,7 @@
             reloadIfThereIsNoConnection()
         }
 
-        let reloadIfThereIsNoConnection = () => deletedConnections === 10 ? window.location.reload() : null
+        let reloadIfThereIsNoConnection = () => deletedConnections === 25 ? window.location.reload() : null
 
         let disableButton = btn => {
             let buttons = document.querySelectorAll('[connection_id="' + btn.getAttribute('connection_id') + '"]')
