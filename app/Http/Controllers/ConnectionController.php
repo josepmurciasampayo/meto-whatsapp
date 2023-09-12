@@ -9,6 +9,8 @@ use App\Mail\Connections\ConnectionWasApproved;
 use App\Mail\SendConnectionRequestToAdmin;
 use App\Models\Student;
 use App\Models\Connection;
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -126,7 +128,36 @@ class ConnectionController extends Controller
             'status' => ConnectionStatus::ACCEPTED
         ]);
 
-        SendConnectionApprovalMail::dispatch($connection, $counselors);
+        // SendConnectionApprovalMail::dispatch($connection, $counselors);
+
+        $validator = new EmailValidator();
+        $email = $connection->student->user->email;
+
+        if ($validator->isValid($email, new RFCValidation())) {
+            $mail = Mail::to($email);
+
+            if ($counselors) {
+                $emails = $counselors->pluck('email')->toArray();
+
+                $ccEmails = ($connection->cc_emails) ? explode(',', $connection->cc_emails) : null;
+                if ($ccEmails) {
+                    foreach ($ccEmails as $email) {
+                        if ($validator->isValid($email, new RFCValidation())) {
+                            $emails[] = $email;
+                        }
+                    }
+                }
+
+                if ($validator->isValid($connection->requester?->email, new RFCValidation())) {
+                    $emails[] = $connection->requester?->email;
+                }
+
+                $emails = array_unique($emails);
+                $mail->cc($emails);
+            }
+
+            $mail->send(new ConnectionWasApproved($connection));
+        }
     }
 
     public function denyConnections(Collection $connections)
