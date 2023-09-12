@@ -66,6 +66,7 @@ final class ReviewNewConnectionsTable extends PowerGridComponent
     public function bulkApprove()
     {
         (new ConnectionController())->approveConnections(Connection::with('student.user.highSchool.counselors')->find($this->checkboxValues));
+        $this->checkboxValues = [];
     }
 
     public function bulkDeny()
