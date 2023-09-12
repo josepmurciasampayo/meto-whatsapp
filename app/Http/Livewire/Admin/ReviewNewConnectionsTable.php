@@ -45,11 +45,11 @@ final class ReviewNewConnectionsTable extends PowerGridComponent
         return [
             Button::add('approve')
                 ->caption(__('Bulk Approve'))
-                ->class('cursor-pointer block btn btn-outline-success')
+                ->class('cursor-pointer block btn btn-outline-success bulk-approve-btn')
                 ->emit('bulkApprove', []),
             Button::add('deny')
                 ->caption(__('Bulk Deny'))
-                ->class('btn btn-outline-danger')
+                ->class('btn btn-outline-danger bulk-deny-btn')
                 ->emit('bulkDeny', []),
         ];
     }

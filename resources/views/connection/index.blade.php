@@ -1,4 +1,8 @@
 <x-app-layout>
+    @section('title')
+        Review new connections
+    @endsection
+    
     <div class="pt-5 pb-3">
         <div class="alert alert-danger d-none mb-5" id="errorHolder">
             Something went wrong.
@@ -18,8 +22,8 @@
                     document.querySelector('[connection_id="' + connectionId + '"]').parentElement.parentElement.parentElement.parentElement.remove()
                     deletedConnections += 1
                 }).catch(err => {
-                document.querySelector('#errorHolder').classList.remove('d-none')
-            }).finally(() => enableButton(btn))
+                    document.querySelector('#errorHolder').classList.remove('d-none')
+                }).finally(() => enableButton(btn))
 
             reloadIfThereIsNoConnection()
         }
@@ -54,5 +58,17 @@
                 btn.removeAttribute('disabled')
             })
         }
+
+        // Get the Bulk Approve and Deny buttons and Deactivate single Approve/Deny buttons once one of them is clicked
+        let actionsButtons = [document.querySelector('.bulk-approve-btn'), document.querySelector('.bulk-deny-btn')]
+        actionsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                actionsButtons.forEach(button => button.setAttribute('disabled', true))
+
+                let buttons = Object.values(document.querySelectorAll('.btn-success, .btn-danger'))
+                // Disable the buttons, LivewirePowergrid will handle enabling them
+                buttons.forEach(btn => btn.setAttribute('disabled', true))
+            })
+        })
     </script>
 </x-app-layout>
