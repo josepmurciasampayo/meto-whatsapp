@@ -65,6 +65,7 @@ class ConnectionController extends Controller
                     'email'
                 ]
             ], [
+                'application_link' => 'The link must be a valid URL and begin with http:// or https://',
                 'cc_emails.*' => 'CC emails are not valid.'
             ]);
         }
