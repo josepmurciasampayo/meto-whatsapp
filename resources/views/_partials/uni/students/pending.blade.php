@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <x-inputs.text name="cc_emails" placeholder="abcd@mail.com,efjh@mail.com" type="text" label="CC Emails" class="form-control" />
+                        <x-inputs.text name="cc_emails" placeholder="abcd@mail.com,efjh@mail.com" type="text" label="CC Emails" help="You do not need to cc yourself - this is only to add additional email addresses / colleagues in your office." class="form-control" />
                     </div>
 
                     <div class="row">

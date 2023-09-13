@@ -12,15 +12,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('uni.student-table-review', [])->html();
-} elseif ($_instance->childHasBeenRendered('CJtw0P8')) {
-    $componentId = $_instance->getRenderedChildComponentId('CJtw0P8');
-    $componentTag = $_instance->getRenderedChildComponentTagName('CJtw0P8');
+} elseif ($_instance->childHasBeenRendered('c1wjI1R')) {
+    $componentId = $_instance->getRenderedChildComponentId('c1wjI1R');
+    $componentTag = $_instance->getRenderedChildComponentTagName('c1wjI1R');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('CJtw0P8');
+    $_instance->preserveRenderedChild('c1wjI1R');
 } else {
     $response = \Livewire\Livewire::mount('uni.student-table-review', []);
     $html = $response->html();
-    $_instance->logRenderedChild('CJtw0P8', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('c1wjI1R', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -97,14 +97,14 @@ echo $html;
 
                     <div class="mt-3">
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','class' => 'form-control']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','help' => 'You do not need to cc yourself - this is only to add additional email addresses / colleagues in your office.','class' => 'form-control']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','class' => 'form-control']); ?>
+<?php $component->withAttributes(['name' => 'cc_emails','placeholder' => 'abcd@mail.com,efjh@mail.com','type' => 'text','label' => 'CC Emails','help' => 'You do not need to cc yourself - this is only to add additional email addresses / colleagues in your office.','class' => 'form-control']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
